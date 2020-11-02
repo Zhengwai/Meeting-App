@@ -1,13 +1,28 @@
-package MessageSystem;
+package message_system;
+
+import java.util.LinkedList;
+import java.util.UUID;
 
 public class MessageManager {
-    private Message[] messages; // Array is only temporary until a suited data structure is decided
+    //TODO: Implement Serializable
 
-    public MessageManager() {}
+    private LinkedList<Message> messages;
+    private final UUID managerID;
 
-    public void sendMessage() {}
+    public MessageManager(UUID id) {
+        this.messages = new LinkedList<>();
+        this.managerID = id;
+    }
 
-    public Message[] getMessages() {return null;}
+    public UUID getUUID() {
+        return this.managerID;
+    }
 
-    public void sendReply() {}
+    public void sendMessage(Message message) {
+        messages.add(message);
+    }
+
+    public LinkedList<Message> getMessages() {
+        return messages;
+    }
 }

@@ -1,8 +1,8 @@
-package MessageSystem;
+package message_system;
 
 import java.util.Date;
 
-import Users.User;
+import users.User;
 
 public class Message {
     private User sender;
