@@ -1,11 +1,10 @@
 package message_system;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.UUID;
 
-public class MessageManager {
-    //TODO: Implement Serializable
-
+public class MessageManager implements Serializable {
     private LinkedList<Message> messages;
     private final UUID managerID;
 

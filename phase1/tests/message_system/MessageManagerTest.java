@@ -4,16 +4,13 @@ import users.User;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
-import users.User;
 
-import javax.accessibility.AccessibleText;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class MessageManagerTest {
     private static LinkedList<User> allUsers = new LinkedList<>();
