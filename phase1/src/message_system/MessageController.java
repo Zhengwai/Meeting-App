@@ -12,5 +12,9 @@ public class MessageController {
         //TODO: Take a String msg. Instantiate a new Message object and append the Message object to msgMgr.messages.
     }
 
+    public void createMessageManager(String name, UUID id) {
+
+    }
+
 
 }
