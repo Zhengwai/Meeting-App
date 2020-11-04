@@ -3,12 +3,13 @@ package message_system;
 import users.User;
 
 import java.util.Date;
+import java.util.UUID;
 
 public class Reply extends Message {
-    private User receiver;
+    private UUID receiver;
 
-    public Reply(User sender, String text, Date timeSent, User receiver) {
-        super(sender, text, timeSent);
-        this.receiver = receiver;
+    public Reply(UUID senderID, String body, UUID receivingMsg) {
+        super(senderID, body);
+        this.receiver = receivingMsg;
     }
 }
