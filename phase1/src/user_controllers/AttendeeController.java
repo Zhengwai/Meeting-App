@@ -21,21 +21,27 @@ public class AttendeeController {
         user = thisUser;
     }
 
-    public void browseAllTalks() throws FileNotFoundException {
+    public void browseAllTalks(){
         try {
-            File allEvents = new File("phase1/src/signup_system/EventList");
-            Scanner scan = new Scanner(allEvents);
-            ArrayList<String> allEventLines = new ArrayList<>();
-
-            while (scan.hasNextLine()) {
-                allEventLines.add(scan.nextLine());
-            }
-
-            sup.showEvents(allEventLines);
+            ArrayList<String> allEvents = compileEvents();
+            sup.showEvents(allEvents);
         }
+
         catch(FileNotFoundException ex){
             System.out.println("File cannot be found");
         }
+    }
+
+    public ArrayList<String> compileEvents() throws FileNotFoundException{
+        File allEvents = new File("phase1/src/signup_system/EventList");
+        Scanner scan = new Scanner(allEvents);
+        ArrayList<String> allEventLines = new ArrayList<>();
+
+        while (scan.hasNextLine()) {
+            allEventLines.add(scan.nextLine());
+        }
+
+        return allEventLines;
     }
 
     public void signUp(){
