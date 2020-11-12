@@ -3,10 +3,13 @@ package user_controllers;
 import signup_system.SignUpManager;
 import users.User;
 import signup_system.SignUpPresenter;
+import java.io.FileNotFoundException;
+import java.lang.reflect.Array;
 import java.util.Scanner;
 import ScheduleSystem.EventManager;
 import ScheduleSystem.Event;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.io.File;
 
 public class AttendeeController {
     private User user;
@@ -18,8 +21,21 @@ public class AttendeeController {
         user = thisUser;
     }
 
-    public void browseAllTalks(){
+    public void browseAllTalks() throws FileNotFoundException {
+        try {
+            File allEvents = new File("phase1/src/signup_system/EventList");
+            Scanner scan = new Scanner(allEvents);
+            ArrayList<String> allEventLines = new ArrayList<>();
 
+            while (scan.hasNextLine()) {
+                allEventLines.add(scan.nextLine());
+            }
+
+            sup.showEvents(allEventLines);
+        }
+        catch(FileNotFoundException ex){
+            System.out.println("File cannot be found");
+        }
     }
 
     public void signUp(){

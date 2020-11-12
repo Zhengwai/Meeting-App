@@ -1,6 +1,7 @@
 package signup_system;
 import ScheduleSystem.Event;
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class SignUpPresenter {
     private Scanner in = new Scanner(System.in);
@@ -24,5 +25,11 @@ public class SignUpPresenter {
 
     public void alreadySignedUp(){
         System.out.println("You've already signed up for this event");
+    }
+
+    public void showEvents(ArrayList<String> allEvents){
+        for(String event : allEvents){
+            System.out.println(event);
+        }
     }
 }
