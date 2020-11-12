@@ -9,13 +9,15 @@ public class User {
     private ArrayList<UUID> friends;
     private String email;
     private String password;
+    private String type;
 
-    public User(String firstName, String lastName, String email, String password) {
+    public User(String firstName, String lastName, String email, String password, String type) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.friends = new ArrayList<>();
+        this.type = type;
     }
 
     public void addFriend(UUID userID) {
@@ -29,4 +31,10 @@ public class User {
     public boolean isFriendsWith(UUID userID) {
         return this.friends.contains(userID);
     }
+
+    public String getEmail(){return this.email;}
+
+    public String getPassword(){return this.password;}
+
+    public String getType(){return this.type;}
 }
