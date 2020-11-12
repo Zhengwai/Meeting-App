@@ -32,7 +32,7 @@ public class AttendeeController {
         }
     }
 
-    public ArrayList<String> compileEvents() throws FileNotFoundException{
+    private ArrayList<String> compileEvents() throws FileNotFoundException{
         File allEvents = new File("phase1/src/signup_system/EventList");
         Scanner scan = new Scanner(allEvents);
         ArrayList<String> allEventLines = new ArrayList<>();
