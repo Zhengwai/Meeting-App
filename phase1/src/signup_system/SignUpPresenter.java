@@ -12,4 +12,8 @@ public class SignUpPresenter {
         System.out.println("Sign up was successful. You are now signed up for: "
                 + event.getName() + " at ");
     }
+
+    public void whichEvent(){
+        System.out.println("Please enter the event you would like to sign up for");
+    }
 }
