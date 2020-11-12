@@ -1,19 +1,28 @@
 package signup_system;
-
-import conference_entities.Event;
+import ScheduleSystem.Event;
+import java.util.Scanner;
 
 public class SignUpPresenter {
+    private Scanner in = new Scanner(System.in);
 
     public void eventFull(){
         System.out.println("This event is full. Sign up was unsuccessful.");
     }
 
-    public void signUpSuccess(Event event){
-        System.out.println("Sign up was successful. You are now signed up for: "
-                + event.getName() + " at ");
+    public void signUpSuccess(String inputEvent){
+        System.out.println("Sign up was successful. You are now registered to see " + inputEvent);
     }
 
-    public void whichEvent(){
-        System.out.println("Please enter the event you would like to sign up for");
+    public void signUpFailure(){
+        System.out.println("Sorry, the event you entered could not be found.");
+    }
+
+    public String promptEvent(){
+        System.out.println("Please enter the event you would like to sign up for: ");
+        return in.nextLine();
+    }
+
+    public void alreadySignedUp(){
+        System.out.println("You've already signed up for this event");
     }
 }

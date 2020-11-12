@@ -29,7 +29,7 @@ public class Event {
     public int getCapacity(){
         return this.capacity;
     }
-
+    public int currentNum(){return attendees.size(); }
     public ArrayList<User> getAttendees() {
         return attendees;
     }
