@@ -12,6 +12,7 @@ public class Event {
     private Date date;
     private int capacity;
     private ArrayList<User> attendees;
+
     public Event(String name, Date date, int capacity){
         this.name = name;
         this.date = date;
@@ -29,9 +30,12 @@ public class Event {
         return this.capacity;
     }
 
-    // TODO: 11/5/2020 should be only accessible by organizer
     public ArrayList<User> getAttendees() {
         return attendees;
+    }
+
+    public void addAttendee(User user){
+        this.attendees.add(user);
     }
 
 }

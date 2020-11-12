@@ -7,35 +7,45 @@ import java.util.Calendar;
 import java.util.HashMap;
 
 public class EventManager {
-    private HashMap<Date, Event> events;
+    private ArrayList<Event> events;
 
     public EventManager(){
-        this.events = new HashMap<>();
+        this.events = new ArrayList<>();
     }
 
     public boolean addEvent(Event event){
-        if (this.events.containsKey(event.getDate())){
+        if (this.events.contains(event)){
             return false;
         }
         else{
-            this.events.put(event.getDate(), event);
+            this.events.add(event);
             return true;
         }
     }
 
     public ArrayList<Event> getEvents(){
-        ArrayList<Event> eventList = new ArrayList<Event>();
-        for (Event i : events.values()){
-           eventList.add(i);
-        }
-        return eventList;
+        return this.events;
     }
-/*
     public boolean signUpUser(User user, Event event){
-        if
+        for (Event i: this.events){
+            if (i.getAttendees().contains(user)){
+                return false;
+            }
+        }
+        event.addAttendee(user);
+        return true;
+        }
+
+    public boolean removeUser(User user, Event event){
+        if (event.getAttendees().contains(user)){
+            event.getAttendees().remove(user);
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
- */
 
 
 }
