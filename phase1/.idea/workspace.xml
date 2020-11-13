@@ -20,8 +20,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8962cda5-3376-4f5a-90ea-08792b706e74" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/users/UserManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/phase1.iml" beforeDir="false" afterPath="$PROJECT_DIR$/phase1.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/message_system/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/message_system/Message.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/message_system/MessageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/message_system/MessageController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/message_system/MessageManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/message_system/MessageManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/message_system/Reply.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/message_system/Reply.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/users/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/users/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/message_system/MessageDataGatewayTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/message_system/MessageManagerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/tests/message_system/MessageManagerTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,6 +40,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="JUnit4 Test Class" />
       </list>
     </option>
   </component>
@@ -46,7 +55,56 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../nurjaami" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit4" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4" value="" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="message_system" />
+    </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+  </component>
+  <component name="RunManager" selected="JUnit.MessageManagerTest.testSendMessages">
+    <configuration name="MessageManagerTest.testAddConversation" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="phase1" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="MessageManagerTest" />
+      <option name="METHOD_NAME" value="testAddConversation" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MessageManagerTest.testNewConversation" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="phase1" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="MessageManagerTest" />
+      <option name="METHOD_NAME" value="testNewConversation" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MessageManagerTest.testSendMessages" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="phase1" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="MessageManagerTest" />
+      <option name="METHOD_NAME" value="testSendMessages" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.MessageManagerTest.testSendMessages" />
+        <item itemvalue="JUnit.MessageManagerTest.testAddConversation" />
+        <item itemvalue="JUnit.MessageManagerTest.testNewConversation" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -69,5 +127,60 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="690" y="318" key="#com.intellij.ide.util.PackageChooserDialog" timestamp="1604451011955">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="690" y="318" key="#com.intellij.ide.util.PackageChooserDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1604451011955" />
+    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1604413369272">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1604413369272" />
+    <state width="1877" height="274" key="GridCell.Tab.0.bottom" timestamp="1604453050486">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="274" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1604453050486" />
+    <state width="1877" height="274" key="GridCell.Tab.0.center" timestamp="1604453050486">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="274" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1604453050486" />
+    <state width="1877" height="274" key="GridCell.Tab.0.left" timestamp="1604453050485">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="274" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1604453050485" />
+    <state width="1877" height="274" key="GridCell.Tab.0.right" timestamp="1604453050486">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="274" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1604453050486" />
+    <state width="1877" height="340" key="GridCell.Tab.1.bottom" timestamp="1604452959313">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="340" key="GridCell.Tab.1.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1604452959313" />
+    <state width="1877" height="340" key="GridCell.Tab.1.center" timestamp="1604452959313">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="340" key="GridCell.Tab.1.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1604452959313" />
+    <state width="1877" height="340" key="GridCell.Tab.1.left" timestamp="1604452959313">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="340" key="GridCell.Tab.1.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1604452959313" />
+    <state width="1877" height="340" key="GridCell.Tab.1.right" timestamp="1604452959313">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="340" key="GridCell.Tab.1.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1604452959313" />
+    <state x="731" y="266" key="com.intellij.testIntegration.createTest.CreateTestDialog" timestamp="1604451032971">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="731" y="266" key="com.intellij.testIntegration.createTest.CreateTestDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1604451032971" />
+    <state x="785" y="271" key="refactoring.ChangeSignatureDialog" timestamp="1604451704106">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="785" y="271" key="refactoring.ChangeSignatureDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1604451704106" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1604447433671">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1604447433671" />
   </component>
 </project>

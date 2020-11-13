@@ -1,52 +1,40 @@
 package users;
+
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 public class User {
-    private UUID userID = UUID.randomUUID();
-    private String username;
+    private String firstName;
+    private String lastName;
+    private ArrayList<UUID> friends;
+    private String email;
     private String password;
-    private Map<Integer, Integer> chatList = new HashMap<Integer, Integer>();
-    private String email = "";
-    private String type = "user";
+    private String type;
 
-    public User(String username, String password){
-        this.username = username;
-        this.password = password;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setEmail(String email) {
+    public User(String firstName, String lastName, String email, String password, String type) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
+        this.password = password;
+        this.friends = new ArrayList<>();
+        this.type = type;
     }
 
-    public String getUsername() {
-        return username;
+    public void addFriend(UUID userID) {
+        this.friends.add(userID);
     }
 
-    public String getPassword() {
-        return password;
+    public UUID[] getFriends() {
+        return (UUID[]) this.friends.toArray();
     }
 
-    public String getEmail() {
-        return email;
+    public boolean isFriendsWith(UUID userID) {
+        return this.friends.contains(userID);
     }
 
-    public Integer getChatHistoryID(int friendID) {
-        return chatList.get(friendID);
-    }
+    public String getEmail(){return this.email;}
 
-    public ArrayList<Integer> getFriendsIDs(){
-        return new ArrayList<Integer>(chatList.keySet());
-    }
+    public String getPassword(){return this.password;}
 
+    public String getType(){return this.type;}
 }
