@@ -5,9 +5,16 @@ import java.util.Map;
 import java.util.UUID;
 
 public class Attendee extends User{
-    private String type = "attendee";
+    private UUID id = UUID.randomUUID();
+    private String username;
+    private ArrayList<UUID> friends;
+    private String email = "";
+    private String password;
+    private String type = "a";
     private ArrayList<UUID> EnrolledEventIDs;
     public Attendee(String username, String password) {
         super(username, password);
+        this.EnrolledEventIDs = new ArrayList<UUID>();
     }
+
 }
