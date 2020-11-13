@@ -38,12 +38,10 @@ public class SignUpManager {
     public Event[] checkEventExists(String event) {
         ArrayList<Event> allEvents = em.getEvents();
         for (Event thisEvent : allEvents) {
-            if (thisEvent.getName().toUpperCase() == event) {
-                Event[] eventExists = {thisEvent};
-                return eventExists;
+            if (thisEvent.getName().toUpperCase().equals(event)) {
+                return new Event[]{thisEvent};
             }
         }
-        Event[] eventNotExist = {};
-        return eventNotExist;
+        return new Event[]{};
     }
 }

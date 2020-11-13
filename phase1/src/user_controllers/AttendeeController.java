@@ -22,7 +22,6 @@ public class AttendeeController {
             ArrayList<String> allEvents = compileEvents();
             sup.showEvents(allEvents);
         }
-
         catch(FileNotFoundException ex){
             System.out.println("File cannot be found");
         }
