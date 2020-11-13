@@ -14,7 +14,6 @@ public class Login {
     private ArrayList<User> user;
     Scanner in = new Scanner(System.in);
 
-    AttendeeController ac = new AttendeeController();
     OrganizerController oc = new OrganizerController();
     SpeakerController sc = new SpeakerController();
 
@@ -33,7 +32,7 @@ public class Login {
 
     private void displayMenu(User user){
         if (user.getType().equals("Organizer")){
-            System.out.println("Please enter the number of corresponding choise: 1.Enter room; 2.Create speaker account; 3. Schedule event");
+            System.out.println("Please enter the number of corresponding choice: 1.Enter room; 2.Create speaker account; 3. Schedule event");
             if(in.nextInt()==1){
                 oc.enterRoom();
             }else if(in.nextInt()==2){
@@ -43,13 +42,14 @@ public class Login {
             }
 
         }else if (user.getType().equals("Speaker")){
-            System.out.println("Please enter the number of corresponding choise: 1.View list of talks schedules; 2.Message attendees");
+            System.out.println("Please enter the number of corresponding choice: 1.View list of talks schedules; 2.Message attendees");
             if(in.nextInt()==1){
                 sc.viewSchedulesTalks();
             }else{
                 sc.messageAttendees();
             }
         }else{
+            AttendeeController ac = new AttendeeController(user);
             System.out.println("Please enter the number of corresponding choice: 1.Browse all events; 2.Sign up for an event; 3.See all signed up events; 4.Message");
             if (in.nextInt()==1){
                 ac.signUp();
