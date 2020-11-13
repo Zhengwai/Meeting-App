@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.*;
 
-
+/**
+ * Class that allows users to login to the system and interact with the menu of choices depending on their type.
+ */
 public class Login {
 
     private ArrayList<User> user;
@@ -17,6 +19,11 @@ public class Login {
     OrganizerController oc = new OrganizerController();
     SpeakerController sc = new SpeakerController();
 
+    /**
+     * read from a .ser file and structure the context into an arraylist
+     * @param path the path or address of the file
+     * @throws ClassNotFoundException if the class of the .ser file is not found
+     */
     public void readFromFile(String path) throws ClassNotFoundException{
         try{
             InputStream file = new FileInputStream(path);
@@ -30,6 +37,10 @@ public class Login {
         }
     }
 
+    /**
+     * displays a menu of choices for the User object, user, depending on its type (Organizer, Speaker, or Attendee)
+     * @param user the object User, user, representing the user who just logged in
+     */
     private void displayMenu(User user){
         if (user.getType().equals("Organizer")){
             System.out.println("Please enter the number of corresponding choice: 1.Enter room; 2.Create speaker account; 3. Schedule event");
@@ -64,21 +75,37 @@ public class Login {
         }
     }
 
+    /**
+     * Tells the user that the confidential they entered is/ are incorrect and prompt them to log in again.
+     */
     private void loginAgain(){
         System.out.println("Incorrect email or password, please enter again!");
         login(promptEmail(),promptPassword());
     }
 
+    /**
+     * prompt the user to enter their email
+     * @return a String storing the email they entered
+     */
     private String promptEmail(){
         System.out.println("Please enter your username: ");
         return in.nextLine();
     }
 
+    /**
+     * prompt the user to enter their password
+     * @return a String storing the password they entered
+     */
     private String promptPassword(){
         System.out.println("Please enter your password: ");
         return in.nextLine();
     }
 
+    /**
+     * allows the user to log in or re-login (in the case of incorrect confidential entered). Confidential checked by being compared to the arraylist consisting of information extracted from the .ser file.
+     * @param email the email of the user
+     * @param pass the password of the user
+     */
     private void login(String email, String pass){
 
         for (User value : user) {
