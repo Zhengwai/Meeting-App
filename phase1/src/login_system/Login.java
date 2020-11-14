@@ -24,7 +24,6 @@ public class Login {
      * @param path the path or address of the file
      * @throws ClassNotFoundException if the class of the .ser file is not found
      */
-
     @SuppressWarnings("unchecked")
     public void readFromFile(String path) throws ClassNotFoundException{
         try{
