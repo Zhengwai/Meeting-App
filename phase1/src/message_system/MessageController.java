@@ -17,6 +17,16 @@ public class MessageController {
         return sender.msgMgr.getMessages(convoId);
     }
 
+    public UUID[] getConversations(User sender) {
+        mp = sender.msgMgr.messages;
+        UUID[] out = new UUID[mp.size()];
+        i = 0;
+        for (UUID convoID : mp.keySet()) {
+            UUID[i] = convoID;
+            i++;
+        }
+        return out;
+    }
 
     public void messageConversation(String msg, UUID convoid, User sender) {
         //TODO: Take a String msg. Instantiate a new Message object and append the Message object to msgMgr.messages.
