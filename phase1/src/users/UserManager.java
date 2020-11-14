@@ -1,28 +1,18 @@
 package users;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.UUID;
 
 public class UserManager {
     private ArrayList<User> allUsers;
-    public User currentUser;
 
-    public UserManager() {
-
+    public UserManager(User currentUser) {
         allUsers = new ArrayList<>();
+    }
 
-        try{
-            FileOutputStream fileOutputStream = new FileOutputStream("phase1/UserManager.ser");
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-            objectOutputStream.writeObject(allUsers);
-            objectOutputStream.close();
-            fileOutputStream.close();
-        }catch(IOException e){
-            e.printStackTrace();
-        }
+    public void addFriend(User user1, User user2){
+        user1.addFriend(user2.getID());
+        user2.addFriend(user1.getID());
     }
 
 
