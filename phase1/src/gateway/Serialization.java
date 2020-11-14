@@ -23,7 +23,7 @@ public class Serialization {
     private ArrayList<User> temp;
 
     @SuppressWarnings("unchecked")
-    public ArrayList<User> deserialization(String path){
+    public ArrayList<User> deserialize(String path){
         try{
             FileInputStream fileInputStream = new FileInputStream(path);
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);

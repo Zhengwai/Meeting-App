@@ -103,7 +103,7 @@ public class Login {
     }
 
     public void main(String[] args){
-        user = s.deserialization("/phase1/userManager.ser");
+        user = s.deserialize("/phase1/userManager.ser");
         login(promptEmail(),promptPassword());
 
     }
