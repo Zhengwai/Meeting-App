@@ -6,8 +6,16 @@ import java.io.*;
 import java.util.ArrayList;
 import users.*;
 
+/**
+ * Serialize and deserialize between arraylists of User objects and .ser files
+ */
 public class Serialization {
-    public void serialize(ArrayList<User> arrayList, String address){
+    /**
+     * Serialize arraylists to .ser file
+     * @param arrayList the arraylist that wants to be serialized
+     * @param address the location of the .ser file to be saved at after serialization
+     */
+    public void serializeArrLstOfUser(ArrayList<User> arrayList, String address){
         try{
             FileOutputStream fileOutputStream = new FileOutputStream(address);
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
@@ -22,8 +30,13 @@ public class Serialization {
 
     private ArrayList<User> temp;
 
+    /**
+     * Deserialize .ser file into arraylists of User objects
+     * @param path the location or address of the .ser file
+     * @return returns an arraylist of User objects
+     */
     @SuppressWarnings("unchecked")
-    public ArrayList<User> deserialize(String path){
+    public ArrayList<User> deserializeToArrLstOfUser(String path){
         try{
             FileInputStream fileInputStream = new FileInputStream(path);
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);

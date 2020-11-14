@@ -1,7 +1,7 @@
 package users;
 
 import java.util.ArrayList;
-import java.util.UUID;
+
 import gateway.Serialization;
 
 public class UserManager {
@@ -11,7 +11,7 @@ public class UserManager {
     public UserManager(User currentUser) {
         allUsers = new ArrayList<>();
 
-        s.serialize(allUsers, "phase1/userManager.ser");
+        s.serializeArrLstOfUser(allUsers, "phase1/userManager.ser");
     }
 
     public void addFriend(User user1, User user2){
