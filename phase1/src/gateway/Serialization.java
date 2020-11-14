@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import users.*;
 
 public class Serialization {
-    public void serialize(ArrayList<User> arrayList){
+    public void serialize(ArrayList<User> arrayList, String address){
         try{
-            FileOutputStream fileOutputStream = new FileOutputStream("/phase1/userManager.ser");
+            FileOutputStream fileOutputStream = new FileOutputStream(address);
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
             objectOutputStream.writeObject(arrayList);
 
