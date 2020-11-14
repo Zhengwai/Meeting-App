@@ -2,16 +2,13 @@ package users;
 
 import java.util.ArrayList;
 
-import gateway.Serialization;
 
 public class UserManager {
     private ArrayList<User> allUsers;
-    Serialization s = new Serialization();
 
     public UserManager(User currentUser) {
         allUsers = new ArrayList<>();
 
-        s.serializeArrLstOfUser(allUsers, "phase1/userManager.ser");
     }
 
     public void addFriend(User user1, User user2){

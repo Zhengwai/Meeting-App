@@ -1,6 +1,4 @@
-package gateway;
-
-
+package login_system;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -9,7 +7,7 @@ import users.*;
 /**
  * Serialize and deserialize between arraylists of User objects and .ser files
  */
-public class Serialization {
+public class LoginGateway {
     /**
      * Serialize arraylists to .ser file
      * @param arrayList the arraylist that wants to be serialized

@@ -6,19 +6,16 @@ import user_controllers.SpeakerController;
 import users.User;
 import java.util.ArrayList;
 import java.util.Scanner;
-import gateway.Serialization;
 
 /**
  * Class that allows users to login to the system and interact with the menu of choices depending on their type.
  */
-public class Login {
+public class LoginController {
 
-    private ArrayList<User> user;
     Scanner in = new Scanner(System.in);
 
     OrganizerController oc = new OrganizerController();
     SpeakerController sc = new SpeakerController();
-    Serialization s = new Serialization();
 
 
     /**
@@ -60,18 +57,17 @@ public class Login {
     }
 
     /**
-     * Tells the user that the confidential they entered is/ are incorrect and prompt them to log in again.
+     * Tells the user that the confidential they entered is/ are incorrect and needs to login again.
      */
     private void loginAgain(){
-        System.out.println("Incorrect email or password, please enter again!");
-        login(promptEmail(),promptPassword());
+        System.out.println("Incorrect email or password, please login again!");
     }
 
     /**
      * prompt the user to enter their email
      * @return a String storing the email they entered
      */
-    private String promptEmail(){
+    public String promptEmail(){
         System.out.println("Please enter your username: ");
         return in.nextLine();
     }
@@ -80,7 +76,7 @@ public class Login {
      * prompt the user to enter their password
      * @return a String storing the password they entered
      */
-    private String promptPassword(){
+    public String promptPassword(){
         System.out.println("Please enter your password: ");
         return in.nextLine();
     }
@@ -89,8 +85,9 @@ public class Login {
      * allows the user to log in or re-login (in the case of incorrect confidential entered). Confidential checked by being compared to the arraylist consisting of information extracted from the .ser file.
      * @param email the email of the user
      * @param pass the password of the user
+     * @param user the arraylist of User objects
      */
-    private void login(String email, String pass){
+    public void login(String email, String pass, ArrayList<User> user){
 
         for (User value : user) {
             if (value.getEmail().equals(email)) {
@@ -101,12 +98,4 @@ public class Login {
         }
         loginAgain();
     }
-
-    public void main(String[] args){
-        user = s.deserializeToArrLstOfUser("/phase1/userManager.ser");
-        login(promptEmail(),promptPassword());
-
-    }
-
-
 }
