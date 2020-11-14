@@ -6,7 +6,7 @@ import user_controllers.SpeakerController;
 import users.User;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.io.*;
+import gateway.Serialization;
 
 /**
  * Class that allows users to login to the system and interact with the menu of choices depending on their type.
@@ -18,25 +18,8 @@ public class Login {
 
     OrganizerController oc = new OrganizerController();
     SpeakerController sc = new SpeakerController();
+    Serialization s = new Serialization();
 
-    /**
-     * read from a .ser file and structure the context into an arraylist
-     * @param path the path or address of the file
-     * @throws ClassNotFoundException if the class of the .ser file is not found
-     */
-    @SuppressWarnings("unchecked")
-    public void readFromFile(String path) throws ClassNotFoundException{
-        try{
-            InputStream file = new FileInputStream(path);
-            InputStream buffer = new BufferedInputStream(file);
-            ObjectInput input = new ObjectInputStream(buffer);
-
-            user = (ArrayList<User>) input.readObject();
-            input.close();
-        }catch (IOException ex){
-            System.out.println("Cannot read from input");
-        }
-    }
 
     /**
      * displays a menu of choices for the User object, user, depending on its type (Organizer, Speaker, or Attendee)
@@ -119,10 +102,8 @@ public class Login {
         loginAgain();
     }
 
-    public void main(String[] args) throws ClassNotFoundException {
-
-        readFromFile("/phase1/UserManager.ser");
-
+    public void main(String[] args){
+        user = s.deserialization("/phase1/userManager.ser");
         login(promptEmail(),promptPassword());
 
     }
