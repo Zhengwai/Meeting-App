@@ -25,15 +25,14 @@ public class Login {
      * @throws ClassNotFoundException if the class of the .ser file is not found
      */
     public void readFromFile(String path) throws ClassNotFoundException{
-        try{
-            InputStream file = new FileInputStream(path);
-            InputStream buffer = new BufferedInputStream(file);
-            ObjectInput input = new ObjectInputStream(buffer);
-
-            user = (ArrayList<User>) input.readObject();
-            input.close();
-        }catch (IOException ex){
-            System.out.println("Cannot read from input");
+        try {
+            FileInputStream fileInputStream = new FileInputStream(path);
+            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+            user = (ArrayList<User>) objectInputStream.readObject();
+            fileInputStream.close();
+            objectInputStream.close();
+        }catch(IOException e){
+            e.printStackTrace();
         }
     }
 
@@ -120,7 +119,7 @@ public class Login {
 
     public void main(String[] args) throws ClassNotFoundException {
 
-        readFromFile("/users/UserManager.ser");
+        readFromFile("phase1/UserManager.ser");
 
         login(promptEmail(),promptPassword());
 
