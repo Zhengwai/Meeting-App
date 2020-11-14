@@ -22,14 +22,14 @@ public class MessageDataGateway {
     public void saveToFile(String path, MessageManager msgMgr) throws IOException {
         OutputStream file = new FileOutputStream(path);
         OutputStream buffer = new BufferedOutputStream(file);
-        ObjectOutput output = new ObjectOutputSream(buffer);
+        ObjectOutput output = new ObjectOutputStream(buffer);
 
         output.writeObject(msgMgr);
         output.close();
     }
 
 
-    private Messagemanager readFromFile(String path) throws ClassNotFoundException {
+    private MessageManager readFromFile(String path) throws ClassNotFoundException {
         try {
             InputStream file = new FileInputStream(path);
             InputStream buffer = new BufferedInputStream(file);
