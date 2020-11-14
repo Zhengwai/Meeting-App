@@ -24,6 +24,8 @@ public class Login {
      * @param path the path or address of the file
      * @throws ClassNotFoundException if the class of the .ser file is not found
      */
+
+    @SuppressWarnings("unchecked")
     public void readFromFile(String path) throws ClassNotFoundException{
         try{
             InputStream file = new FileInputStream(path);
@@ -120,7 +122,7 @@ public class Login {
 
     public void main(String[] args) throws ClassNotFoundException {
 
-        readFromFile("/users/UserManager.ser");
+        readFromFile("/phase1/UserManager.ser");
 
         login(promptEmail(),promptPassword());
 
