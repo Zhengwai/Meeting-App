@@ -14,37 +14,31 @@ public class MessageController {
     // The Controller should no
     public Message[] getMessages(UUID convoId, User sender) {
         //TODO: Returns messagess in conversation requested by User
-        return sender.msgMgr.getMessages(convoId);
+        return sender.convMgr.getConversation(convoId).getMessages();
     }
 
-    public UUID[] getConversations(User sender) {
-        mp = sender.msgMgr.messages;
-        UUID[] out = new UUID[mp.size()];
-        i = 0;
-        for (UUID convoID : mp.keySet()) {
-            UUID[i] = convoID;
-            i++;
-        }
-        return out;
+    public UUID[] getAllConversations(User sender) {
+        return sender.convMgr.getAllConversations();
     }
 
-    public void messageConversation(String msg, UUID convoid, User sender) {
-        //TODO: Take a String msg. Instantiate a new Message object and append the Message object to msgMgr.messages.
-        //TODO: Add UUID senderID and MessageManager msgMgr to User class
-
-        UUID senderId = sender.senderID;
-        Message newMsg = Message(senderId, msg);
-        sender.msgMgr.sendMessage(convoid, newMsg);
-
+    public void messageConversation(String msg, UUID convoID, User sender) {
+        UUID senderID = sender.id;
+        Message newMsg = Message(senderID, msg);
+        sender.convMgr.getConversation(convoID).sendMessage(newMsg);
     }
 
     public void createConversation(User receiver, User sender) {
-        //TODO: Add MessageManager msgMgr to User class
-
-        convoId = sender.msgMgr.newConversation();
-        receiver.msgMgr.addConversation(convoId);
-
+        conID = sender.convMgr.newConversation();
+        c = sender.convMgr.getConversation(conID);
+        receiver.convMgr.addConversation(conID, c);
     }
 
+    public void addMember(User receiver, User sender, UUID conID) {
+        receiver.convMgr.addConversation(conID, sender.convMgr.getConversation(conID))
+    }
+
+    public void removeConversation(User sender, UUID conID) {
+        sender.convMgr.deleteConversation(conID);
+    }
 
 }

@@ -10,11 +10,13 @@ public class User {
     private String email = "";
     private String password;
     private String type = "u";
+    private ConversationManager convMgr;
 
     public User(String username, String password) {
         this.username = username;
         this.password = password;
         this.friends = new ArrayList<UUID>();
+        this.convMgr = new ConversationManager(id);
     }
 
     public void addFriend(UUID userID) {
