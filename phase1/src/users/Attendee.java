@@ -12,6 +12,8 @@ public class Attendee extends User{
     private String password;
     private String type = "a";
     private ArrayList<UUID> EnrolledEventIDs;
+    private ArrayList<UUID> enrolledEvents = new ArrayList<UUID>();
+
     public Attendee(String username, String password) {
         super(username, password);
         this.EnrolledEventIDs = new ArrayList<UUID>();

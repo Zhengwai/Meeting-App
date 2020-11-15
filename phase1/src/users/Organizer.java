@@ -11,6 +11,7 @@ public class Organizer extends User{
     private String email = "";
     private String password;
     private String type = "o";
+    private ArrayList<UUID> enrolledEvents = new ArrayList<UUID>();
 
     public Organizer(String username, String password) {
         super(username, password);

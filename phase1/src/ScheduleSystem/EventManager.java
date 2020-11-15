@@ -1,10 +1,8 @@
 package ScheduleSystem;
 
 import users.User;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Calendar;
-import java.util.HashMap;
+
+import java.util.*;
 
 public class EventManager {
     private ArrayList<Event> events;
@@ -22,17 +20,30 @@ public class EventManager {
             return true;
         }
     }
-
+    public Event getEventByID(UUID eventID) throws NoEventFoundException{
+        for (Event e:events){
+            if (e.getId() == eventID){
+                return e;
+            }
+        }
+        throw new NoEventFoundException();
+    }
     public ArrayList<Event> getEvents(){
         return this.events;
     }
     public boolean signUpUser(User user, Event event){
-        for (Event i: this.events){
-            if (i.getAttendees().contains(user)){
+        for (UUID i : user.getEnrolledEvents()){
+            try {
+                Event ev = this.getEventByID(i);
+                if (ev.getDate() == event.getDate()){
+                    return false;
+                }
+            } catch (NoEventFoundException e) {
+                e.printStackTrace();
                 return false;
             }
         }
-        event.addAttendee(user);
+        event.addAttendee(user.getID());
         return true;
         }
 
@@ -47,5 +58,6 @@ public class EventManager {
     }
 
 
-
+}
+class NoEventFoundException extends Exception {
 }
