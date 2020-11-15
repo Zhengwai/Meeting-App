@@ -6,18 +6,21 @@ import java.lang.reflect.Array;
 import java.util.Date;
 import java.util.Calendar;
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class Event {
+    private UUID id;
     private String name;
     private Date date;
     private int capacity;
-    private ArrayList<User> attendees;
+    private ArrayList<UUID> attendees;
 
     public Event(String name, Date date, int capacity){
         this.name = name;
         this.date = date;
         this.capacity = capacity;
         this.attendees = new ArrayList<>();
+        this.id = UUID.randomUUID();
     }
 
     public String getName(){
@@ -30,12 +33,13 @@ public class Event {
         return this.capacity;
     }
     public int currentNum(){return attendees.size(); }
-    public ArrayList<User> getAttendees() {
+    public ArrayList<UUID> getAttendees() {
         return attendees;
     }
 
-    public void addAttendee(User user){
-        this.attendees.add(user);
+    public void addAttendee(UUID userID){
+        this.attendees.add(userID);
     }
+    public UUID getId(){ return this.id; }
 
 }

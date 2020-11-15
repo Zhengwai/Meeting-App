@@ -1,5 +1,7 @@
 package users;
 
+import com.sun.xml.internal.fastinfoset.algorithm.UUIDEncodingAlgorithm;
+
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -10,6 +12,7 @@ public class User {
     private String email = "";
     private String password;
     private String type = "u";
+    private ArrayList<UUID> enrolledEvents = new ArrayList<UUID>();
 
     public User(String username, String password) {
         this.username = username;
@@ -48,6 +51,10 @@ public class User {
     public String getUsername(){return this.username;}
 
     public UUID getID(){return this.id;}
+
+    public ArrayList<UUID> getEnrolledEvents(){
+        return this.enrolledEvents;
+    }
 
 
 }
