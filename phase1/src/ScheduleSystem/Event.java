@@ -7,13 +7,17 @@ import java.util.Date;
 import java.util.Calendar;
 import java.util.ArrayList;
 import java.util.UUID;
-
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.Month;
 public class Event {
     private UUID id;
     private String name;
     private Date date;
     private int capacity;
     private ArrayList<UUID> attendees;
+    private boolean hasSpeaker = false;
 
     public Event(String name, Date date, int capacity){
         this.name = name;
@@ -41,5 +45,7 @@ public class Event {
         this.attendees.add(userID);
     }
     public UUID getId(){ return this.id; }
-
+    public boolean existSpeaker(){
+        return hasSpeaker;
+    }
 }

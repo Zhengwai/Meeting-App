@@ -16,7 +16,7 @@ public class UserManager {
     private EventManager em;
     private User NotFoundUser = new User("NotFound", "NotFound");
 
-    public UserManager(User currentUser, EventManager eventManager) {
+    public UserManager() {
         allUsers = new ArrayList<>();
 
     }

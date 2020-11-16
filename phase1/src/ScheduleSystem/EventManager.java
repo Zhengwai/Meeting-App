@@ -1,14 +1,16 @@
 package ScheduleSystem;
 
+import conference_entities.Room;
 import users.User;
 
 import java.util.*;
 
 public class EventManager {
     private ArrayList<Event> events;
-
+    private ArrayList<Room> rooms;
     public EventManager(){
         this.events = new ArrayList<>();
+        this.rooms = new ArrayList<>();
     }
 
     public boolean addEvent(Event event){
@@ -20,6 +22,14 @@ public class EventManager {
             return true;
         }
     }
+
+    public boolean addRoom(Room room){
+        if (this.rooms.contains(room)){
+            return false;
+        }
+        return true;
+        }
+
     public Event getEventByID(UUID eventID) throws NoEventFoundException{
         for (Event e:events){
             if (e.getId() == eventID){

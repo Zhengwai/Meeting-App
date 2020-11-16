@@ -25,7 +25,7 @@ public class LoginController {
      * Displays a menu of choices for the User object, user, depending on its type (Organizer, Speaker, or Attendee)
      * @param user the object User, user, representing the user who just logged in
      */
-    private void displayMenu(User user){
+    private void displayMenu(User user) throws Exception {
         if (user.getType().equals("Organizer")){
             oc = new OrganizerController(user);
             System.out.println("Please enter the number of corresponding choice: 1.Enter room; 2.Create speaker account; 3. Schedule event");
@@ -94,7 +94,7 @@ public class LoginController {
      * @param email the email of the user
      * @param pass the password of the user
      */
-    public void login(String email, String pass){
+    public void login(String email, String pass) throws Exception {
 
         for (User value : lst) {
             if (value.getEmail().equals(email)) {
