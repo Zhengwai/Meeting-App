@@ -9,12 +9,12 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class OrganizerMessageController {
+public class SpeakerMessageController {
     private ConversationManager cm;
     private User user;
     private Conversation[] myConvos;
 
-    public OrganizerMessageController(User inpUser) {
+    public SpeakerMessageController(User inpUser) {
         this.user = inpUser;
     }
 
