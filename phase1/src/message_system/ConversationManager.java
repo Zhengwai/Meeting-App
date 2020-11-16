@@ -38,4 +38,14 @@ public class ConversationManager implements Serializable {
     public Conversation getConversation(UUID conID) {
         return allConversations.get(conID);
     }
+
+    public ArrayList<Conversation> getAllConversations(User user) {
+        ArrayList<Conversation> out;
+        for (Conversation conv : this.allConversations.values()) {
+            if (conv.getMembers().contians(user.getID())) {
+                out.add(conv)
+            }
+        }
+        return out;
+    }
 }

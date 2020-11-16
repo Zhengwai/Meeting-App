@@ -13,10 +13,19 @@ public class MessageController {
     private ConversationManager cm;
     private UUID userID;
     private String type;
+    private User user;
 
-    public MessageController(UUID id, String type) {
-        this.userID = id;
-        this.type = type;
+    public MessageController(User inpUser) {
+        this.user = inpUser;
+        this.userID = user.getID();
+        this.type = user.getType();
+        if (type.equals("o")) {
+            OrganizerMessageController control = new OrganizerMessageController(inpUser);
+        } else if (type.equals("s")) {
+            SpeakerMessageController control = new SpeakerMessageController(inpUser);
+        } else if (type.equals("a")) {
+            AttendeeMessageController control = new AttendeeMessageController(inpUser);
+        }
     }
 
     public void run() {
@@ -25,10 +34,8 @@ public class MessageController {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         try {
-
-            String input = br.readLine();
+            String input;
             while (!input.equals("exit")) {
-                System.out.println("Issue Command or type exit to exit");
                 input = br.readLine();
                 if (input.equals("New Conversation")) {
                     System.out.println("Enter the UUIDs of Users in New Conversation. Once done enter exit.");
