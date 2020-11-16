@@ -14,6 +14,10 @@ public class SpeakerController {
         this.user = user;
     }
 
+    public void run(){
+
+    }
+
     public void viewSchedulesTalks(){
 
     }

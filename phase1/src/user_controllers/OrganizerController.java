@@ -30,11 +30,40 @@ public class OrganizerController {
         this.user = user;
     }
 
-    public void menu(){
+    public void run() throws Exception {
+        boolean running = true;
+        while (running){
+            System.out.println("Please enter the number of corresponding choice: 1.Plan event  2.Create Room 3.Create Speaker Account 4.Message 5.Exit program");
+            int input = scanner.nextInt();
+            if (input == 1){
+                boolean r = true;
+                while (r){
+                    r = planEvent();
+                }
 
+            } else if (input == 2){
+                boolean r = true;
+                while (r){
+                    r = enterRoom();
+                }
+            } else if (input == 3){
+                boolean r = true;
+                while (r){
+                    r = createSpeakerAccount();
+                }
+
+            } else if (input == 4){
+                boolean r = true;
+                while (r){
+                    r = message();
+                }
+            } else {
+                running = false;
+            }
+        }
     }
 
-    public String planEvent() {
+    public boolean planEvent() {
         System.out.println("What year would like the event to take place? (Enter any year after 1900)");
         int year = scanner.nextInt() - 1900;
         System.out.println("What month would like the event to take place? (Enter any month from (1-12)");
@@ -58,20 +87,20 @@ public class OrganizerController {
                 System.out.println("Same event already exists, would you like to try again? Enter Y to try again and N to go back to main menu");
                 String tryAgain = scanner.nextLine();
                 if (tryAgain.equals("Y")) {
-                    return "B";
+                    return true;
                 }
-                return "C";
+                return false;
             }
             System.out.println("Successfully added event, enter Y to add another one, enter N to go back to the main menu");
             String ynString = scanner.nextLine();
             if (ynString.equals("Y")) {
-                return "B";
+                return true;
             }
-            return "C";
+            return false;
         } else if (confirm.equals("B")) {
-            return "B";
+            return true;
         }
-        return "C";
+        return false;
     }
 
     public boolean enterRoom(){
@@ -132,6 +161,10 @@ public class OrganizerController {
         }
         return false;
     }
+
+    public boolean message(){
+        return true;
+    };
     }
 
 
