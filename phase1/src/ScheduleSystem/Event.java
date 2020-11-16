@@ -48,4 +48,14 @@ public class Event {
     public boolean existSpeaker(){
         return hasSpeaker;
     }
+    @Override
+    public String toString(){
+        String full;
+        if (currentNum() < capacity){
+            full = "available";
+        }
+
+        full = "full";
+        return "name"+"@"+ date.toString() +", status: "+full;
+    }
 }

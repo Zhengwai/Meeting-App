@@ -14,7 +14,15 @@ public class SignUpPresenter {
         System.out.println("Sign up was successful. You are now registered to see " + inputEvent);
     }
 
+    public void cancelSuccess(){
+        System.out.println("The event has been successfully cancelled");
+    }
+
     public void signUpFailure(){
+        System.out.println("Sorry, the event you entered could not be found.");
+    }
+
+    public void cancelFailure(){
         System.out.println("Sorry, the event you entered could not be found.");
     }
 
@@ -23,6 +31,10 @@ public class SignUpPresenter {
         return in.nextLine();
     }
 
+    public String promptCancelEvent(){
+        System.out.println("Please enter the event you would like to cancel: ");
+        return in.nextLine();
+    }
     public void alreadySignedUp(){
         System.out.println("You've already signed up for this event");
     }

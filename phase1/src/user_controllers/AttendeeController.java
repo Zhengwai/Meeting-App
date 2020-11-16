@@ -1,45 +1,73 @@
 package user_controllers;
 
+import ScheduleSystem.Event;
+import ScheduleSystem.EventManager;
 import signup_system.SignUpManager;
 import users.User;
 import signup_system.SignUpPresenter;
-import java.io.FileNotFoundException;
+
+import java.io.*;
 import java.util.Scanner;
 import java.util.ArrayList;
-import java.io.File;
 
 public class AttendeeController {
     private User user;
+    private Scanner scanner = new Scanner(System.in);
     private SignUpPresenter sup = new SignUpPresenter();
     private SignUpManager sum = new SignUpManager();
+    private EventManager em = new EventManager();
 
     public AttendeeController(User thisUser){
         user = thisUser;
     }
 
+    public void run(){
+        boolean running = true;
+        while (running){
+            System.out.println("Please enter the number of corresponding choice: 1.SignUp for event  2.View/cancel signed up events 3.Message 4.Exit program");
+            int input = scanner.nextInt();
+            if (input == 1){
+                boolean r = true;
+                while (r){
+                    browseAllTalks();
+                    r = signUp();
+                }
+
+            } else if (input == 2){
+                boolean r = true;
+                while (r){
+                    browseSignedUpTalks();
+                    r = viewCancelEvents();
+                }
+            } else if (input == 3){
+                boolean r = true;
+                while (r){
+                    r = message(user);
+                }
+
+            } else {
+                running = false;
+            }
+        }
+
+    }
+
     public void browseAllTalks(){
-        try {
-            ArrayList<String> allEvents = compileEvents();
-            sup.showEvents(allEvents);
-        }
-        catch(FileNotFoundException ex){
-            System.out.println("File cannot be found");
+        ArrayList<Event> allEvents = em.getEvents();
+        for (Event e:allEvents){
+            System.out.println(e);
         }
     }
 
-    private ArrayList<String> compileEvents() throws FileNotFoundException{
-        File allEvents = new File("phase1/src/signup_system/EventList");
-        Scanner scan = new Scanner(allEvents);
-        ArrayList<String> allEventLines = new ArrayList<>();
-
-        while (scan.hasNextLine()) {
-            allEventLines.add(scan.nextLine());
+    public void browseSignedUpTalks(){
+        ArrayList<Event> allEvents = em.getEventsByUser(user);
+        for (Event e:allEvents){
+            System.out.println(e);
         }
-
-        return allEventLines;
     }
 
-    public void signUp(){
+
+    public boolean signUp(){
         String event = sup.promptEvent().toUpperCase();
         int result = sum.signUserUp(user, event);
 
@@ -58,14 +86,25 @@ public class AttendeeController {
         if(result == 3){
             sup.alreadySignedUp();
         }
+        System.out.println("Would you like to sign up for another event, type 1 for yes, 2 for no");
+        int confirm = scanner.nextInt();
+        return confirm == 1;
     }
 
-    public void browseSignedUpTalks(){
+    public boolean viewCancelEvents(){
+        String event = sup.promptCancelEvent().toUpperCase();
+        int result = sum.cancelUser(user, event);
+        if (result == 0){
+            sup.cancelFailure();
+        }
 
+        sup.cancelSuccess();
+        System.out.println("Would you like to cancel another event, type 1 for yes, 2 for no");
+        int confirm = scanner.nextInt();
+        return confirm == 1;
     }
 
-    public void message(){
-
-
+    public boolean message(User user){
+        return true;
     }
 }
