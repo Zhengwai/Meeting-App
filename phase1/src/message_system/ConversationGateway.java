@@ -14,7 +14,7 @@ public class ConversationGateway {
      * @return The deserialized ConversationManager
      * @throws ClassNotFoundException If there is no cm.ser file
      */
-    public static ConversationManager readFromFile(String filePath) throws ClassNotFoundException {
+    public ConversationManager readFromFile(String filePath) throws ClassNotFoundException {
 
         try {
             InputStream file = new FileInputStream(filePath);

@@ -1,9 +1,16 @@
 package message_system;
 
 
+import users.User;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.UUID;
+
 public class MessageController {
-    // TODO: See the ReadWriteEx from Week 6 for how the Controller class should work
-    private ConversationManager cm = ConversationGateway.readFromFile("cm.ser");
+    private ConversationManager cm;
     private UUID userID;
     private String type;
 
@@ -13,21 +20,20 @@ public class MessageController {
     }
 
     public void run() {
-        // Had to delete your code because the compiler was being a bully :(
 
-        // This should have a while loop to handle user inputs to navigate through their conversations.
+        deserializeCM();
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
         try {
+
             String input = br.readLine();
             while (!input.equals("exit")) {
                 System.out.println("Issue Command or type exit to exit");
                 input = br.readLine();
                 if (input.equals("New Conversation")) {
                     System.out.println("Enter the UUIDs of Users in New Conversation. Once done enter exit.");
-                    UUID conID = ConversationManager.newConversation();
-                    Conversation c = ConversationManager.getConversation(conID);
+                    UUID conID = this.cm.newConversation();
+                    Conversation c = this.cm.getConversation(conID);
                     c.addMember(userID);
                     String inp;
                     while (!input.equals("exit")) {
@@ -42,19 +48,19 @@ public class MessageController {
 
                     System.out.println("Enter your Message");
                     inp = br.readLine();
-                    Conversation c = ConversationManager.getConversation(conID);
+                    Conversation c = this.cm.getConversation(conID);
                     Message msg = new Message(userID, inp);
                     c.sendMessage(msg);
-                } else if (input.equals("Message All") && type = "Organizer") {
+                } else if (input.equals("Message All") && type == "Organizer") {
                     System.out.println("Enter your Message");
                     String inp = br.readLine();
-                    //TODO: Retrieve list of users to message
-                    ArrayList<User> recips;
-                    UUID conID = ConversationManager.newConversation();
-                    Conversation c = ConversationManager.getConversation(conID);
+                    //TODO: Fill recips with this user's friends.
+                    ArrayList<User> recips = new ArrayList<>();
+                    UUID conID = this.cm.newConversation();
+                    Conversation c = this.cm.getConversation(conID);
                     c.addMember(userID);
                     for (int i = 0; i < recips.size(); i++) {
-                        c.addMember(recips[i].id);
+                        c.addMember(recips.get(i).getID());
                     }
                     Message msg = new Message(userID, inp);
                     c.sendMessage(msg);
@@ -64,5 +70,14 @@ public class MessageController {
             System.out.println("Something went wrong");
         }
 
+    }
+
+    private void deserializeCM() {
+        ConversationGateway cg = new ConversationGateway();
+        try {
+            this.cm = cg.readFromFile("cm.ser");
+        } catch (ClassNotFoundException e) {
+            System.out.println("Couldn't find the cm.ser file. Check phase1 directory.");
+        }
     }
 }
