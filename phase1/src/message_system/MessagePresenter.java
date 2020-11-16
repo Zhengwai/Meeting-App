@@ -1,21 +1,11 @@
 package message_system;
 
 public class MessagePresenter {
-    // Will handle what should be printed to console.
+    // TODO: Write the methods needed to prepare the text that the user will see in the console.
 
-    public void printMessage(Message msg) {
-        System.out.println(msg.timeSent + " " + msg.senderID + " " + msg.body);
-    }
+    // Friendslist screen: output all of this user's friends, when the controller types in a friend name it should take
+    // them to that conversation.
 
-    public void printConversation(Message[] msgs) {
-        for (int i = 0; i < msgs.size(); i++) {
-            printMessage(msgs[i]);
-        }
-    }
+    // Conversation screen, output all the messages within this conversation.
 
-    public void printConversations(UUID[] convoIDs) {
-        for (int i = 0; i < convoIDs.size(); i++) {
-            System.out.println(convoIDs[i]);
-        }
-    }
 }

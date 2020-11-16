@@ -1,47 +1,40 @@
 package message_system;
 
-import java.io.Serializable;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * Use Case class.
+ * Stores every Conversation within the program (more suitable for Conversations to be stored in a DB for phase 2).
+ */
 public class ConversationManager implements Serializable {
     private Map<UUID, Conversation> allConversations;
-    private UUID id;
 
-    public ConversationManager(UUID userID) {
+    /**
+     * Initialize ConversationManager with no conversations
+     */
+    public ConversationManager() {
         this.allConversations = new HashMap<>();
-        this.id = userID;
     }
 
+    /**
+     * Creates a new Conversation with a random UUID.
+     * @return The conversation id of the newly created Conversation
+     */
     public UUID newConversation() {
         UUID conID = UUID.randomUUID();
         Conversation c = new Conversation();
         this.allConversations.put(conID, c);
-        this.allConversations.get(conID).addMember(id);
         return conID;
     }
 
-    public void addConversation(UUID conID, Conversation c) {
-        this.allConversations.put(conID, c);
-        this.allConversations.get(conID).addMember(id);
-    }
-
-    public void deleteConversation(UUID conID) {
-        this.allConversations.get(conID).removeMember(id);
-        this.allConversations.remove(conID);
-    }
-
-    public UUID[] getAllConversations() {
-        UUID[] out = new UUID[allConversations.size()];
-        i = 0;
-        for (UUID convoID : allConversations.keySet()) {
-            UUID[i] = convoID;
-            i++;
-        }
-        return out;
-    }
-
+    /**
+     * Gets a conversation by its ID.
+     * @param conID The ID of the conversation to be returned
+     * @return The conversation with the corresponding conID.
+     */
     public Conversation getConversation(UUID conID) {
         return allConversations.get(conID);
     }
