@@ -13,8 +13,8 @@ import java.util.Scanner;
 public class LoginController {
 
     Scanner in = new Scanner(System.in);
-    OrganizerController oc = new OrganizerController();
-    SpeakerController sc = new SpeakerController();
+    OrganizerController oc;
+    SpeakerController sc;
     LoginGateway lg = new LoginGateway();
 
     ArrayList<User> lst = lg.deserializeToArrLstOfUser("/phase1/userManager.ser");
@@ -27,6 +27,7 @@ public class LoginController {
      */
     private void displayMenu(User user){
         if (user.getType().equals("Organizer")){
+            oc = new OrganizerController(user);
             System.out.println("Please enter the number of corresponding choice: 1.Enter room; 2.Create speaker account; 3. Schedule event");
             if(in.nextInt()==1){
                 oc.enterRoom();
@@ -37,6 +38,7 @@ public class LoginController {
             }
 
         }else if (user.getType().equals("Speaker")){
+            sc = new SpeakerController(user);
             System.out.println("Please enter the number of corresponding choice: 1.View list of talks schedules; 2.Message attendees");
             if(in.nextInt()==1){
                 sc.viewSchedulesTalks();

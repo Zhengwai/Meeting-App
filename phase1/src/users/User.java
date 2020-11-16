@@ -2,26 +2,21 @@ package users;
 
 import com.sun.xml.internal.fastinfoset.algorithm.UUIDEncodingAlgorithm;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class User {
+public class User implements Serializable {
     private UUID id = UUID.randomUUID();
     private String username;
-    private ArrayList<UUID> friends;
     private String email = "";
     private String password;
-    private String type = "u";
+    private String type = "User";
     private ArrayList<UUID> enrolledEvents = new ArrayList<UUID>();
 
     public User(String username, String password) {
         this.username = username;
         this.password = password;
-        this.friends = new ArrayList<UUID>();
-    }
-
-    public void addFriend(UUID userID) {
-        this.friends.add(userID);
     }
 
     public void setEmail(String email){
@@ -30,16 +25,6 @@ public class User {
 
     public void setPassword(String password){
         this.password = password;
-    }
-
-
-
-    public UUID[] getFriends() {
-        return (UUID[]) this.friends.toArray();
-    }
-
-    public boolean isFriendsWith(UUID userID) {
-        return this.friends.contains(userID);
     }
 
     public String getEmail(){return this.email;}
@@ -56,5 +41,8 @@ public class User {
         return this.enrolledEvents;
     }
 
-
+    @Override
+    public String toString(){
+        return type + ":" + " " + username;
+    }
 }

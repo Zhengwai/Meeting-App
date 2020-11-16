@@ -2,6 +2,11 @@ package users;
 
 import ScheduleSystem.Event;
 import ScheduleSystem.EventManager;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -9,37 +14,45 @@ import java.util.UUID;
 public class UserManager {
     private ArrayList<User> allUsers;
     private EventManager em;
-    private User currentUser;
+    private User NotFoundUser = new User("NotFound", "NotFound");
 
     public UserManager(User currentUser, EventManager eventManager) {
         allUsers = new ArrayList<>();
-        this.currentUser = currentUser;
 
     }
 
-    public User getUserByID(UUID userid) throws NoUserFoundException {
+    public User getUserByID(UUID userid){
         for (User u : allUsers){
             if (u.getID() == userid) {
                 return u;
             }
         }
-
-        throw new NoUserFoundException();
+        return NotFoundUser;
     }
-    public boolean addFriend(User user1, User user2){
-        if (!user2.isFriendsWith(user1.getID())){
-            user1.addFriend(user2.getID());
-            user2.addFriend(user1.getID());
-            return true;
+
+    public boolean addUser(User newUser) throws Exception{
+        for (User u:allUsers){
+            if (u.getUsername().equals(newUser.getUsername())){
+                return false;
+            }
         }
-        return false;
+
+        allUsers.add(newUser);
+        try {
+            FileOutputStream fos = new FileOutputStream("/phase1/userManager.ser");
+            ObjectOutput oos = new ObjectOutputStream(fos);
+            oos.writeObject(allUsers);
+            oos.close();
+            fos.close();
+
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+
+        return true;
+
+
     }
 
-    public boolean enrollInEvent(Event event){
-        return em.signUpUser(currentUser, event);
-    }
 
-}
-
-class NoUserFoundException extends Exception {
 }

@@ -1,13 +1,13 @@
 package users;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class Speaker extends User{
+public class Speaker extends User implements Serializable {
     private UUID id = UUID.randomUUID();
     private String username;
-    private ArrayList<UUID> friends;
     private String email = "";
     private String password;
     private String type = "s";
