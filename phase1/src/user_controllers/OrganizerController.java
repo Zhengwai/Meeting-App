@@ -30,7 +30,7 @@ public class OrganizerController {
         this.user = user;
     }
 
-    public void run() throws Exception {
+    public boolean run() throws Exception {
         boolean running = true;
         while (running){
             System.out.println("Please enter the number of corresponding choice: 1.Plan event  2.Create Room 3.Create Speaker Account 4.Message 5.Exit program");
@@ -61,6 +61,7 @@ public class OrganizerController {
                 running = false;
             }
         }
+        return true;
     }
 
     public boolean planEvent() {
@@ -164,7 +165,7 @@ public class OrganizerController {
 
     public boolean message(){
         return true;
-    };
+    }
     }
 
 

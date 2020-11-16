@@ -26,16 +26,25 @@ public class LoginController {
      * Displays a menu of choices for the User object, user, depending on its type (Organizer, Speaker, or Attendee)
      */
     public void instantiatingMethod() throws Exception {
-        User user = login(promptEmail(), promptPassword());
-        if (user.getType().equals("Attendee")){
-            AttendeeController ac = new AttendeeController(user);
-            ac.run();
-        } else if(user.getType().equals("Organizer")){
-            OrganizerController oc = new OrganizerController(user);
-            oc.run();
-        } else {
-            SpeakerController sc = new SpeakerController(user);
-            sc.run();
+        boolean running = true;
+        while (running){
+            System.out.println("Please enter 1 to login, 0 to exit the program");
+            int indicator = in.nextInt();
+            if (indicator == 1){
+                User user = login(promptEmail(), promptPassword());
+                if (user.getType().equals("Attendee")){
+                    AttendeeController ac = new AttendeeController(user);
+                    ac.run();
+                } else if(user.getType().equals("Organizer")){
+                    OrganizerController oc = new OrganizerController(user);
+                    oc.run();
+                } else {
+                    SpeakerController sc = new SpeakerController(user);
+                    sc.run();
+                }
+            } else {
+                running = false;
+            }
         }
     }
 
