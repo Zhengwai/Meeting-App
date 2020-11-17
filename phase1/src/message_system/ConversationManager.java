@@ -1,6 +1,7 @@
 package message_system;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -39,13 +40,14 @@ public class ConversationManager implements Serializable {
         return allConversations.get(conID);
     }
 
-    public ArrayList<Conversation> getAllConversations(User user) {
-        ArrayList<Conversation> out;
-        for (Conversation conv : this.allConversations.values()) {
-            if (conv.getMembers().contians(user.getID())) {
-                out.add(conv)
-            }
-        }
-        return out;
+    public Conversation[] getUserConversations(UUID userID) {
+        ArrayList<Conversation> conversations = new ArrayList<>();
+
+        for (Conversation c : this.allConversations.values())
+            for (UUID memberID : c.getMembers()) {
+                if (memberID == userID)
+                    conversations.add(c);
+
+        return (Conversation[]) conversations.toArray();
     }
 }

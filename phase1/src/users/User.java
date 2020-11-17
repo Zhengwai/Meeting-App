@@ -13,6 +13,7 @@ public class User implements Serializable {
     private String password;
     private String type = "User";
     private ArrayList<UUID> enrolledEvents = new ArrayList<UUID>();
+    private ArrayList<UUID> conversations = new ArrayList<>();
 
     public User(String username, String password) {
         this.username = username;
@@ -39,6 +40,14 @@ public class User implements Serializable {
 
     public ArrayList<UUID> getEnrolledEvents(){
         return this.enrolledEvents;
+    }
+
+    public void addConversation(UUID id) {
+        this.conversations.add(id);
+    }
+
+    public ArrayList<UUID> getConversations() {
+        return this.conversations;
     }
 
     @Override
