@@ -32,7 +32,7 @@ public class AttendeeController {
         boolean running = true;
         while (running){
             System.out.println("Please enter the number of corresponding choice: 1.SignUp for event  2.View/cancel signed up events 3.Message 4.Exit program");
-            String input = isValidInput(validInputs, scanner.next());
+            String input = isValidInput(validInputs, scanner.nextLine());
 
             if (input.equals("1")){
                 boolean r = true;
@@ -65,7 +65,7 @@ public class AttendeeController {
 
         while(!validInputs.contains(checkInput)){
             sup.notValidInput();
-            checkInput = scanner.next();
+            checkInput = scanner.nextLine();
         }
 
         return checkInput;
@@ -114,7 +114,7 @@ public class AttendeeController {
         validInputs.add("2");
 
         sup.signUpAgainPrompt();
-        String confirm = this.isValidInput(validInputs, scanner.next());
+        String confirm = this.isValidInput(validInputs, scanner.nextLine());
         return confirm.equals("1");
     }
 
@@ -132,7 +132,7 @@ public class AttendeeController {
         validInputs.add("2");
 
         sup.cancelAgainPrompt();
-        String confirm = this.isValidInput(validInputs, scanner.next());
+        String confirm = this.isValidInput(validInputs, scanner.nextLine());
         return confirm.equals("1");
     }
 
