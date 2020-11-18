@@ -9,6 +9,7 @@ import java.util.Arrays;
 
 public class SignUpManager {
     private EventManager em = new EventManager();
+    private SignUpPresenter sup = new SignUpPresenter();
 
     public boolean checkEventFull(Event event){
         if(event.currentNum() == event.getCapacity()){
@@ -27,26 +28,26 @@ public class SignUpManager {
         return false;
     }
 
-    public int signUserUp(User attendee, String inputEvent){
+    public void signUserUp(User attendee, String inputEvent){
         Event[] results = checkEventExists(inputEvent);
         if(results.length == 0)
         {
-            return 0;
+            sup.cantFindEvent();
         }
 
         if(checkEventFull(results[0])){
-            return 1;
+            sup.eventFull();
         }
 
         if(alreadySignedUp(attendee, results[0])){
-            return 2;
+            sup.alreadySignedUp();
         }
 
         if(em.signUpUser(attendee, results[0])){
-            return 3;
+            sup.signUpSuccess(inputEvent);
         }
 
-        return 4;
+        sup.eventConflict();
     }
 
     public int cancelUser(User attendee, String inputEvent){

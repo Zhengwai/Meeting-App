@@ -18,11 +18,7 @@ public class SignUpPresenter {
         System.out.println("The event has been successfully cancelled");
     }
 
-    public void signUpFailure(){
-        System.out.println("Sorry, the event you entered could not be found.");
-    }
-
-    public void cancelFailure(){
+    public void cantFindEvent(){
         System.out.println("Sorry, the event you entered could not be found.");
     }
 
@@ -39,11 +35,11 @@ public class SignUpPresenter {
         System.out.println("You've already signed up for this event");
     }
 
-    public void eventDateConflict(){System.out.println("You are already registered to see an event " +
+    public void eventConflict(){System.out.println("You are already registered to see an event " +
             "at the same time as this event.");}
 
-    public void showEvents(ArrayList<String> allEvents){
-        for(String event : allEvents){
+    public void showEvents(ArrayList<Event> allEvents){
+        for(Event event : allEvents){
             System.out.println(event);
         }
     }

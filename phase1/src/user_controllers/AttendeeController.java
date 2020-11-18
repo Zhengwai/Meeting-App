@@ -29,7 +29,12 @@ public class AttendeeController {
 
         boolean running = true;
         while (running){
-            System.out.println("Please enter the number of corresponding choice: 1.SignUp for event  2.View/cancel signed up events 3.Message 4.Exit program");
+            System.out.println("Please enter the corresponding number for your choice: \n" +
+                    "1. Sign up for an event\n" +
+                    "2. View/cancel signed up events\n" +
+                    "3. Message\n" +
+                    "4. Exit program");
+
             String input = isValidInput(validList(valid), scanner.nextLine());
 
             if (input.equals("1")){
@@ -38,7 +43,6 @@ public class AttendeeController {
                     browseAllTalks();
                     r = signUp();
                 }
-
             } else if (input.equals("2")){
                 boolean r = true;
                 while (r){
@@ -50,7 +54,6 @@ public class AttendeeController {
                 while (r){
                     r = message(user);
                 }
-
             } else {
                 running = false;
             }
@@ -76,41 +79,17 @@ public class AttendeeController {
 
     public void browseAllTalks(){
         ArrayList<Event> allEvents = em.getEvents();
-        for (Event e:allEvents){
-            System.out.println(e);
-        }
+        sup.showEvents(allEvents);
     }
 
     public void browseSignedUpTalks(){
         ArrayList<Event> allEvents = em.getEventsByUser(user);
-        for (Event e:allEvents){
-            System.out.println(e);
-        }
+        sup.showEvents(allEvents);
     }
 
     public boolean signUp(){
         String event = sup.promptEvent().toUpperCase();
-        int result = sum.signUserUp(this.user, event);
-
-        if(result == 0){
-            sup.signUpFailure();
-        }
-
-        if(result == 1){
-            sup.eventFull();
-        }
-
-        if(result == 2){
-            sup.alreadySignedUp();
-        }
-
-        if(result == 3){
-            sup.signUpSuccess(event);
-        }
-
-        if(result == 4){
-            sup.eventDateConflict();
-        }
+        sum.signUserUp(user, event);
 
         sup.signUpAgainPrompt();
         String confirm = isValidInput(validList(validYN), scanner.nextLine());
@@ -121,7 +100,7 @@ public class AttendeeController {
         String event = sup.promptCancelEvent().toUpperCase();
         int result = sum.cancelUser(user, event);
         if (result == 0){
-            sup.cancelFailure();
+            sup.cantFindEvent();
         }
 
         sup.cancelSuccess();
