@@ -37,7 +37,7 @@ public class MessageController {
         /*
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         try {
-            String input;
+            String input = null;
             while (!input.equals("exit")) {
                 input = br.readLine();
                 if (input.equals("New Conversation")) {

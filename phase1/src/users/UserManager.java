@@ -21,14 +21,6 @@ public class UserManager {
 
     }
 
-    public User getUserByID(UUID userid){
-        for (User u : allUsers){
-            if (u.getID() == userid) {
-                return u;
-            }
-        }
-        return NotFoundUser;
-    }
 
     public boolean addUser(User newUser) throws Exception{
         for (User u:allUsers){
@@ -38,6 +30,55 @@ public class UserManager {
         }
 
         allUsers.add(newUser);
+        serializeUsers();
+        return true;
+
+
+    }
+
+    public boolean addFriends(User user1, User user2){
+        if (!user1.isFriendWithID(user2.getID())){
+            if(!user2.isFriendWithID(user1.getID())){
+                user1.addFriend(user2.getID());
+                user2.addFriend(user1.getID());
+                serializeUsers();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean deleteFriends(User user1, User user2){
+        if (user1.isFriendWithID(user2.getID())){
+            if(user2.isFriendWithID(user1.getID())){
+                user1.deleteFriend(user2.getID());
+                user2.deleteFriend(user1.getID());
+                serializeUsers();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public User getUserByID(UUID id){
+        for (User u:allUsers){
+            if (u.getID().equals(id)){
+                return u;
+            }
+        }
+        return NotFoundUser;
+    }
+
+    public ArrayList<User> getAllFriends(User user){
+        ArrayList<User> allFriends= new ArrayList<>();
+        for (UUID id:user.getFriends()){
+            allFriends.add(getUserByID(id));
+        }
+        return allFriends;
+    }
+
+
+    private void serializeUsers(){
         try {
             FileOutputStream fos = new FileOutputStream("/phase1/userManager.ser");
             ObjectOutput oos = new ObjectOutputStream(fos);
@@ -48,10 +89,6 @@ public class UserManager {
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
-
-        return true;
-
-
     }
 
 
