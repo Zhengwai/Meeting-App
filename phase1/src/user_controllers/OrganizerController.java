@@ -69,21 +69,29 @@ public class OrganizerController {
 
         System.out.println("What year would like the event to take place? (Enter any year after 1900)");
         int year = scanner.nextInt() - 1900;
+
         System.out.println("What month would like the event to take place? (Enter any month from (1-12)");
         int month = scanner.nextInt() - 1;
+
         System.out.println("What day would like the event to take place? (Enter any valid day within the month, ranging from 1-31");
         int day = scanner.nextInt();
+
         System.out.println("Enter the hour you want the event to take place (0 - 23)");
         int hour = scanner.nextInt();
+
         Calendar cal = Calendar.getInstance();
         cal.set(year, month, day, hour, 0);
         Date date = cal.getTime();
+
         System.out.println("What would you like to call this event?");
         String eventName = scanner.nextLine();
+
         System.out.println("What would the capacity of the event be?");
         int capacity = scanner.nextInt();
+
         System.out.println("You are about to add an event called " + eventName + " on " + date.toString() + ", enter A to confirm and add this event, enter B to start over, enter C to go back to the main menu");
         String confirm =  isValidInput(validList(validABC), scanner.nextLine());
+
         if (confirm.equals("A")) {
             Event newEvent = new Event(eventName, date, capacity);
             if (!em.addEvent(newEvent)) {

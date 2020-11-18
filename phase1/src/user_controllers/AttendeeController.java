@@ -88,7 +88,8 @@ public class AttendeeController {
     }
 
     public boolean signUp(){
-        String event = sup.promptEvent().toUpperCase();
+        sup.promptEvent();
+        String event = scanner.nextLine().toUpperCase();
         sum.signUserUp(user, event);
 
         sup.signUpAgainPrompt();
@@ -97,7 +98,8 @@ public class AttendeeController {
     }
 
     public boolean viewCancelEvents(){
-        String event = sup.promptCancelEvent().toUpperCase();
+        sup.promptCancelEvent();
+        String event = scanner.nextLine().toUpperCase();
         int result = sum.cancelUser(user, event);
         if (result == 0){
             sup.cantFindEvent();
