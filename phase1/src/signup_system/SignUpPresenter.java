@@ -25,7 +25,7 @@ public class SignUpPresenter {
         System.out.println("Please enter the event you would like to sign up for: ");
     }
 
-    public String promptCancelEvent(){
+    public void promptCancelEvent(){
         System.out.println("Please enter the event you would like to cancel: ");
     }
     public void alreadySignedUp(){
