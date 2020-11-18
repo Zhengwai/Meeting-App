@@ -53,10 +53,10 @@ public class SignUpPresenter {
     }
 
     public void signUpAgainPrompt(){
-        System.out.println("Would you like to sign up for another event? \nEnter 1 for yes, 2 for no");
+        System.out.println("Would you like to sign up for another event? \nEnter Y for yes, N for no");
     }
 
     public void cancelAgainPrompt(){
-        System.out.println("Would you like to cancel another event? \nEnter 1 for yes, 2 for no");
+        System.out.println("Would you like to cancel another event? \nEnter Y for yes, N for no");
     }
 }
