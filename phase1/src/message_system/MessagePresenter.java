@@ -8,7 +8,7 @@ public class MessagePresenter {
     private User user;
     private UserManager um;
 
-    public void MessagePresenter(User user, UserManager um) {
+    public MessagePresenter(User user, UserManager um) {
         this.user = user;
         this.um = um;
     }

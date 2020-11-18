@@ -14,7 +14,7 @@ import java.util.UUID;
 public class UserManager {
     private ArrayList<User> allUsers;
     private EventManager em;
-    private User NotFoundUser = new User("NotFound", "NotFound");
+    public User NotFoundUser = new User("NotFound", "NotFound");
 
     public UserManager() {
         allUsers = new ArrayList<>();
@@ -58,6 +58,15 @@ public class UserManager {
             }
         }
         return false;
+    }
+
+    public User getUserByName(String name) {
+        for (User u:allUsers) {
+            if (u.getUsername() == name) {
+                return u;
+            }
+        }
+        return NotFoundUser;
     }
 
     public User getUserByID(UUID id){

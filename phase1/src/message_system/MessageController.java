@@ -24,9 +24,21 @@ public class MessageController {
         } else if (type.equals("s")) {
             SpeakerMessageController control = new SpeakerMessageController(inpUser);
         } else if (type.equals("a")) {
-            AttendeeMessageController control = new AttendeeMessageController(inpUser);
+            //AttendeeMessageController control = new AttendeeMessageController(inpUser);
         }
     }
+
+    public void runv2() {
+        deserializeCM();
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        //add friend
+
+        //open conversation with friend
+
+        //
+    }
+
 
     public void run() {
 
@@ -34,7 +46,7 @@ public class MessageController {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         try {
-            String input = null;
+            String input = "";
             while (!input.equals("exit")) {
                 input = br.readLine();
                 if (input.equals("New Conversation")) {

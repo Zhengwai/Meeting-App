@@ -2,9 +2,14 @@ package user_controllers;
 
 import ScheduleSystem.Event;
 import ScheduleSystem.EventManager;
+import message_system.AttendeeMessageController;
+import message_system.Message;
+import message_system.MessageController;
 import signup_system.SignUpManager;
 import users.User;
 import signup_system.SignUpPresenter;
+import users.UserGateway;
+import users.UserManager;
 
 import java.io.*;
 import java.lang.reflect.Array;
@@ -52,7 +57,7 @@ public class AttendeeController {
             } else if (input.equals("3")){
                 boolean r = true;
                 while (r){
-                    r = message(user);
+                    r = message();
                 }
             } else {
                 running = false;
@@ -112,7 +117,18 @@ public class AttendeeController {
         return confirm.equals("Y");
     }
 
-    public boolean message(User user){
+    public boolean message(){
+        UserGateway ug = new UserGateway();
+        UserManager um = new UserManager();
+
+        try {
+            um = ug.readFromFile();
+        } catch (Exception e) {
+            System.out.println("Something went wrong.");
+        }
+
+        AttendeeMessageController amc = new AttendeeMessageController(this.user, um);
+        amc.run();
         return true;
     }
 }
