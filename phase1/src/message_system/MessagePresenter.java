@@ -2,22 +2,37 @@ package message_system;
 
 import users.User;
 import users.UserManager;
-
-import java.util.ArrayList;
 import java.util.UUID;
 
 public class MessagePresenter {
-    private User currUser;
+    private User user;
     private UserManager um;
 
     public void MessagePresenter(User user, UserManager um) {
-        this.currUser = user;
+        this.user = user;
         this.um = um;
     }
 
-    public void promptMainScreen() {
-        // Should output something like this
+    /**
+     * Creates a textual representation of the current user's conversation.
+     * @param conversations The list of conversations to be showed on the screen
+     * @return Formatted text of this user's list of conversations.
+     */
+    public String promptMainScreen(Conversation[] conversations) {
+        StringBuilder output = new StringBuilder("Contacts: \n");
 
+        // Assuming for now only two members in a conversation
+        for (int i = 0; i < conversations.length; i++) {
+            UUID[] memberIds = conversations[i].getMembers();
+            String name;
+
+            if (memberIds[0] == user.getID()) name = um.getUserByID(memberIds[1]).getUsername();
+            else name = um.getUserByID(memberIds[0]).getUsername();
+
+            output.append("(").append(i).append(") ").append(name).append("\n");
+        }
+
+        return output.toString();
     }
 
     /**
@@ -31,9 +46,12 @@ public class MessagePresenter {
 
         for (Message msg : msgs) {
             String name = um.getUserByID(msg.getSenderID()).getUsername();
-            output.append(name).append(": ").append(msg.getBody()).append("/n");
+            output.append(name).append(": ").append(msg.getBody()).append("\n");
         }
 
         return output.toString();
     }
+
+    // Not sure if we need
+    public String promptOrganizerMessageAll() {return "";}
 }

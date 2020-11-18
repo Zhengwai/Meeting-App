@@ -11,7 +11,7 @@ import java.util.UUID;
  * Stores every Conversation within the program (more suitable for Conversations to be stored in a DB for phase 2).
  */
 public class ConversationManager implements Serializable {
-    private Map<UUID, Conversation> allConversations;
+    private final Map<UUID, Conversation> allConversations;
 
     /**
      * Initialize ConversationManager with no conversations
@@ -33,6 +33,7 @@ public class ConversationManager implements Serializable {
 
     /**
      * Gets a conversation by its ID.
+     *
      * @param conID The ID of the conversation to be returned
      * @return The conversation with the corresponding conID.
      */
@@ -40,11 +41,15 @@ public class ConversationManager implements Serializable {
         return allConversations.get(conID);
     }
 
+    /**
+     * @param userID The ID of the user
+     * @return All conversations that this user is member of.
+     */
     public Conversation[] getUserConversations(UUID userID) {
         ArrayList<Conversation> conversations = new ArrayList<>();
 
         for (Conversation c : this.allConversations.values())
-            for (UUID memberID : c.getMembers()) {
+            for (UUID memberID : c.getMembers())
                 if (memberID == userID)
                     conversations.add(c);
 
