@@ -17,4 +17,8 @@ public class Speaker extends User implements Serializable {
         super(username, password);
         this.eventIDs = new ArrayList<UUID>();
     }
+
+    public ArrayList<UUID> getSpeakerEvents(){
+        return this.eventIDs;
+    }
 }

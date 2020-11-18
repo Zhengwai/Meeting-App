@@ -1,7 +1,7 @@
 package message_system;
 
-
-import users.User;
+package users;
+//import users.User;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,7 +12,7 @@ import java.util.UUID;
 public class SpeakerMessageController {
     private ConversationManager cm;
     private User user;
-    private Conversation[] myConvos;
+    private EventManager em;
 
     public SpeakerMessageController(User inpUser) {
         this.user = inpUser;
@@ -29,103 +29,55 @@ public class SpeakerMessageController {
             String input;
             while (!input.equals("exit")) {
                 System.out.println("Please Enter Corresponding Choice: \n " +
-                        "1. New Message to specific Speakers or Attendees \n " +
-                        "2. New Message to specific Speakers or Attendees \n" +
-                        "3. New Message to all Speakers \n" +
-                        "4. New Message to all Attendees \n" +
+                        "1. New Message to all Attendees of a Talk \n " +
+                        "2. Reply to Attendee Messages \n" +
                         "exit to exit this Controller");
                 input = br.readLine();
                 if (input.equals("1")) {
-                    System.out.println("Enter the UUIDs of Users in New Conversation. Once done enter exit.");
-                    //TODO: Change UUIDs to Usernames or something of the kind
+                    ArrayList<Event> events;
+
+                    for (int i = 0; i < user.getSpeakerEvents().size(); i++) {
+                        events.add(em.getEventByID(user.getSpeakerEvents().get(i)));
+                    }
+
+                    System.out.println("Pick one of your Talks from below:");
+                    for (int i = 0; i < events.size(); i++) {
+                        System.out.println(Integer.toString(i + 1) + events.get(i));
+                        //TODO: Way of printing an Event
+                    }
+
+                    String inp = br.readLine();
                     UUID conID = this.cm.newConversation();
                     Conversation c = this.cm.getConversation(conID);
+                    ArrayList<UUID> attendees = events.get(Integer.parseInt(inp) - 1).getAttendees();
                     c.addMember(user.getID());
-                    String inp;
-                    while (!input.equals("exit")) {
-                        inp = br.readLine();
-                        UUID id = UUID.fromString(inp);
-                        c.addMember(id);
-                    }
-                } else if (input.equals("2")) {
-                    System.out.println("Choose an option: \n" +
-                            "1. Would you like to send a message in an existing conversation \n" +
-                            "2. Would you like to message an individual user");
-                    String inp = br.readLine();
-
-                    if (inp.equals("1")) {
-                        System.out.println("Pick one of the conversation from below:");
-                        for (int i = 0; i < allConvos.size(); i++) {
-                            System.out.println(Integer.toString(i + 1) + allConvos.get(i));
-                            //TODO: Way of printing a Conversation
-                        }
-
-                        inp = br.readLine();
-                        Conversation c = allConvos.get(Integer.parseInt(inp) - 1)
-
-                        System.out.println("Enter your Message");
-                        inp = br.readLine();
-                        Message msg = new Message(user.getID(), inp);
-                        c.sendMessage(msg);
-                    } else if (inp.equals("2")) {
-                        System.out.println("Enter User UUID");
-                        inp = br.readLine();
-                        int i = 0;
-                        boolean b = true;
-                        while (i < allConvos.size() && b) {
-                            if (allConvos.get(i).getMembers().size == 2 && allConvos.get(i).getMembers().contains(UUID.fromString(inp))) {
-                                b = false;
-                            } else {
-                                i++;
-                            }
-                        }
-                        Conversation c;
-                        if (!b) {
-                            c = allConvos.get(i);
-                        } else {
-                            UUID conID = this.cm.newConversation();
-                            c = this.cm.getConversation(conID);
-                            c.addMember(user.getID());
-                            c.addMember(UUID.fromString(inp));
-                        }
-
-                        System.out.println("Enter your Message");
-                        inp = br.readLine();
-                        Message msg = new Message(user.getID(), inp);
-                        c.sendMessage(msg);
-
-                    } else {
-                        System.out.println("You did not choose a valid option");
-                    }
-                } else if (input.equals("3")) {
-                    System.out.println("Enter your Message");
-                    String inp = br.readLine();
-                    Message msg = new Message(userID, inp);
-
-                    //TODO: Assign recips to list of all Speakers.
-                    ArrayList<User> recips = new ArrayList<>();
-                    UUID conID = this.cm.newConversation();
-                    Conversation c = this.cm.getConversation(conID);
-                    c.addMember(userID);
-                    for (int i = 0; i < recips.size(); i++) {
-                        c.addMember(recips.get(i).getID());
+                    for (int i = 0; i < attendees.size(); i++) {
+                        c.addMember(attendees.get(i).getID());
                     }
 
+
+                    System.out.println("Enter your message");
+                    inp = br.readline();
+
+                    Message msg = new Message(user.getID(), inp);
                     c.sendMessage(msg);
-                } else if (input.equals("4")) {
-                    System.out.println("Enter your Message");
-                    String inp = br.readLine();
-                    Message msg = new Message(userID, inp);
-
-                    //TODO: Assign recips to list of all Attendees.
-                    ArrayList<User> recips = new ArrayList<>();
-                    UUID conID = this.cm.newConversation();
-                    Conversation c = this.cm.getConversation(conID);
-                    c.addMember(userID);
-                    for (int i = 0; i < recips.size(); i++) {
-                        c.addMember(recips.get(i).getID());
+                } else if (input.equals("2")) {
+                    System.out.println("Pick one of the conversations from below:");
+                    int j = 1;
+                    ArrayList<Conversation> dms;
+                    for (int i = 0; i < allConvos.size(); i++) {
+                        if (allConvos.get(i).getMembers().size() == 2) {
+                            System.out.println(Integer.toString(j) + allConvos.get(i));
+                            dms.add(allConvos.get(i));
+                            j++;
+                            //TODO: Offer a better way of determining if a conversation is a message from an attendee
+                        }
                     }
-
+                    String inp = br.readLine();
+                    Conversation c = dms.get(Integer.parseInt(inp));
+                    System.out.println("Enter your reply");
+                    inp = br.readLine();
+                    Message msg = new Message(user.getID(), inp);
                     c.sendMessage(msg);
                 } else {
                     System.out.println("You did not chosoe a valid Options");

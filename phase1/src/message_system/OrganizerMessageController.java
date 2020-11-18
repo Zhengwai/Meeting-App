@@ -1,7 +1,7 @@
 package message_system;
 
-
-import users.User;
+package users;
+//import users.User;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,7 +12,6 @@ import java.util.UUID;
 public class OrganizerMessageController {
     private ConversationManager cm;
     private User user;
-    private Conversation[] myConvos;
 
     public OrganizerMessageController(User inpUser) {
         this.user = inpUser;
@@ -29,7 +28,7 @@ public class OrganizerMessageController {
             String input;
             while (!input.equals("exit")) {
                 System.out.println("Please Enter Corresponding Choice: \n " +
-                        "1. New Message to specific Speakers or Attendees \n " +
+                        "1. New Conversation \n " +
                         "2. New Message to specific Speakers or Attendees \n" +
                         "3. New Message to all Speakers \n" +
                         "4. New Message to all Attendees \n" +
@@ -73,7 +72,7 @@ public class OrganizerMessageController {
                         int i = 0;
                         boolean b = true;
                         while (i < allConvos.size() && b) {
-                            if (allConvos.get(i).getMembers().size == 2 && allConvos.get(i).getMembers().contains(UUID.fromString(inp))) {
+                            if (allConvos.get(i).getMembers().size() == 2 && allConvos.get(i).getMembers().contains(UUID.fromString(inp))) {
                                 b = false;
                             } else {
                                 i++;

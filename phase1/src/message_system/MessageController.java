@@ -21,17 +21,20 @@ public class MessageController {
         this.type = user.getType();
         if (type.equals("o")) {
             OrganizerMessageController control = new OrganizerMessageController(inpUser);
+            control.run();
         } else if (type.equals("s")) {
             SpeakerMessageController control = new SpeakerMessageController(inpUser);
+            control.run();
         } else if (type.equals("a")) {
             AttendeeMessageController control = new AttendeeMessageController(inpUser);
+            control.run();
         }
     }
 
     public void run() {
 
         deserializeCM();
-
+        /*
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         try {
             String input;
@@ -76,7 +79,7 @@ public class MessageController {
         } catch (IOException e) {
             System.out.println("Something went wrong");
         }
-
+        */
     }
 
     private void deserializeCM() {
