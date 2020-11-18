@@ -12,8 +12,9 @@ public class User implements Serializable {
     private String email = "";
     private String password;
     private String type = "User";
-    private ArrayList<UUID> enrolledEvents = new ArrayList<UUID>();
+    private ArrayList<UUID> enrolledEvents = new ArrayList<>();
     private ArrayList<UUID> conversations = new ArrayList<>();
+    private ArrayList<UUID> friends = new ArrayList<>();
 
     public User(String username, String password) {
         this.username = username;
@@ -50,6 +51,17 @@ public class User implements Serializable {
         return this.conversations;
     }
 
+    public void addFriend(UUID id) { this.friends.add(id);}
+
+    public void deleteFriend(UUID id) {
+        friends.remove(id);
+    }
+
+    public ArrayList<UUID> getFriends() {return this.friends;}
+
+    public boolean isFriendWithID(UUID id){
+        return friends.contains(id);
+    }
     @Override
     public String toString(){
         return type + ":" + " " + username;
