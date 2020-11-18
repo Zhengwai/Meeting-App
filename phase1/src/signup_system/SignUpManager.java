@@ -17,21 +17,36 @@ public class SignUpManager {
         return false;
     }
 
+    public boolean alreadySignedUp(User attendee, Event event){
+        ArrayList<Event> userEvents = em.getEventsByUser(attendee);
+        for(Event e: userEvents){
+            if(e.getId() == event.getId()){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public int signUserUp(User attendee, String inputEvent){
         Event[] results = checkEventExists(inputEvent);
         if(results.length == 0)
         {
             return 0;
         }
+
         if(checkEventFull(results[0])){
             return 1;
         }
 
-        if(em.signUpUser(attendee, results[0])){
+        if(alreadySignedUp(attendee, results[0])){
             return 2;
         }
 
-        return 3;
+        if(em.signUpUser(attendee, results[0])){
+            return 3;
+        }
+
+        return 4;
     }
 
     public int cancelUser(User attendee, String inputEvent){
@@ -43,6 +58,7 @@ public class SignUpManager {
         em.removeUser(attendee, results[0]);
         return 1;
     }
+
     public Event[] checkEventExists(String event) {
         ArrayList<Event> allEvents = em.getEvents();
         for (Event thisEvent : allEvents) {

@@ -39,6 +39,9 @@ public class SignUpPresenter {
         System.out.println("You've already signed up for this event");
     }
 
+    public void eventDateConflict(){System.out.println("You are already registered to see an event " +
+            "at the same time as this event.");}
+
     public void showEvents(ArrayList<String> allEvents){
         for(String event : allEvents){
             System.out.println(event);

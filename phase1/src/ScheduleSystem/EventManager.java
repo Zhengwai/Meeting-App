@@ -99,6 +99,7 @@ public class EventManager {
     public ArrayList<Event> getEvents(){
         return this.events;
     }
+
     public boolean signUpUser(User user, Event event){
         for (UUID i : user.getEnrolledEvents()){
             try {

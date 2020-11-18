@@ -69,7 +69,7 @@ public class AttendeeController {
 
     public boolean signUp(){
         String event = sup.promptEvent().toUpperCase();
-        int result = sum.signUserUp(user, event);
+        int result = sum.signUserUp(this.user, event);
 
         if(result == 0){
             sup.signUpFailure();
@@ -80,12 +80,17 @@ public class AttendeeController {
         }
 
         if(result == 2){
-            sup.signUpSuccess(event);
+            sup.alreadySignedUp();
         }
 
         if(result == 3){
-            sup.alreadySignedUp();
+            sup.signUpSuccess(event);
         }
+
+        if(result == 4){
+            sup.eventDateConflict();
+        }
+
         System.out.println("Would you like to sign up for another event, type 1 for yes, 2 for no");
         int confirm = scanner.nextInt();
         return confirm == 1;
