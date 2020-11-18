@@ -7,6 +7,7 @@ import users.User;
 import signup_system.SignUpPresenter;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.Scanner;
 import java.util.ArrayList;
 
@@ -22,24 +23,31 @@ public class AttendeeController {
     }
 
     public void run(){
+        ArrayList<String> validInputs = new ArrayList();
+        validInputs.add("1");
+        validInputs.add("2");
+        validInputs.add("3");
+        validInputs.add("4");
+
         boolean running = true;
         while (running){
             System.out.println("Please enter the number of corresponding choice: 1.SignUp for event  2.View/cancel signed up events 3.Message 4.Exit program");
-            int input = scanner.nextInt();
-            if (input == 1){
+            String input = isValidInput(validInputs, scanner.next());
+
+            if (input.equals("1")){
                 boolean r = true;
                 while (r){
                     browseAllTalks();
                     r = signUp();
                 }
 
-            } else if (input == 2){
+            } else if (input.equals("2")){
                 boolean r = true;
                 while (r){
                     browseSignedUpTalks();
                     r = viewCancelEvents();
                 }
-            } else if (input == 3){
+            } else if (input.equals("3")){
                 boolean r = true;
                 while (r){
                     r = message(user);
@@ -50,6 +58,17 @@ public class AttendeeController {
             }
         }
 
+    }
+
+    private String isValidInput(ArrayList<String> validInputs, String newInput){
+        String checkInput = newInput;
+
+        while(!validInputs.contains(checkInput)){
+            sup.notValidInput();
+            checkInput = scanner.next();
+        }
+
+        return checkInput;
     }
 
     public void browseAllTalks(){
@@ -65,7 +84,6 @@ public class AttendeeController {
             System.out.println(e);
         }
     }
-
 
     public boolean signUp(){
         String event = sup.promptEvent().toUpperCase();
@@ -91,9 +109,13 @@ public class AttendeeController {
             sup.eventDateConflict();
         }
 
-        System.out.println("Would you like to sign up for another event, type 1 for yes, 2 for no");
-        int confirm = scanner.nextInt();
-        return confirm == 1;
+        ArrayList<String> validInputs = new ArrayList();
+        validInputs.add("1");
+        validInputs.add("2");
+
+        sup.signUpAgainPrompt();
+        String confirm = this.isValidInput(validInputs, scanner.next());
+        return confirm.equals("1");
     }
 
     public boolean viewCancelEvents(){
@@ -104,9 +126,14 @@ public class AttendeeController {
         }
 
         sup.cancelSuccess();
-        System.out.println("Would you like to cancel another event, type 1 for yes, 2 for no");
-        int confirm = scanner.nextInt();
-        return confirm == 1;
+
+        ArrayList<String> validInputs = new ArrayList();
+        validInputs.add("1");
+        validInputs.add("2");
+
+        sup.cancelAgainPrompt();
+        String confirm = this.isValidInput(validInputs, scanner.next());
+        return confirm.equals("1");
     }
 
     public boolean message(User user){

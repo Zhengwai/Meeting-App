@@ -47,4 +47,16 @@ public class SignUpPresenter {
             System.out.println(event);
         }
     }
+
+    public void notValidInput(){
+        System.out.println("Not a valid input. Please try again");
+    }
+
+    public void signUpAgainPrompt(){
+        System.out.println("Would you like to sign up for another event? \nEnter 1 for yes, 2 for no");
+    }
+
+    public void cancelAgainPrompt(){
+        System.out.println("Would you like to cancel another event? \nEnter 1 for yes, 2 for no");
+    }
 }
