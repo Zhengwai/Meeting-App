@@ -33,8 +33,8 @@ public class LoginController {
         boolean running = true;
         while (running) {
             System.out.println("Please enter 1 to login, 0 to exit the program");
-            int indicator = in.nextInt();
-            if (indicator == 1) {
+            String indicator = isValidInput(in.nextLine());
+            if (indicator.equals("1")) {
                 User user = login();
                 if (user.getType().equals("a")) {
                     AttendeeController ac = new AttendeeController(user);
@@ -127,5 +127,18 @@ public class LoginController {
             }
         }
         return null;
+    }
+
+    private String isValidInput(String newInput){
+        ArrayList<String> validInputs = new ArrayList<String>();
+        validInputs.add("1");
+        validInputs.add("2");
+
+        while(!validInputs.contains(newInput)){
+            System.out.println("Sorry, that's not a valid input. Please try again.");
+            newInput = in.nextLine();
+        }
+
+        return newInput;
     }
 }
