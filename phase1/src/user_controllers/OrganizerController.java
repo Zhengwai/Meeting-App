@@ -2,7 +2,7 @@ package user_controllers;
 
 import ScheduleSystem.*;
 import message_system.OrganizerMessageController;
-import signup_system.SignUpPresenter;
+import ScheduleSystem.EventPresenter;
 import users.Speaker;
 import users.User;
 import users.UserGateway;
@@ -16,7 +16,7 @@ import java.util.*;
 public class OrganizerController {
     private Scanner scanner = new Scanner(System.in);
     private User user;
-    private SignUpPresenter sup = new SignUpPresenter();
+    private  EventPresenter ep = new EventPresenter();
     private EventManager em = new EventManager();
     private UserManager um = new UserManager();
     private OrganizerEventController oec;
@@ -62,7 +62,7 @@ public class OrganizerController {
         String checkInput = newInput.toUpperCase();
 
         while(!validInputs.contains(checkInput)){
-            sup.notValidInput();
+            ep.notValidInput();
             checkInput = scanner.nextLine();
         }
 

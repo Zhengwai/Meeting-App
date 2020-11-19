@@ -3,7 +3,7 @@ package user_controllers;
 import ScheduleSystem.*;
 import message_system.AttendeeMessageController;
 import users.User;
-import signup_system.SignUpPresenter;
+import ScheduleSystem.EventPresenter;
 import users.UserGateway;
 import users.UserManager;
 
@@ -18,7 +18,7 @@ public class AttendeeController {
     private User user;
     private UserManager um = new UserManager();
     private Scanner scanner = new Scanner(System.in);
-    private SignUpPresenter sup = new SignUpPresenter();
+    private EventPresenter ep = new EventPresenter();
     private EventManager em = new EventManager();
     private String[] validYN = new String[]{"Y", "N"};
     private AttendeeEventController ec;
@@ -65,7 +65,7 @@ public class AttendeeController {
         String checkInput = newInput.toUpperCase();
 
         while(!validInputs.contains(checkInput)){
-            sup.notValidInput();
+            ep.notValidInput();
             checkInput = scanner.nextLine();
         }
 
@@ -81,14 +81,14 @@ public class AttendeeController {
      */
     public void browseAllTalks(){
         ArrayList<Event> allEvents = em.getEvents();
-        sup.showEvents(allEvents);
+        ep.showEvents(allEvents);
     }
     /**
      * Displays all the talks this user signed up.
      */
     public void browseSignedUpTalks(){
         ArrayList<Event> allEvents = em.getEventsByUser(user);
-        sup.showEvents(allEvents);
+        ep.showEvents(allEvents);
     }
 
     public boolean message() {
