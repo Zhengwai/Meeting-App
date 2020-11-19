@@ -2,8 +2,10 @@ package user_controllers;
 
 import ScheduleSystem.Event;
 import ScheduleSystem.EventManager;
+import message_system.AttendeeMessageController;
 import message_system.SpeakerMessageController;
 import signup_system.SignUpPresenter;
+import users.Attendee;
 import users.User;
 import users.UserGateway;
 import users.UserManager;
@@ -47,7 +49,7 @@ public class SpeakerController {
             } else if (input.equals("2")){
                 boolean r = true;
                 while (r){
-                    /*r = message();*/
+                    message();
                 }
             } else {
                 running = false;
@@ -90,24 +92,19 @@ public class SpeakerController {
         return validInputs;
     }
 
- /*   public boolean message() throws IOException, ClassNotFoundException {
+    public boolean message() throws IOException, ClassNotFoundException {
         UserGateway ug = new UserGateway();
         UserManager um = new UserManager();
-        ArrayList<User> users;
         try {
-            users = ug.deserializeUsers("/phase1/userManager.ser");
+            um = ug.deserializeUserManager("user-manager.ser");
         } catch (Exception e) {
             System.out.println("Something went wrong.");
-            users = new ArrayList<>();
         }
 
-        for (User u: users){
-            um.addUser(u);
-        }
-        SpeakerMessageController amc = new SpeakerMessageController(this.user, um, em);
+        AttendeeMessageController amc = new AttendeeMessageController(this.user, um);
         amc.run();
         System.out.println("Would you like to enter the message system again? Enter Y for yes, N for no.");
-        String confirm = isValidInput(validList(validYN), scanner.nextLine());
+        String confirm = scanner.nextLine();
         return confirm.equals("Y");
-    }*/
+    }
 }

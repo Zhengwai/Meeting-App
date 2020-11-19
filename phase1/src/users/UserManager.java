@@ -11,16 +11,15 @@ import java.util.UUID;
 public class UserManager implements Serializable {
     private ArrayList<User> allUsers;
     private EventManager em;
-    private UserGateway ug = new UserGateway();
     public User NotFoundUser = new User("NotFound", "NotFound");
 
-    public UserManager() throws ClassNotFoundException {
-        allUsers = ug.deserializeUsers("/phase1/userManager.ser");
-
+    public UserManager() {
+        this.allUsers = new ArrayList<>();
+        //TODO: Initialize this.em
     }
 
 
-    public boolean addUser(User newUser) throws IOException {
+    public boolean addUser(User newUser) {
         for (User u:allUsers){
             if (u.getUsername().equals(newUser.getUsername())){
                 return false;
@@ -28,30 +27,27 @@ public class UserManager implements Serializable {
         }
 
         allUsers.add(newUser);
-        ug.serializeUsers("/phase1/userManager.ser", allUsers);
         return true;
 
 
     }
 
-    public boolean addFriends(User user1, User user2) throws IOException {
+    public boolean addFriends(User user1, User user2) {
         if (!user1.isFriendWithID(user2.getID())){
             if(!user2.isFriendWithID(user1.getID())){
                 user1.addFriend(user2.getID());
                 user2.addFriend(user1.getID());
-                ug.serializeUsers("/phase1/userManager.ser", allUsers);
                 return true;
             }
         }
         return false;
     }
 
-    public boolean deleteFriends(User user1, User user2) throws IOException {
+    public boolean deleteFriends(User user1, User user2) {
         if (user1.isFriendWithID(user2.getID())){
             if(user2.isFriendWithID(user1.getID())){
                 user1.deleteFriend(user2.getID());
                 user2.deleteFriend(user1.getID());
-                ug.serializeUsers("/phase1/userManager.ser", allUsers);
                 return true;
             }
         }
@@ -117,14 +113,12 @@ public class UserManager implements Serializable {
         }
         return true;
     }
-    public void addEventForUser(Event event, User user) throws IOException {
+    public void addEventForUser(Event event, User user) {
         user.addEvent(event.getId());
-        ug.serializeUsers("/phase1/userManager.ser", allUsers);
     }
 
-    public void removeEvent(Event event, User user) throws IOException {
+    public void removeEvent(Event event, User user) {
         user.removeEvent(event.getId());
-        ug.serializeUsers("/phase1/userManager.ser", allUsers);
     }
 
     public ArrayList<User> getAllAttendees() {

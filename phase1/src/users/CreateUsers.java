@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class CreateUsers {
+/* public class CreateUsers {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
         //Users
         Attendee user1 = new Attendee("attendee", "attendee");
@@ -38,4 +38,4 @@ public class CreateUsers {
         System.out.println(users.get(0).getPassword().equals(pass));
 
     }
-}
+} */

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 /**
- * Entity (I think? Since ConversationManager would be Use Case) class.
+ * Entity class.
  * Stores messages sent from members of this conversation.
  */
 public class Conversation implements Serializable {

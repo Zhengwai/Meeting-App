@@ -14,7 +14,7 @@ public class MessagePresenter {
     }
 
     /**
-     * Creates a textual representation of the current user's conversation.
+     * Creates a textual representation of the current user's conversations.
      * @param conversations The list of conversations to be showed on the screen
      * @return Formatted text of this user's list of conversations.
      */
@@ -51,7 +51,4 @@ public class MessagePresenter {
 
         return output.toString();
     }
-
-    // Not sure if we need
-    public String promptOrganizerMessageAll() {return "";}
 }
