@@ -25,7 +25,7 @@ public class OrganizerController {
     private EventManager em = new EventManager();
     private UserManager um = new UserManager();
 
-    public OrganizerController(User user){
+    public OrganizerController(User user) throws ClassNotFoundException {
         this.user = user;
     }
 

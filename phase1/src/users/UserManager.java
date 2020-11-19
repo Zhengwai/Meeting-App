@@ -14,8 +14,8 @@ public class UserManager implements Serializable {
     private UserGateway ug = new UserGateway();
     public User NotFoundUser = new User("NotFound", "NotFound");
 
-    public UserManager() {
-        allUsers = new ArrayList<>();
+    public UserManager() throws ClassNotFoundException {
+        allUsers = ug.deserializeUsers("/phase1/userManager.ser");
 
     }
 
@@ -28,7 +28,7 @@ public class UserManager implements Serializable {
         }
 
         allUsers.add(newUser);
-        ug.saveToFile("/phase1/userManager.ser", this);
+        ug.serializeUsers("/phase1/userManager.ser", allUsers);
         return true;
 
 
@@ -39,7 +39,7 @@ public class UserManager implements Serializable {
             if(!user2.isFriendWithID(user1.getID())){
                 user1.addFriend(user2.getID());
                 user2.addFriend(user1.getID());
-                ug.saveToFile("/phase1/userManager.ser", this);
+                ug.serializeUsers("/phase1/userManager.ser", allUsers);
                 return true;
             }
         }
@@ -51,7 +51,7 @@ public class UserManager implements Serializable {
             if(user2.isFriendWithID(user1.getID())){
                 user1.deleteFriend(user2.getID());
                 user2.deleteFriend(user1.getID());
-                ug.saveToFile("/phase1/userManager.ser", this);
+                ug.serializeUsers("/phase1/userManager.ser", allUsers);
                 return true;
             }
         }
@@ -84,9 +84,9 @@ public class UserManager implements Serializable {
         return allFriends;
     }
 
-
-
-
+    public ArrayList<User> getAllUsers() {
+        return allUsers;
     }
+}
 
 

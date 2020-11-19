@@ -14,7 +14,7 @@ public class SpeakerController {
     private SignUpManager sum = new SignUpManager();
     private UserManager um = new UserManager();
 
-    public SpeakerController(User user){
+    public SpeakerController(User user) throws ClassNotFoundException {
         this.user = user;
     }
 

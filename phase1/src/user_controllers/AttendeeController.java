@@ -28,13 +28,13 @@ public class AttendeeController {
     private EventManager em = new EventManager();
     private String[] validYN = new String[]{"Y", "N"};
 
-    public AttendeeController(User thisUser){
+    public AttendeeController(User thisUser) throws ClassNotFoundException {
         user = thisUser;
     }
     /**
      * Displays a menu of choices for the Attendee object, and continuously running until user chooses to exit the program.
      */
-    public void run(){
+    public void run() throws IOException, ClassNotFoundException {
         String[] valid = new String[]{"1", "2", "3", "4"};
 
         boolean running = true;
@@ -135,16 +135,20 @@ public class AttendeeController {
      * Prompts user to the message system.
      * @return returns true iff the user wishes to sign up for another talk
      */
-    public boolean message(){
+    public boolean message() throws IOException, ClassNotFoundException {
         UserGateway ug = new UserGateway();
         UserManager um = new UserManager();
-
+        ArrayList<User> users;
         try {
-            um = ug.readFromFile("/phase1/userManager.ser");
+            users = ug.deserializeUsers("/phase1/userManager.ser");
         } catch (Exception e) {
             System.out.println("Something went wrong.");
+            users = new ArrayList<>();
         }
 
+        for (User u: users){
+            um.addUser(u);
+        }
         AttendeeMessageController amc = new AttendeeMessageController(this.user, um);
         amc.run();
         System.out.println("Would you like to enter the message system again? Enter Y for yes, N for no.");
