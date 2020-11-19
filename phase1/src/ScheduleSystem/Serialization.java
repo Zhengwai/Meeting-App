@@ -1,13 +1,12 @@
 package ScheduleSystem;
 
-import ScheduleSystem.Event;
 import users.User;
 
 import java.io.*;
 import java.util.ArrayList;
 
 public class Serialization {
-    public void serializeArrLst(ArrayList<Event> arrayList, String address){
+    public void serializeArrLst(ArrayList<User> arrayList, String address){
         try{
             FileOutputStream fileOutputStream = new FileOutputStream(address);
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);

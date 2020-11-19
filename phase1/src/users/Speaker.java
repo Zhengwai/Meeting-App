@@ -10,11 +10,16 @@ public class Speaker extends User implements Serializable {
     private String username;
     private String email = "";
     private String password;
-    private String type = "s";
+    private String type;
     private ArrayList<UUID> eventIDs;
     private ArrayList<UUID> enrolledEvents = new ArrayList<UUID>();
     public Speaker(String username, String password) {
         super(username, password);
         this.eventIDs = new ArrayList<UUID>();
+        type = "s";
+    }
+    @Override
+    public String getType(){
+        return "s";
     }
 }

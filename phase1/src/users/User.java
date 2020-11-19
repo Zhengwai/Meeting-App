@@ -1,17 +1,16 @@
 package users;
 
-import com.sun.xml.internal.fastinfoset.algorithm.UUIDEncodingAlgorithm;
+
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class User implements Serializable {
+public class User implements Serializable{
     private UUID id = UUID.randomUUID();
     private String username;
     private String email = "";
     private String password;
-    private String type = "User";
     private ArrayList<UUID> enrolledEvents = new ArrayList<>();
     private ArrayList<UUID> conversations = new ArrayList<>();
     private ArrayList<UUID> friends = new ArrayList<>();
@@ -31,9 +30,11 @@ public class User implements Serializable {
 
     public String getEmail(){return this.email;}
 
-    public String getPassword(){return this.password;}
+    public String getType(){
+        return "User";
+    }
 
-    public String getType(){return this.type;}
+    public String getPassword(){return this.password;}
 
     public String getUsername(){return this.username;}
 
@@ -43,8 +44,24 @@ public class User implements Serializable {
         return this.enrolledEvents;
     }
 
-    public void addConversation(UUID id) {
-        this.conversations.add(id);
+    public boolean addConversation(UUID id) {
+        if (conversations.contains(id)){
+            return false;
+        }
+        conversations.add(id);
+        return true;
+    }
+
+    public boolean removeConversation(UUID id){
+        if (conversations.contains(id)){
+            conversations.remove(id);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean hasConversation(UUID id){
+        return conversations.contains(id);
     }
 
     public UUID[] getConversations() {
@@ -55,18 +72,46 @@ public class User implements Serializable {
         return output;
     }
 
-    public void addEvent(UUID id){
+    public boolean isInConversation(UUID id){
+        return conversations.contains(id);
+    }
+
+    public boolean addEvent(UUID id){
+        if (enrolledEvents.contains(id)){
+            return false;
+        }
         enrolledEvents.add(id);
+        return true;
     }
 
-    public void removeEvent(UUID id){
-        enrolledEvents.remove(id);
+    public boolean removeEvent(UUID id){
+        if (enrolledEvents.contains(id)){
+            enrolledEvents.remove(id);
+            return true;
+        }
+        return false;
+
     }
 
-    public void addFriend(UUID id) { this.friends.add(id);}
+    public boolean isInEvent(UUID id){
+        return enrolledEvents.contains(id);
+    }
 
-    public void deleteFriend(UUID id) {
-        friends.remove(id);
+
+    public boolean addFriend(UUID id) {
+        if (friends.contains(id)){
+            return false;
+        }
+        friends.add(id);
+        return true;
+    }
+
+    public boolean deleteFriend(UUID id) {
+        if (friends.contains(id)){
+            friends.remove(id);
+            return true;
+        }
+        return false;
     }
 
     public ArrayList<UUID> getFriends() {return this.friends;}
@@ -76,6 +121,6 @@ public class User implements Serializable {
     }
     @Override
     public String toString(){
-        return type + ":" + " " + username;
+        return getType() + ":" + " " + username;
     }
 }

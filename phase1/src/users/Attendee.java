@@ -10,13 +10,19 @@ public class Attendee extends User implements Serializable {
     private String username;
     private String email = "";
     private String password;
-    private String type = "a";
+    private String type;
     private ArrayList<UUID> EnrolledEventIDs;
     private ArrayList<UUID> enrolledEvents = new ArrayList<UUID>();
 
     public Attendee(String username, String password) {
         super(username, password);
         this.EnrolledEventIDs = new ArrayList<UUID>();
+        type = "a";
+    }
+
+    @Override
+    public String getType(){
+        return "a";
     }
 
 }

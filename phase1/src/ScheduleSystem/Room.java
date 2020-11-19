@@ -1,4 +1,4 @@
-package conference_entities;
+package ScheduleSystem;
 import java.util.UUID;
 import java.util.ArrayList;
 
@@ -13,5 +13,21 @@ public class Room {
         roomName = name;
         events = new ArrayList<UUID>();
         roomId = UUID.randomUUID();
+    }
+
+    public Room(){}
+
+    public UUID getID(){
+        return roomId;
+    }
+
+    public String getRoomName(){ return roomName;}
+
+    public ArrayList<UUID> getEvents(){
+        return events;
+    }
+
+    public void addEvent(UUID eventID){
+        events.add(eventID);
     }
 }

@@ -17,9 +17,12 @@ public class LoginController {
     OrganizerController oc;
     SpeakerController sc;
     LoginGateway lg = new LoginGateway();
+    UserGateway ug = new UserGateway();
 
-    ArrayList<User> lst = lg.deserializeToArrLstOfUser("/phase1/userManager.ser");
+    ArrayList<User> lst = ug.deserializeUsers("phase1/Users.ser");
 
+    public LoginController() throws ClassNotFoundException { ;
+    }
 
 
     /**
@@ -27,15 +30,15 @@ public class LoginController {
      */
     public void instantiatingMethod() throws Exception {
         boolean running = true;
-        while (running){
+        while (running) {
             System.out.println("Please enter 1 to login, 0 to exit the program");
             int indicator = in.nextInt();
-            if (indicator == 1){
-                User user = login(promptEmail(), promptPassword());
-                if (user.getType().equals("Attendee")){
+            if (indicator == 1) {
+                User user = login();
+                if (user.getType().equals("a")) {
                     AttendeeController ac = new AttendeeController(user);
                     ac.run();
-                } else if(user.getType().equals("Organizer")){
+                } else if (user.getType().equals("o")) {
                     OrganizerController oc = new OrganizerController(user);
                     oc.run();
                 } else {
@@ -51,46 +54,77 @@ public class LoginController {
     /**
      * Tells the user that the confidential they entered is/ are incorrect and needs to login again.
      */
-    private User loginAgain() throws Exception {
+    /*private User loginAgain() throws Exception {
         System.out.println("Incorrect email or password, please login again!");
         String e = promptEmail();
         String p = promptPassword();
-        return login(e,p);
+        return login(e, p);
     }
-
+*/
     /**
      * Prompt the user to enter their email
+     *
      * @return a String storing the email they entered
      */
-    public String promptEmail(){
+    public String promptEmail() {
         System.out.println("Please enter your username: ");
         return in.nextLine();
     }
 
     /**
      * Prompt the user to enter their password
+     *
      * @return a String storing the password they entered
      */
-    public String promptPassword(){
+    public String promptPassword() {
         System.out.println("Please enter your password: ");
         return in.nextLine();
     }
 
     /**
      * Allows the user to log in or re-login (in the case of incorrect confidential entered). Confidential checked by being compared to the arraylist consisting of information extracted from the .ser file.
-     * @param email the email of the user
-     * @param pass the password of the user
+     *
+     *
      */
-    public User login(String email, String pass) throws Exception {
+    public User login() {
+        boolean running = true;
+        User user = null;
+        while (running) {
+            System.out.println("Please enter your username: ");
+            String username = in.next();
+            System.out.println("Please enter your password: ");
+            String password = in.next();
+            if (checkUserPass(username, password)){
+                running = false;
+                user = getUserByCredentials(username, password);
+                System.out.println("Login success!");
+            } else {
+                System.out.println("Incorrect username or password, please try again");
+            }
+        }
 
+        return user;
+    }
+
+    private boolean checkUserPass(String username, String password) {
         for (User value : lst) {
-            if (value.getEmail().equals(email)) {
-                if (value.getPassword().equals(pass)){
-                    //displayMenu(value);
-                    return value;
+            if (value.getUsername().equals(username)) {
+                if (value.getPassword().equals(password)) {
+                    return true;
                 }
             }
         }
-        return loginAgain();
+        return false;
+    }
+
+    private User getUserByCredentials(String username, String password){
+        for (User user : lst) {
+            if (user.getUsername().equals(username)) {
+                if (user.getPassword().equals(password)) {
+                    return user;
+                }
+            }
+        }
+        return null;
     }
 }

@@ -87,6 +87,46 @@ public class UserManager implements Serializable {
     public ArrayList<User> getAllUsers() {
         return allUsers;
     }
+
+    public ArrayList<Speaker> getAllSpeakers(){
+        ArrayList<Speaker> speakers = new ArrayList<>();
+        for (User u: allUsers){
+            if (u.getType().equals("s")){
+                speakers.add((Speaker)u);
+            }
+        }
+        return speakers;
+    }
+
+    public ArrayList<String> getAllSpeakerNames(){
+        ArrayList<String> speakers = new ArrayList<>();
+        for (User u: allUsers){
+            if (u.getType().equals("s")){
+                speakers.add(u.getUsername());
+            }
+        }
+        return speakers;
+    }
+
+    public boolean userAvailableForEvent(User user, Event event){
+        ArrayList<UUID> enrolledEvents = user.getEnrolledEvents();
+        for (UUID id:enrolledEvents){
+            if (em.getEventByID(id).getDate().equals(event.getDate())){
+                return false;
+            }
+        }
+        return true;
+    }
+    public void addEventForUser(Event event, User user) throws IOException {
+        user.addEvent(event.getId());
+        ug.serializeUsers("/phase1/userManager.ser", allUsers);
+    }
+
+    public void removeEvent(Event event, User user) throws IOException {
+        user.removeEvent(event.getId());
+        ug.serializeUsers("/phase1/userManager.ser", allUsers);
+    }
+
 }
 
 

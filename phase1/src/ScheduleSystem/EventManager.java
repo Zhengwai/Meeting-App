@@ -1,143 +1,149 @@
 package ScheduleSystem;
 
-import conference_entities.Room;
 import users.User;
+import users.UserGateway;
+import users.UserManager;
 
 import java.io.*;
 import java.util.*;
 
 public class EventManager {
-    private ArrayList<Event> events;
-    private ArrayList<Room> rooms;
-    public EventManager(){
-        this.events = deserializeEvents();
-        this.rooms = deserializeRooms();
+    private EventGateway eg = new EventGateway();
+    private Event notFoundEvent = new Event();
+    private Room notFoundRoom = new Room();
+    private UserManager um = new UserManager();
+    private UserGateway ug = new UserGateway();
+    private ArrayList<Event> events = eg.deserializeEvents("phase1/Events.ser");
+    private ArrayList<Room> rooms = eg.deserializeRooms("phase1/Rooms.ser");
+    public EventManager() throws ClassNotFoundException {
     }
 
-    private ArrayList<Event> deserializeEvents() {
-        try {
-            FileInputStream fileInputStream = new FileInputStream("phase1/src/ScheduleSystem/Events");
-            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-            ArrayList<Event> temp = (ArrayList<Event>) objectInputStream.readObject();
-            fileInputStream.close();
-            objectInputStream.close();
-            return temp;
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    private ArrayList<Room> deserializeRooms() {
-        try {
-            FileInputStream fileInputStream = new FileInputStream("phase1/src/conference_entities/Rooms");
-            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-            ArrayList<Room> temp = (ArrayList<Room>) objectInputStream.readObject();
-            fileInputStream.close();
-            objectInputStream.close();
-            return temp;
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    private void serializeEvents(){
-        try{
-            FileOutputStream fileOutputStream = new FileOutputStream("phase1/src/ScheduleSystem/Events");
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-            objectOutputStream.writeObject(events);
-
-            objectOutputStream.close();
-            fileOutputStream.close();
-        }catch (IOException e){
-            e.printStackTrace();
-        }
-    }
-
-    private void serializeRooms(){
-        try{
-            FileOutputStream fileOutputStream = new FileOutputStream("phase1/src/conference_entities/Rooms");
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-            objectOutputStream.writeObject(rooms);
-
-            objectOutputStream.close();
-            fileOutputStream.close();
-        }catch (IOException e){
-            e.printStackTrace();
-        }
-    }
-
-    public boolean addEvent(Event event){
-        if (this.events.contains(event)){
+    public boolean addEvent(Event event) throws IOException {
+        if (this.events.contains(event)) {
             return false;
-        }
-        else{
+        } else {
             this.events.add(event);
-            serializeEvents();
+            eg.serializeEvents("phase1/Events.ser", events);
             return true;
         }
     }
 
-    public boolean addRoom(Room room){
-        if (this.rooms.contains(room)){
+    public boolean addRoom(Room room) throws IOException {
+        if (this.rooms.contains(room)) {
             return false;
         }
         this.rooms.add(room);
-        serializeRooms();
+        eg.serializeRooms("phase1/Rooms.ser", rooms);
         return true;
-        }
+    }
 
-    public Event getEventByID(UUID eventID) throws NoEventFoundException{
-        for (Event e:events){
-            if (e.getId() == eventID){
+    public Event getEventByID(UUID eventID) {
+        for (Event e : events) {
+            if (e.getId() == eventID) {
                 return e;
             }
         }
-        throw new NoEventFoundException();
+        return notFoundEvent;
     }
-    public ArrayList<Event> getEvents(){
+
+    public Room getRoomByID(UUID roomID) {
+        for (Room r : rooms) {
+            if (r.getID() == roomID) {
+                return r;
+            }
+        }
+        return notFoundRoom;
+    }
+    public Room getRoomByName(String name){
+        for (Room r:rooms){
+            if (r.getRoomName().equals(name.toUpperCase())){
+                return r;
+            }
+        }
+        return notFoundRoom;
+    }
+
+    public ArrayList<Event> getEvents() {
         return this.events;
     }
 
-    public boolean signUpUser(User user, Event event){
-        for (UUID i : user.getEnrolledEvents()){
-            try {
-                Event ev = this.getEventByID(i);
-                if (ev.getDate() == event.getDate()){
-                    return false;
-                }
-            } catch (NoEventFoundException e) {
-                e.printStackTrace();
-                return false;
+    public ArrayList<Room> getRooms(){
+        return this.rooms;
+    }
+    public boolean signUpUser(User user, Event event) throws AlreadySignedUpException, TimeConflictException, IOException {
+        for (UUID i : user.getEnrolledEvents()) {
+            if (event.getId().equals(i)) {
+                throw new AlreadySignedUpException();
             }
+            Event ev = this.getEventByID(i);
+            if (ev.getDate().equals(event.getDate())){
+                throw new TimeConflictException();
+            }
+
         }
         event.addAttendee(user.getID());
-        user.addEvent(event.getId());
+        eg.serializeEvents("phase1/Events.ser", events);
         return true;
-        }
-
-    public boolean removeUser(User user, Event event){
-        if (event.getAttendees().contains(user)){
-            event.getAttendees().remove(user);
-            return true;
-        }
-        else{
-            return false;
-        }
     }
 
-    public ArrayList<Event> getEventsByUser(User user){
+    public boolean removeUser(User user, Event event) throws UnableToCancelException, IOException {
+        if (event.getAttendees().contains(user.getID())) {
+            event.removeAttendee(user.getID());
+            eg.serializeEvents("phase1/Events.ser", events);
+            return true;
+        } else {
+            throw new UnableToCancelException();
+        }
+
+    }
+
+    public ArrayList<Event> getEventsByUser(User user) {
         ArrayList<Event> userEvents = new ArrayList<>();
-        for (Event e:events){
-            if (e.getAttendees().contains(user.getID())){
+        for (Event e : events) {
+            if (e.getAttendees().contains(user.getID())) {
                 userEvents.add(e);
             }
         }
         return userEvents;
     }
 
+    public Event getEventByName(String name){
+        for (Event e:events){
+            if (e.getName().equals(name.toUpperCase())){
+                return e;
+            }
+        }
+        return notFoundEvent;
+    }
 
-}
-class NoEventFoundException extends Exception {
+    public ArrayList<Event> getAvailableEventsForUser(User user){
+        ArrayList<Event> events = new ArrayList<>();
+        for (Event e:events){
+            if (e.hasSpace()){
+                if(!e.hasAttendee(user.getID())){
+                    events.add(e);
+                }
+            }
+        }
+        return events;
+    }
+
+    public boolean roomAvailableForEvent(Room room, Event event){
+        for (UUID eventID:room.getEvents()){
+            if (getEventByID(eventID).getDate().equals(event.getDate())){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void assignRoom(Room room, Event event) throws IOException {
+        room.addEvent(event.getId());
+        event.setRoom(room.getID());
+        eg.serializeEvents("phase1/Events.ser", events);
+        eg.serializeRooms("phase1/Rooms.ser", rooms);
+
+    }
+
+
 }
