@@ -14,7 +14,9 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
 import java.util.*;
-
+/**
+ * Handles organizer users' inputs and functionalities.
+ */
 public class OrganizerController {
     private Scanner scanner = new Scanner(System.in);
     private User user;

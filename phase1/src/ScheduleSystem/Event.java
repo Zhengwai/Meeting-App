@@ -2,6 +2,7 @@ package ScheduleSystem;
 
 import users.User;
 
+import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.Date;
 import java.util.Calendar;
@@ -11,7 +12,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
-public class Event {
+public class Event implements Serializable {
     private UUID id;
     private String name;
     private Date date;
@@ -56,6 +57,6 @@ public class Event {
         }
 
         full = "full";
-        return "name"+"@"+ date.toString() +", status: "+full;
+        return name+"@"+ date.toString() +", status: "+full;
     }
 }

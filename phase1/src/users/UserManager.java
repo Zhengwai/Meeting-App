@@ -14,7 +14,7 @@ public class UserManager implements Serializable {
     public User NotFoundUser = new User("NotFound", "NotFound");
 
     public UserManager() {
-        allUsers = new ArrayList<>();
+        allUsers = deserializeUsers("phase1/src/users/Users");
 
     }
 
@@ -27,6 +27,7 @@ public class UserManager implements Serializable {
         }
 
         allUsers.add(newUser);
+        serializeUsers();
         return true;
 
 
@@ -95,6 +96,20 @@ public class UserManager implements Serializable {
             ioe.printStackTrace();
         }
     }
+    private ArrayList<User> temp;
+    @SuppressWarnings("unchecked")
+    private ArrayList<User> deserializeUsers(String path){
+        try{
+            FileInputStream fileInputStream = new FileInputStream(path);
+            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+            temp = (ArrayList<User>) objectInputStream.readObject();
+            fileInputStream.close();
+            objectInputStream.close();
+        }catch (IOException | ClassNotFoundException e){
+            e.printStackTrace();
+        }
 
+        return temp;
+    }
 
 }
