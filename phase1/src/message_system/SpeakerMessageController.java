@@ -13,24 +13,29 @@ public class SpeakerMessageController {
     private ConversationManager cm;
     private User user;
     private EventManager em;
+    private UserManager um;
 
-    public SpeakerMessageController(User inpUser) {
+    public SpeakerMessageController(User inpUser, UserManager um, EventManager em) {
         this.user = inpUser;
+        this.em = em;
+        this.um = um;
     }
 
     public void run() {
 
         deserializeCM();
+        MessagePresenter mp = new MessagePresenter(this.user, this.um);
 
-        ArrayList<Conversation> allConvos = this.cm.getAllConversations(user);
+        Conversation[] conversations = cm.getConversations(this.user.getConversations());
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         try {
-            String input;
+            String input = null;
             while (!input.equals("exit")) {
                 System.out.println("Please Enter Corresponding Choice: \n " +
                         "1. New Message to all Attendees of a Talk \n " +
                         "2. Reply to Attendee Messages \n" +
+                        "3. Add Friend \n" +
                         "exit to exit this Controller");
                 input = br.readLine();
                 if (input.equals("1")) {
@@ -42,8 +47,7 @@ public class SpeakerMessageController {
 
                     System.out.println("Pick one of your Talks from below:");
                     for (int i = 0; i < events.size(); i++) {
-                        System.out.println(Integer.toString(i + 1) + events.get(i));
-                        //TODO: Way of printing an Event
+                        System.out.println(Integer.toString(i + 1) + " " + events.get(i).getName());
                     }
 
                     String inp = br.readLine();
@@ -63,22 +67,42 @@ public class SpeakerMessageController {
                     c.sendMessage(msg);
                 } else if (input.equals("2")) {
                     System.out.println("Pick one of the conversations from below:");
+
                     int j = 1;
                     ArrayList<Conversation> dms;
-                    for (int i = 0; i < allConvos.size(); i++) {
-                        if (allConvos.get(i).getMembers().size() == 2) {
-                            System.out.println(Integer.toString(j) + allConvos.get(i));
-                            dms.add(allConvos.get(i));
+                    for (int i = 0; i < conversations.size(); i++) {
+                        if (conversations[i].getMembers().size() == 2) {
+                            System.out.println(Integer.toString(j) + conversations[i]);
+                            dms.add(conversations[i]);
                             j++;
                             //TODO: Offer a better way of determining if a conversation is a message from an attendee
                         }
                     }
+
                     String inp = br.readLine();
                     Conversation c = dms.get(Integer.parseInt(inp));
                     System.out.println("Enter your reply");
                     inp = br.readLine();
                     Message msg = new Message(user.getID(), inp);
                     c.sendMessage(msg);
+                } else if (input.equals("3")) {
+                    System.out.println("Enter the username of the person you want to add");
+                    input = br.readLine();
+                    User newFriend = um.getUserByName(input);
+
+                    if (newFriend.getID() != um.NotFoundUser.getID()) {
+                        UUID conID = cm.newConversation();
+                        Conversation c = cm.getConversation(conID);
+
+                        user.addFriend(newFriend.getID());
+                        newFriend.addFriend(user.getID());
+
+                        user.addConversation(conID);
+                        newFriend.addConversation(conID);
+
+                        c.addMember(user.getID());
+                        c.addMember(newFriend.getID());
+                    }
                 } else {
                     System.out.println("You did not chosoe a valid Options");
                 }

@@ -41,7 +41,7 @@ public class MessageController {
 
 
     public void run() {
-
+        /*
         deserializeCM();
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -88,7 +88,7 @@ public class MessageController {
         } catch (IOException e) {
             System.out.println("Something went wrong");
         }
-
+        */
     }
 
     private void deserializeCM() {

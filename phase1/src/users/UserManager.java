@@ -82,6 +82,35 @@ public class UserManager implements Serializable {
         return allFriends;
     }
 
+    public ArrayList<User> getAllSpeakers() {
+        ArrayList<User> allSpeakers = new ArrayList<>();
+        for (User u:allusers) {
+            if (u.getType().equals("s")) {
+                allSpeakers.add(u);
+            }
+        }
+        return allSpeakers;
+    }
+
+    public ArrayList<User> getAllAttendees() {
+        ArrayList<User> allAttendeess = new ArrayList<>();
+        for (User u:allusers) {
+            if (u.getType().equals("a")) {
+                allAttendees.add(u);
+            }
+        }
+        return allAttendees;
+    }
+
+    public ArrayList<User> getAllOrganizers() {
+        ArrayList<User> allOrganizers = new ArrayList<>();
+        for (User u:allusers) {
+            if (u.getType().equals("o")) {
+                allOrganizers.add(u);
+            }
+        }
+        return allOrganizers;
+    }
 
     private void serializeUsers(){
         try {
