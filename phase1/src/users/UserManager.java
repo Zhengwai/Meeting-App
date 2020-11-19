@@ -11,15 +11,16 @@ import java.util.UUID;
 public class UserManager implements Serializable {
     private ArrayList<User> allUsers;
     private EventManager em;
+    private UserGateway ug = new UserGateway();
     public User NotFoundUser = new User("NotFound", "NotFound");
 
     public UserManager() {
-        allUsers = deserializeUsers("phase1/src/users/Users");
+        allUsers = new ArrayList<>();
 
     }
 
 
-    public boolean addUser(User newUser) {
+    public boolean addUser(User newUser) throws IOException {
         for (User u:allUsers){
             if (u.getUsername().equals(newUser.getUsername())){
                 return false;
@@ -27,30 +28,30 @@ public class UserManager implements Serializable {
         }
 
         allUsers.add(newUser);
-        serializeUsers();
+        ug.saveToFile("/phase1/userManager.ser", this);
         return true;
 
 
     }
 
-    public boolean addFriends(User user1, User user2){
+    public boolean addFriends(User user1, User user2) throws IOException {
         if (!user1.isFriendWithID(user2.getID())){
             if(!user2.isFriendWithID(user1.getID())){
                 user1.addFriend(user2.getID());
                 user2.addFriend(user1.getID());
-                serializeUsers();
+                ug.saveToFile("/phase1/userManager.ser", this);
                 return true;
             }
         }
         return false;
     }
 
-    public boolean deleteFriends(User user1, User user2){
+    public boolean deleteFriends(User user1, User user2) throws IOException {
         if (user1.isFriendWithID(user2.getID())){
             if(user2.isFriendWithID(user1.getID())){
                 user1.deleteFriend(user2.getID());
                 user2.deleteFriend(user1.getID());
-                serializeUsers();
+                ug.saveToFile("/phase1/userManager.ser", this);
                 return true;
             }
         }
@@ -84,32 +85,8 @@ public class UserManager implements Serializable {
     }
 
 
-    private void serializeUsers(){
-        try {
-            FileOutputStream fos = new FileOutputStream("/phase1/userManager.ser");
-            ObjectOutput oos = new ObjectOutputStream(fos);
-            oos.writeObject(allUsers);
-            oos.close();
-            fos.close();
 
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
-    }
-    private ArrayList<User> temp;
-    @SuppressWarnings("unchecked")
-    private ArrayList<User> deserializeUsers(String path){
-        try{
-            FileInputStream fileInputStream = new FileInputStream(path);
-            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-            temp = (ArrayList<User>) objectInputStream.readObject();
-            fileInputStream.close();
-            objectInputStream.close();
-        }catch (IOException | ClassNotFoundException e){
-            e.printStackTrace();
-        }
 
-        return temp;
     }
 
-}
+
