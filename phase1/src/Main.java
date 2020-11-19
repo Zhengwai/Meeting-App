@@ -8,6 +8,7 @@ public class Main {
         UserGateway ug = new UserGateway();
         UserManager um = new UserManager();
         boolean test = um.addUser(new User("test", "test"));
+        boolean test2 = um.addUser(new User("test2", "test2"));
         ug.serializeUserManager("user-manager.ser", um);
         LoginController lc = new LoginController();
         lc.instantiatingMethod();

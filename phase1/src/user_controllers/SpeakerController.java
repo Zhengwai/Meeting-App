@@ -4,8 +4,6 @@ import ScheduleSystem.Event;
 import ScheduleSystem.EventManager;
 import message_system.AttendeeMessageController;
 import message_system.SpeakerMessageController;
-import signup_system.SignUpPresenter;
-import users.Attendee;
 import ScheduleSystem.EventPresenter;
 import users.User;
 import users.UserGateway;

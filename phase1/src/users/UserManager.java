@@ -56,7 +56,7 @@ public class UserManager implements Serializable {
 
     public User getUserByName(String name) {
         for (User u:allUsers) {
-            if (u.getUsername() == name) {
+            if (u.getUsername().equals(name)) {
                 return u;
             }
         }

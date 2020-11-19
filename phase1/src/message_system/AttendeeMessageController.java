@@ -28,8 +28,6 @@ public class AttendeeMessageController {
 
         try {
             String input = "";
-
-            // Needs while loop, this is just what input should look like and how it should be handled.
             while (!input.equals("exit")) {
                 System.out.println("Please Enter Corresponding Choice: \n " +
                         "1. Add Friend \n " +
@@ -46,15 +44,14 @@ public class AttendeeMessageController {
                         if (newFriend.getID() != um.NotFoundUser.getID()) {
                             UUID conID = cm.newConversation();
                             Conversation c = cm.getConversation(conID);
-
-                            user.addFriend(newFriend.getID());
-                            newFriend.addFriend(user.getID());
+                            um.addFriends(user, newFriend);
 
                             user.addConversation(conID);
                             newFriend.addConversation(conID);
 
                             c.addMember(user.getID());
                             c.addMember(newFriend.getID());
+                            System.out.println("Added user " + newFriend.getUsername() + "\n");
                         }
                         break;
 
@@ -67,12 +64,14 @@ public class AttendeeMessageController {
                         try {
                             int index = Integer.parseInt(input);
                             if (0 <= index && index < conversations.length) {
-                                Conversation c = conversations[index];
-                                mp.promptConversationScreen(c);
-                                System.out.println("Enter your message");
-                                input = br.readLine();
-                                Message msg = new Message(user.getID(), input);
-                                c.sendMessage(msg);
+                                while (!input.equals("exit")) {
+                                    Conversation c = conversations[index];
+                                    System.out.println(mp.promptConversationScreen(c));
+                                    System.out.println("Enter your message");
+                                    input = br.readLine();
+                                    Message msg = new Message(user.getID(), input);
+                                    c.sendMessage(msg);
+                                }
                             } else {
                                 System.out.println("There is no conversation labelled with that number.");
                             }
