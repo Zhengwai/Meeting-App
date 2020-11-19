@@ -11,6 +11,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
+
+/**
+ * The event entity is a class responsible for the events in the convention. Each instance of an event models a
+ * separate event.
+ */
 public class Event {
     private UUID id;
     private String name;
@@ -19,6 +24,11 @@ public class Event {
     private ArrayList<UUID> attendees;
     private boolean hasSpeaker = false;
 
+    /**
+     * @param name the name of the event
+     * @param date the time and date of the event
+     * @param capacity the maximum attendee capacity of the event
+     */
     public Event(String name, Date date, int capacity){
         this.name = name;
         this.date = date;
@@ -27,35 +37,77 @@ public class Event {
         this.id = UUID.randomUUID();
     }
 
+    /**
+     * @return the name of the given event
+     */
     public String getName(){
         return this.name;
     }
+
+    /**
+     * @return date of the event as a date object
+     */
     public Date getDate(){
         return date;
     }
+
+    /**
+     * @return the the maximum capacity of the event
+     */
     public int getCapacity(){
         return this.capacity;
     }
+
+    /**
+     * @return the current amount of attendees registered for the event
+     */
     public int currentNum(){return attendees.size(); }
     public ArrayList<UUID> getAttendees() {
         return attendees;
     }
 
-    public void addAttendee(UUID userID){
-        this.attendees.add(userID);
+    /**
+     * this methods attempts to add a user to the given event
+     * @param userID the userID of the individual we are enrolling in the event
+     * @return true if and only if the individual was successfully added to the event
+     */
+    public boolean addAttendee(UUID userID){
+        if (this.attendees.contains(userID)){
+            return false;
+        }
+        else {
+            this.attendees.add(userID);
+            return true;
+        }
     }
-    public UUID getId(){ return this.id; }
+
+    /**
+     * @return the id of the event
+     */
+    public UUID getId(){
+        return this.id;
+    }
+
+    /**
+     * @return true if and only if the event has an assigned speaker.
+     * @implNote speaker is not year implemented.
+     */
     public boolean existSpeaker(){
         return hasSpeaker;
     }
+
+    /**
+     * @return a string representation of the event
+     */
     @Override
     public String toString(){
-        String full;
+        String status;
         if (currentNum() < capacity){
-            full = "available";
+            status = "available";
         }
-
-        full = "full";
-        return "name"+"@"+ date.toString() +", status: "+full;
+        else {
+            status = "full";
+        }
+        return "name"+"@"+ date.toString() +", status: " + status;
     }
 }
