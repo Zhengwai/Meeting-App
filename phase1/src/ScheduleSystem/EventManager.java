@@ -6,6 +6,9 @@ import users.User;
 import java.io.*;
 import java.util.*;
 
+/**
+ * Use case class for Event class.
+ */
 public class EventManager {
     private ArrayList<Event> events;
     private ArrayList<Room> rooms;
@@ -13,6 +16,11 @@ public class EventManager {
         this.events = deserializeEvents();
         this.rooms = deserializeRooms();
     }
+
+    /**
+     * Private method that deserializes the event information.
+     * @return serialized event information
+     */
 
     private ArrayList<Event> deserializeEvents() {
         try {
@@ -28,6 +36,10 @@ public class EventManager {
         return null;
     }
 
+    /**
+     * Private method that deserializes the room information.
+     * @return serialized room information
+     */
     private ArrayList<Room> deserializeRooms() {
         try {
             FileInputStream fileInputStream = new FileInputStream("phase1/src/conference_entities/Rooms");
@@ -42,6 +54,9 @@ public class EventManager {
         return null;
     }
 
+    /**
+     * Private method serializes the room information in the system.
+     */
     private void serializeEvents(){
         try{
             FileOutputStream fileOutputStream = new FileOutputStream("phase1/src/ScheduleSystem/Events");
@@ -55,6 +70,9 @@ public class EventManager {
         }
     }
 
+    /**
+     * Private method which serializes the room information in the system.
+     */
     private void serializeRooms(){
         try{
             FileOutputStream fileOutputStream = new FileOutputStream("phase1/src/conference_entities/Rooms");
@@ -68,6 +86,11 @@ public class EventManager {
         }
     }
 
+    /**
+     * Attempt to add an event to the system
+     * @param event event which we are adding
+     * @return true if and only if the event was succesfully added to the system
+     */
     public boolean addEvent(Event event){
         if (this.events.contains(event)){
             return false;
@@ -79,6 +102,11 @@ public class EventManager {
         }
     }
 
+    /**
+     * Add an room to the event location
+     * @param room room object we are adding to the system
+     * @return true if and only if a room was successfully added
+     */
     public boolean addRoom(Room room){
         if (this.rooms.contains(room)){
             return false;
@@ -88,6 +116,12 @@ public class EventManager {
         return true;
         }
 
+    /**
+     * returns the event with the specified eventID
+     * @param eventID ID of the event we are searching up
+     * @return the event with the appropriate eventID
+     * @throws NoEventFoundException
+     */
     public Event getEventByID(UUID eventID) throws NoEventFoundException{
         for (Event e:events){
             if (e.getId() == eventID){
@@ -100,6 +134,12 @@ public class EventManager {
         return this.events;
     }
 
+    /**
+     * Attempt to sign up a user to an event
+     * @param user User whom we are signing up
+     * @param event the event which we are signing the user up to
+     * @return true if and only if a user was signed up successfully
+     */
     public boolean signUpUser(User user, Event event){
         for (UUID i : user.getEnrolledEvents()){
             try {
@@ -113,9 +153,16 @@ public class EventManager {
             }
         }
         event.addAttendee(user.getID());
+        user.addEvent(event.getId());
         return true;
         }
 
+    /**
+     * Attempt to remove user signed up in an Event
+     * @param user user whom we are removing
+     * @param event event we are removing the user from
+     * @return true if and only if an user was successfully removed from an event
+     */
     public boolean removeUser(User user, Event event){
         if (event.getAttendees().contains(user)){
             event.getAttendees().remove(user);
@@ -126,6 +173,11 @@ public class EventManager {
         }
     }
 
+    /**
+     * Method returns all the events an individual is sign up for
+     * @param user User whose events we are searching
+     * @return an array list of the events the user is signed up for
+     */
     public ArrayList<Event> getEventsByUser(User user){
         ArrayList<Event> userEvents = new ArrayList<>();
         for (Event e:events){
@@ -135,8 +187,6 @@ public class EventManager {
         }
         return userEvents;
     }
-
-
 }
 class NoEventFoundException extends Exception {
 }
