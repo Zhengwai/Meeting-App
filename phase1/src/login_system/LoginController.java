@@ -6,6 +6,7 @@ import user_controllers.OrganizerController;
 import user_controllers.SpeakerController;
 import users.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 /**
@@ -18,13 +19,10 @@ public class LoginController {
     SpeakerController sc;
     LoginGateway lg = new LoginGateway();
     UserGateway ug = new UserGateway();
-
+    UserManager um = ug.deserializeUserManager("user-manager.ser");
     ArrayList<User> lst;
 
-    public LoginController() throws ClassNotFoundException {
-        lst = ug.deserializeUserManager("user-manager.ser").getAllUsers();
-    }
-
+    public LoginController() throws ClassNotFoundException {}
 
     /**
      * Displays a menu of choices for the User object, user, depending on its type (Organizer, Speaker, or Attendee)
@@ -32,8 +30,9 @@ public class LoginController {
     public void instantiatingMethod() throws Exception {
         boolean running = true;
         while (running) {
-            System.out.println("Please enter 1 to login, 0 to exit the program");
-            String indicator = isValidInput(in.nextLine());
+            System.out.println("Please enter 1 to login, 2 to create a new account, 0 to exit the program");
+            String[] validA = new String[]{"1", "2", "0"};
+            String indicator = isValidInput(validList(validA), in.nextLine());
             if (indicator.equals("1")) {
                 User user = login();
                 if (user.getType().equals("a")) {
@@ -46,7 +45,23 @@ public class LoginController {
                     SpeakerController sc = new SpeakerController(user);
                     sc.run();
                 }
-            } else {
+            }
+            if (indicator.equals("2")){
+                boolean added = false;
+                while(!added) {
+                    added = createNewAttendee();
+                    if(!added){
+                        String[] validB = new String[]{"1", "0"};
+                        System.out.println("Sorry, the username you've entered has already been taken." +
+                                "Would you like to retry? Enter 1 for yes, 0 for no.");
+                        String retry = isValidInput(validList(validB), in.nextLine());
+                        if(retry.equals("0")){
+                            added = true;
+                        }
+                    }
+                }
+            }
+            else {
                 running = false;
             }
         }
@@ -108,7 +123,7 @@ public class LoginController {
     }
 
     private boolean checkUserPass(String username, String password) {
-        for (User value : lst) {
+        for (User value : um.getAllUsers()) {
             if (value.getUsername().equals(username)) {
                 if (value.getPassword().equals(password)) {
                     return true;
@@ -119,7 +134,7 @@ public class LoginController {
     }
 
     private User getUserByCredentials(String username, String password){
-        for (User user : lst) {
+        for (User user : um.getAllUsers()) {
             if (user.getUsername().equals(username)) {
                 if (user.getPassword().equals(password)) {
                     return user;
@@ -129,10 +144,7 @@ public class LoginController {
         return null;
     }
 
-    private String isValidInput(String newInput){
-        ArrayList<String> validInputs = new ArrayList<String>();
-        validInputs.add("1");
-        validInputs.add("2");
+    private String isValidInput(ArrayList<String> validInputs, String newInput){
 
         while(!validInputs.contains(newInput)){
             System.out.println("Sorry, that's not a valid input. Please try again.");
@@ -140,5 +152,24 @@ public class LoginController {
         }
 
         return newInput;
+    }
+
+    private ArrayList<String> validList(String[] allValid){
+        ArrayList<String> validInputs = new ArrayList<String>(Arrays.asList(allValid));
+        return validInputs;
+    }
+
+    private boolean createNewAttendee(){
+        boolean added = false;
+
+        System.out.println("Please choose a username: ");
+        String username = in.nextLine();
+        System.out.println("Please choose a password: ");
+        String password = in.nextLine();
+        User a = new Attendee(username, password);
+
+        added = um.addUser(a);
+
+        return added;
     }
 }
