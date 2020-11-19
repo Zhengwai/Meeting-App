@@ -2,10 +2,13 @@ package user_controllers;
 
 import ScheduleSystem.Event;
 import ScheduleSystem.EventManager;
+import message_system.SpeakerMessageController;
 import signup_system.SignUpPresenter;
 import users.User;
+import users.UserGateway;
 import users.UserManager;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -25,7 +28,7 @@ public class SpeakerController {
         this.user = user;
     }
 
-    public boolean run(){
+    public boolean run() throws IOException, ClassNotFoundException {
         boolean running = true;
         String[] validInputs = new String[]{"1", "2", "3"};
         while (running){
@@ -44,7 +47,7 @@ public class SpeakerController {
             } else if (input.equals("2")){
                 boolean r = true;
                 while (r){
-                    r = message();
+                    /*r = message();*/
                 }
             } else {
                 running = false;
@@ -71,9 +74,6 @@ public class SpeakerController {
         return input.equals("1");
     }
 
-    public boolean message(){
-        return true;
-    }
     private String isValidInput(ArrayList<String> validInputs, String newInput){
         String checkInput = newInput.toUpperCase();
 
@@ -90,7 +90,7 @@ public class SpeakerController {
         return validInputs;
     }
 
-    public boolean message() throws IOException, ClassNotFoundException {
+ /*   public boolean message() throws IOException, ClassNotFoundException {
         UserGateway ug = new UserGateway();
         UserManager um = new UserManager();
         ArrayList<User> users;
@@ -109,5 +109,5 @@ public class SpeakerController {
         System.out.println("Would you like to enter the message system again? Enter Y for yes, N for no.");
         String confirm = isValidInput(validList(validYN), scanner.nextLine());
         return confirm.equals("Y");
-    }
+    }*/
 }

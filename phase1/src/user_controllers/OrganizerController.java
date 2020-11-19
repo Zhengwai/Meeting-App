@@ -1,9 +1,11 @@
 package user_controllers;
 
 import ScheduleSystem.*;
+import message_system.OrganizerMessageController;
 import signup_system.SignUpPresenter;
 import users.Speaker;
 import users.User;
+import users.UserGateway;
 import users.UserManager;
 
 import java.io.IOException;
@@ -45,7 +47,7 @@ public class OrganizerController {
             } else if (input.equals("2")){
                 boolean r = true;
                 while (r){
-                    r = message();
+                    /*r = message();*/
                 }
             } else {
                 running = false;
@@ -71,7 +73,7 @@ public class OrganizerController {
         return validInputs;
     }
 
-    public boolean message() throws IOException, ClassNotFoundException {
+/*    public boolean message() throws IOException, ClassNotFoundException {
         UserGateway ug = new UserGateway();
         UserManager um = new UserManager();
         ArrayList<User> users;
@@ -90,7 +92,7 @@ public class OrganizerController {
         System.out.println("Would you like to enter the message system again? Enter Y for yes, N for no.");
         String confirm = isValidInput(validList(validYN), scanner.nextLine());
         return confirm.equals("Y");
-    }
+    }*/
 
 }
 

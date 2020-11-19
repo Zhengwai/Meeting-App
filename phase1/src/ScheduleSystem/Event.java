@@ -100,6 +100,7 @@ public class Event implements Serializable {
         return this.currentNum() < this.capacity;
     }
 
+
     public boolean assignedRoom(){return hasRoom;}
 
     public void setRoom(UUID room) {

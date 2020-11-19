@@ -1,7 +1,9 @@
 package message_system;
 
 
+import ScheduleSystem.EventManager;
 import users.User;
+import users.UserManager;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -89,7 +91,7 @@ public class OrganizerMessageController {
                     } else if (inp.equals("2")) {
                         System.out.println("Enter User's Username'");
                         inp = br.readLine();
-                        User friend = um.getUserByName(input)
+                        User friend = um.getUserByName(input);
 
                         if (!user.isFriendWith(friend.getID())) {
                             System.out.println("You are not friends with " + friend.getUsername());
@@ -127,7 +129,7 @@ public class OrganizerMessageController {
                             }
                         }
 
-                        mp.promptConversationScreen(c)
+                        mp.promptConversationScreen(c);
                         System.out.println("Enter your Message");
                         inp = br.readLine();
                         Message msg = new Message(user.getID(), inp);

@@ -1,6 +1,7 @@
 package message_system;
 
 
+import ScheduleSystem.EventManager;
 import users.User;
 import users.UserManager;
 
