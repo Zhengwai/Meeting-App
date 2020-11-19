@@ -19,9 +19,10 @@ public class LoginController {
     LoginGateway lg = new LoginGateway();
     UserGateway ug = new UserGateway();
 
-    ArrayList<User> lst = ug.deserializeUsers("phase1/Users.ser");
+    ArrayList<User> lst;
 
-    public LoginController() throws ClassNotFoundException { ;
+    public LoginController() throws ClassNotFoundException {
+        lst = ug.deserializeUsers("phase1/Users.ser");;
     }
 
 

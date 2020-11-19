@@ -127,6 +127,14 @@ public class UserManager implements Serializable {
         ug.serializeUsers("/phase1/userManager.ser", allUsers);
     }
 
+    public ArrayList<User> getAllAttendees() {
+        ArrayList<User> attendees = new ArrayList<>();
+        for (User u:allUsers){
+            if (u.getType().equals("a")){
+                attendees.add(u);
+            }
+        }
+        return attendees;
+
+    }
 }
-
-

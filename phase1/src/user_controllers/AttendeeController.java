@@ -21,10 +21,11 @@ public class AttendeeController {
     private SignUpPresenter sup = new SignUpPresenter();
     private EventManager em = new EventManager();
     private String[] validYN = new String[]{"Y", "N"};
-    private AttendeeEventController ec = new AttendeeEventController(user);
+    private AttendeeEventController ec;
 
     public AttendeeController(User thisUser) throws ClassNotFoundException {
         user = thisUser;
+        ec = new AttendeeEventController(user);
     }
     /**
      * Displays a menu of choices for the Attendee object, and continuously running until user chooses to exit the program.
