@@ -23,6 +23,7 @@ public class AttendeeMessageController {
     public void run() {
         deserializeCM();
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        MessagePresenter mp = new MessagePresenter(this.user, this.um);
 
         try {
             String input = br.readLine();
@@ -35,17 +36,34 @@ public class AttendeeMessageController {
                     User newFriend = um.getUserByName(input);
 
                     if (newFriend.getID() != um.NotFoundUser.getID()) {
+                        UUID conID = cm.newConversation();
+                        Conversation c = cm.getConversation(conID);
+
                         user.addFriend(newFriend.getID());
                         newFriend.addFriend(user.getID());
 
-                        UUID conID = cm.newConversation();
                         user.addConversation(conID);
                         newFriend.addConversation(conID);
+
+                        c.addMember(user.getID());
+                        c.addMember(newFriend.getID());
                     }
 
                 case "messages":
-                    System.out.println("Getting your messages");
+                    Conversation[] conversations = cm.getConversations(this.user.getConversations());
+                    System.out.println(mp.promptMainScreen(conversations));
                     input = br.readLine();
+                    System.out.println("Enter the number of the conversation to open:");
+                    try {
+                        int index = Integer.parseInt(input);
+                        if (0 <= index && index < conversations.length) {
+                            mp.promptConversationScreen(conversations[index]);
+                        } else {
+                            System.out.println("There is no conversation labelled with that number.");
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("Not a valid number.");
+                    }
             }
 
         } catch (Exception e) {
@@ -59,15 +77,6 @@ public class AttendeeMessageController {
             this.cm = cg.readFromFile("cm.ser");
         } catch (ClassNotFoundException e) {
             System.out.println("Couldn't find the cm.ser file. Check phase1 directory.");
-        }
-    }
-
-    private boolean tryParseInt(String val) {
-        try {
-            Integer.parseInt(val);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
         }
     }
 }
