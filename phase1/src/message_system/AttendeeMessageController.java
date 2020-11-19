@@ -1,7 +1,8 @@
 package message_system;
 
-package users;
-//import users.User;
+
+import users.User;
+import users.UserManager;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,60 +13,61 @@ import java.util.UUID;
 public class AttendeeMessageController {
     private ConversationManager cm;
     private User user;
-    private EventManager em;
+    private UserManager um;
 
-    public AttendeeMessageController(User inpUser) {
-        this.user = inpUser;
+    public AttendeeMessageController(User user, UserManager um) {
+        this.user = user;
+        this.um = um;
     }
 
     public void run() {
         deserializeCM();
-
-        ArrayList<Conversation> allConvos = this.cm.getAllConversations(user);
-
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        MessagePresenter mp = new MessagePresenter(this.user, this.um);
+
         try {
-            String input;
-            while (!input.equals("exit")) {
-                System.out.println("Please Enter Corresponding Choice: \n " +
-                        "1. New Message to an Attendee or a Speaker \n " +
-                        "exit to exit this Controller");
-                input = br.readLine();
-                if (input.equals("1")) {
-                    System.out.println("Who would you like to message");
-                    //TODO: UUID for now but change later
-                    String inp;
-                    inp = br.readLine();
-                    int i = 0;
-                    boolean b = true;
-                    while (i < allConvos.size() && b) {
-                        if (allConvos.get(i).getMembers().size() == 2 && allConvos.get(i).getMembers().contains(UUID.fromString(inp))) {
-                            b = false;
-                        } else {
-                            i++;
-                        }
-                    }
-                    Conversation c;
-                    if (!b) {
-                        c = allConvos.get(i);
-                    } else {
-                        UUID conID = this.cm.newConversation();
-                        c = this.cm.getConversation(conID);
+            String input = br.readLine();
+
+            // Needs while loop, this is just what input should look like and how it should be handled.
+            switch (input) {
+                case "add friend":
+                    System.out.println("Enter the username of the person you want to add");
+                    input = br.readLine();
+                    User newFriend = um.getUserByName(input);
+
+                    if (newFriend.getID() != um.NotFoundUser.getID()) {
+                        UUID conID = cm.newConversation();
+                        Conversation c = cm.getConversation(conID);
+
+                        user.addFriend(newFriend.getID());
+                        newFriend.addFriend(user.getID());
+
+                        user.addConversation(conID);
+                        newFriend.addConversation(conID);
+
                         c.addMember(user.getID());
-                        c.addMember(UUID.fromString(inp));
+                        c.addMember(newFriend.getID());
                     }
 
-                    System.out.println("Enter your Message");
-                    inp = br.readLine();
-                    Message msg = new Message(user.getID(), inp);
-                    c.sendMessage(msg);
-
-                } else {
-                    System.out.println("You did not chosoe a valid Options");
-                }
+                case "messages":
+                    Conversation[] conversations = cm.getConversations(this.user.getConversations());
+                    System.out.println(mp.promptMainScreen(conversations));
+                    input = br.readLine();
+                    System.out.println("Enter the number of the conversation to open:");
+                    try {
+                        int index = Integer.parseInt(input);
+                        if (0 <= index && index < conversations.length) {
+                            mp.promptConversationScreen(conversations[index]);
+                        } else {
+                            System.out.println("There is no conversation labelled with that number.");
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("Not a valid number.");
+                    }
             }
-        } catch (IOException e) {
-            System.out.println("Something went wrong");
+
+        } catch (Exception e) {
+            System.out.println("Something went wrong in the message controller.");
         }
     }
 
@@ -77,5 +79,4 @@ public class AttendeeMessageController {
             System.out.println("Couldn't find the cm.ser file. Check phase1 directory.");
         }
     }
-
 }

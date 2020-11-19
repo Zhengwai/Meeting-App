@@ -47,8 +47,12 @@ public class User implements Serializable {
         this.conversations.add(id);
     }
 
-    public ArrayList<UUID> getConversations() {
-        return this.conversations;
+    public UUID[] getConversations() {
+        UUID[] output = new UUID[this.conversations.size()];
+        for (int i = 0; i < this.conversations.size(); i++) {
+            output[i] = this.conversations.get(i);
+        }
+        return output;
     }
 
     public void addFriend(UUID id) { this.friends.add(id);}

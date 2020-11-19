@@ -21,23 +21,32 @@ public class MessageController {
         this.type = user.getType();
         if (type.equals("o")) {
             OrganizerMessageController control = new OrganizerMessageController(inpUser);
-            control.run();
         } else if (type.equals("s")) {
             SpeakerMessageController control = new SpeakerMessageController(inpUser);
-            control.run();
         } else if (type.equals("a")) {
-            AttendeeMessageController control = new AttendeeMessageController(inpUser);
-            control.run();
+            //AttendeeMessageController control = new AttendeeMessageController(inpUser);
         }
     }
+
+    public void runv2() {
+        deserializeCM();
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        //add friend
+
+        //open conversation with friend
+
+        //
+    }
+
 
     public void run() {
 
         deserializeCM();
-        /*
+
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         try {
-            String input = null;
+            String input = "";
             while (!input.equals("exit")) {
                 input = br.readLine();
                 if (input.equals("New Conversation")) {
@@ -79,7 +88,7 @@ public class MessageController {
         } catch (IOException e) {
             System.out.println("Something went wrong");
         }
-        */
+
     }
 
     private void deserializeCM() {
