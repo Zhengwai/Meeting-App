@@ -22,7 +22,7 @@ public class LoginController {
     ArrayList<User> lst;
 
     public LoginController() throws ClassNotFoundException {
-        lst = ug.deserializeUsers("phase1/Users.ser");;
+        lst = ug.deserializeUserManager("user-manager.ser").getAllUsers();
     }
 
 

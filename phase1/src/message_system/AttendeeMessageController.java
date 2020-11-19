@@ -15,12 +15,10 @@ public class AttendeeMessageController {
     private ConversationManager cm;
     private User user;
     private UserManager um;
-    private EventManager em;
 
-    public AttendeeMessageController(User user, UserManager um,  EventManager em) {
+    public AttendeeMessageController(User user, UserManager um) {
         this.user = user;
         this.um = um;
-        this.em = em;
     }
 
     public void run() {
