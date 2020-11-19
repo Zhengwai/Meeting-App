@@ -153,6 +153,7 @@ public class EventManager {
             }
         }
         event.addAttendee(user.getID());
+        user.addEvent(event.getId());
         return true;
         }
 

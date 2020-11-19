@@ -2,6 +2,7 @@ package ScheduleSystem;
 
 import users.User;
 
+import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.Date;
 import java.util.Calendar;
@@ -16,7 +17,7 @@ import java.time.Month;
  * The event entity is a class responsible for the events in the convention. Each instance of an event models a
  * separate event.
  */
-public class Event {
+public class Event implements Serializable {
     private UUID id;
     private String name;
     private Date date;

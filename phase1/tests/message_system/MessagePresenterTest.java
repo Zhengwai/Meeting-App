@@ -4,13 +4,14 @@ import users.User;
 import users.UserManager;
 
 
+import java.io.IOException;
 import java.util.UUID;
 
 
 public class MessagePresenterTest {
 
     @org.junit.Test
-    public void testPromptMainScreen() {
+    public void testPromptMainScreen() throws ClassNotFoundException {
         // SETUP
         UserManager um = new UserManager();
         User user1 = new User("johndoe", "abcde");
@@ -46,7 +47,7 @@ public class MessagePresenterTest {
     }
 
     @org.junit.Test
-    public void testPromptConversationScreen() {
+    public void testPromptConversationScreen() throws ClassNotFoundException, IOException {
         UserManager um = new UserManager();
         User user1 = new User("johndoe", "abcde");
         User user2 = new User("billybob", "12345");

@@ -1,35 +1,43 @@
 package users;
 
 import java.io.*;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 public class UserGateway {
-
-    public UserManager readFromFile(String filePath) throws ClassNotFoundException {
+    @SuppressWarnings("unchecked")
+    public ArrayList<User> deserializeUsers(String filePath) throws ClassNotFoundException {
         try {
             InputStream file = new FileInputStream(filePath);
             InputStream buffer = new BufferedInputStream(file);
             ObjectInput input = new ObjectInputStream(buffer);
 
-            UserManager um = (UserManager) input.readObject();
+            ArrayList<User> users = (ArrayList<User>) input.readObject();
             input.close();
-            return um;
+            return users;
         } catch (IOException ex) {
             //TODO: Needs logger
-            return new UserManager();
+            return new ArrayList<>();
         }
     }
 
     /**
-     * Serializes the UserManager into a cm.ser file.
-     * @param um The UserManager to be serialized
+     * Serializes the UserManager's users into a .ser file.
+     * @param users The users to be serialized
      * @throws IOException If something goes wrong during serialization
      */
-    public void saveToFile(String filePath, UserManager um) throws IOException {
-        OutputStream file = new FileOutputStream(filePath);
-        OutputStream buffer = new BufferedOutputStream(file);
-        ObjectOutput output = new ObjectOutputStream(buffer);
+    public void serializeUsers(String filePath, ArrayList<User> users) throws IOException {
+        try{
+            FileOutputStream fileOutputStream = new FileOutputStream(filePath);
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            objectOutputStream.writeObject(users);
 
-        output.writeObject(um);
-        output.close();
+            objectOutputStream.close();
+            fileOutputStream.close();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
     }
+
 }
+

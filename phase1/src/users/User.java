@@ -55,6 +55,14 @@ public class User implements Serializable {
         return output;
     }
 
+    public void addEvent(UUID id){
+        enrolledEvents.add(id);
+    }
+
+    public void removeEvent(UUID id){
+        enrolledEvents.remove(id);
+    }
+
     public void addFriend(UUID id) { this.friends.add(id);}
 
     public void deleteFriend(UUID id) {
