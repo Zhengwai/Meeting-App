@@ -29,7 +29,7 @@ public class AttendeeMessageController {
         MessagePresenter mp = new MessagePresenter(this.user, this.um);
 
         try {
-            String input = null;
+            String input = "";
 
             // Needs while loop, this is just what input should look like and how it should be handled.
             while (!input.equals("exit")) {
@@ -69,12 +69,11 @@ public class AttendeeMessageController {
                         try {
                             int index = Integer.parseInt(input);
                             if (0 <= index && index < conversations.length) {
-                                mp.promptConversationScreen(conversations[index]);
-
+                                Conversation c = conversations[index];
+                                mp.promptConversationScreen(c);
                                 System.out.println("Enter your message");
-                                inp = br.readline();
-
-                                Message msg = new Message(user.getID(), inp);
+                                input = br.readLine();
+                                Message msg = new Message(user.getID(), input);
                                 c.sendMessage(msg);
                             } else {
                                 System.out.println("There is no conversation labelled with that number.");

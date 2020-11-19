@@ -20,6 +20,7 @@ public class OrganizerController {
     private EventManager em = new EventManager();
     private UserManager um = new UserManager();
     private OrganizerEventController oec;
+    private String[] validYN = new String[]{"Y", "N"};
 
     public OrganizerController(User user) throws ClassNotFoundException {
         this.user = user;
@@ -73,7 +74,7 @@ public class OrganizerController {
         return validInputs;
     }
 
-/*    public boolean message() throws IOException, ClassNotFoundException {
+    public boolean message() throws IOException, ClassNotFoundException {
         UserGateway ug = new UserGateway();
         UserManager um = new UserManager();
         ArrayList<User> users;
@@ -92,7 +93,7 @@ public class OrganizerController {
         System.out.println("Would you like to enter the message system again? Enter Y for yes, N for no.");
         String confirm = isValidInput(validList(validYN), scanner.nextLine());
         return confirm.equals("Y");
-    }*/
+    }
 
 }
 

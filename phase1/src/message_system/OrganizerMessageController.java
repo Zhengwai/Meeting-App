@@ -2,6 +2,7 @@ package message_system;
 
 
 import ScheduleSystem.EventManager;
+import users.Speaker;
 import users.User;
 import users.UserManager;
 
@@ -9,6 +10,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 public class OrganizerMessageController {
@@ -32,7 +35,7 @@ public class OrganizerMessageController {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         try {
-            String input = null;
+            String input = "";
             while (!input.equals("exit")) {
                 System.out.println("Please Enter Corresponding Choice: \n " +
                         "1. Add Friend \n " +
@@ -91,9 +94,9 @@ public class OrganizerMessageController {
                     } else if (inp.equals("2")) {
                         System.out.println("Enter User's Username'");
                         inp = br.readLine();
-                        User friend = um.getUserByName(input);
+                        User friend = um.getUserByName(inp);
 
-                        if (!user.isFriendWith(friend.getID())) {
+                        if (!user.isFriendWithID(friend.getID()) && friend.getID() != um.NotFoundUser.getID()) {
                             System.out.println("You are not friends with " + friend.getUsername());
                             System.out.println("Would you like to add " + friend.getUsername() + " as a friend? y/n");
                             inp = br.readLine();
@@ -119,11 +122,12 @@ public class OrganizerMessageController {
                             }
                         }
 
-                        Conversation c;
+                        Conversation c = new Conversation();
                         int j = 0;
                         boolean b = true;
                         while (j < allConvos.length && b) {
-                            if (allConvos[j].getMembers().size() == 2 && allConvos[j].getMembers().contains(friend.getID())) {
+                            List members = Arrays.asList(allConvos[j].getMembers());
+                            if (members.size() == 2 && members.contains(friend.getID())) {
                                 b = false;
                                 c = allConvos[j];
                             }
@@ -143,7 +147,7 @@ public class OrganizerMessageController {
                     String inp = br.readLine();
                     Message msg = new Message(user.getID(), inp);
 
-                    ArrayList<User> recips = um.getAllSpeakers();
+                    ArrayList<Speaker> recips = um.getAllSpeakers();
 
                     UUID conID = this.cm.newConversation();
                     Conversation c = this.cm.getConversation(conID);
