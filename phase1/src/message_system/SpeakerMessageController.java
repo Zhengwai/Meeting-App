@@ -22,7 +22,7 @@ public class SpeakerMessageController {
 
         deserializeCM();
 
-        Conversation[] allConvos = this.cm.getUserConversations(user.getID());
+        Conversation[] allConvos = this.cm.getConversations(user.getConversations());
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         try {

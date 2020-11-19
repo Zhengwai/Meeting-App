@@ -42,17 +42,15 @@ public class ConversationManager implements Serializable {
     }
 
     /**
-     * @param userID The ID of the user
+     * @param conIDs Array of all conversation IDs to be retrieved
      * @return All conversations that this user is member of.
      */
-    public Conversation[] getUserConversations(UUID userID) {
-        ArrayList<Conversation> conversations = new ArrayList<>();
+    public Conversation[] getConversations(UUID[] conIDs) {
+        Conversation[] output = new Conversation[conIDs.length];
+        for (int i = 0; i < conIDs.length; i++) {
+            output[i] = this.getConversation(conIDs[i]);
+        }
 
-        for (Conversation c : this.allConversations.values())
-            for (UUID memberID : c.getMembers())
-                if (memberID == userID)
-                    conversations.add(c);
-
-        return (Conversation[]) conversations.toArray();
+        return output;
     }
 }

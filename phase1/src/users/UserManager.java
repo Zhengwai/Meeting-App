@@ -3,15 +3,12 @@ package users;
 import ScheduleSystem.Event;
 import ScheduleSystem.EventManager;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutput;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.UUID;
 
 
-public class UserManager {
+public class UserManager implements Serializable {
     private ArrayList<User> allUsers;
     private EventManager em;
     public User NotFoundUser = new User("NotFound", "NotFound");
@@ -22,7 +19,7 @@ public class UserManager {
     }
 
 
-    public boolean addUser(User newUser) throws Exception{
+    public boolean addUser(User newUser) {
         for (User u:allUsers){
             if (u.getUsername().equals(newUser.getUsername())){
                 return false;
@@ -30,7 +27,6 @@ public class UserManager {
         }
 
         allUsers.add(newUser);
-        serializeUsers();
         return true;
 
 

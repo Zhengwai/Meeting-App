@@ -4,9 +4,9 @@ import java.io.*;
 
 public class UserGateway {
 
-    public UserManager readFromFile() throws ClassNotFoundException {
+    public UserManager readFromFile(String filePath) throws ClassNotFoundException {
         try {
-            InputStream file = new FileInputStream("/phase1/userManager.ser");
+            InputStream file = new FileInputStream(filePath);
             InputStream buffer = new BufferedInputStream(file);
             ObjectInput input = new ObjectInputStream(buffer);
 
@@ -24,8 +24,8 @@ public class UserGateway {
      * @param um The UserManager to be serialized
      * @throws IOException If something goes wrong during serialization
      */
-    public void saveToFile(UserManager um) throws IOException {
-        OutputStream file = new FileOutputStream("/phase1/userManager.ser");
+    public void saveToFile(String filePath, UserManager um) throws IOException {
+        OutputStream file = new FileOutputStream(filePath);
         OutputStream buffer = new BufferedOutputStream(file);
         ObjectOutput output = new ObjectOutputStream(buffer);
 

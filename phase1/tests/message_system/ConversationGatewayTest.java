@@ -26,7 +26,7 @@ public class ConversationGatewayTest {
 
         // Reading
         try {
-            ConversationManager cmModified = ConversationGateway.readFromFile("test-cm");
+            ConversationManager cmModified = cg.readFromFile("test-cm");
             Conversation cModified = cmModified.getConversation(id);
             assert(cModified.getMessages()[0].getBody().equals(c.getMessages()[0].getBody()));
             assert(cModified.getMessages()[0].getSenderID().equals(c.getMessages()[0].getSenderID()));

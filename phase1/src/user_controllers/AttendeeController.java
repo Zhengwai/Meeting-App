@@ -122,7 +122,7 @@ public class AttendeeController {
         UserManager um = new UserManager();
 
         try {
-            um = ug.readFromFile();
+            um = ug.readFromFile("/phase1/userManager.ser");
         } catch (Exception e) {
             System.out.println("Something went wrong.");
         }
