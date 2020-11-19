@@ -82,7 +82,7 @@ public class AttendeeEventController {
             ep.timeConflict();
             return signUpAgain();
         }
-        ep.signUpSuccess();
+        ep.signUpSuccess(targetEvent.getName());
         if (em.getAvailableEventsForUser(currentUser).size() == 0){
             return false;
         }
@@ -109,7 +109,7 @@ public class AttendeeEventController {
             ep.unableToCancelPrompt();
             return cancelAgain();
         }
-        ep.cancelSuccess();
+        ep.cancelSuccess(targetEvent.getName());
         if (em.getEventsByUser(currentUser).size() == 0){
             return false;
         }

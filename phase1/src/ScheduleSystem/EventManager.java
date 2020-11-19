@@ -15,6 +15,7 @@ public class EventManager {
     private UserGateway ug = new UserGateway();
     private ArrayList<Event> events = eg.deserializeEvents("phase1/Events.ser");
     private ArrayList<Room> rooms = eg.deserializeRooms("phase1/Rooms.ser");
+
     public EventManager() throws ClassNotFoundException {
     }
 

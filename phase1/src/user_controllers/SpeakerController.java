@@ -3,7 +3,7 @@ package user_controllers;
 import ScheduleSystem.Event;
 import ScheduleSystem.EventManager;
 import message_system.SpeakerMessageController;
-import signup_system.SignUpPresenter;
+import ScheduleSystem.EventPresenter;
 import users.User;
 import users.UserGateway;
 import users.UserManager;
@@ -19,7 +19,7 @@ import java.util.Scanner;
 public class SpeakerController {
 
     private User user;
-    private SignUpPresenter sup = new SignUpPresenter();
+    private EventPresenter ep = new EventPresenter();
     private UserManager um = new UserManager();
     private EventManager em = new EventManager();
     private Scanner scanner = new Scanner(System.in);
@@ -78,7 +78,7 @@ public class SpeakerController {
         String checkInput = newInput.toUpperCase();
 
         while(!validInputs.contains(checkInput)){
-            sup.notValidInput();
+            ep.notValidInput();
             checkInput = scanner.nextLine();
         }
 
