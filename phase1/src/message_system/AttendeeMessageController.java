@@ -14,10 +14,12 @@ public class AttendeeMessageController {
     private ConversationManager cm;
     private User user;
     private UserManager um;
+    private EventManager em;
 
-    public AttendeeMessageController(User user, UserManager um) {
+    public AttendeeMessageController(User user, UserManager um,  EventManager em) {
         this.user = user;
         this.um = um;
+        this.em = em;
     }
 
     public void run() {
@@ -26,45 +28,69 @@ public class AttendeeMessageController {
         MessagePresenter mp = new MessagePresenter(this.user, this.um);
 
         try {
-            String input = br.readLine();
+            String input = null;
 
             // Needs while loop, this is just what input should look like and how it should be handled.
-            switch (input) {
-                case "add friend":
-                    System.out.println("Enter the username of the person you want to add");
-                    input = br.readLine();
-                    User newFriend = um.getUserByName(input);
+            while (!input.equals("exit")) {
+                System.out.println("Please Enter Corresponding Choice: \n " +
+                        "1. Add Friend \n " +
+                        "2. Message Existing Conversation \n" +
+                        "exit to exit this Controller");
+                input = br.readLine();
 
-                    if (newFriend.getID() != um.NotFoundUser.getID()) {
-                        UUID conID = cm.newConversation();
-                        Conversation c = cm.getConversation(conID);
+                switch (input) {
+                    case "1":
+                        System.out.println("Enter the username of the person you want to add");
+                        input = br.readLine();
+                        User newFriend = um.getUserByName(input);
 
-                        user.addFriend(newFriend.getID());
-                        newFriend.addFriend(user.getID());
+                        if (newFriend.getID() != um.NotFoundUser.getID()) {
+                            UUID conID = cm.newConversation();
+                            Conversation c = cm.getConversation(conID);
 
-                        user.addConversation(conID);
-                        newFriend.addConversation(conID);
+                            user.addFriend(newFriend.getID());
+                            newFriend.addFriend(user.getID());
 
-                        c.addMember(user.getID());
-                        c.addMember(newFriend.getID());
-                    }
+                            user.addConversation(conID);
+                            newFriend.addConversation(conID);
 
-                case "messages":
-                    Conversation[] conversations = cm.getConversations(this.user.getConversations());
-                    System.out.println(mp.promptMainScreen(conversations));
-                    input = br.readLine();
-                    System.out.println("Enter the number of the conversation to open:");
-                    try {
-                        int index = Integer.parseInt(input);
-                        if (0 <= index && index < conversations.length) {
-                            mp.promptConversationScreen(conversations[index]);
-                        } else {
-                            System.out.println("There is no conversation labelled with that number.");
+                            c.addMember(user.getID());
+                            c.addMember(newFriend.getID());
                         }
-                    } catch (NumberFormatException e) {
-                        System.out.println("Not a valid number.");
-                    }
+                        break;
+
+                    case "2":
+                        Conversation[] conversations = cm.getConversations(this.user.getConversations());
+                        System.out.println(mp.promptMainScreen(conversations));
+
+                        System.out.println("Enter the number of the conversation to open:");
+                        input = br.readLine();
+                        try {
+                            int index = Integer.parseInt(input);
+                            if (0 <= index && index < conversations.length) {
+                                mp.promptConversationScreen(conversations[index]);
+
+                                System.out.println("Enter your message");
+                                inp = br.readline();
+
+                                Message msg = new Message(user.getID(), inp);
+                                c.sendMessage(msg);
+                            } else {
+                                System.out.println("There is no conversation labelled with that number.");
+                            }
+                        } catch (NumberFormatException e) {
+                            System.out.println("Not a valid number.");
+                        }
+                        break;
+                    default:
+                        if (!input.equals("exit")) {
+                            System.out.println("Chose invalid option");
+                        }
+                }
             }
+
+
+
 
         } catch (Exception e) {
             System.out.println("Something went wrong in the message controller.");

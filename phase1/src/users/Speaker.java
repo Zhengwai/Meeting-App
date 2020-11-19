@@ -22,4 +22,8 @@ public class Speaker extends User implements Serializable {
     public String getType(){
         return "s";
     }
+
+    public ArrayList<UUID> getSpeakerEvents(){
+        return this.eventIDs;
+    }
 }

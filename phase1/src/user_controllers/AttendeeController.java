@@ -104,7 +104,7 @@ public class AttendeeController {
         for (User u: users){
             um.addUser(u);
         }
-        AttendeeMessageController amc = new AttendeeMessageController(this.user, um);
+        AttendeeMessageController amc = new AttendeeMessageController(this.user, um, em);
         amc.run();
         System.out.println("Would you like to enter the message system again? Enter Y for yes, N for no.");
         String confirm = isValidInput(validList(validYN), scanner.nextLine());

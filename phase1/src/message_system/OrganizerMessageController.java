@@ -12,40 +12,50 @@ import java.util.UUID;
 public class OrganizerMessageController {
     private ConversationManager cm;
     private User user;
-    private Conversation[] myConvos;
+    private UserManager um;
+    private EventManager em;
 
-    public OrganizerMessageController(User inpUser) {
+    public OrganizerMessageController(User inpUser, UserManager um, EventManager em) {
         this.user = inpUser;
+        this.um = um;
+        this.em = em;
     }
 
     public void run() {
 
         deserializeCM();
+        MessagePresenter mp = new MessagePresenter(this.user, this.um);
 
-        Conversation[] allConvos = this.cm.getConversations(user.getConversations());
+        Conversation[] allConvos = cm.getConversations(this.user.getConversations());
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         try {
             String input = null;
             while (!input.equals("exit")) {
                 System.out.println("Please Enter Corresponding Choice: \n " +
-                        "1. New Message to specific Speakers or Attendees \n " +
+                        "1. Add Friend \n " +
                         "2. New Message to specific Speakers or Attendees \n" +
                         "3. New Message to all Speakers \n" +
                         "4. New Message to all Attendees \n" +
                         "exit to exit this Controller");
                 input = br.readLine();
                 if (input.equals("1")) {
-                    System.out.println("Enter the UUIDs of Users in New Conversation. Once done enter exit.");
-                    //TODO: Change UUIDs to Usernames or something of the kind
-                    UUID conID = this.cm.newConversation();
-                    Conversation c = this.cm.getConversation(conID);
-                    c.addMember(user.getID());
-                    String inp;
-                    while (!input.equals("exit")) {
-                        inp = br.readLine();
-                        UUID id = UUID.fromString(inp);
-                        c.addMember(id);
+                    System.out.println("Enter the username of the person you want to add");
+                    input = br.readLine();
+                    User newFriend = um.getUserByName(input);
+
+                    if (newFriend.getID() != um.NotFoundUser.getID()) {
+                        UUID conID = cm.newConversation();
+                        Conversation c = cm.getConversation(conID);
+
+                        user.addFriend(newFriend.getID());
+                        newFriend.addFriend(user.getID());
+
+                        user.addConversation(conID);
+                        newFriend.addConversation(conID);
+
+                        c.addMember(user.getID());
+                        c.addMember(newFriend.getID());
                     }
                 } else if (input.equals("2")) {
                     System.out.println("Choose an option: \n" +
@@ -55,40 +65,69 @@ public class OrganizerMessageController {
 
                     if (inp.equals("1")) {
                         System.out.println("Pick one of the conversation from below:");
-                        for (int i = 0; i < allConvos.length; i++) {
-                            System.out.println(Integer.toString(i + 1) + allConvos[i]);
-                            //TODO: Way of printing a Conversation
-                        }
+
+                        System.out.println(mp.promptMainScreen(allConvos));
 
                         inp = br.readLine();
-                        Conversation c = allConvos[Integer.parseInt(inp) - 1];
 
-                        System.out.println("Enter your Message");
-                        inp = br.readLine();
-                        Message msg = new Message(user.getID(), inp);
-                        c.sendMessage(msg);
-                    } else if (inp.equals("2")) {
-                        System.out.println("Enter User UUID");
-                        inp = br.readLine();
-                        int i = 0;
-                        boolean b = true;
-                        while (i < allConvos.length && b) {
-                            if (allConvos[i].getMembers().length == 2 /* && allConvos[i].getMembers().contains(UUID.fromString(inp))*/) {
-                                b = false;
+                        try {
+                            int index = Integer.parseInt(inp);
+                            if (0 <= index && index < allConvos.length) {
+                                mp.promptConversationScreen(allConvos[index]);
+
+                                Conversation c = allConvos[index];
+                                System.out.println("Enter your Message");
+                                inp = br.readLine();
+                                Message msg = new Message(user.getID(), inp);
+                                c.sendMessage(msg);
                             } else {
-                                i++;
+                                System.out.println("There is no conversation labelled with that number.");
+                            }
+                        } catch (NumberFormatException e) {
+                            System.out.println("Not a valid number.");
+                        }
+                    } else if (inp.equals("2")) {
+                        System.out.println("Enter User's Username'");
+                        inp = br.readLine();
+                        User friend = um.getUserByName(input)
+
+                        if (!user.isFriendWith(friend.getID())) {
+                            System.out.println("You are not friends with " + friend.getUsername());
+                            System.out.println("Would you like to add " + friend.getUsername() + " as a friend? y/n");
+                            inp = br.readLine();
+                            if (inp.equals("y")) {
+                                User newFriend = friend;
+                                if (newFriend.getID() != um.NotFoundUser.getID()) {
+                                    UUID conID = cm.newConversation();
+                                    Conversation c = cm.getConversation(conID);
+
+                                    user.addFriend(newFriend.getID());
+                                    newFriend.addFriend(user.getID());
+
+                                    user.addConversation(conID);
+                                    newFriend.addConversation(conID);
+
+                                    c.addMember(user.getID());
+                                    c.addMember(newFriend.getID());
+                                }
+                            } else if (inp.equals("n")) {
+                                break;
+                            } else {
+                                System.out.println("You did not enter a vlid input. Will assume a no.");
                             }
                         }
+
                         Conversation c;
-                        if (!b) {
-                            c = allConvos[i];
-                        } else {
-                            UUID conID = this.cm.newConversation();
-                            c = this.cm.getConversation(conID);
-                            c.addMember(user.getID());
-                            c.addMember(UUID.fromString(inp));
+                        int j = 0;
+                        boolean b = true;
+                        while (j < allConvos.length && b) {
+                            if (allConvos[j].getMembers().size() == 2 && allConvos[j].getMembers().contains(friend.getID())) {
+                                b = false;
+                                c = allConvos[j];
+                            }
                         }
 
+                        mp.promptConversationScreen(c)
                         System.out.println("Enter your Message");
                         inp = br.readLine();
                         Message msg = new Message(user.getID(), inp);
@@ -102,8 +141,8 @@ public class OrganizerMessageController {
                     String inp = br.readLine();
                     Message msg = new Message(user.getID(), inp);
 
-                    //TODO: Assign recips to list of all Speakers.
-                    ArrayList<User> recips = new ArrayList<>();
+                    ArrayList<User> recips = um.getAllSpeakers();
+
                     UUID conID = this.cm.newConversation();
                     Conversation c = this.cm.getConversation(conID);
                     c.addMember(user.getID());
@@ -117,8 +156,8 @@ public class OrganizerMessageController {
                     String inp = br.readLine();
                     Message msg = new Message(user.getID(), inp);
 
-                    //TODO: Assign recips to list of all Attendees.
-                    ArrayList<User> recips = new ArrayList<>();
+                    ArrayList<User> recips = um.getAllAttendees();
+
                     UUID conID = this.cm.newConversation();
                     Conversation c = this.cm.getConversation(conID);
                     c.addMember(user.getID());
