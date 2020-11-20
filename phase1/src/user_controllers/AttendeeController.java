@@ -44,11 +44,9 @@ public class AttendeeController {
 
             if (input.equals("1")){
                 boolean r = true;
-                while (r){
-                    r = ec.attendeeRun();
-                    um = new UserManager();
-                    em = new EventManager();
-                }
+                ec.attendeeRun();
+                um = new UserManager();
+                em = new EventManager();
             } else if (input.equals("2")){
                 boolean r = true;
                 while (r){
