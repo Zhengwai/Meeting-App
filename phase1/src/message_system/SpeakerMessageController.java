@@ -40,6 +40,7 @@ public class SpeakerMessageController extends AttendeeMessageController {
                         System.out.println("Enter the username of the person you want to add");
                         input = br.readLine();
                         handleAddFriend(input);
+                        break;
 
                     case "2":
                         ArrayList<Conversation> conversations = cm.getConversations(this.user.getConversations());
@@ -47,9 +48,11 @@ public class SpeakerMessageController extends AttendeeMessageController {
                         System.out.println("Enter the number of the conversation to open:");
                         input = br.readLine();
                         handleConversations(input, conversations);
+                        break;
 
                     case "3":
                         handleMessageAllAttendees();
+                        break;
 
                     default:
                         if (!input.equals("exit")) {
@@ -77,10 +80,15 @@ public class SpeakerMessageController extends AttendeeMessageController {
             UUID conID = this.cm.newConversation();
             Conversation c = this.cm.getConversation(conID);
             c.addMember(user.getID());
+            user.addConversation(conID);
             for (int i = 0; i < users.size(); i++) {
                 c.addMember(users.get(i).getID());
+                users.get(i).addConversation(conID);
             }
 
+            System.out.println("Enter your message title");
+            inp = br.readLine();
+            c.setName(inp);
             c.sendMessage(msg);
         } catch (IOException e) {
             System.out.println("Failed to read input.");
