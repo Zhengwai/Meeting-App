@@ -15,16 +15,17 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class SpeakerMessageController extends AttendeeMessageController {
-    private ConversationGateway cg;
-    private ConversationManager cm;
-    private MessagePresenter mp;
-    private Speaker user;
-    private Conversation[] myConvos;
-    private EventManager em;
-    private UserManager um;
+    //private ConversationGateway cg;
+    //private ConversationManager cm;
+    //private MessagePresenter mp;
+    private Speaker speakerUser;
+    //private Conversation[] myConvos;
+    //private EventManager em;
+    //private UserManager um;
 
     public SpeakerMessageController(User inpUser, UserManager um, EventManager em) {
         super(inpUser, um, em);
+        this.speakerUser = (Speaker) inpUser;
     }
 
     public void run() {
@@ -90,8 +91,8 @@ public class SpeakerMessageController extends AttendeeMessageController {
             ArrayList<Event> events = new ArrayList<>();;
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-            for (int i = 0; i < user.getSpeakerEvents().size(); i++) {
-                events.add(em.getEventByID(user.getSpeakerEvents().get(i)));
+            for (int i = 0; i < speakerUser.getSpeakerEvents().size(); i++) {
+                events.add(em.getEventByID(speakerUser.getSpeakerEvents().get(i)));
             }
             System.out.println("Choose one of your following talks to message:");
             for (int i = 0; i < events.size(); i++) {

@@ -21,7 +21,7 @@ public class OrganizerMessageController extends AttendeeMessageController {
     //private ConversationManager cm;
     //private MessagePresenter mp;
     //private User user;
-    private Conversation[] myConvos;
+    //private Conversation[] myConvos;
     //private EventManager em;
     //private UserManager um;
 
