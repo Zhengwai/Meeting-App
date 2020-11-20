@@ -134,7 +134,6 @@ public class EventManager implements Serializable{
     public void assignRoom(Room room, Event event) throws IOException {
         room.addEvent(event.getId());
         event.setRoom(room.getID());
-
     }
 
     public boolean userAvailableForEvent(User user, Event event) {
