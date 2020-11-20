@@ -2,28 +2,17 @@ package message_system;
 
 
 import ScheduleSystem.EventManager;
-import users.Speaker;
 import users.User;
-import users.UserGateway;
 import users.UserManager;
-import ScheduleSystem.Event;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.UUID;
 
 public class OrganizerMessageController extends AttendeeMessageController {
-    //private ConversationGateway cg;
-    //private ConversationManager cm;
-    //private MessagePresenter mp;
-    //private User user;
-    //private Conversation[] myConvos;
-    //private EventManager em;
-    //private UserManager um;
+
 
     public OrganizerMessageController(User inpUser, UserManager um, EventManager em) {
         super(inpUser, um, em);
@@ -48,6 +37,7 @@ public class OrganizerMessageController extends AttendeeMessageController {
                         System.out.println("Enter the username of the person you want to add");
                         input = br.readLine();
                         handleAddFriend(input);
+                        break;
 
                     case "2":
                         ArrayList<Conversation> conversations = cm.getConversations(this.user.getConversations());
@@ -55,17 +45,21 @@ public class OrganizerMessageController extends AttendeeMessageController {
                         System.out.println("Enter the number of the conversation to open:");
                         input = br.readLine();
                         handleConversations(input, conversations);
+                        break;
 
                     case "3":
                         handleMessageAllSpeakers();
+                        break;
 
                     case "4":
                         handleMessageAllAttendees();
+                        break;
 
                     default:
                         if (!input.equals("exit")) {
                             System.out.println("Chose invalid option.");
                         }
+                        break;
                 }
             }
             serializeCM();
