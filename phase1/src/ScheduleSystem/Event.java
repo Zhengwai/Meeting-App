@@ -24,10 +24,8 @@ public class Event implements Serializable {
     private Date date;
     private int capacity;
     private ArrayList<UUID> attendees;
-    private boolean hasSpeaker = false;
     private UUID speaker;
     private UUID room;
-    private boolean hasRoom = false;
 
     /**
      * @param name the name of the event
@@ -42,10 +40,23 @@ public class Event implements Serializable {
         this.id = UUID.randomUUID();
     }
 
+    /**
+     * Second constructor for event without for case there is no event information.
+     */
     public Event() {
         this.id = UUID.randomUUID();
     }
-    public UUID getId(){ return this.id; }
+
+    /**
+     * @return the id of the event
+     */
+    public UUID getId(){
+        return this.id;
+    }
+
+    /**
+     * @return the name of the event
+     */
     public String getName(){
         return this.name;
     }
@@ -67,38 +78,64 @@ public class Event implements Serializable {
     /**
      * @return the current amount of attendees registered for the event
      */
-    public int currentNum(){return attendees.size(); }
+    public int currentNum(){
+        return attendees.size();
+    }
+
+    /**
+     * @return an ArrayList of the attendees
+     */
     public ArrayList<UUID> getAttendees() {
         return attendees;
     }
 
-
+    /**
+     * Add a designated speaker for the event
+     * @param id The id of the speaker
+     */
     public void addSpeaker(UUID id){
         speaker = id;
-        hasSpeaker = true;
     }
+
+    /**
+     * @return true if and only if the event has a designated speaker
+     */
     public boolean existsSpeaker(){
-        return hasSpeaker;
+        return speaker != null;
     }
-    public void removeSpeaker(UUID id){
+
+    /**
+     * remove the speaker of the event
+     */
+    public void removeSpeaker(){
         speaker = null;
-        hasSpeaker = false;
     }
+
+    /**
+     * @return the speaker of the event if it exists. Null otherwise
+     */
     public UUID getSpeaker(){
-        if (this.hasSpeaker){
+        if (this.existsSpeaker()){
             return speaker;
         }
         return null;
     }
 
+    /**
+     * @return the assigned room of the event if it exists. Null otherwise.
+     */
     public UUID getRoom(){
-        if (this.hasRoom){
+        if (this.assignedRoom()){
             return room;
         }
         return null;
     }
 
-
+    /**
+     * add an individual that will attend the event
+     * @param userID the user id of the attendee
+     * @return true if and only if the attendee was successfully added (the attendee was not already registered)
+     */
     public boolean addAttendee(UUID userID){
         if (attendees.contains(userID)){
             return false;
@@ -106,9 +143,21 @@ public class Event implements Serializable {
         attendees.add(userID);
         return true;
     }
+
+    /**
+     * check the event if an attendee with a specified user id is expected to attend the event
+     * @param userID the user id of the attendee
+     * @return true if and only if the attendee with the specified user id is attending the event
+     */
     public boolean hasAttendee(UUID userID){
         return attendees.contains(userID);
     }
+
+    /**
+     * attempt to remove an attendee with a specified user id from the event
+     * @param userID the user id of the specified attendee
+     * @return true if and only if the user with the specified user id is removed from the event
+     */
     public boolean removeAttendee(UUID userID){
         if (attendees.contains(userID)){
             attendees.remove(userID);
@@ -117,21 +166,33 @@ public class Event implements Serializable {
         return false;
     }
 
-
+    /**
+     * @return true if and only if the event is not at max capacity
+     */
     public boolean hasSpace(){
         return this.currentNum() < this.capacity;
     }
 
+    /**
+     * @return true if and only if the event has an assigned room
+     */
+    public boolean assignedRoom(){
+        return room != null;
+    }
 
-    public boolean assignedRoom(){return hasRoom;}
-
+    /**
+     * set the room of the event to the specified room
+     * @param room the room to set the event location to
+     */
     public void setRoom(UUID room) {
         this.room = room;
     }
 
+    /**
+     * remove the room assigned to the event if it exists so that the event has no specified room
+     */
     public void removeRoom(){
         room = null;
-        hasRoom = false;
     }
 
     @Override
