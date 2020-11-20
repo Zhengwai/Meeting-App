@@ -13,7 +13,7 @@ import java.util.Scanner;
 
 public class AttendeeEventController {
     private User currentUser;
-    private EventManager em;
+    public EventManager em;
     private UserManager um;
     private EventPresenter ep = new EventPresenter();
     private Scanner scanner = new Scanner(System.in);

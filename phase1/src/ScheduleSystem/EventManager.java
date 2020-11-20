@@ -123,9 +123,11 @@ public class EventManager implements Serializable{
     }
 
     public boolean roomAvailableForEvent(Room room, Event event){
-        for (UUID eventID:room.getEvents()){
-            if (getEventByID(eventID).getDate().equals(event.getDate())){
-                return false;
+        if(!room.getEvents().isEmpty()) {
+            for (UUID eventID : room.getEvents()) {
+                if (getEventByID(eventID).getDate().equals(event.getDate())) {
+                    return false;
+                }
             }
         }
         return true;

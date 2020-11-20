@@ -13,23 +13,23 @@ import java.util.stream.IntStream;
 
 public class OrganizerEventController extends AttendeeEventController{
     private User currentUser;
-    private EventManager em;
+    //private EventManager em;
     private UserManager um;
     private EventGateway eg;
     private UserGateway ug;
     private EventPresenter ep = new EventPresenter();
     private OrganizerEventPresenter oep = new OrganizerEventPresenter();
     private Scanner scanner = new Scanner(System.in);
-    public OrganizerEventController(User user, UserManager um, EventManager em) {
+    public OrganizerEventController(User user, UserManager um, EventManager em) throws ClassNotFoundException {
         super(user, um, em);
     }
 
     public boolean organizerRun() throws IOException, AlreadySignedUpException, TimeConflictException {
         boolean running = true;
-        String[] validInputs = new String[]{"1", "2","3","4"};
+        String[] validInputs = new String[]{"1", "2","3","4", "5"};
         while (running) {
             System.out.println("Please enter the number of corresponding choice: \n" +
-                    "1.Create Room \n  " +
+                    "1.Create Room \n" +
                     "2.Create Event \n" +
                     "3.Assign Room \n" +
                     "4.Assign Speaker\n" +
@@ -78,6 +78,7 @@ public class OrganizerEventController extends AttendeeEventController{
         cal.set(year, month, day, hour, 0, 0);
         Date date = cal.getTime();
         oep.eventNamePrompt();
+        scanner.nextLine();
         String eventName = scanner.nextLine();
         oep.eventConfirmPrompt(eventName, date);
         String confirm = isValidInput(validList(validYN), scanner.nextLine());
@@ -99,6 +100,7 @@ public class OrganizerEventController extends AttendeeEventController{
         String roomName = scanner.nextLine();
         oep.roomCapacityPrompt();
         int capacity = isValidCapacityInput(scanner.nextInt());
+        scanner.nextLine();
         oep.confirmRoomPrompt(roomName, capacity);
         String confirm = isValidInput(validList(validYN), scanner.nextLine());
         if (confirm.equals("2")){
@@ -267,6 +269,7 @@ public class OrganizerEventController extends AttendeeEventController{
 
     protected int isValidMonthInput(int newInput) {
         while (newInput < 1 | newInput > 12){
+            ep.notValidInput();
             newInput = scanner.nextInt();
         }
 
@@ -277,19 +280,23 @@ public class OrganizerEventController extends AttendeeEventController{
     protected int isValidDayInput(int newInput, int year, int month) {
         if (month == 1|month ==3|month == 5|month == 7|month==8|month==10|month==12) {
             while (newInput < 1 | newInput > 31) {
+                ep.notValidInput();
                 newInput = scanner.nextInt();
             }
         } else if (month != 2){
             while (newInput < 1 | newInput > 30) {
+                ep.notValidInput();
                 newInput = scanner.nextInt();
             }
 
         } else if (year % 4 != 0) {
             while (newInput < 1 | newInput > 28) {
+                ep.notValidInput();
                 newInput = scanner.nextInt();
             }
         } else {
             while (newInput < 1 | newInput > 29) {
+                ep.notValidInput();
                 newInput = scanner.nextInt();
             }
         }
@@ -300,6 +307,7 @@ public class OrganizerEventController extends AttendeeEventController{
 
     protected int isValidHourInput(int newInput) {
         while (newInput < 9 | newInput > 16){
+            ep.notValidInput();
             newInput = scanner.nextInt();
         }
 
@@ -309,6 +317,7 @@ public class OrganizerEventController extends AttendeeEventController{
 
     protected int isValidCapacityInput(int newInput) {
         while (newInput <= 1){
+            ep.notValidInput();
             newInput = scanner.nextInt();
         }
 
