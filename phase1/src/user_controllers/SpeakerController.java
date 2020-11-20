@@ -3,7 +3,7 @@ package user_controllers;
 import ScheduleSystem.AttendeeEventController;
 import ScheduleSystem.Event;
 import ScheduleSystem.EventManager;
-import message_system.AttendeeMessageController;
+import message_system.SpeakerMessageController;
 import ScheduleSystem.EventPresenter;
 import users.User;
 import users.UserGateway;
@@ -94,7 +94,7 @@ public class SpeakerController {
     }
 
     public boolean message() throws IOException, ClassNotFoundException {
-        AttendeeMessageController amc = new AttendeeMessageController(this.user, this.um, this.em);
+        SpeakerMessageController amc = new SpeakerMessageController(this.user, this.um, this.em);
         amc.run();
         System.out.println("Would you like to enter the message system again? Enter Y for yes, N for no.");
         String confirm = scanner.nextLine();
