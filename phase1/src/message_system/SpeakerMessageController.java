@@ -104,7 +104,7 @@ public class SpeakerMessageController extends AttendeeMessageController {
                 }
 
                 String inp = br.readLine();
-                Event evt = events.get(Integer.parseInt(inp) - 1);
+                Event evt = events.get(Integer.parseInt(inp));
                 ArrayList<UUID> attendants = evt.getAttendees();
                 ArrayList<User> attendeesUser = new ArrayList<>();
                 ;

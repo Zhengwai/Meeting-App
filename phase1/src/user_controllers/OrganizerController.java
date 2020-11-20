@@ -79,8 +79,8 @@ public class OrganizerController {
     }
 
     public boolean message() throws IOException, ClassNotFoundException {
-        OrganizerMessageController amc = new OrganizerMessageController(this.user, this.um, this.em);
-        amc.run();
+        OrganizerMessageController omc = new OrganizerMessageController(this.user, this.um, this.em);
+        omc.run();
         System.out.println("Would you like to enter the message system again? Enter Y for yes, N for no.");
         String confirm = ivc.isValidInput(ivc.validList(validYN), scanner.nextLine());
         return confirm.equals("Y");
