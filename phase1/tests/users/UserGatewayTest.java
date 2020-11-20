@@ -6,7 +6,7 @@ import java.io.IOException;
 
 import static org.junit.Assert.*;
 
-/*
+
 public class UserGatewayTest {
 
     @Test
@@ -20,14 +20,14 @@ public class UserGatewayTest {
 
             // Saving
             try {
-                ug.saveToFile("test-um", um);
+                ug.serializeUserManager("test-um", um);
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
             // Reading
             try {
-                UserManager umModified = ug.deserializeUsers("test-um");
+                UserManager umModified = ug.deserializeUserManager("test-um");
                 User user2 = umModified.getUserByID(user1.getID());
                 assert (user1.getUsername().equals(user2.getUsername()));
             } catch (Exception e) {
@@ -37,4 +37,4 @@ public class UserGatewayTest {
             System.out.println("Something went wrong.");
         }
     }
-}*/
+}

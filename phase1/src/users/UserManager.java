@@ -2,6 +2,7 @@ package users;
 
 import ScheduleSystem.Event;
 import ScheduleSystem.EventManager;
+import message_system.ConversationManager;
 
 import java.io.*;
 import java.util.ArrayList;

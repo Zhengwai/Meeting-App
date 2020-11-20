@@ -32,10 +32,8 @@ public class Conversation implements Serializable {
      * Gets all messages in this conversation.
      * @return An array of all messages in this conversation
      */
-    public Message[] getMessages() {
-        Message[] out = new Message[messages.size()];
-        out = this.messages.toArray(out);
-        return out;
+    public ArrayList<Message> getMessages() {
+        return this.messages;
     }
 
     /**
@@ -58,9 +56,7 @@ public class Conversation implements Serializable {
      * Gets all members of this conversation.
      * @return An array of all the members' IDs.
      */
-    public UUID[] getMembers() {
-        UUID[] out = new UUID[this.members.size()];
-        out = this.members.toArray(out);
-        return out;
+    public ArrayList<UUID> getMembers() {
+        return this.members;
     }
 }

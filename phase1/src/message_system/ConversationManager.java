@@ -12,7 +12,6 @@ import java.util.UUID;
  */
 public class ConversationManager implements Serializable {
     private final Map<UUID, Conversation> allConversations;
-
     /**
      * Initialize ConversationManager with no conversations
      */
@@ -31,6 +30,10 @@ public class ConversationManager implements Serializable {
         return conID;
     }
 
+    public void addUserToConversation(UUID conID, UUID userID) {
+        this.allConversations.get(conID).addMember(userID);
+    }
+
     /**
      * Gets a conversation by its ID.
      *
@@ -45,12 +48,11 @@ public class ConversationManager implements Serializable {
      * @param conIDs Array of all conversation IDs to be retrieved
      * @return All conversations that this user is member of.
      */
-    public Conversation[] getConversations(UUID[] conIDs) {
-        Conversation[] output = new Conversation[conIDs.length];
-        for (int i = 0; i < conIDs.length; i++) {
-            output[i] = this.getConversation(conIDs[i]);
+    public ArrayList<Conversation> getConversations(UUID[] conIDs) {
+        ArrayList<Conversation> output = new ArrayList<>();
+        for (UUID conID: conIDs) {
+            output.add(this.getConversation(conID));
         }
-
         return output;
     }
 }

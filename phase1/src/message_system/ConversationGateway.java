@@ -25,7 +25,6 @@ public class ConversationGateway {
             input.close();
             return cm;
         } catch (IOException ex) {
-            //TODO: Needs logger
             return new ConversationManager();
         }
     }

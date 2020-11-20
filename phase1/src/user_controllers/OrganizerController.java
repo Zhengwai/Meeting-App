@@ -14,8 +14,8 @@ import java.util.*;
  * Handles organizer users' inputs and functionalities.
  */
 public class OrganizerController {
-    private Scanner scanner = new Scanner(System.in);
     private User user;
+    private Scanner scanner = new Scanner(System.in);
     private  EventPresenter ep = new EventPresenter();
     private EventManager em = new EventManager();
     private UserManager um = new UserManager();

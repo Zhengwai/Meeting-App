@@ -16,16 +16,17 @@ import java.util.ArrayList;
  */
 public class AttendeeController {
     private User user;
-    private UserManager um = new UserManager();
+    private UserManager um;
     private Scanner scanner = new Scanner(System.in);
     private EventPresenter ep = new EventPresenter();
     private EventManager em = new EventManager();
     private String[] validYN = new String[]{"Y", "N"};
     private AttendeeEventController ec;
 
-    public AttendeeController(User thisUser) throws ClassNotFoundException {
+    public AttendeeController(User thisUser, UserManager um) throws ClassNotFoundException {
         user = thisUser;
         ec = new AttendeeEventController(user);
+        this.um = um;
     }
     /**
      * Displays a menu of choices for the Attendee object, and continuously running until user chooses to exit the program.
@@ -58,7 +59,6 @@ public class AttendeeController {
                 running = false;
             }
         }
-
     }
 
     private String isValidInput(ArrayList<String> validInputs, String newInput){
@@ -92,16 +92,7 @@ public class AttendeeController {
     }
 
     public boolean message() {
-        UserGateway ug = new UserGateway();
-        UserManager um = new UserManager();
-        try {
-            ug.deserializeUserManager("user-manager.ser");
-        } catch (Exception e) {
-            System.out.println("No user-manager.ser file found. Creating a new one...");
-            ug.serializeUserManager("user-manager.ser", um);
-        }
-
-        AttendeeMessageController amc = new AttendeeMessageController(this.user, um);
+        AttendeeMessageController amc = new AttendeeMessageController(this.user, this.um);
         amc.run();
         System.out.println("Would you like to enter the message system again? Enter Y for yes, N for no.");
         String confirm = isValidInput(validList(validYN), scanner.nextLine());

@@ -2,6 +2,9 @@ package message_system;
 
 import users.User;
 import users.UserManager;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class MessagePresenter {
@@ -18,16 +21,18 @@ public class MessagePresenter {
      * @param conversations The list of conversations to be showed on the screen
      * @return Formatted text of this user's list of conversations.
      */
-    public String promptMainScreen(Conversation[] conversations) {
+    public String promptMainScreen(List<Conversation> conversations) {
         StringBuilder output = new StringBuilder("Contacts: \n");
 
         // Assuming for now only two members in a conversation
-        for (int i = 0; i < conversations.length; i++) {
-            UUID[] memberIds = conversations[i].getMembers();
-            String name;
-
-            if (memberIds[0] == user.getID()) name = um.getUserByID(memberIds[1]).getUsername();
-            else name = um.getUserByID(memberIds[0]).getUsername();
+        for (int i = 0; i < conversations.size(); i++) {
+            ArrayList<UUID> memberIds = conversations.get(i).getMembers();
+            String name = "";
+            for (UUID memberID: memberIds) {
+                if (memberID != user.getID()) {
+                    name = um.getUserByID(memberIds.get(1)).getUsername();
+                }
+            }
 
             output.append("(").append(i).append(") ").append(name).append("\n");
         }
@@ -41,7 +46,7 @@ public class MessagePresenter {
      * @return Formatted text of the messages in the conversation
      */
     public String promptConversationScreen(Conversation c) {
-        Message[] msgs = c.getMessages();
+        ArrayList<Message> msgs = c.getMessages();
         StringBuilder output = new StringBuilder();
 
         for (Message msg : msgs) {

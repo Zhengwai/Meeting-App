@@ -31,7 +31,7 @@ public class OrganizerMessageController {
         deserializeCM();
         MessagePresenter mp = new MessagePresenter(this.user, this.um);
 
-        Conversation[] allConvos = cm.getConversations(this.user.getConversations());
+        ArrayList<Conversation> allConvos = cm.getConversations(this.user.getConversations());
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         try {
@@ -77,10 +77,10 @@ public class OrganizerMessageController {
 
                         try {
                             int index = Integer.parseInt(inp);
-                            if (0 <= index && index < allConvos.length) {
-                                mp.promptConversationScreen(allConvos[index]);
+                            if (0 <= index && index < allConvos.size()) {
+                                mp.promptConversationScreen(allConvos.get(index));
 
-                                Conversation c = allConvos[index];
+                                Conversation c = allConvos.get(index);
                                 System.out.println("Enter your Message");
                                 inp = br.readLine();
                                 Message msg = new Message(user.getID(), inp);
@@ -125,11 +125,11 @@ public class OrganizerMessageController {
                         Conversation c = new Conversation();
                         int j = 0;
                         boolean b = true;
-                        while (j < allConvos.length && b) {
-                            List members = Arrays.asList(allConvos[j].getMembers());
+                        while (j < allConvos.size() && b) {
+                            List members = Arrays.asList(allConvos.get(j).getMembers());
                             if (members.size() == 2 && members.contains(friend.getID())) {
                                 b = false;
-                                c = allConvos[j];
+                                c = allConvos.get(j);
                             }
                         }
 

@@ -22,7 +22,7 @@ public class SpeakerMessageController {
 
         deserializeCM();
 
-        Conversation[] allConvos = this.cm.getConversations(user.getConversations());
+        ArrayList<Conversation> allConvos = this.cm.getConversations(user.getConversations());
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         try {
@@ -55,13 +55,13 @@ public class SpeakerMessageController {
 
                     if (inp.equals("1")) {
                         System.out.println("Pick one of the conversation from below:");
-                        for (int i = 0; i < allConvos.length; i++) {
-                            System.out.println(Integer.toString(i + 1) + allConvos[i]);
+                        for (int i = 0; i < allConvos.size(); i++) {
+                            System.out.println(Integer.toString(i + 1) + allConvos.get(i));
                             //TODO: Way of printing a Conversation
                         }
 
                         inp = br.readLine();
-                        Conversation c = allConvos[Integer.parseInt(inp) - 1];
+                        Conversation c = allConvos.get(Integer.parseInt(inp) - 1);
 
                         System.out.println("Enter your Message");
                         inp = br.readLine();
@@ -72,8 +72,8 @@ public class SpeakerMessageController {
                         inp = br.readLine();
                         int i = 0;
                         boolean b = true;
-                        while (i < allConvos.length && b) {
-                            if (allConvos[i].getMembers().length == 2 /*&& allConvos.get(i).getMembers().contains(UUID.fromString(inp))*/) {
+                        while (i < allConvos.size() && b) {
+                            if (allConvos.get(i).getMembers().size() == 2 && allConvos.get(i).getMembers().contains(UUID.fromString(inp))) {
                                 b = false;
                             } else {
                                 i++;
@@ -81,7 +81,7 @@ public class SpeakerMessageController {
                         }
                         Conversation c;
                         if (!b) {
-                            c = allConvos[i];
+                            c = allConvos.get(i);
                         } else {
                             UUID conID = this.cm.newConversation();
                             c = this.cm.getConversation(conID);

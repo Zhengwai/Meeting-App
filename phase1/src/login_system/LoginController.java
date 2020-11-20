@@ -24,7 +24,7 @@ public class LoginController {
 
     public LoginController() throws ClassNotFoundException {
         this.ug = new UserGateway();
-        this.um = this.ug.deserializeUserManager("um.ser");
+        deserializeUM();
     }
 
     /**
@@ -39,7 +39,7 @@ public class LoginController {
             if (indicator.equals("1")) {
                 User user = login();
                 if (user.getType().equals("a")) {
-                    AttendeeController ac = new AttendeeController(user);
+                    AttendeeController ac = new AttendeeController(user, um);
                     ac.run();
                 } else if (user.getType().equals("o")) {
                     OrganizerController oc = new OrganizerController(user);
@@ -65,6 +65,7 @@ public class LoginController {
                 }
             }
             else {
+                serializeUM();
                 running = false;
             }
         }
@@ -202,5 +203,17 @@ public class LoginController {
         added = um.addUser(a);
         ug.serializeUserManager("um.ser", this.um);
         return added;
+    }
+
+    private void deserializeUM() {
+        try {
+            this.um = this.ug.deserializeUserManager("um.ser");
+        } catch (ClassNotFoundException e) {
+            System.out.println("Couldn't find the um.ser file. Check phase1 directory.");
+        }
+    }
+
+    private void serializeUM() {
+        this.ug.serializeUserManager("um.ser", this.um);
     }
 }

@@ -5,6 +5,8 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class UserGateway {
+    private String filepath;
+
     public UserManager deserializeUserManager(String filePath) throws ClassNotFoundException {
         try {
             InputStream file = new FileInputStream(filePath);
@@ -21,6 +23,7 @@ public class UserGateway {
 
     /**
      * Serializes the UserManager into a .ser file.
+     *
      * @param um The user manager to be serialized
      */
     public void serializeUserManager(String filePath, UserManager um) {
