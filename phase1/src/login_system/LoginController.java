@@ -16,15 +16,12 @@ import java.util.Scanner;
 public class LoginController {
 
     Scanner in = new Scanner(System.in);
-    OrganizerController oc;
-    SpeakerController sc;
     UserGateway ug;
     UserManager um;
     EventGateway eg;
-    ArrayList<User> lst;
     EventManager em;
 
-    public LoginController() throws ClassNotFoundException {
+    public LoginController(){
         this.ug = new UserGateway();
         this.eg = new EventGateway();
         deserializeUM();
@@ -32,7 +29,8 @@ public class LoginController {
     }
 
     /**
-     * Displays a menu of choices for the User object, user, depending on its type (Organizer, Speaker, or Attendee)
+     * Displays a menu of choices for the User object, user, depending on its type (Organizer, Speaker, or Attendee).
+     * This method keeps running and asking for user inputs until user input indicates "exit program".
      */
     public void instantiatingMethod() throws Exception {
         boolean running = true;
@@ -80,39 +78,11 @@ public class LoginController {
     }
 
     /**
-     * Tells the user that the confidential they entered is/ are incorrect and needs to login again.
-     */
-    /*private User loginAgain() throws Exception {
-        System.out.println("Incorrect email or password, please login again!");
-        String e = promptEmail();
-        String p = promptPassword();
-        return login(e, p);
-    }
-*/
-    /**
-     * Prompt the user to enter their email
+     * Allows the user to log in or re-login (in the case of incorrect confidential entered).
+     * Confidential checked by being compared to the arraylist consisting of information extracted from the .ser file.
+     * The method returns when a correct user is found or the input information is determined to be incorrect.
      *
-     * @return a String storing the email they entered
-     */
-    public String promptEmail() {
-        System.out.println("Please enter your username: ");
-        return in.nextLine();
-    }
-
-    /**
-     * Prompt the user to enter their password
-     *
-     * @return a String storing the password they entered
-     */
-    public String promptPassword() {
-        System.out.println("Please enter your password: ");
-        return in.nextLine();
-    }
-
-    /**
-     * Allows the user to log in or re-login (in the case of incorrect confidential entered). Confidential checked by being compared to the arraylist consisting of information extracted from the .ser file.
-     *
-     *
+     * @return returns the matching user. In the case of incorrect confidential, returns null.
      */
     public User login() {
         boolean running = true;
