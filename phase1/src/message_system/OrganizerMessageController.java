@@ -39,7 +39,7 @@ public class OrganizerMessageController {
             while (!input.equals("exit")) {
                 System.out.println("Please Enter Corresponding Choice: \n " +
                         "1. Add Friend \n " +
-                        "2. New Message to specific Speakers or Attendees \n" +
+                        "2. Message Existing Conversation \n" +
                         "3. New Message to all Speakers \n" +
                         "4. New Message to all Attendees \n" +
                         "exit to exit this Controller");
@@ -47,131 +47,17 @@ public class OrganizerMessageController {
                 if (input.equals("1")) {
                     System.out.println("Enter the username of the person you want to add");
                     input = br.readLine();
-                    User newFriend = um.getUserByName(input);
-
-                    if (newFriend.getID() != um.NotFoundUser.getID()) {
-                        UUID conID = cm.newConversation();
-                        Conversation c = cm.getConversation(conID);
-
-                        user.addFriend(newFriend.getID());
-                        newFriend.addFriend(user.getID());
-
-                        user.addConversation(conID);
-                        newFriend.addConversation(conID);
-
-                        c.addMember(user.getID());
-                        c.addMember(newFriend.getID());
-                    }
+                    handleAddFriend(input);
                 } else if (input.equals("2")) {
-                    System.out.println("Choose an option: \n" +
-                            "1. Would you like to send a message in an existing conversation \n" +
-                            "2. Would you like to message an individual user");
-                    String inp = br.readLine();
-
-                    if (inp.equals("1")) {
-                        System.out.println("Pick one of the conversation from below:");
-
-                        System.out.println(mp.promptMainScreen(allConvos));
-
-                        inp = br.readLine();
-
-                        try {
-                            int index = Integer.parseInt(inp);
-                            if (0 <= index && index < allConvos.size()) {
-                                mp.promptConversationScreen(allConvos.get(index));
-
-                                Conversation c = allConvos.get(index);
-                                System.out.println("Enter your Message");
-                                inp = br.readLine();
-                                Message msg = new Message(user.getID(), inp);
-                                c.sendMessage(msg);
-                            } else {
-                                System.out.println("There is no conversation labelled with that number.");
-                            }
-                        } catch (NumberFormatException e) {
-                            System.out.println("Not a valid number.");
-                        }
-                    } else if (inp.equals("2")) {
-                        System.out.println("Enter User's Username'");
-                        inp = br.readLine();
-                        User friend = um.getUserByName(inp);
-
-                        if (!user.isFriendWithID(friend.getID()) && friend.getID() != um.NotFoundUser.getID()) {
-                            System.out.println("You are not friends with " + friend.getUsername());
-                            System.out.println("Would you like to add " + friend.getUsername() + " as a friend? y/n");
-                            inp = br.readLine();
-                            if (inp.equals("y")) {
-                                User newFriend = friend;
-                                if (newFriend.getID() != um.NotFoundUser.getID()) {
-                                    UUID conID = cm.newConversation();
-                                    Conversation c = cm.getConversation(conID);
-
-                                    user.addFriend(newFriend.getID());
-                                    newFriend.addFriend(user.getID());
-
-                                    user.addConversation(conID);
-                                    newFriend.addConversation(conID);
-
-                                    c.addMember(user.getID());
-                                    c.addMember(newFriend.getID());
-                                }
-                            } else if (inp.equals("n")) {
-                                break;
-                            } else {
-                                System.out.println("You did not enter a vlid input. Will assume a no.");
-                            }
-                        }
-
-                        Conversation c = new Conversation();
-                        int j = 0;
-                        boolean b = true;
-                        while (j < allConvos.size() && b) {
-                            List members = Arrays.asList(allConvos.get(j).getMembers());
-                            if (members.size() == 2 && members.contains(friend.getID())) {
-                                b = false;
-                                c = allConvos.get(j);
-                            }
-                        }
-
-                        mp.promptConversationScreen(c);
-                        System.out.println("Enter your Message");
-                        inp = br.readLine();
-                        Message msg = new Message(user.getID(), inp);
-                        c.sendMessage(msg);
-
-                    } else {
-                        System.out.println("You did not choose a valid option");
-                    }
+                    ArrayList<Conversation> conversations = cm.getConversations(this.user.getConversations());
+                    System.out.println(mp.promptMainScreen(conversations));
+                    System.out.println("Enter the number of the conversation to open:");
+                    input = br.readLine();
+                    handleConversations(input, conversations);
                 } else if (input.equals("3")) {
-                    System.out.println("Enter your Message");
-                    String inp = br.readLine();
-                    Message msg = new Message(user.getID(), inp);
-
-                    ArrayList<Speaker> recips = um.getAllSpeakers();
-
-                    UUID conID = this.cm.newConversation();
-                    Conversation c = this.cm.getConversation(conID);
-                    c.addMember(user.getID());
-                    for (int i = 0; i < recips.size(); i++) {
-                        c.addMember(recips.get(i).getID());
-                    }
-
-                    c.sendMessage(msg);
+                    handleMessageAllSpeakers();
                 } else if (input.equals("4")) {
-                    System.out.println("Enter your Message");
-                    String inp = br.readLine();
-                    Message msg = new Message(user.getID(), inp);
-
-                    ArrayList<User> recips = um.getAllAttendees();
-
-                    UUID conID = this.cm.newConversation();
-                    Conversation c = this.cm.getConversation(conID);
-                    c.addMember(user.getID());
-                    for (int i = 0; i < recips.size(); i++) {
-                        c.addMember(recips.get(i).getID());
-                    }
-
-                    c.sendMessage(msg);
+                    handleMessageAllAttendees();
                 } else {
                     System.out.println("You did not choose a valid option");
                 }
@@ -180,6 +66,31 @@ public class OrganizerMessageController {
             System.out.println("Something went wrong");
         }
 
+    }
+
+    public void handleMessageAll(ArrayList<User> users) {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        System.out.println("Enter your Message");
+        String inp = br.readLine();
+        Message msg = new Message(user.getID(), inp);
+
+        UUID conID = this.cm.newConversation();
+        Conversation c = this.cm.getConversation(conID);
+        c.addMember(user.getID());
+        for (int i = 0; i < users.size(); i++) {
+            c.addMember(users.get(i).getID());
+        }
+
+        c.sendMessage(msg);
+    }
+
+    public void handleMessageAllAttendees() {
+        handleMessageAll(this.um.getAllAttendees());
+    }
+
+    public void handleMessageAllSpeakers() {
+        handleMessageAll(this.um.getAllSpeakers());
     }
 
     private void deserializeCM() {
