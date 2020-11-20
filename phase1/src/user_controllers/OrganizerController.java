@@ -21,6 +21,7 @@ public class OrganizerController {
     private OrganizerEventController oec;
     private String[] validYN = new String[]{"Y", "N"};
     private InputValidityChecker ivc = new InputValidityChecker();
+    private UserGateway ug = new UserGateway();
 
     public OrganizerController(User user, UserManager um, EventManager em) throws ClassNotFoundException {
         this.user = user;
@@ -31,13 +32,13 @@ public class OrganizerController {
 
     public boolean run() throws Exception {
         boolean running = true;
-        String[] validInputs = new String[]{"1", "2", "3"};
+        String[] validInputs = new String[]{"1", "2", "3", "4"};
         while (running){
             System.out.println("Please enter the number of corresponding choice:\n" +
                     "1.Manage Events  \n" +
                     "2.Message \n" +
                     "3.Create Speaker Account \n" +
-                    "3.Exit program");
+                    "4.Exit program");
             String input = ivc.isValidInput(ivc.validList(validInputs), scanner.nextLine());
 
             if (input.equals("1")){
@@ -71,8 +72,10 @@ public class OrganizerController {
         String user = scanner.nextLine();
         System.out.println("Please choose a password: ");
         String pass = scanner.nextLine();
+        boolean added = um.createSpeaker(user, pass);
 
-        return um.createSpeaker(user, pass);
+        ug.serializeUserManager("um.ser", um);
+        return added;
     }
 
     public boolean message() throws IOException, ClassNotFoundException {

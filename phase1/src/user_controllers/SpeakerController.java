@@ -51,7 +51,7 @@ public class SpeakerController {
             } else if (input.equals("2")){
                 boolean r = true;
                 while (r){
-                    message();
+                    r = message();
                 }
             } else {
                 running = false;
@@ -79,10 +79,11 @@ public class SpeakerController {
     }
 
     public boolean message() throws IOException, ClassNotFoundException {
+        String[] validYN = new String[]{"Y", "N"};
         SpeakerMessageController smc = new SpeakerMessageController(this.user, this.um, this.em);
         smc.run();
         System.out.println("Would you like to enter the message system again? Enter Y for yes, N for no.");
-        String confirm = scanner.nextLine();
+        String confirm = ivc.isValidInput(ivc.validList(validYN), scanner.nextLine());
         return confirm.equals("Y");
     }
 }

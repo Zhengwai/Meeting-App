@@ -76,8 +76,17 @@ public class EventManager implements Serializable{
                 throw new TimeConflictException();
             }
         }
-        event.addAttendee(user.getID());
-        return true;
+        if(user.getType().equals("s")){
+            event.setSpeaker(user.getID());
+            return true;
+        }
+
+        if(user.getType().equals("o")) {
+            event.addAttendee(user.getID());
+            return true;
+        }
+
+        return false;
     }
 
     public boolean removeUser(User user, Event event) throws UnableToCancelException, IOException {
@@ -94,6 +103,16 @@ public class EventManager implements Serializable{
         ArrayList<Event> userEvents = new ArrayList<>();
         for (Event e : events) {
             if (e.getAttendees().contains(user.getID())) {
+                userEvents.add(e);
+            }
+        }
+        return userEvents;
+    }
+
+    public ArrayList<Event> getEventsBySpeaker(User user) {
+        ArrayList<Event> userEvents = new ArrayList<>();
+        for (Event e : events) {
+            if (e.existsSpeaker() && e.getSpeaker() == user.getID()) {
                 userEvents.add(e);
             }
         }
@@ -137,9 +156,11 @@ public class EventManager implements Serializable{
 
     public boolean userAvailableForEvent(User user, Event event) {
         ArrayList<UUID> enrolledEvents = user.getEnrolledEvents();
-        for (UUID id:enrolledEvents){
-            if (getEventByID(id).getDate().equals(event.getDate())){
-                return false;
+        if(enrolledEvents.size() > 0) {
+            for (UUID id : enrolledEvents) {
+                if (getEventByID(id).getDate().equals(event.getDate())) {
+                    return false;
+                }
             }
         }
         return true;

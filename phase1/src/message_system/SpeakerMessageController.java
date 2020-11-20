@@ -15,25 +15,28 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class SpeakerMessageController extends AttendeeMessageController {
-    //private ConversationGateway cg;
-    //private ConversationManager cm;
-    //private MessagePresenter mp;
-    private Speaker speakerUser;
-    //private Conversation[] myConvos;
+    //private ConversationGateway cg = new ConversationGateway();
+    private ConversationManager cm;
+    private MessagePresenter mp;
+    private Speaker user;
+    private Conversation[] myConvos;
     //private EventManager em;
     //private UserManager um;
 
     public SpeakerMessageController(User inpUser, UserManager um, EventManager em) {
         super(inpUser, um, em);
-        this.speakerUser = (Speaker) inpUser;
+        user = (Speaker) inpUser;
     }
 
     public void run() {
+
+        deserializeCM();
+
         ArrayList<Conversation> allConvos = this.cm.getConversations(user.getConversations());
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         try {
-            String input = null;
+            String input = "";
             while (!input.equals("exit")) {
                 System.out.println("Please Enter Corresponding Choice: \n " +
                         "1. Add Friend \n " +
@@ -51,11 +54,10 @@ public class SpeakerMessageController extends AttendeeMessageController {
                     System.out.println("Enter the number of the conversation to open:");
                     input = br.readLine();
                     handleConversations(input, conversations);
-                    break;
                 } else if (input.equals("3")) {
                     handleMessageAllAttendees();
-                } else {
-                    System.out.println("You did not chosoe a valid Options");
+                } else if (!input.equals("exit")){
+                    System.out.println("You did not choose a valid Options");
                 }
             }
             serializeCM();
@@ -88,26 +90,31 @@ public class SpeakerMessageController extends AttendeeMessageController {
 
     public void handleMessageAllAttendees() {
         try {
-            ArrayList<Event> events = new ArrayList<>();;
+            ArrayList<Event> events = em.getEventsByUser(user);
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-            for (int i = 0; i < speakerUser.getSpeakerEvents().size(); i++) {
-                events.add(em.getEventByID(speakerUser.getSpeakerEvents().get(i)));
-            }
-            System.out.println("Choose one of your following talks to message:");
-            for (int i = 0; i < events.size(); i++) {
-                System.out.println(Integer.toString(i) + ". " + events.get(i).getName());
-            }
+            if(events.size() > 0) {
+                System.out.println("Choose one of your following talks to message:");
+                int k = 0;
+                for (Event e : events) {
+                    System.out.println(Integer.toString(k) + ". " + e.getName());
+                    k++;
+                }
 
-            String inp = br.readLine();
-            Event evt = events.get(Integer.parseInt(inp) - 1);
-            ArrayList<UUID> attendants = evt.getAttendees();
-            ArrayList<User> attendeesUser = new ArrayList<>();;
-            for (int i = 0; i < attendants.size(); i++) {
-                attendeesUser.add(um.getUserByID(attendants.get(i)));
-            }
+                String inp = br.readLine();
+                Event evt = events.get(Integer.parseInt(inp) - 1);
+                ArrayList<UUID> attendants = evt.getAttendees();
+                ArrayList<User> attendeesUser = new ArrayList<>();
+                ;
+                for (int i = 0; i < attendants.size(); i++) {
+                    attendeesUser.add(um.getUserByID(attendants.get(i)));
+                }
 
-            handleMessageAll(attendeesUser);
+                handleMessageAll(attendeesUser);
+            }
+            else{
+                System.out.println("You are not set to speak at any event.");
+            }
         } catch (IOException e) {
             System.out.println("Failed to read input.");
         }
