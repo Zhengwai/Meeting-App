@@ -54,7 +54,6 @@ public class SpeakerMessageController extends AttendeeMessageController {
                     System.out.println("Enter the number of the conversation to open:");
                     input = br.readLine();
                     handleConversations(input, conversations);
-                    break;
                 } else if (input.equals("3")) {
                     handleMessageAllAttendees();
                 } else if (!input.equals("exit")){
