@@ -113,13 +113,14 @@ public class Event implements Serializable {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         String full;
-        if (currentNum() < capacity){
+        if (currentNum() < capacity) {
             full = "available";
+        } else {
+            full = "full";
         }
 
-        full = "full";
         return name+"@"+ date.toString() +", status: "+full;
     }
 }
