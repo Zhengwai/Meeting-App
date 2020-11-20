@@ -40,6 +40,7 @@ public class SpeakerMessageController extends AttendeeMessageController {
                         System.out.println("Enter the username of the person you want to add");
                         input = br.readLine();
                         handleAddFriend(input);
+                        break;
 
                     case "2":
                         ArrayList<Conversation> conversations = cm.getConversations(this.user.getConversations());
@@ -47,9 +48,11 @@ public class SpeakerMessageController extends AttendeeMessageController {
                         System.out.println("Enter the number of the conversation to open:");
                         input = br.readLine();
                         handleConversations(input, conversations);
+                        break;
 
                     case "3":
                         handleMessageAllAttendees();
+                        break;
 
                     default:
                         if (!input.equals("exit")) {
