@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class SpeakerMessageController extends AttendeeMessageController {
-    private ConversationManager cm;
     private Speaker user;
 
     public SpeakerMessageController(User inpUser, UserManager um, EventManager em) {
@@ -95,7 +94,7 @@ public class SpeakerMessageController extends AttendeeMessageController {
 
     public void handleMessageAllAttendees() {
         try {
-            ArrayList<Event> events = em.getEventsBySpeaker(user);
+            ArrayList<Event> events = em.getEventsByUser(user);
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
             if(events.size() > 0) {
