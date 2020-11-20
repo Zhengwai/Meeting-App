@@ -18,11 +18,14 @@ public class LoginController {
     OrganizerController oc;
     SpeakerController sc;
     LoginGateway lg = new LoginGateway();
-    UserGateway ug = new UserGateway();
-    UserManager um = ug.deserializeUserManager("user-manager.ser");
+    UserGateway ug;
+    UserManager um;
     ArrayList<User> lst;
 
-    public LoginController() throws ClassNotFoundException {}
+    public LoginController() throws ClassNotFoundException {
+        this.ug = new UserGateway();
+        this.um = this.ug.deserializeUserManager("um.ser");
+    }
 
     /**
      * Displays a menu of choices for the User object, user, depending on its type (Organizer, Speaker, or Attendee)
@@ -169,7 +172,7 @@ public class LoginController {
         User a = new Attendee(username, password);
 
         added = um.addUser(a);
-
+        ug.serializeUserManager("um.ser", this.um);
         return added;
     }
 }
