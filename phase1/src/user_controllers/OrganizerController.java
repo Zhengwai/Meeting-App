@@ -22,14 +22,21 @@ public class OrganizerController {
     private String[] validYN = new String[]{"Y", "N"};
     private InputValidityChecker ivc = new InputValidityChecker();
     private UserGateway ug = new UserGateway();
-
+    /**
+     * Initializes OrganizerController with specific user, the UserManager and the EventManager.
+     * @param user the associated user.
+     * @param um the UserManager
+     * @param em the EventManager
+     */
     public OrganizerController(User user, UserManager um, EventManager em) throws ClassNotFoundException {
         this.user = user;
         this.um = um;
         this.em = em;
         oec = new OrganizerEventController(this.user, this.um, this.em);
     }
-
+    /**
+     * Displays a menu of choices for the Organizer object, and continuously running until user chooses to exit the program.
+     */
     public boolean run() throws Exception {
         boolean running = true;
         String[] validInputs = new String[]{"1", "2", "3", "4"};
@@ -67,7 +74,7 @@ public class OrganizerController {
         return true;
     }
 
-    public boolean createSpeakerAccount(){
+    private boolean createSpeakerAccount(){
         System.out.println("Please choose a username: ");
         String user = scanner.nextLine();
         System.out.println("Please choose a password: ");
@@ -78,7 +85,7 @@ public class OrganizerController {
         return added;
     }
 
-    public boolean message() throws IOException, ClassNotFoundException {
+    private boolean message() throws IOException, ClassNotFoundException {
         OrganizerMessageController omc = new OrganizerMessageController(this.user, this.um, this.em);
         omc.run();
         System.out.println("Would you like to enter the message system again? Enter Y for yes, N for no.");

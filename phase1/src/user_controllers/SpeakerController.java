@@ -25,13 +25,20 @@ public class SpeakerController {
     private EventManager em;
     private Scanner scanner = new Scanner(System.in);
     private InputValidityChecker ivc = new InputValidityChecker();
-
+    /**
+     * Initializes SpeakerController with specific user, the UserManager and the EventManager.
+     * @param user the associated user.
+     * @param um the UserManager
+     * @param em the EventManager
+     */
     public SpeakerController(User user, UserManager um, EventManager em) {
         this.user = user;
         this.um = um;
         this.em = em;
     }
-
+    /**
+     * Displays a menu of choices for the Speaker object, and continuously running until user chooses to exit the program.
+     */
     public boolean run() throws IOException, ClassNotFoundException {
         boolean running = true;
         String[] validInputs = new String[]{"1", "2", "3"};
@@ -61,7 +68,7 @@ public class SpeakerController {
         return true;
     }
 
-    public boolean viewSchedulesTalks(){
+    private boolean viewSchedulesTalks(){
         System.out.println("Here are your assigned events:");
         ArrayList<Event> events = em.getEventsByUser(user);
         for (Event e:events){
@@ -71,14 +78,14 @@ public class SpeakerController {
         return viewAgain();
     }
 
-    protected boolean viewAgain() {
+    private boolean viewAgain() {
         System.out.println("Would you like to see the list again? Enter 1 to view again, enter 2 to go back.");
         String[] validInputs = new String[]{"1", "2"};
         String input = ivc.isValidInput(ivc.validList(validInputs), scanner.nextLine());
         return input.equals("1");
     }
 
-    public boolean message() throws IOException, ClassNotFoundException {
+    private boolean message() throws IOException, ClassNotFoundException {
         String[] validYN = new String[]{"Y", "N"};
         SpeakerMessageController smc = new SpeakerMessageController(this.user, this.um, this.em);
         smc.run();
