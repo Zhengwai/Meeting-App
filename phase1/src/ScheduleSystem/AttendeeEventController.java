@@ -12,9 +12,9 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class AttendeeEventController {
-    private User currentUser;
-    public EventManager em;
-    private UserManager um;
+    protected User currentUser;
+    protected EventManager em;
+    protected UserManager um;
     private EventPresenter ep = new EventPresenter();
     private Scanner scanner = new Scanner(System.in);
     private EventGateway eg = new EventGateway();
@@ -194,7 +194,7 @@ public class AttendeeEventController {
             checkInput = scanner.nextLine();
         }
 
-        return checkInput;
+        return checkInput.toLowerCase();
     }
 
     protected ArrayList<String> validList(String[] allValid) {

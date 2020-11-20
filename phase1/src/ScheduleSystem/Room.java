@@ -31,4 +31,8 @@ public class Room implements Serializable {
     public void addEvent(UUID eventID){
         events.add(eventID);
     }
+
+    public String toString(){
+        return roomName + " capacity: " + capacity;
+    }
 }

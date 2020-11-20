@@ -52,7 +52,7 @@ public class EventManager implements Serializable{
     }
     public Room getRoomByName(String name){
         for (Room r:rooms){
-            if (r.getRoomName().equals(name.toUpperCase())){
+            if (r.getRoomName().toUpperCase().equals(name.toUpperCase())){
                 return r;
             }
         }
@@ -123,11 +123,9 @@ public class EventManager implements Serializable{
     }
 
     public boolean roomAvailableForEvent(Room room, Event event){
-        if(!room.getEvents().isEmpty()) {
-            for (UUID eventID : room.getEvents()) {
-                if (getEventByID(eventID).getDate().equals(event.getDate())) {
-                    return false;
-                }
+        for (UUID eventID : room.getEvents()) {
+            if (getEventByID(eventID).getDate().equals(event.getDate())) {
+                return false;
             }
         }
         return true;

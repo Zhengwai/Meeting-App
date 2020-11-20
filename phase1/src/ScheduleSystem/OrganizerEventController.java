@@ -12,9 +12,9 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class OrganizerEventController extends AttendeeEventController{
-    private User currentUser;
+    //private User currentUser;
     //private EventManager em;
-    private UserManager um;
+    //private UserManager um;
     private EventGateway eg;
     private UserGateway ug;
     private EventPresenter ep = new EventPresenter();
@@ -75,7 +75,7 @@ public class OrganizerEventController extends AttendeeEventController{
         oep.hourPrompt();
         int hour = isValidHourInput(scanner.nextInt());
         Calendar cal = Calendar.getInstance();
-        cal.set(year, month, day, hour, 0, 0);
+        cal.set(year, (month-1), day, hour, 0, 0);
         Date date = cal.getTime();
         oep.eventNamePrompt();
         scanner.nextLine();
@@ -129,7 +129,7 @@ public class OrganizerEventController extends AttendeeEventController{
         }
         ep.showEvents(em.getEvents());
         ep.promptEvent();
-        String inputEvent = isValidInput(validList(validInputEvents), scanner.nextLine());
+        String inputEvent = isValidInput(validInputEvents, scanner.nextLine());
         Event targetEvent = em.getEventByName(inputEvent);
 
         if (targetEvent.assignedRoom()){
@@ -142,7 +142,7 @@ public class OrganizerEventController extends AttendeeEventController{
 
         ep.showRooms(em.getRooms());
         oep.promptRoom();
-        String inputRoom = isValidInput(validList(validInputRooms), scanner.nextLine());
+        String inputRoom = isValidInput(validInputRooms, scanner.nextLine());
         Room targetRoom = em.getRoomByName(inputRoom);
         if (!em.roomAvailableForEvent(targetRoom, targetEvent)){
             oep.timeConflictRoomAssignment();
