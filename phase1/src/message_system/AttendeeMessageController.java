@@ -18,7 +18,7 @@ public class AttendeeMessageController {
     private MessagePresenter mp;
     private User user;
     private UserManager um;
-    private EventManager em
+    private EventManager em;
 
     // ASSUME UM ALREADY DESERIALIZED
     public AttendeeMessageController(User user, UserManager um, EventManager em) {
