@@ -20,9 +20,8 @@ public class AttendeeEventController {
     }
 
     public boolean attendeeRun() throws IOException {
-        boolean running = true;
         String[] validInputs = new String[]{"1", "2", "3"};
-        while (running) {
+        while (true) {
             System.out.println("Please enter the number of corresponding choice: 1.SignUp for event  2.View signed up events/Cancel 3.Go back to the main menu.");
             String input = isValidInput(validList(validInputs), scanner.nextLine());
             boolean r = true;
@@ -50,11 +49,10 @@ public class AttendeeEventController {
                     ep.showEvents(signedUpEvents);
                     r = viewAndCancelEvent();
                 }
-            } else {
-                running = false;
+            } else if (input.equals("3")){
+                return true;
             }
         }
-        return true;
     }
 
 

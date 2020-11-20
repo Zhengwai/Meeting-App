@@ -12,7 +12,7 @@ public class Attendee extends User implements Serializable {
     private String password;
     private String type;
     private ArrayList<UUID> EnrolledEventIDs;
-    private ArrayList<UUID> enrolledEvents = new ArrayList<UUID>();
+    private ArrayList<UUID> enrolledEvents = new ArrayList<>();
 
     public Attendee(String username, String password) {
         super(username, password);
