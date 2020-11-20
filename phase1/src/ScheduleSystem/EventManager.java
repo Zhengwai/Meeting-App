@@ -102,7 +102,7 @@ public class EventManager implements Serializable{
     public ArrayList<Event> getEventsByUser(User user) {
         ArrayList<Event> userEvents = new ArrayList<>();
         for (Event e : events) {
-            if (e.getAttendees().contains(user.getID())) {
+            if (e.getAttendees().contains(user.getID()) | e.getSpeaker().equals(user.getID())) {
                 userEvents.add(e);
             }
         }
