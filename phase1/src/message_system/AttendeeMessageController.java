@@ -21,7 +21,6 @@ public class AttendeeMessageController {
     protected UserManager um;
     protected EventManager em;
 
-    // ASSUME UM ALREADY DESERIALIZED
     public AttendeeMessageController(User user, UserManager um, EventManager em) {
         this.user = user;
         this.cg = new ConversationGateway();
@@ -45,7 +44,7 @@ public class AttendeeMessageController {
 
                 switch (input) {
                     case "1":
-                        System.out.println("Enter the username of the person you want to add");
+                        System.out.println("Enter the username of the person you want to add":);
                         input = br.readLine();
                         handleAddFriend(input);
                         break;
@@ -59,12 +58,13 @@ public class AttendeeMessageController {
                         break;
                     default:
                         if (!input.equals("exit")) {
-                            System.out.println("Chose invalid option");
+                            System.out.println("Chose invalid option.");
                         }
                 }
             }
             serializeCM();
-        } catch (Exception e) {
+        } catch (IOException e) {
+            System.out.println("Failed to read input.");
             e.printStackTrace();
         }
     }

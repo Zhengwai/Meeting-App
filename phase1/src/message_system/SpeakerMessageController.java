@@ -15,13 +15,8 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class SpeakerMessageController extends AttendeeMessageController {
-    //private ConversationGateway cg = new ConversationGateway();
     private ConversationManager cm;
-    private MessagePresenter mp;
     private Speaker user;
-    private Conversation[] myConvos;
-    //private EventManager em;
-    //private UserManager um;
 
     public SpeakerMessageController(User inpUser, UserManager um, EventManager em) {
         super(inpUser, um, em);
@@ -29,12 +24,9 @@ public class SpeakerMessageController extends AttendeeMessageController {
     }
 
     public void run() {
-
         deserializeCM();
-
-        ArrayList<Conversation> allConvos = this.cm.getConversations(user.getConversations());
-
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
         try {
             String input = "";
             while (!input.equals("exit")) {
@@ -44,25 +36,34 @@ public class SpeakerMessageController extends AttendeeMessageController {
                         "3. New Message to all attendees of a talk \n" +
                         "exit to exit this Controller");
                 input = br.readLine();
-                if (input.equals("1")) {
-                    System.out.println("Enter the username of the person you want to add");
-                    input = br.readLine();
-                    handleAddFriend(input);
-                } else if (input.equals("2")) {
-                    ArrayList<Conversation> conversations = cm.getConversations(this.user.getConversations());
-                    System.out.println(mp.promptMainScreen(conversations));
-                    System.out.println("Enter the number of the conversation to open:");
-                    input = br.readLine();
-                    handleConversations(input, conversations);
-                } else if (input.equals("3")) {
-                    handleMessageAllAttendees();
-                } else if (!input.equals("exit")){
-                    System.out.println("You did not choose a valid Options");
+
+                switch(input) {
+                    case "1":
+                        System.out.println("Enter the username of the person you want to add");
+                        input = br.readLine();
+                        handleAddFriend(input);
+
+                    case "2":
+                        ArrayList<Conversation> conversations = cm.getConversations(this.user.getConversations());
+                        System.out.println(mp.promptMainScreen(conversations));
+                        System.out.println("Enter the number of the conversation to open:");
+                        input = br.readLine();
+                        handleConversations(input, conversations);
+
+                    case "3":
+                        handleMessageAllAttendees();
+
+                    default:
+                        if (!input.equals("exit")) {
+                            System.out.println("Chose invalid option");
+                        }
                 }
+
             }
             serializeCM();
         } catch (IOException e) {
-            System.out.println("Something went wrong");
+            System.out.println("Failed to read input");
+            e.printStackTrace();
         }
 
     }

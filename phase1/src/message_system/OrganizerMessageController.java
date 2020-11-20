@@ -31,9 +31,6 @@ public class OrganizerMessageController extends AttendeeMessageController {
 
     public void run() {
         MessagePresenter mp = new MessagePresenter(this.user, this.um);
-
-        ArrayList<Conversation> allConvos = cm.getConversations(this.user.getConversations());
-
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         try {
             String input = "";
