@@ -6,14 +6,15 @@ import java.util.UUID;
 
 /**
  * Entity class.
- * Stores messages sent from members of this conversation.
+ *
  */
 public class Conversation implements Serializable {
     private final ArrayList<UUID> members;
     private final ArrayList<Message> messages;
 
     /**
-     * Initializes a conversation with no members and no messages
+     * Initializes a conversation with no members and no messages.
+     * This conversation will be serialized within the <code>ConversationManager</code>.
      */
     public Conversation() {
         this.members = new ArrayList<>();
@@ -21,7 +22,7 @@ public class Conversation implements Serializable {
     }
 
     /**
-     * Sends a Message in this conversation.
+     * Sends a Message in this conversation. This method assumes that the senderID of the message is in the UserManager.
      * @param msg The message to be sent in this conversation
      */
     public void sendMessage(Message msg) {
@@ -29,8 +30,8 @@ public class Conversation implements Serializable {
     }
 
     /**
-     * Gets all messages in this conversation.
-     * @return An array of all messages in this conversation
+     * Returns an ArrayList of all Messages in this conversation.
+     * @return all messages in conversation.
      */
     public ArrayList<Message> getMessages() {
         return this.messages;
@@ -53,8 +54,8 @@ public class Conversation implements Serializable {
     }
 
     /**
-     * Gets all members of this conversation.
-     * @return An array of all the members' IDs.
+     * Returns an ArrayList the userIDs of the members in this conversation.
+     * @return The IDs of every member of this conversation.
      */
     public ArrayList<UUID> getMembers() {
         return this.members;
