@@ -11,7 +11,6 @@ import java.util.UUID;
 
 public class UserManager implements Serializable {
     private  ArrayList<User> allUsers;
-    private EventManager em;
     public User NotFoundUser = new User("NotFound", "NotFound");
 
     public UserManager() {
@@ -106,15 +105,6 @@ public class UserManager implements Serializable {
         return speakers;
     }
 
-    public boolean userAvailableForEvent(User user, Event event){
-        ArrayList<UUID> enrolledEvents = user.getEnrolledEvents();
-        for (UUID id:enrolledEvents){
-            if (em.getEventByID(id).getDate().equals(event.getDate())){
-                return false;
-            }
-        }
-        return true;
-    }
     public void addEventForUser(Event event, User user) {
         user.addEvent(event.getId());
     }

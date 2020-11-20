@@ -18,14 +18,15 @@ public class AttendeeController {
     private UserManager um;
     private Scanner scanner = new Scanner(System.in);
     private EventPresenter ep = new EventPresenter();
-    private EventManager em = new EventManager();
+    private EventManager em;
     private String[] validYN = new String[]{"Y", "N"};
     private AttendeeEventController ec;
 
-    public AttendeeController(User thisUser, UserManager um) throws ClassNotFoundException {
+    public AttendeeController(User thisUser, UserManager um, EventManager em) throws ClassNotFoundException {
         user = thisUser;
-        ec = new AttendeeEventController(user);
         this.um = um;
+        this.em = em;
+        ec = new AttendeeEventController(this.user, this.um, this.em);
     }
     /**
      * Displays a menu of choices for the Attendee object, and continuously running until user chooses to exit the program.

@@ -19,15 +19,14 @@ public class CreateEvents {
         Date date2 = cal2.getTime();
         Event e1 = new Event("TalkA", date1, 4);
         Event e2 = new Event("TalkB", date2, 6);
-        ArrayList<Event> allEvents = new ArrayList<Event>();
-        allEvents.add(e1);
-        allEvents.add(e2);
-        eg.serializeEvents("phase1/Events.ser", allEvents);
-        ArrayList<Event> events = eg.deserializeEvents("phase1/Events.ser");
-        for (Event e:events){
+        EventManager em = new EventManager();
+        em.addEvent(e1);
+        em.addEvent(e2);
+        eg.serializeEM("em.ser", em);
+        EventManager em1 = eg.deserializeEM("em.ser");
+        for (Event e:em1.getEvents()){
             System.out.println(e);
         }
 
     }
 }
-

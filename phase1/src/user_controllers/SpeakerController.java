@@ -1,5 +1,6 @@
 package user_controllers;
 
+import ScheduleSystem.AttendeeEventController;
 import ScheduleSystem.Event;
 import ScheduleSystem.EventManager;
 import message_system.AttendeeMessageController;
@@ -20,12 +21,14 @@ public class SpeakerController {
 
     private User user;
     private EventPresenter ep = new EventPresenter();
-    private UserManager um = new UserManager();
-    private EventManager em = new EventManager();
+    private UserManager um;
+    private EventManager em;
     private Scanner scanner = new Scanner(System.in);
 
-    public SpeakerController(User user) throws ClassNotFoundException {
+    public SpeakerController(User user, UserManager um, EventManager em) {
         this.user = user;
+        this.um = um;
+        this.em = em;
     }
 
     public boolean run() throws IOException, ClassNotFoundException {

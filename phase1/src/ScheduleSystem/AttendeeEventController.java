@@ -1,7 +1,9 @@
 package ScheduleSystem;
 
+import com.sun.xml.internal.ws.util.xml.DummyLocation;
 import users.Speaker;
 import users.User;
+import users.UserGateway;
 import users.UserManager;
 
 import java.io.IOException;
@@ -11,12 +13,16 @@ import java.util.Scanner;
 
 public class AttendeeEventController {
     private User currentUser;
-    private EventManager em = new EventManager();
+    private EventManager em;
+    private UserManager um;
     private EventPresenter ep = new EventPresenter();
     private Scanner scanner = new Scanner(System.in);
-    private UserManager um = new UserManager();
-    public AttendeeEventController(User user) throws ClassNotFoundException {
+    private EventGateway eg = new EventGateway();
+    private UserGateway ug = new UserGateway();
+    public AttendeeEventController(User user, UserManager um, EventManager em) {
         currentUser = user;
+        this.um = um;
+        this.em = em;
     }
 
     public boolean attendeeRun() throws IOException {
@@ -80,6 +86,7 @@ public class AttendeeEventController {
             ep.timeConflict();
             return signUpAgain();
         }
+        serializeInformation();
         ep.signUpSuccess(targetEvent.getName());
         if (em.getAvailableEventsForUser(currentUser).size() == 0){
             return false;
@@ -107,6 +114,7 @@ public class AttendeeEventController {
             ep.unableToCancelPrompt();
             return cancelAgain();
         }
+        serializeInformation();
         ep.cancelSuccess(targetEvent.getName());
         if (em.getEventsByUser(currentUser).size() == 0){
             return false;
@@ -195,6 +203,11 @@ public class AttendeeEventController {
 
     protected ArrayList<String> validList(ArrayList<String> allValid) {
         return allValid;
+    }
+
+    private void serializeInformation(){
+        eg.serializeEM("em.ser", em);
+        ug.serializeUserManager("um.ser", um);
     }
 
 }

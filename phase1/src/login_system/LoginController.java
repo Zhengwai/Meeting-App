@@ -1,5 +1,7 @@
 package login_system;
 
+import ScheduleSystem.EventGateway;
+import ScheduleSystem.EventManager;
 import user_controllers.AttendeeController;
 import user_controllers.OrganizerController;
 import user_controllers.SpeakerController;
@@ -16,17 +18,17 @@ public class LoginController {
     Scanner in = new Scanner(System.in);
     OrganizerController oc;
     SpeakerController sc;
-    //LoginGateway lg = new LoginGateway();
     UserGateway ug;
     UserManager um;
-    //ug.deserializeUserManager("user-manager.ser");
+    EventGateway eg;
     ArrayList<User> lst;
+    EventManager em;
 
     public LoginController() throws ClassNotFoundException {
         this.ug = new UserGateway();
+        this.eg = new EventGateway();
         deserializeUM();
-        //um.addAllUsers(lg.deserializeToArrLstOfUser("login_system/userss.ser"));
-        //um.addAllUsers(lg.readObject("phase1/resourceroot/allusers.ser"));
+        deserializeEM();
     }
 
     /**
@@ -40,14 +42,17 @@ public class LoginController {
             String indicator = isValidInput(validList(validA), in.nextLine());
             if (indicator.equals("1")) {
                 User user = login();
+                while (user == null){
+                    user = login();
+                }
                 if (user.getType().equals("a")) {
-                    AttendeeController ac = new AttendeeController(user, um);
+                    AttendeeController ac = new AttendeeController(user, um, em);
                     ac.run();
                 } else if (user.getType().equals("o")) {
-                    OrganizerController oc = new OrganizerController(user);
+                    OrganizerController oc = new OrganizerController(user, um, em);
                     oc.run();
                 } else {
-                    SpeakerController sc = new SpeakerController(user);
+                    SpeakerController sc = new SpeakerController(user, um, em);
                     sc.run();
                 }
             }
@@ -68,8 +73,8 @@ public class LoginController {
             }
             else {
                 serializeUM();
+                serializeEM();
                 running = false;
-                //lg.writeObject(um.getAllAttendees(), "phase1/resourceroot/allusers.ser");
             }
         }
     }
@@ -123,6 +128,7 @@ public class LoginController {
                 System.out.println("Login success!");
             } else {
                 System.out.println("Incorrect username or password, please try again");
+                return null;
             }
         }
 
@@ -191,5 +197,17 @@ public class LoginController {
 
     private void serializeUM() {
         this.ug.serializeUserManager("um.ser", this.um);
+    }
+
+    private void deserializeEM() {
+        try {
+            this.em = this.eg.deserializeEM("em.ser");
+        } catch (ClassNotFoundException e) {
+            System.out.println("Couldn't find the em.ser file. Check phase1 directory.");
+        }
+    }
+
+    private void serializeEM() {
+        this.eg.serializeEM("em.ser", this.em);
     }
 }

@@ -1,8 +1,9 @@
 package ScheduleSystem;
+import java.io.Serializable;
 import java.util.UUID;
 import java.util.ArrayList;
 
-public class Room {
+public class Room implements Serializable {
     private int capacity;
     private String roomName;
     private UUID roomId;

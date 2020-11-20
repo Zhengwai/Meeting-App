@@ -3,6 +3,7 @@ package ScheduleSystem;
 import sun.security.util.ArrayUtil;
 import users.Speaker;
 import users.User;
+import users.UserGateway;
 import users.UserManager;
 
 import java.io.IOException;
@@ -12,13 +13,15 @@ import java.util.stream.IntStream;
 
 public class OrganizerEventController extends AttendeeEventController{
     private User currentUser;
-    private EventManager em = new EventManager();
+    private EventManager em;
+    private UserManager um;
+    private EventGateway eg;
+    private UserGateway ug;
     private EventPresenter ep = new EventPresenter();
     private OrganizerEventPresenter oep = new OrganizerEventPresenter();
     private Scanner scanner = new Scanner(System.in);
-    private UserManager um = new UserManager();
-    public OrganizerEventController(User user) throws ClassNotFoundException {
-        super(user);
+    public OrganizerEventController(User user, UserManager um, EventManager em) {
+        super(user, um, em);
     }
 
     public boolean organizerRun() throws IOException, AlreadySignedUpException, TimeConflictException {
@@ -188,7 +191,7 @@ public class OrganizerEventController extends AttendeeEventController{
         oep.promptSpeaker();
         String inputSpeaker = isValidInput(validList(validInputSpeakers), scanner.nextLine());
         Speaker targetSpeaker = (Speaker) um.getUserByName(inputSpeaker);
-        if (!um.userAvailableForEvent(targetSpeaker, targetEvent)){
+        if (!em.userAvailableForEvent(targetSpeaker, targetEvent)){
             oep.timeConflictSpeakerAssignment();
             return assignSpeakerAgain();
         }

@@ -1,6 +1,7 @@
 package ScheduleSystem;
 
 import users.User;
+import users.UserManager;
 
 import java.io.*;
 import java.text.DateFormat;
@@ -50,25 +51,24 @@ public class EventGateway {
         return events;
      }*/
     @SuppressWarnings("unchecked")
-    public ArrayList<Event> deserializeEvents(String filePath) throws ClassNotFoundException{
+    public EventManager deserializeEM(String filePath) throws ClassNotFoundException{
         try {
             InputStream file = new FileInputStream(filePath);
             InputStream buffer = new BufferedInputStream(file);
             ObjectInput input = new ObjectInputStream(buffer);
 
-            ArrayList<Event> events = (ArrayList<Event>) input.readObject();
+            EventManager em = (EventManager) input.readObject();
             input.close();
-            return events;
+            return em;
         } catch (IOException ex) {
-            //TODO: Needs logger
-            return new ArrayList<>();
+            return new EventManager();
         }
     }
-    public void serializeEvents(String filePath, ArrayList<Event> events) throws IOException {
+    public void serializeEM(String filePath, EventManager em) {
         try{
             FileOutputStream fileOutputStream = new FileOutputStream(filePath);
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-            objectOutputStream.writeObject(events);
+            objectOutputStream.writeObject(em);
 
             objectOutputStream.close();
             fileOutputStream.close();
@@ -77,38 +77,11 @@ public class EventGateway {
         }
     }
 
-    @SuppressWarnings("unchecked")
-    public ArrayList<Room> deserializeRooms(String filePath) throws ClassNotFoundException{
-        try {
-            InputStream file = new FileInputStream(filePath);
-            InputStream buffer = new BufferedInputStream(file);
-            ObjectInput input = new ObjectInputStream(buffer);
 
-            ArrayList<Room> rooms = (ArrayList<Room>) input.readObject();
-            input.close();
-            return rooms;
-        } catch (IOException ex) {
-            //TODO: Needs logger
-            return new ArrayList<>();
-        }
-
-
-    }
-    public void serializeRooms(String filePath, ArrayList<Room> rooms) throws IOException {
-        try{
-            FileOutputStream fileOutputStream = new FileOutputStream(filePath);
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-            objectOutputStream.writeObject(rooms);
-
-            objectOutputStream.close();
-            fileOutputStream.close();
-        }catch (IOException e){
-            e.printStackTrace();
-        }
     }
     // TODO: 11/15/2020 make this class run on first startup of program. Since we assume also make sure eventManager is
     //  instantiated with the run of the gateway. (where is the eventManager instantiated?/check if it is)
 
 
     
-}
+

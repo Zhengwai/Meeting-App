@@ -7,14 +7,11 @@ import users.UserManager;
 import java.io.*;
 import java.util.*;
 
-public class EventManager {
-    private EventGateway eg = new EventGateway();
-    private Event notFoundEvent = new Event();
-    private Room notFoundRoom = new Room();
-    private UserManager um = new UserManager();
-    private UserGateway ug = new UserGateway();
-    private ArrayList<Event> events = eg.deserializeEvents("phase1/Events.ser");
-    private ArrayList<Room> rooms = eg.deserializeRooms("phase1/Rooms.ser");
+public class EventManager implements Serializable{
+    private final Event notFoundEvent = new Event();
+    private final Room notFoundRoom = new Room();
+    private ArrayList<Event> events = new ArrayList<>();
+    private ArrayList<Room> rooms = new ArrayList<>();
 
     public EventManager() throws ClassNotFoundException {
     }
@@ -24,7 +21,6 @@ public class EventManager {
             return false;
         } else {
             this.events.add(event);
-            eg.serializeEvents("phase1/Events.ser", events);
             return true;
         }
     }
@@ -34,7 +30,6 @@ public class EventManager {
             return false;
         }
         this.rooms.add(room);
-        eg.serializeRooms("phase1/Rooms.ser", rooms);
         return true;
     }
 
@@ -83,14 +78,12 @@ public class EventManager {
 
         }
         event.addAttendee(user.getID());
-        eg.serializeEvents("phase1/Events.ser", events);
         return true;
     }
 
     public boolean removeUser(User user, Event event) throws UnableToCancelException, IOException {
         if (event.getAttendees().contains(user.getID())) {
             event.removeAttendee(user.getID());
-            eg.serializeEvents("phase1/Events.ser", events);
             return true;
         } else {
             throw new UnableToCancelException();
@@ -141,8 +134,16 @@ public class EventManager {
     public void assignRoom(Room room, Event event) throws IOException {
         room.addEvent(event.getId());
         event.setRoom(room.getID());
-        eg.serializeEvents("phase1/Events.ser", events);
-        eg.serializeRooms("phase1/Rooms.ser", rooms);
 
+    }
+
+    public boolean userAvailableForEvent(User user, Event event) {
+        ArrayList<UUID> enrolledEvents = user.getEnrolledEvents();
+        for (UUID id:enrolledEvents){
+            if (getEventByID(id).getDate().equals(event.getDate())){
+                return false;
+            }
+        }
+        return true;
     }
 }

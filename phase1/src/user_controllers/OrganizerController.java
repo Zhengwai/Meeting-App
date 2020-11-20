@@ -16,14 +16,16 @@ public class OrganizerController {
     private User user;
     private Scanner scanner = new Scanner(System.in);
     private  EventPresenter ep = new EventPresenter();
-    private EventManager em = new EventManager();
-    private UserManager um = new UserManager();
+    private EventManager em;
+    private UserManager um;
     private OrganizerEventController oec;
     private String[] validYN = new String[]{"Y", "N"};
 
-    public OrganizerController(User user) throws ClassNotFoundException {
+    public OrganizerController(User user, UserManager um, EventManager em) throws ClassNotFoundException {
         this.user = user;
-        oec = new OrganizerEventController(user);
+        this.um = um;
+        this.em = em;
+        oec = new OrganizerEventController(this.user, this.um, this.em);
     }
 
     public boolean run() throws Exception {
@@ -37,18 +39,10 @@ public class OrganizerController {
             String input = isValidInput(validList(validInputs), scanner.nextLine());
 
             if (input.equals("1")){
-                boolean r = true;
-                while (r){
-                    r = oec.organizerRun();
-                    um = new UserManager();
-                    em = new EventManager();
-                }
+                oec.organizerRun();
 
             } else if (input.equals("2")){
-                boolean r = true;
-                while (r){
                     /*r = message();*/
-                }
             } else {
                 running = false;
             }
