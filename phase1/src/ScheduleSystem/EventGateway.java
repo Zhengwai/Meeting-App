@@ -76,8 +76,6 @@ public class EventGateway {
             e.printStackTrace();
         }
     }
-
-
     }
     // TODO: 11/15/2020 make this class run on first startup of program. Since we assume also make sure eventManager is
     //  instantiated with the run of the gateway. (where is the eventManager instantiated?/check if it is)
