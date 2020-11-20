@@ -9,12 +9,11 @@ import java.util.UUID;
 
 
 public class UserManager implements Serializable {
-    private ArrayList<User> allUsers;
+    private static ArrayList<User> allUsers = new ArrayList<User>();
     private EventManager em;
     public User NotFoundUser = new User("NotFound", "NotFound");
 
     public UserManager() {
-        this.allUsers = new ArrayList<>();
         //TODO: Initialize this.em
     }
 
@@ -30,6 +29,10 @@ public class UserManager implements Serializable {
         return true;
 
 
+    }
+
+    public void addAllUsers(ArrayList<User> u){
+        allUsers = u;
     }
 
     public boolean addFriends(User user1, User user2) {

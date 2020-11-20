@@ -3,7 +3,6 @@ package user_controllers;
 import ScheduleSystem.Event;
 import ScheduleSystem.EventManager;
 import message_system.AttendeeMessageController;
-import message_system.SpeakerMessageController;
 import ScheduleSystem.EventPresenter;
 import users.User;
 import users.UserGateway;

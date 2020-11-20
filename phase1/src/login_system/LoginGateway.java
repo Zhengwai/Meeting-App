@@ -7,15 +7,16 @@ import users.*;
 /**
  * Serialize and deserialize between arraylists of User objects and .ser files
  */
-public class LoginGateway {
+public class LoginGateway implements Serializable{
     /**
      * Serialize arraylists to .ser file
      * @param arrayList the arraylist that wants to be serialized
      * @param address the location of the .ser file to be saved at after serialization
      */
-    public void serializeArrLstOfUser(ArrayList<User> arrayList, String address){
+    public void writeObject(ArrayList<User> arrayList, String address){
         try{
-            FileOutputStream fileOutputStream = new FileOutputStream(address);
+            File file = new File(address);
+            FileOutputStream fileOutputStream = new FileOutputStream(file);
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
             objectOutputStream.writeObject(arrayList);
 
@@ -23,6 +24,7 @@ public class LoginGateway {
             fileOutputStream.close();
         }catch (IOException e){
             e.printStackTrace();
+            System.err.println("write");
         }
     }
 
@@ -34,15 +36,17 @@ public class LoginGateway {
      * @return returns an arraylist of User objects
      */
     @SuppressWarnings("unchecked")
-    public ArrayList<User> deserializeToArrLstOfUser(String path){
+    public ArrayList<User> readObject(String path){
         try{
             FileInputStream fileInputStream = new FileInputStream(path);
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
             temp = (ArrayList<User>) objectInputStream.readObject();
             fileInputStream.close();
             objectInputStream.close();
+
         }catch (IOException | ClassNotFoundException e){
             e.printStackTrace();
+            System.err.println("read");
         }
 
         return temp;
