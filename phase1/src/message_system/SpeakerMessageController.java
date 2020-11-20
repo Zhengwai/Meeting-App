@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class SpeakerMessageController extends AttendeeMessageController {
-    private ConversationManager cm;
     private Speaker user;
 
     public SpeakerMessageController(User inpUser, UserManager um, EventManager em) {
