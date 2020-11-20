@@ -65,6 +65,7 @@ public class OrganizerMessageController extends AttendeeMessageController {
                     System.out.println("You did not choose a valid option");
                 }
             }
+            serializeCM();
         } catch (IOException e) {
             System.out.println("Something went wrong");
         }
@@ -106,6 +107,13 @@ public class OrganizerMessageController extends AttendeeMessageController {
             this.cm = cg.readFromFile("cm.ser");
         } catch (ClassNotFoundException e) {
             System.out.println("Couldn't find the cm.ser file. Check phase1 directory.");
+        }
+    }
+    private void serializeCM() {
+        try {
+            this.cg.saveToFile("cm.ser", this.cm);
+        } catch (IOException e) {
+            System.out.println("Something went wrong.");
         }
     }
 }
