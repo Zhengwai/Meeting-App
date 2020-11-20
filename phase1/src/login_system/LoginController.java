@@ -28,6 +28,7 @@ public class LoginController {
         this.eg = new EventGateway();
         deserializeUM();
         deserializeEM();
+        um.addUser(new Organizer("organizer", "organizer"));
     }
 
     /**

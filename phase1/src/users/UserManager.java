@@ -133,4 +133,8 @@ public class UserManager implements Serializable {
         return attendees;
 
     }
+
+    public boolean createSpeaker(String username, String password){
+        return addUser(new Speaker(username, password));
+    }
 }

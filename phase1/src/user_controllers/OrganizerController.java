@@ -36,20 +36,43 @@ public class OrganizerController {
             System.out.println("Please enter the number of corresponding choice:\n" +
                     "1.Manage Events  \n" +
                     "2.Message \n" +
+                    "3.Create Speaker Account \n" +
                     "3.Exit program");
             String input = ivc.isValidInput(ivc.validList(validInputs), scanner.nextLine());
 
             if (input.equals("1")){
                 oec.organizerRun();
-
             } else if (input.equals("2")){
                 message();
+            } else if (input.equals("3")){
+                boolean added = false;
+                while(!added){
+                    added = createSpeakerAccount();
+                    if(!added){
+                        String[] validB = new String[]{"1", "0"};
+                        System.out.println("Sorry, the username you've entered has already been taken." +
+                                "Would you like to retry? Enter 1 for yes, 0 for no.");
+                        String retry = ivc.isValidInput(ivc.validList(validB), scanner.nextLine());
+                        if(retry.equals("0")){
+                            added = true;
+                        }
+                    }
+                };
             } else {
                 running = false;
             }
 
         }
         return true;
+    }
+
+    public boolean createSpeakerAccount(){
+        System.out.println("Please choose a username: ");
+        String user = scanner.nextLine();
+        System.out.println("Please choose a password: ");
+        String pass = scanner.nextLine();
+
+        return um.createSpeaker(user, pass);
     }
 
     public boolean message() throws IOException, ClassNotFoundException {
