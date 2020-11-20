@@ -80,7 +80,12 @@ public class InputValidityChecker {
     public String isValidInput(ArrayList<String> validInputs, String newInput) {
         String checkInput = newInput.toUpperCase();
 
-        while (!validInputs.contains(checkInput)) {
+        ArrayList<String> capitalInputs = new ArrayList<>();
+        for(String i: validInputs){
+            capitalInputs.add(i.toUpperCase());
+        }
+
+        while (!capitalInputs.contains(checkInput)) {
             ep.notValidInput();
             checkInput = scanner.nextLine();
         }
