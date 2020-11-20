@@ -25,6 +25,7 @@ public class EventManager implements Serializable{
         }
     }
 
+
     public boolean addRoom(Room room) throws IOException {
         if (this.rooms.contains(room)) {
             return false;
@@ -103,16 +104,6 @@ public class EventManager implements Serializable{
         ArrayList<Event> userEvents = new ArrayList<>();
         for (Event e : events) {
             if (e.getAttendees().contains(user.getID()) | e.getSpeaker().equals(user.getID())) {
-                userEvents.add(e);
-            }
-        }
-        return userEvents;
-    }
-
-    public ArrayList<Event> getEventsBySpeaker(User user) {
-        ArrayList<Event> userEvents = new ArrayList<>();
-        for (Event e : events) {
-            if (e.existsSpeaker() && e.getSpeaker() == user.getID()) {
                 userEvents.add(e);
             }
         }
