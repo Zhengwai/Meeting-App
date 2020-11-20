@@ -28,11 +28,13 @@ public class AttendeeEventController {
         String[] validInputs = new String[]{"1", "2", "3"};
         while (true) {
             System.out.println("Please enter the number of corresponding choice: \n" +
-                    "1.SignUp for event  \n" +
-                    "2.View signed up events/Cancel \n" +
-                    "3.Go back to the main menu.");
+                    "1. Sign Up for an event  \n" +
+                    "2. View signed up events/Cancel \n" +
+                    "3. Go back to the main menu");
+
             String input = vc.isValidInput(vc.validList(validInputs), scanner.nextLine());
             boolean r = true;
+
             if (input.equals("1")) {
                 ArrayList<Event> availableEvents = em.getAvailableEventsForUser(currentUser);
                 if (availableEvents.size() == 0){
@@ -94,7 +96,6 @@ public class AttendeeEventController {
             return false;
         }
         return signUpAgain();
-
     }
 
     protected boolean viewAndCancelEvent() {

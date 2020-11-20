@@ -66,16 +66,15 @@ public class EventManager implements Serializable{
     public ArrayList<Room> getRooms(){
         return this.rooms;
     }
+
     public boolean signUpUser(User user, Event event) throws AlreadySignedUpException, TimeConflictException, IOException {
-        for (UUID i : user.getEnrolledEvents()) {
-            if (event.getId().equals(i)) {
+        for (Event i : getEventsByUser(user)) {
+            if (event.getId().equals(i.getId())) {
                 throw new AlreadySignedUpException();
             }
-            Event ev = this.getEventByID(i);
-            if (ev.getDate().equals(event.getDate())){
+            if (i.getDate().toString().equals(event.getDate().toString())){
                 throw new TimeConflictException();
             }
-
         }
         event.addAttendee(user.getID());
         return true;

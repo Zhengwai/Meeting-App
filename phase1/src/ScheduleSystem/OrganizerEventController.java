@@ -12,9 +12,6 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class OrganizerEventController extends AttendeeEventController{
-    //private User currentUser;
-    //private EventManager em;
-    //private UserManager um;
     private EventGateway eg;
     private UserGateway ug;
     private EventPresenter ep = new EventPresenter();
