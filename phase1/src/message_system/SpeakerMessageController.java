@@ -16,10 +16,10 @@ import java.util.UUID;
 
 public class SpeakerMessageController extends AttendeeMessageController {
     //private ConversationGateway cg = new ConversationGateway();
-    private ConversationManager cm;
-    private MessagePresenter mp;
-    private Speaker user;
-    private Conversation[] myConvos;
+    //private ConversationManager cm;
+    // private MessagePresenter mp;
+    private Speaker speakerUser;
+    //private Conversation[] myConvos;
     //private EventManager em;
     //private UserManager um;
 
@@ -57,7 +57,9 @@ public class SpeakerMessageController extends AttendeeMessageController {
                 } else if (input.equals("3")) {
                     handleMessageAllAttendees();
                 } else if (!input.equals("exit")){
-                    System.out.println("You did not choose a valid Options");
+                    System.out.println("Exiting now");
+                } else {
+                    System.out.println("Chose invalid option");
                 }
             }
             serializeCM();
@@ -90,7 +92,7 @@ public class SpeakerMessageController extends AttendeeMessageController {
 
     public void handleMessageAllAttendees() {
         try {
-            ArrayList<Event> events = em.getEventsByUser(user);
+            ArrayList<Event> events = em.getEventsBySpeaker(user);
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
             if(events.size() > 0) {

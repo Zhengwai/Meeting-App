@@ -59,8 +59,10 @@ public class OrganizerMessageController extends AttendeeMessageController {
                     handleMessageAllSpeakers();
                 } else if (input.equals("4")) {
                     handleMessageAllAttendees();
+                } else if (!input.equals("exit")){
+                    System.out.println("Exiting now");
                 } else {
-                    System.out.println("You did not choose a valid option");
+                    System.out.println("Chose invalid option");
                 }
             }
             serializeCM();
