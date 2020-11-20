@@ -95,6 +95,16 @@ public class UserManager implements Serializable {
         return speakers;
     }
 
+    public ArrayList<User> getAllSpeakersUser(){
+        ArrayList<User> speakers = new ArrayList<>();
+        for (User u: allUsers){
+            if (u.getType().equals("s")){
+                speakers.add(u);
+            }
+        }
+        return speakers;
+    }
+
     public ArrayList<String> getAllSpeakerNames(){
         ArrayList<String> speakers = new ArrayList<>();
         for (User u: allUsers){

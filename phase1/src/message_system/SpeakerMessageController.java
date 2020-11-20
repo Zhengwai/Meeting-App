@@ -1,8 +1,11 @@
 package message_system;
 
 
+import ScheduleSystem.EventManager;
 import users.User;
-import ScheduleSystem;
+import users.UserGateway;
+import users.UserManager;
+import ScheduleSystem.Event;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,9 +17,10 @@ public class SpeakerMessageController extends AttendeeMessageController {
     private ConversationGateway cg;
     private ConversationManager cm;
     private MessagePresenter mp;
-    private User user;
+    private Speaker user;
     private Conversation[] myConvos;
     private EventManager em;
+    private UserManager um;
 
     public SpeakerMessageController(User inpUser, UserManager um, EventManager em) {
         super(inpUser, um, em);
@@ -63,39 +67,51 @@ public class SpeakerMessageController extends AttendeeMessageController {
     }
 
     public void handleMessageAll(ArrayList<User> users) {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        System.out.println("Enter your Message");
-        String inp = br.readLine();
-        Message msg = new Message(user.getID(), inp);
+            System.out.println("Enter your Message");
+            String inp = br.readLine();
+            Message msg = new Message(user.getID(), inp);
 
-        UUID conID = this.cm.newConversation();
-        Conversation c = this.cm.getConversation(conID);
-        c.addMember(user.getID());
-        for (int i = 0; i < users.size(); i++) {
-            c.addMember(users.get(i).getID());
+            UUID conID = this.cm.newConversation();
+            Conversation c = this.cm.getConversation(conID);
+            c.addMember(user.getID());
+            for (int i = 0; i < users.size(); i++) {
+                c.addMember(users.get(i).getID());
+            }
+
+            c.sendMessage(msg);
+        } catch (IOException e) {
+            System.out.println("Failed to read input.");
         }
-
-        c.sendMessage(msg);
     }
 
     public void handleMessageAllAttendees() {
-        ArrayList<Event> events;
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        try {
+            ArrayList<Event> events = new ArrayList<>();;
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        for (int i = 0; i < user.getSpeakerEvents().size(); i++) {
-            events.add(em.getEventByID(user.getSpeakerEvents().get(i)));
+            for (int i = 0; i < user.getSpeakerEvents().size(); i++) {
+                events.add(em.getEventByID(user.getSpeakerEvents().get(i)));
+            }
+            System.out.println("Choose one of your following talks to message:");
+            for (int i = 0; i < events.size(); i++) {
+                System.out.println(Integer.toString(i) + ". " + events.get(i).getName());
+            }
+
+            String inp = br.readLine();
+            Event evt = events.get(Integer.parseInt(inp) - 1);
+            ArrayList<UUID> attendants = evt.getAttendees();
+            ArrayList<User> attendeesUser = new ArrayList<>();;
+            for (int i = 0; i < attendants.size(); i++) {
+                attendeesUser.add(um.getUserByID(attendants.get(i)));
+            }
+
+            handleMessageAll(attendeesUser);
+        } catch (IOException e) {
+            System.out.println("Failed to read input.");
         }
-        System.out.println("Choose one of your following talks to message:");
-        for (int i = 0; i < events.size(); i++) {
-            System.out.println(Integer.toString(i) + ". " + events.get(i).name());
-        }
-
-        string inp = br.readLine();
-        Event evt = events.get(Integer.parseInt(inp) - 1);
-        ArrayList<User> users = evt.getAttendees();
-
-        handleMessageAll(users);
     }
 
     private void deserializeCM() {

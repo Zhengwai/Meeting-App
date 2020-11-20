@@ -4,7 +4,9 @@ package message_system;
 import ScheduleSystem.EventManager;
 import users.Speaker;
 import users.User;
+import users.UserGateway;
 import users.UserManager;
+import ScheduleSystem.Event;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,6 +23,7 @@ public class OrganizerMessageController extends AttendeeMessageController {
     private User user;
     private Conversation[] myConvos;
     private EventManager em;
+    private UserManager um;
 
     public OrganizerMessageController(User inpUser, UserManager um, EventManager em) {
         super(inpUser, um, em);
@@ -69,20 +72,24 @@ public class OrganizerMessageController extends AttendeeMessageController {
     }
 
     public void handleMessageAll(ArrayList<User> users) {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        System.out.println("Enter your Message");
-        String inp = br.readLine();
-        Message msg = new Message(user.getID(), inp);
+            System.out.println("Enter your Message");
+            String inp = br.readLine();
+            Message msg = new Message(user.getID(), inp);
 
-        UUID conID = this.cm.newConversation();
-        Conversation c = this.cm.getConversation(conID);
-        c.addMember(user.getID());
-        for (int i = 0; i < users.size(); i++) {
-            c.addMember(users.get(i).getID());
+            UUID conID = this.cm.newConversation();
+            Conversation c = this.cm.getConversation(conID);
+            c.addMember(user.getID());
+            for (int i = 0; i < users.size(); i++) {
+                c.addMember(users.get(i).getID());
+            }
+
+            c.sendMessage(msg);
+        } catch (IOException e) {
+            System.out.println("Failed to read input.");
         }
-
-        c.sendMessage(msg);
     }
 
     public void handleMessageAllAttendees() {
@@ -90,7 +97,7 @@ public class OrganizerMessageController extends AttendeeMessageController {
     }
 
     public void handleMessageAllSpeakers() {
-        handleMessageAll(this.um.getAllSpeakers());
+        handleMessageAll(this.um.getAllSpeakersUser());
     }
 
     private void deserializeCM() {
