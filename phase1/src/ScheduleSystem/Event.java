@@ -13,6 +13,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
+
+/**
+ * The event entity is a class responsible for the events in the convention. Each instance of an event models a
+ * separate event.
+ */
 public class Event implements Serializable {
     private UUID id;
     private String name;
@@ -24,6 +29,11 @@ public class Event implements Serializable {
     private UUID room;
     private boolean hasRoom = false;
 
+    /**
+     * @param name the name of the event
+     * @param date the time and date of the event
+     * @param capacity the maximum attendee capacity of the event
+     */
     public Event(String name, Date date, int capacity){
         this.name = name.toUpperCase();
         this.date = date;
@@ -39,12 +49,24 @@ public class Event implements Serializable {
     public String getName(){
         return this.name;
     }
+
+    /**
+     * @return date of the event as a date object
+     */
     public Date getDate(){
         return date;
     }
+
+    /**
+     * @return the the maximum capacity of the event
+     */
     public int getCapacity(){
         return this.capacity;
     }
+
+    /**
+     * @return the current amount of attendees registered for the event
+     */
     public int currentNum(){return attendees.size(); }
     public ArrayList<UUID> getAttendees() {
         return attendees;

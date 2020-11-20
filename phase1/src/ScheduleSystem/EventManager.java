@@ -119,7 +119,7 @@ public class EventManager {
 
     public ArrayList<Event> getAvailableEventsForUser(User user){
         ArrayList<Event> events = new ArrayList<>();
-        for (Event e:events){
+        for (Event e:this.events){
             if (e.hasSpace()){
                 if(!e.hasAttendee(user.getID())){
                     events.add(e);
@@ -145,6 +145,4 @@ public class EventManager {
         eg.serializeRooms("phase1/Rooms.ser", rooms);
 
     }
-
-
 }
