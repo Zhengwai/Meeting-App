@@ -143,6 +143,6 @@ public class Event implements Serializable {
             full = "full";
         }
 
-        return name+"@"+ date.toString() +", status: "+full;
+        return name+"@"+ date.toString() +", status: "+ attendees.size() + "/" + capacity + " " + full;
     }
 }

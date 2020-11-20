@@ -17,9 +17,9 @@ public class AttendeeMessageController {
     private ConversationGateway cg;
     private ConversationManager cm;
     private MessagePresenter mp;
-    private User user;
-    private UserManager um;
-    private EventManager em;
+    protected User user;
+    protected UserManager um;
+    protected EventManager em;
 
     // ASSUME UM ALREADY DESERIALIZED
     public AttendeeMessageController(User user, UserManager um, EventManager em) {

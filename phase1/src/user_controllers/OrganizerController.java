@@ -42,7 +42,7 @@ public class OrganizerController {
                 oec.organizerRun();
 
             } else if (input.equals("2")){
-                    /*r = message();*/
+                message();
             } else {
                 running = false;
             }

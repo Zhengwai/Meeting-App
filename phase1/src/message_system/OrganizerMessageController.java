@@ -20,10 +20,10 @@ public class OrganizerMessageController extends AttendeeMessageController {
     private ConversationGateway cg;
     private ConversationManager cm;
     private MessagePresenter mp;
-    private User user;
+    //private User user;
     private Conversation[] myConvos;
-    private EventManager em;
-    private UserManager um;
+    //private EventManager em;
+    //private UserManager um;
 
     public OrganizerMessageController(User inpUser, UserManager um, EventManager em) {
         super(inpUser, um, em);
