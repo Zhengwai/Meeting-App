@@ -24,6 +24,7 @@ public class SpeakerController {
     private UserManager um;
     private EventManager em;
     private Scanner scanner = new Scanner(System.in);
+    private InputValidityChecker ivc = new InputValidityChecker();
 
     public SpeakerController(User user, UserManager um, EventManager em) {
         this.user = user;
@@ -39,7 +40,7 @@ public class SpeakerController {
                     "1.View Assigned Events  \n" +
                     "2.Message \n" +
                     "3.Exit program");
-            String input = isValidInput(validList(validInputs), scanner.nextLine());
+            String input = ivc.isValidInput(ivc.validList(validInputs), scanner.nextLine());
 
             if (input.equals("1")){
                 boolean r = true;
@@ -73,24 +74,8 @@ public class SpeakerController {
     protected boolean viewAgain() {
         System.out.println("Would you like to see the list again? Enter 1 to view again, enter 2 to go back.");
         String[] validInputs = new String[]{"1", "2"};
-        String input = isValidInput(validList(validInputs), scanner.nextLine());
+        String input = ivc.isValidInput(ivc.validList(validInputs), scanner.nextLine());
         return input.equals("1");
-    }
-
-    private String isValidInput(ArrayList<String> validInputs, String newInput){
-        String checkInput = newInput.toUpperCase();
-
-        while(!validInputs.contains(checkInput)){
-            ep.notValidInput();
-            checkInput = scanner.nextLine();
-        }
-
-        return checkInput;
-    }
-
-    private ArrayList<String> validList(String[] allValid){
-        ArrayList<String> validInputs = new ArrayList<String>(Arrays.asList(allValid));
-        return validInputs;
     }
 
     public boolean message() throws IOException, ClassNotFoundException {
