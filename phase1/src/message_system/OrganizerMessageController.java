@@ -17,9 +17,9 @@ import java.util.List;
 import java.util.UUID;
 
 public class OrganizerMessageController extends AttendeeMessageController {
-    private ConversationGateway cg;
-    private ConversationManager cm;
-    private MessagePresenter mp;
+    //private ConversationGateway cg;
+    //private ConversationManager cm;
+    //private MessagePresenter mp;
     //private User user;
     private Conversation[] myConvos;
     //private EventManager em;

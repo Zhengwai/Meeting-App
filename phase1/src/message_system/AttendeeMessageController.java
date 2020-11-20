@@ -14,9 +14,9 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class AttendeeMessageController {
-    private ConversationGateway cg;
-    private ConversationManager cm;
-    private MessagePresenter mp;
+    protected ConversationGateway cg;
+    protected ConversationManager cm;
+    protected MessagePresenter mp;
     protected User user;
     protected UserManager um;
     protected EventManager em;
