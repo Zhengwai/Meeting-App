@@ -29,8 +29,8 @@ public class MessagePresenter {
             ArrayList<UUID> memberIds = conversations.get(i).getMembers();
             String name = "";
             for (UUID memberID: memberIds) {
-                if (memberID != user.getID()) {
-                    name = um.getUserByID(memberIds.get(1)).getUsername();
+                if (!memberID.equals(user.getID())) {
+                    name = um.getUserByID(memberID).getUsername();
                 }
             }
 

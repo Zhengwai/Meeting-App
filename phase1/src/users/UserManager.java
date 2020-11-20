@@ -10,7 +10,7 @@ import java.util.UUID;
 
 
 public class UserManager implements Serializable {
-    private ArrayList<User> allUsers;
+    private  ArrayList<User> allUsers;
     private EventManager em;
     public User NotFoundUser = new User("NotFound", "NotFound");
 
@@ -32,6 +32,7 @@ public class UserManager implements Serializable {
 
 
     }
+
 
     public boolean addFriends(User user1, User user2) {
         if (!user1.isFriendWithID(user2.getID())){

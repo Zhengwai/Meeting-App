@@ -4,7 +4,6 @@ import ScheduleSystem.*;
 import message_system.AttendeeMessageController;
 import users.User;
 import ScheduleSystem.EventPresenter;
-import users.UserGateway;
 import users.UserManager;
 
 import java.io.*;

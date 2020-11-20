@@ -3,7 +3,6 @@ package user_controllers;
 import ScheduleSystem.Event;
 import ScheduleSystem.EventManager;
 import message_system.AttendeeMessageController;
-import message_system.SpeakerMessageController;
 import ScheduleSystem.EventPresenter;
 import users.User;
 import users.UserGateway;
@@ -95,7 +94,7 @@ public class SpeakerController {
         UserGateway ug = new UserGateway();
         UserManager um = new UserManager();
         try {
-            um = ug.deserializeUserManager("user-manager.ser");
+            //um = ug.deserializeUserManager("user-manager.ser");
         } catch (Exception e) {
             System.out.println("Something went wrong.");
         }
