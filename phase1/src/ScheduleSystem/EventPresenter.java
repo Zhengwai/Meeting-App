@@ -156,5 +156,15 @@ public class EventPresenter {
         System.out.println("Sorry, there are no rooms available to you at the moment.");
     }
 
+    public void promptEventAssign(){
+        System.out.println("Please enter the event you selected: ");
+    }
 
+    public void alreadyAssigned(){
+        System.out.println("This speaker has already been assigned to this event.");
+    }
+
+    public void speakerTimeConflict(){
+        System.out.println("Sorry, this speaker is already registered to speak at this time.");
+    }
 }

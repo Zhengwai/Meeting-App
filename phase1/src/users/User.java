@@ -9,7 +9,6 @@ import java.util.UUID;
 public class User implements Serializable{
     private UUID id = UUID.randomUUID();
     private String username;
-    private String email = "";
     private String password;
     private ArrayList<UUID> enrolledEvents = new ArrayList<>();
     private ArrayList<UUID> conversations = new ArrayList<>();
@@ -20,15 +19,9 @@ public class User implements Serializable{
         this.password = password;
     }
 
-    public void setEmail(String email){
-        this.email = email;
-    }
-
     public void setPassword(String password){
         this.password = password;
     }
-
-    public String getEmail(){return this.email;}
 
     public String getType(){
         return "User";

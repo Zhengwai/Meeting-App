@@ -66,15 +66,20 @@ public class OrganizerEventController extends AttendeeEventController{
         }
         oep.yearPrompt();
         int year = vc.isValidYearInput(scanner.nextInt());
+
         oep.monthPrompt();
         int month = vc.isValidMonthInput(scanner.nextInt());
+
         oep.dayPrompt();
         int day = vc.isValidDayInput(scanner.nextInt(), year, month);
+
         oep.hourPrompt();
         int hour = vc.isValidHourInput(scanner.nextInt());
+
         Calendar cal = Calendar.getInstance();
         cal.set(year, (month-1), day, hour, 0, 0);
         Date date = cal.getTime();
+
         oep.eventNamePrompt();
         scanner.nextLine();
         String eventName = scanner.nextLine();
@@ -126,7 +131,7 @@ public class OrganizerEventController extends AttendeeEventController{
             return false;
         }
         ep.showEvents(em.getEvents());
-        ep.promptEvent();
+        ep.promptEventAssign();
         String inputEvent = vc.isValidInput(validInputEvents, scanner.nextLine());
         Event targetEvent = em.getEventByName(inputEvent);
 
@@ -200,11 +205,21 @@ public class OrganizerEventController extends AttendeeEventController{
         if (confirm.equals("2")){
             return true;
         }
+
+        try{
+            em.signUpUser(targetSpeaker, targetEvent);
+        } catch(AlreadySignedUpException e){
+            ep.alreadyAssigned();
+            return assignSpeakerAgain();
+        } catch(TimeConflictException e){
+            ep.speakerTimeConflict();
+            return assignSpeakerAgain();
+        }
         um.addEventForUser(targetEvent, targetSpeaker);
-        em.signUpUser(targetSpeaker, targetEvent);
         oep.speakerSuccessfullyAssigned();
         return assignSpeakerAgain();
     }
+
     protected boolean assignSpeakerAgain() {
         oep.assignSpeakerAgainPrompt();
         String[] validInputs = new String[]{"1", "2"};
