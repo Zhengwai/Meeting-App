@@ -22,8 +22,8 @@ public class OrganizerMessageController extends AttendeeMessageController {
     private Conversation[] myConvos;
     private EventManager em;
 
-    public SpeakerMessageController(User inpUser, UserManager um, EventManager em) {
-        super(User inpUser, UserManager um, EventManager em);
+    public OrganizerMessageController(User inpUser, UserManager um, EventManager em) {
+        super(inpUser, um, em);
     }
 
     public void run() {

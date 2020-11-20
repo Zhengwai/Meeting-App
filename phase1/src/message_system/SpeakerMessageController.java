@@ -19,7 +19,7 @@ public class SpeakerMessageController extends AttendeeMessageController {
     private EventManager em;
 
     public SpeakerMessageController(User inpUser, UserManager um, EventManager em) {
-        super(User inpUser, UserManager um, EventManager em);
+        super(inpUser, um, em);
     }
 
     public void run() {
