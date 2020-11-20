@@ -24,7 +24,6 @@ public class SpeakerMessageController extends AttendeeMessageController {
     }
 
     public void run() {
-        deserializeCM();
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         try {
@@ -91,19 +90,19 @@ public class SpeakerMessageController extends AttendeeMessageController {
 
     public void handleMessageAllAttendees() {
         try {
-            ArrayList<Event> events = em.getEventsByUser(user);
+            ArrayList<Event> events = em.getEventsBySpeaker(user);
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
             if(events.size() > 0) {
                 System.out.println("Choose one of your following talks to message:");
                 int k = 0;
                 for (Event e : events) {
-                    System.out.println(Integer.toString(k) + ". " + e.getName());
+                    System.out.println(k + ". " + e.getName());
                     k++;
                 }
 
                 String inp = br.readLine();
-                Event evt = events.get(Integer.parseInt(inp) - 1);
+                Event evt = events.get(Integer.parseInt(inp));
                 ArrayList<UUID> attendants = evt.getAttendees();
                 ArrayList<User> attendeesUser = new ArrayList<>();
                 ;
@@ -121,14 +120,6 @@ public class SpeakerMessageController extends AttendeeMessageController {
         }
     }
 
-    private void deserializeCM() {
-        ConversationGateway cg = new ConversationGateway();
-        try {
-            this.cm = cg.readFromFile("cm.ser");
-        } catch (ClassNotFoundException e) {
-            System.out.println("Couldn't find the cm.ser file. Check phase1 directory.");
-        }
-    }
     private void serializeCM() {
         try {
             this.cg.saveToFile("cm.ser", this.cm);

@@ -44,7 +44,7 @@ public class AttendeeMessageController {
 
                 switch (input) {
                     case "1":
-                        System.out.println("Enter the username of the person you want to add":);
+                        System.out.println("Enter the username of the person you want to add:");
                         input = br.readLine();
                         handleAddFriend(input);
                         break;

@@ -42,22 +42,30 @@ public class OrganizerMessageController extends AttendeeMessageController {
                         "4. New Message to all Attendees \n" +
                         "exit to exit this Controller");
                 input = br.readLine();
-                if (input.equals("1")) {
-                    System.out.println("Enter the username of the person you want to add");
-                    input = br.readLine();
-                    handleAddFriend(input);
-                } else if (input.equals("2")) {
-                    ArrayList<Conversation> conversations = cm.getConversations(this.user.getConversations());
-                    System.out.println(mp.promptMainScreen(conversations));
-                    System.out.println("Enter the number of the conversation to open:");
-                    input = br.readLine();
-                    handleConversations(input, conversations);
-                } else if (input.equals("3")) {
-                    handleMessageAllSpeakers();
-                } else if (input.equals("4")) {
-                    handleMessageAllAttendees();
-                } else {
-                    System.out.println("You did not choose a valid option");
+
+                switch (input) {
+                    case "1":
+                        System.out.println("Enter the username of the person you want to add");
+                        input = br.readLine();
+                        handleAddFriend(input);
+
+                    case "2":
+                        ArrayList<Conversation> conversations = cm.getConversations(this.user.getConversations());
+                        System.out.println(mp.promptMainScreen(conversations));
+                        System.out.println("Enter the number of the conversation to open:");
+                        input = br.readLine();
+                        handleConversations(input, conversations);
+
+                    case "3":
+                        handleMessageAllSpeakers();
+
+                    case "4":
+                        handleMessageAllAttendees();
+
+                    default:
+                        if (!input.equals("exit")) {
+                            System.out.println("Chose invalid option.");
+                        }
                 }
             }
             serializeCM();
@@ -96,14 +104,6 @@ public class OrganizerMessageController extends AttendeeMessageController {
         handleMessageAll(this.um.getAllSpeakersUser());
     }
 
-    private void deserializeCM() {
-        ConversationGateway cg = new ConversationGateway();
-        try {
-            this.cm = cg.readFromFile("cm.ser");
-        } catch (ClassNotFoundException e) {
-            System.out.println("Couldn't find the cm.ser file. Check phase1 directory.");
-        }
-    }
     private void serializeCM() {
         try {
             this.cg.saveToFile("cm.ser", this.cm);
