@@ -28,10 +28,6 @@ public class SpeakerMessageController extends AttendeeMessageController {
     }
 
     public void run() {
-
-        deserializeCM();
-
-
         ArrayList<Conversation> allConvos = this.cm.getConversations(user.getConversations());
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));

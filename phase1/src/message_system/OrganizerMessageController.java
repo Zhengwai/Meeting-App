@@ -30,8 +30,6 @@ public class OrganizerMessageController extends AttendeeMessageController {
     }
 
     public void run() {
-
-        deserializeCM();
         MessagePresenter mp = new MessagePresenter(this.user, this.um);
 
         ArrayList<Conversation> allConvos = cm.getConversations(this.user.getConversations());
