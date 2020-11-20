@@ -11,6 +11,7 @@ import java.util.UUID;
 public class Conversation implements Serializable {
     private final ArrayList<UUID> members;
     private final ArrayList<Message> messages;
+    private String convName = null;
 
     /**
      * Initializes a conversation with no members and no messages.
@@ -59,5 +60,17 @@ public class Conversation implements Serializable {
      */
     public ArrayList<UUID> getMembers() {
         return this.members;
+    }
+
+    public void setName(String name) {
+        this.convName = name;
+    }
+
+    public boolean nameExists() {
+        return !(this.convName == null);
+    }
+
+    public String getName() {
+        return this.convName;
     }
 }
