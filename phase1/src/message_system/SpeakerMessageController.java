@@ -6,6 +6,7 @@ import users.User;
 import users.UserGateway;
 import users.UserManager;
 import ScheduleSystem.Event;
+import users.Speaker;
 
 import java.io.BufferedReader;
 import java.io.IOException;
