@@ -94,7 +94,7 @@ public class SpeakerController {
         UserGateway ug = new UserGateway();
         UserManager um = new UserManager();
         try {
-            um = ug.deserializeUserManager("user-manager.ser");
+            //um = ug.deserializeUserManager("user-manager.ser");
         } catch (Exception e) {
             System.out.println("Something went wrong.");
         }

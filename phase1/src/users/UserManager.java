@@ -9,7 +9,7 @@ import java.util.UUID;
 
 
 public class UserManager implements Serializable {
-    private static ArrayList<User> allUsers = new ArrayList<User>();
+    private static ArrayList<User> allUsers;
     private EventManager em;
     public User NotFoundUser = new User("NotFound", "NotFound");
 

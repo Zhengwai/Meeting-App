@@ -1,6 +1,5 @@
 package login_system;
 
-import com.sun.org.apache.xpath.internal.operations.Or;
 import user_controllers.AttendeeController;
 import user_controllers.OrganizerController;
 import user_controllers.SpeakerController;
@@ -18,13 +17,14 @@ public class LoginController {
     OrganizerController oc;
     SpeakerController sc;
     LoginGateway lg = new LoginGateway();
-    UserGateway ug;
-    UserManager um;
+    //UserGateway ug = new UserGateway();
+    UserManager um = new UserManager();
+    //ug.deserializeUserManager("user-manager.ser");
     ArrayList<User> lst;
 
     public LoginController() throws ClassNotFoundException {
-        this.ug = new UserGateway();
-        this.um = this.ug.deserializeUserManager("um.ser");
+        //um.addAllUsers(lg.deserializeToArrLstOfUser("login_system/userss.ser"));
+        um.addAllUsers(lg.readObject("phase1/resourceroot/allusers.ser"));
     }
 
     /**
@@ -66,6 +66,7 @@ public class LoginController {
             }
             else {
                 running = false;
+                lg.writeObject(um.getAllAttendees(), "phase1/resourceroot/allusers.ser");
             }
         }
     }
@@ -125,12 +126,6 @@ public class LoginController {
         return user;
     }
 
-    /**
-     * Check if the username and password entered by the user matches a signed up User object
-     * @param username username entered by user
-     * @param password password entered by user
-     * @return boolean, true iff correct username and password, false otherwise
-     */
     private boolean checkUserPass(String username, String password) {
         for (User value : um.getAllUsers()) {
             if (value.getUsername().equals(username)) {
@@ -142,12 +137,6 @@ public class LoginController {
         return false;
     }
 
-    /**
-     * Returns the User object of the corresponding entered password and username
-     * @param username username entered by user
-     * @param password password entered by user
-     * @return User object representing the corresponding user of the entered password and username
-     */
     private User getUserByCredentials(String username, String password){
         for (User user : um.getAllUsers()) {
             if (user.getUsername().equals(username)) {
@@ -159,13 +148,6 @@ public class LoginController {
         return null;
     }
 
-    /**
-     * Returns the user entered input if it is a valid input
-     * @param validInputs Arraylist of strings of valid inputs
-     * @param newInput new input from user
-     * @return the new input from user if it is valid
-     */
-
     private String isValidInput(ArrayList<String> validInputs, String newInput){
 
         while(!validInputs.contains(newInput)){
@@ -176,20 +158,11 @@ public class LoginController {
         return newInput;
     }
 
-    /**
-     * Create an arraylist of the list of valid inputs and returns the arraylist
-     * @param allValid list of valid inputs
-     * @return arraylist of valid inputs
-     */
     private ArrayList<String> validList(String[] allValid){
         ArrayList<String> validInputs = new ArrayList<String>(Arrays.asList(allValid));
         return validInputs;
     }
 
-    /**
-     * Returns true iff a new attendee is successfully created and the User Manager is updated and serialized
-     * @return boolean true iff the above is achieved, false otherwise
-     */
     private boolean createNewAttendee(){
         boolean added = false;
 
@@ -200,7 +173,7 @@ public class LoginController {
         User a = new Attendee(username, password);
 
         added = um.addUser(a);
-        ug.serializeUserManager("um.ser", this.um);
+
         return added;
     }
 }

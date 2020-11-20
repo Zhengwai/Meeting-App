@@ -77,10 +77,10 @@ public class OrganizerController {
         UserGateway ug = new UserGateway();
         UserManager um = new UserManager();
         try {
-            ug.deserializeUserManager("user-manager.ser");
+            //ug.deserializeUserManager("user-manager.ser");
         } catch (Exception e) {
             System.out.println("No user-manager.ser file found. Creating a new one...");
-            ug.serializeUserManager("user-manager.ser", um);
+            //ug.serializeUserManager("user-manager.ser", um);
         }
 
         OrganizerMessageController amc = new OrganizerMessageController(this.user, um, em);
