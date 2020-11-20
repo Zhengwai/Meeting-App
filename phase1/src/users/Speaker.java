@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.UUID;
 
 public class Speaker extends User implements Serializable {
-    private UUID id = UUID.randomUUID();
+    private UUID id;
     private String username;
     private String email = "";
     private String password;

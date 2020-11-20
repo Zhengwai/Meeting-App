@@ -100,6 +100,16 @@ public class EventManager implements Serializable{
         return userEvents;
     }
 
+    public ArrayList<Event> getEventsBySpeaker(User user) {
+        ArrayList<Event> userEvents = new ArrayList<>();
+        for (Event e : events) {
+            if (e.existsSpeaker() && e.getSpeaker() == user.getID()) {
+                userEvents.add(e);
+            }
+        }
+        return userEvents;
+    }
+
     public Event getEventByName(String name){
         for (Event e:events){
             if (e.getName().equals(name.toUpperCase())){
