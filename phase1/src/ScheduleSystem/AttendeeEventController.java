@@ -21,7 +21,7 @@ public class AttendeeEventController {
 
     public boolean attendeeRun() throws IOException {
         boolean running = true;
-        String[] validInputs = new String[]{"1", "2"};
+        String[] validInputs = new String[]{"1", "2", "3"};
         while (running) {
             System.out.println("Please enter the number of corresponding choice: 1.SignUp for event  2.View signed up events/Cancel 3.Go back to the main menu.");
             String input = isValidInput(validList(validInputs), scanner.nextLine());

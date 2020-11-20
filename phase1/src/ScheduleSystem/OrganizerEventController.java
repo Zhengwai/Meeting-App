@@ -23,7 +23,7 @@ public class OrganizerEventController extends AttendeeEventController{
 
     public boolean organizerRun() throws IOException, AlreadySignedUpException, TimeConflictException {
         boolean running = true;
-        String[] validInputs = new String[]{"1", "2"};
+        String[] validInputs = new String[]{"1", "2","3","4"};
         while (running) {
             System.out.println("Please enter the number of corresponding choice: \n" +
                     "1.Create Room \n  " +
