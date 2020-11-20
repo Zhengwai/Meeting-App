@@ -12,7 +12,7 @@ public class Speaker extends User implements Serializable {
     private String password;
     private String type;
     private ArrayList<UUID> eventIDs;
-    private ArrayList<UUID> enrolledEvents = new ArrayList<UUID>();
+    //private ArrayList<UUID> enrolledEvents = new ArrayList<UUID>();
     public Speaker(String username, String password) {
         super(username, password);
         this.eventIDs = new ArrayList<UUID>();

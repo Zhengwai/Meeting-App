@@ -121,6 +121,10 @@ public class Event implements Serializable {
         return null;
     }
 
+    public void setSpeaker(UUID u){
+        speaker = u;
+    }
+
     /**
      * @return the assigned room of the event if it exists. Null otherwise.
      */
