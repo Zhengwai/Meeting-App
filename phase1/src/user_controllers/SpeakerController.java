@@ -94,15 +94,7 @@ public class SpeakerController {
     }
 
     public boolean message() throws IOException, ClassNotFoundException {
-        UserGateway ug = new UserGateway();
-        UserManager um = new UserManager();
-        try {
-            //um = ug.deserializeUserManager("user-manager.ser");
-        } catch (Exception e) {
-            System.out.println("Something went wrong.");
-        }
-
-        AttendeeMessageController amc = new AttendeeMessageController(this.user, um);
+        AttendeeMessageController amc = new AttendeeMessageController(this.user, this.um, this.em);
         amc.run();
         System.out.println("Would you like to enter the message system again? Enter Y for yes, N for no.");
         String confirm = scanner.nextLine();

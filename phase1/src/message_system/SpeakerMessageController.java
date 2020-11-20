@@ -10,18 +10,22 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class SpeakerMessageController {
+public class SpeakerMessageController extends AttendeeMessageController {
+    private ConversationGateway cg;
     private ConversationManager cm;
+    private MessagePresenter mp;
     private User user;
     private Conversation[] myConvos;
+    private EventManager em;
 
-    public SpeakerMessageController(User inpUser) {
-        this.user = inpUser;
+    public SpeakerMessageController(User inpUser, UserManager um, EventManager em) {
+        super(User inpUser, UserManager um, EventManager em);
     }
 
     public void run() {
 
         deserializeCM();
+
 
         ArrayList<Conversation> allConvos = this.cm.getConversations(user.getConversations());
 

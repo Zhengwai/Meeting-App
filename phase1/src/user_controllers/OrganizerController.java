@@ -68,16 +68,7 @@ public class OrganizerController {
     }
 
     public boolean message() throws IOException, ClassNotFoundException {
-        UserGateway ug = new UserGateway();
-        UserManager um = new UserManager();
-        try {
-            //ug.deserializeUserManager("user-manager.ser");
-        } catch (Exception e) {
-            System.out.println("No user-manager.ser file found. Creating a new one...");
-            //ug.serializeUserManager("user-manager.ser", um);
-        }
-
-        OrganizerMessageController amc = new OrganizerMessageController(this.user, um, em);
+        OrganizerMessageController amc = new OrganizerMessageController(this.user, this.um, this.em);
         amc.run();
         System.out.println("Would you like to enter the message system again? Enter Y for yes, N for no.");
         String confirm = isValidInput(validList(validYN), scanner.nextLine());

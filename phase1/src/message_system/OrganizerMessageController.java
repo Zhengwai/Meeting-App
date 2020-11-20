@@ -14,16 +14,16 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-public class OrganizerMessageController {
+public class OrganizerMessageController extends AttendeeMessageController {
+    private ConversationGateway cg;
     private ConversationManager cm;
+    private MessagePresenter mp;
     private User user;
-    private UserManager um;
+    private Conversation[] myConvos;
     private EventManager em;
 
-    public OrganizerMessageController(User inpUser, UserManager um, EventManager em) {
-        this.user = inpUser;
-        this.um = um;
-        this.em = em;
+    public SpeakerMessageController(User inpUser, UserManager um, EventManager em) {
+        super(User inpUser, UserManager um, EventManager em);
     }
 
     public void run() {

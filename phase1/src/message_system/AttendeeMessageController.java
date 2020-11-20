@@ -18,14 +18,16 @@ public class AttendeeMessageController {
     private MessagePresenter mp;
     private User user;
     private UserManager um;
+    private EventManager em
 
     // ASSUME UM ALREADY DESERIALIZED
-    public AttendeeMessageController(User user, UserManager um) {
+    public AttendeeMessageController(User user, UserManager um, EventManager em) {
         this.user = user;
         this.cg = new ConversationGateway();
         deserializeCM();
         this.um = um;
         this.mp = new MessagePresenter(this.user, this.um);
+        this.em = em;
     }
 
     public void run() {

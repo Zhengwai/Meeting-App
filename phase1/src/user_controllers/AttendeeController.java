@@ -90,7 +90,7 @@ public class AttendeeController {
     }
 
     public boolean message() {
-        AttendeeMessageController amc = new AttendeeMessageController(this.user, this.um);
+        AttendeeMessageController amc = new AttendeeMessageController(this.user, this.um, this.em);
         amc.run();
         System.out.println("Would you like to enter the message system again? Enter Y for yes, N for no.");
         String confirm = isValidInput(validList(validYN), scanner.nextLine());
