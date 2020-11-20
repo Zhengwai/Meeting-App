@@ -21,6 +21,7 @@ public class AttendeeController {
     private EventManager em;
     private String[] validYN = new String[]{"Y", "N"};
     private AttendeeEventController ec;
+    private InputValidityChecker ivc = new InputValidityChecker();
 
     public AttendeeController(User thisUser, UserManager um, EventManager em) throws ClassNotFoundException {
         user = thisUser;
@@ -41,7 +42,7 @@ public class AttendeeController {
                     "2. Message\n" +
                     "3. Exit program");
 
-            String input = isValidInput(validList(valid), scanner.nextLine());
+            String input = ivc.isValidInput(ivc.validList(valid), scanner.nextLine());
 
             if (input.equals("1")){
                 boolean r = true;
@@ -59,21 +60,6 @@ public class AttendeeController {
         }
     }
 
-    private String isValidInput(ArrayList<String> validInputs, String newInput){
-        String checkInput = newInput.toUpperCase();
-
-        while(!validInputs.contains(checkInput)){
-            ep.notValidInput();
-            checkInput = scanner.nextLine();
-        }
-
-        return checkInput;
-    }
-
-    private ArrayList<String> validList(String[] allValid){
-        ArrayList<String> validInputs = new ArrayList<String>(Arrays.asList(allValid));
-        return validInputs;
-    }
     /**
      * Displays all the talks to user.
      */
@@ -93,7 +79,7 @@ public class AttendeeController {
         AttendeeMessageController amc = new AttendeeMessageController(this.user, this.um, this.em);
         amc.run();
         System.out.println("Would you like to enter the message system again? Enter Y for yes, N for no.");
-        String confirm = isValidInput(validList(validYN), scanner.nextLine());
+        String confirm = ivc.isValidInput(ivc.validList(validYN), scanner.nextLine());
         return confirm.equals("Y");
     }
 }

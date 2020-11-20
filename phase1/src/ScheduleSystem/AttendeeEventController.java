@@ -1,14 +1,11 @@
 package ScheduleSystem;
 
-import com.sun.xml.internal.ws.util.xml.DummyLocation;
-import users.Speaker;
 import users.User;
 import users.UserGateway;
 import users.UserManager;
-
+import user_controllers.InputValidityChecker;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class AttendeeEventController {
@@ -19,6 +16,8 @@ public class AttendeeEventController {
     private Scanner scanner = new Scanner(System.in);
     private EventGateway eg = new EventGateway();
     private UserGateway ug = new UserGateway();
+    protected InputValidityChecker vc = new InputValidityChecker();
+
     public AttendeeEventController(User user, UserManager um, EventManager em) {
         currentUser = user;
         this.um = um;
@@ -28,8 +27,11 @@ public class AttendeeEventController {
     public boolean attendeeRun() throws IOException {
         String[] validInputs = new String[]{"1", "2", "3"};
         while (true) {
-            System.out.println("Please enter the number of corresponding choice: 1.SignUp for event  2.View signed up events/Cancel 3.Go back to the main menu.");
-            String input = isValidInput(validList(validInputs), scanner.nextLine());
+            System.out.println("Please enter the number of corresponding choice: \n" +
+                    "1.SignUp for event  \n" +
+                    "2.View signed up events/Cancel \n" +
+                    "3.Go back to the main menu.");
+            String input = vc.isValidInput(vc.validList(validInputs), scanner.nextLine());
             boolean r = true;
             if (input.equals("1")) {
                 ArrayList<Event> availableEvents = em.getAvailableEventsForUser(currentUser);
@@ -74,7 +76,7 @@ public class AttendeeEventController {
             return false;
         }
         ep.promptEvent();
-        String input = isValidInput(validList(validInputEvents), scanner.nextLine());
+        String input = vc.isValidInput(validInputEvents, scanner.nextLine());
         Event targetEvent = em.getEventByName(input);
         try{
             em.signUpUser(currentUser, targetEvent);
@@ -105,7 +107,7 @@ public class AttendeeEventController {
             return false;
         }
         ep.promptCancelEvent();
-        String input = isValidInput(validList(validInputEvents), scanner.nextLine());
+        String input = vc.isValidInput(validInputEvents, scanner.nextLine());
         Event targetEvent = em.getEventByName(input);
         try{
             em.removeUser(currentUser, targetEvent);
@@ -126,28 +128,28 @@ public class AttendeeEventController {
     protected boolean signUpAgain(){
         ep.signUpAgainPrompt();
         String[] validInputs = new String[]{"1", "2"};
-        String input = isValidInput(validList(validInputs), scanner.nextLine());
+        String input = vc.isValidInput(vc.validList(validInputs), scanner.nextLine());
         return input.equals("1");
     }
 
     protected boolean signUpOrGoBack() {
         ep.signUpOrGoBackPrompt();
         String[] validInputs = new String[]{"1", "2"};
-        String input = isValidInput(validList(validInputs), scanner.nextLine());
+        String input = vc.isValidInput(vc.validList(validInputs), scanner.nextLine());
         return input.equals("1");
     }
 
     protected boolean cancelOrGoBack() {
         ep.cancelOrGoBackPrompt();
         String[] validInputs = new String[]{"1", "2"};
-        String input = isValidInput(validList(validInputs), scanner.nextLine());
+        String input = vc.isValidInput(vc.validList(validInputs), scanner.nextLine());
         return input.equals("1");
     }
 
     protected boolean cancelAgain(){
         ep.cancelAgainPrompt();
         String[] validInputs = new String[]{"1", "2"};
-        String input = isValidInput(validList(validInputs), scanner.nextLine());
+        String input = vc.isValidInput(vc.validList(validInputs), scanner.nextLine());
         return input.equals("1");
     }
 
@@ -184,25 +186,6 @@ public class AttendeeEventController {
             validInputs.add(e.getName());
         }
         return validInputs;
-    }
-
-    protected String isValidInput(ArrayList<String> validInputs, String newInput) {
-        String checkInput = newInput.toUpperCase();
-
-        while (!validInputs.contains(checkInput)) {
-            ep.notValidInput();
-            checkInput = scanner.nextLine();
-        }
-
-        return checkInput.toLowerCase();
-    }
-
-    protected ArrayList<String> validList(String[] allValid) {
-        return new ArrayList<>(Arrays.asList(allValid));
-    }
-
-    protected ArrayList<String> validList(ArrayList<String> allValid) {
-        return allValid;
     }
 
     private void serializeInformation(){

@@ -5,7 +5,7 @@ import users.Speaker;
 import users.User;
 import users.UserGateway;
 import users.UserManager;
-
+import user_controllers.InputValidityChecker;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -20,6 +20,7 @@ public class OrganizerEventController extends AttendeeEventController{
     private EventPresenter ep = new EventPresenter();
     private OrganizerEventPresenter oep = new OrganizerEventPresenter();
     private Scanner scanner = new Scanner(System.in);
+
     public OrganizerEventController(User user, UserManager um, EventManager em) throws ClassNotFoundException {
         super(user, um, em);
     }
@@ -34,7 +35,7 @@ public class OrganizerEventController extends AttendeeEventController{
                     "3.Assign Room \n" +
                     "4.Assign Speaker\n" +
                     "5.Exit");
-            String input = isValidInput(validList(validInputs), scanner.nextLine());
+            String input = vc.isValidInput(vc.validList(validInputs), scanner.nextLine());
             boolean r = true;
             if (input.equals("1")) {
                 while (r) {
@@ -67,13 +68,13 @@ public class OrganizerEventController extends AttendeeEventController{
             return false;
         }
         oep.yearPrompt();
-        int year = isValidYearInput(scanner.nextInt());
+        int year = vc.isValidYearInput(scanner.nextInt());
         oep.monthPrompt();
-        int month = isValidMonthInput(scanner.nextInt());
+        int month = vc.isValidMonthInput(scanner.nextInt());
         oep.dayPrompt();
-        int day = isValidDayInput(scanner.nextInt(), year, month);
+        int day = vc.isValidDayInput(scanner.nextInt(), year, month);
         oep.hourPrompt();
-        int hour = isValidHourInput(scanner.nextInt());
+        int hour = vc.isValidHourInput(scanner.nextInt());
         Calendar cal = Calendar.getInstance();
         cal.set(year, (month-1), day, hour, 0, 0);
         Date date = cal.getTime();
@@ -81,7 +82,7 @@ public class OrganizerEventController extends AttendeeEventController{
         scanner.nextLine();
         String eventName = scanner.nextLine();
         oep.eventConfirmPrompt(eventName, date);
-        String confirm = isValidInput(validList(validYN), scanner.nextLine());
+        String confirm = vc.isValidInput(vc.validList(validYN), scanner.nextLine());
         if (confirm.equals("2")){
             return true;
         }
@@ -99,10 +100,10 @@ public class OrganizerEventController extends AttendeeEventController{
         oep.roomNamePrompt();
         String roomName = scanner.nextLine();
         oep.roomCapacityPrompt();
-        int capacity = isValidCapacityInput(scanner.nextInt());
+        int capacity = vc.isValidCapacityInput(scanner.nextInt());
         scanner.nextLine();
         oep.confirmRoomPrompt(roomName, capacity);
-        String confirm = isValidInput(validList(validYN), scanner.nextLine());
+        String confirm = vc.isValidInput(vc.validList(validYN), scanner.nextLine());
         if (confirm.equals("2")){
             return true;
         }
@@ -129,12 +130,12 @@ public class OrganizerEventController extends AttendeeEventController{
         }
         ep.showEvents(em.getEvents());
         ep.promptEvent();
-        String inputEvent = isValidInput(validInputEvents, scanner.nextLine());
+        String inputEvent = vc.isValidInput(validInputEvents, scanner.nextLine());
         Event targetEvent = em.getEventByName(inputEvent);
 
         if (targetEvent.assignedRoom()){
             oep.eventAlreadyHasRoom(em.getRoomByID(targetEvent.getRoom()).getRoomName());
-            String inputYN = isValidInput(validList(validYN), scanner.nextLine());
+            String inputYN = vc.isValidInput(vc.validList(validYN), scanner.nextLine());
             if (inputYN.equals("2")){
                 return true;
             }
@@ -142,14 +143,14 @@ public class OrganizerEventController extends AttendeeEventController{
 
         ep.showRooms(em.getRooms());
         oep.promptRoom();
-        String inputRoom = isValidInput(validInputRooms, scanner.nextLine());
+        String inputRoom = vc.isValidInput(validInputRooms, scanner.nextLine());
         Room targetRoom = em.getRoomByName(inputRoom);
         if (!em.roomAvailableForEvent(targetRoom, targetEvent)){
             oep.timeConflictRoomAssignment();
             return assignRoomAgain();
         }
         oep.confirmAssignRoomPrompt(targetRoom.getRoomName(), targetEvent.getName());
-        String confirm = isValidInput(validList(validYN), scanner.nextLine());
+        String confirm = vc.isValidInput(vc.validList(validYN), scanner.nextLine());
         if (confirm.equals("2")){
             return true;
         }
@@ -179,26 +180,26 @@ public class OrganizerEventController extends AttendeeEventController{
 
         ep.showEvents(em.getEvents());
         ep.promptEvent();
-        String inputEvent = isValidInput(validList(validInputEvents), scanner.nextLine());
+        String inputEvent = vc.isValidInput(validInputEvents, scanner.nextLine());
         Event targetEvent = em.getEventByName(inputEvent);
 
         if (targetEvent.existsSpeaker()){
             oep.eventAlreadyHasSpeaker(um.getUserByID(targetEvent.getSpeaker()).getUsername());
-            String inputYN = isValidInput(validList(validYN), scanner.nextLine());
+            String inputYN = vc.isValidInput(vc.validList(validYN), scanner.nextLine());
             if (inputYN.equals("2")){
                 return true;
             }
         }
         oep.showSpeakers(um.getAllSpeakers());
         oep.promptSpeaker();
-        String inputSpeaker = isValidInput(validList(validInputSpeakers), scanner.nextLine());
+        String inputSpeaker = vc.isValidInput(validInputSpeakers, scanner.nextLine());
         Speaker targetSpeaker = (Speaker) um.getUserByName(inputSpeaker);
         if (!em.userAvailableForEvent(targetSpeaker, targetEvent)){
             oep.timeConflictSpeakerAssignment();
             return assignSpeakerAgain();
         }
         oep.confirmAssignSpeakerPrompt(targetSpeaker.getUsername(), targetEvent.getName());
-        String confirm = isValidInput(validList(validYN), scanner.nextLine());
+        String confirm = vc.isValidInput(vc.validList(validYN), scanner.nextLine());
         if (confirm.equals("2")){
             return true;
         }
@@ -210,118 +211,50 @@ public class OrganizerEventController extends AttendeeEventController{
     protected boolean assignSpeakerAgain() {
         oep.assignSpeakerAgainPrompt();
         String[] validInputs = new String[]{"1", "2"};
-        String input = isValidInput(validList(validInputs), scanner.nextLine());
+        String input = vc.isValidInput(vc.validList(validInputs), scanner.nextLine());
         return input.equals("1");
     }
     protected boolean assignSpeakerOrGoBack() {
         oep.assignSpeakerOrGoBackPrompt();
         String[] validInputs = new String[]{"1", "2"};
-        String input = isValidInput(validList(validInputs), scanner.nextLine());
+        String input = vc.isValidInput(vc.validList(validInputs), scanner.nextLine());
         return input.equals("1");}
 
     protected boolean assignRoomOrGoBack() {
         oep.assignRoomOrGoBackPrompt();
         String[] validInputs = new String[]{"1", "2"};
-        String input = isValidInput(validList(validInputs), scanner.nextLine());
+        String input = vc.isValidInput(vc.validList(validInputs), scanner.nextLine());
         return input.equals("1");}
 
     protected boolean assignRoomAgain(){
         oep.assignRoomAgainPrompt();
         String[] validInputs = new String[]{"1", "2"};
-        String input = isValidInput(validList(validInputs), scanner.nextLine());
+        String input = vc.isValidInput(vc.validList(validInputs), scanner.nextLine());
         return input.equals("1");
     }
     protected boolean createEventAgain(){
         oep.createEventAgainPrompt();
         String[] validInputs = new String[]{"1", "2"};
-        String input = isValidInput(validList(validInputs), scanner.nextLine());
+        String input = vc.isValidInput(vc.validList(validInputs), scanner.nextLine());
         return input.equals("1");
     }
 
     protected boolean createEventUpOrGoBack() {
         oep.createEventOrGoBackPrompt();
         String[] validInputs = new String[]{"1", "2"};
-        String input = isValidInput(validList(validInputs), scanner.nextLine());
+        String input = vc.isValidInput(vc.validList(validInputs), scanner.nextLine());
         return input.equals("1");
     }
     protected boolean createRoomOrGoBack() {
         oep.createRoomOrGoBackPrompt();
         String[] validInputs = new String[]{"1", "2"};
-        String input = isValidInput(validList(validInputs), scanner.nextLine());
+        String input = vc.isValidInput(vc.validList(validInputs), scanner.nextLine());
         return input.equals("1");
     }
     protected boolean createRoomAgain(){
         oep.createRoomAgainPrompt();
         String[] validInputs = new String[]{"1", "2"};
-        String input = isValidInput(validList(validInputs), scanner.nextLine());
+        String input = vc.isValidInput(vc.validList(validInputs), scanner.nextLine());
         return input.equals("1");
-    }
-
-
-    protected int isValidYearInput(int newInput) {
-        while (newInput <= 1900) {
-            ep.notValidInput();
-            newInput = scanner.nextInt();
-        }
-
-        return newInput;
-    }
-
-    protected int isValidMonthInput(int newInput) {
-        while (newInput < 1 | newInput > 12){
-            ep.notValidInput();
-            newInput = scanner.nextInt();
-        }
-
-
-        return newInput;
-    }
-
-    protected int isValidDayInput(int newInput, int year, int month) {
-        if (month == 1|month ==3|month == 5|month == 7|month==8|month==10|month==12) {
-            while (newInput < 1 | newInput > 31) {
-                ep.notValidInput();
-                newInput = scanner.nextInt();
-            }
-        } else if (month != 2){
-            while (newInput < 1 | newInput > 30) {
-                ep.notValidInput();
-                newInput = scanner.nextInt();
-            }
-
-        } else if (year % 4 != 0) {
-            while (newInput < 1 | newInput > 28) {
-                ep.notValidInput();
-                newInput = scanner.nextInt();
-            }
-        } else {
-            while (newInput < 1 | newInput > 29) {
-                ep.notValidInput();
-                newInput = scanner.nextInt();
-            }
-        }
-
-
-        return newInput;
-    }
-
-    protected int isValidHourInput(int newInput) {
-        while (newInput < 9 | newInput > 16){
-            ep.notValidInput();
-            newInput = scanner.nextInt();
-        }
-
-
-        return newInput;
-    }
-
-    protected int isValidCapacityInput(int newInput) {
-        while (newInput <= 1){
-            ep.notValidInput();
-            newInput = scanner.nextInt();
-        }
-
-
-        return newInput;
     }
 }

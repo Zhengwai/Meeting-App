@@ -9,6 +9,7 @@ import users.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
+import user_controllers.InputValidityChecker;
 
 /**
  * Contains functions needed for login.
@@ -20,6 +21,7 @@ public class LoginController {
     UserManager um;
     EventGateway eg;
     EventManager em;
+    InputValidityChecker ivc = new InputValidityChecker();
 
     public LoginController(){
         this.ug = new UserGateway();
@@ -37,7 +39,7 @@ public class LoginController {
         while (running) {
             System.out.println("Please enter 1 to login, 2 to create a new account, 0 to exit the program");
             String[] validA = new String[]{"1", "2", "0"};
-            String indicator = isValidInput(validList(validA), in.nextLine());
+            String indicator = ivc.isValidInput(ivc.validList(validA), in.nextLine());
             if (indicator.equals("1")) {
                 User user = login();
                 while (user == null){
@@ -62,7 +64,7 @@ public class LoginController {
                         String[] validB = new String[]{"1", "0"};
                         System.out.println("Sorry, the username you've entered has already been taken." +
                                 "Would you like to retry? Enter 1 for yes, 0 for no.");
-                        String retry = isValidInput(validList(validB), in.nextLine());
+                        String retry = ivc.isValidInput(ivc.validList(validB), in.nextLine());
                         if(retry.equals("0")){
                             added = true;
                         }
@@ -125,21 +127,6 @@ public class LoginController {
             }
         }
         return null;
-    }
-
-    private String isValidInput(ArrayList<String> validInputs, String newInput){
-
-        while(!validInputs.contains(newInput)){
-            System.out.println("Sorry, that's not a valid input. Please try again.");
-            newInput = in.nextLine();
-        }
-
-        return newInput;
-    }
-
-    private ArrayList<String> validList(String[] allValid){
-        ArrayList<String> validInputs = new ArrayList<String>(Arrays.asList(allValid));
-        return validInputs;
     }
 
     private boolean createNewAttendee(){

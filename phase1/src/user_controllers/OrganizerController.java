@@ -20,6 +20,7 @@ public class OrganizerController {
     private UserManager um;
     private OrganizerEventController oec;
     private String[] validYN = new String[]{"Y", "N"};
+    private InputValidityChecker ivc = new InputValidityChecker();
 
     public OrganizerController(User user, UserManager um, EventManager em) throws ClassNotFoundException {
         this.user = user;
@@ -36,7 +37,7 @@ public class OrganizerController {
                     "1.Manage Events  \n" +
                     "2.Message \n" +
                     "3.Exit program");
-            String input = isValidInput(validList(validInputs), scanner.nextLine());
+            String input = ivc.isValidInput(ivc.validList(validInputs), scanner.nextLine());
 
             if (input.equals("1")){
                 oec.organizerRun();
@@ -51,27 +52,11 @@ public class OrganizerController {
         return true;
     }
 
-    private String isValidInput(ArrayList<String> validInputs, String newInput){
-        String checkInput = newInput.toUpperCase();
-
-        while(!validInputs.contains(checkInput)){
-            ep.notValidInput();
-            checkInput = scanner.nextLine();
-        }
-
-        return checkInput;
-    }
-
-    private ArrayList<String> validList(String[] allValid){
-        ArrayList<String> validInputs = new ArrayList<String>(Arrays.asList(allValid));
-        return validInputs;
-    }
-
     public boolean message() throws IOException, ClassNotFoundException {
         OrganizerMessageController amc = new OrganizerMessageController(this.user, this.um, this.em);
         amc.run();
         System.out.println("Would you like to enter the message system again? Enter Y for yes, N for no.");
-        String confirm = isValidInput(validList(validYN), scanner.nextLine());
+        String confirm = ivc.isValidInput(ivc.validList(validYN), scanner.nextLine());
         return confirm.equals("Y");
     }
 
