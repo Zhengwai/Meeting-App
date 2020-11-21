@@ -7,6 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Presenter class.
+ * Handles how the conversation screen and main screen of the message system should be presented.
+ */
 public class MessagePresenter {
     private User user;
     private UserManager um;
