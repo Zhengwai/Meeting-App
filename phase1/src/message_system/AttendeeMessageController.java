@@ -98,7 +98,7 @@ public class AttendeeMessageController {
      */
     public void handleAddFriend(String input) {
         User newFriend = um.getUserByName(input);
-        UUID conID = cm.newConversation();
+
 
         if (newFriend.getID() == um.NotFoundUser.getID()) {
             System.out.println("That user doesn't exist!");
@@ -110,12 +110,13 @@ public class AttendeeMessageController {
             return;
         }
 
-        for (UUID u: user.getConversations()) {
-            if (cm.getConversation(u).getMembers().contains(newFriend.getID())) {
-                System.out.println("You already have a conversation with this user!");
+        for (UUID u: user.getFriends()) {
+            if (u.equals(newFriend.getID())) {
+                System.out.println("You already are friends with this user!");
                 return;
             }
         }
+        UUID conID = cm.newConversation();
         um.addFriends(user, newFriend);
         cm.addUserToConversation(conID, user.getID());
         cm.addUserToConversation(conID, newFriend.getID());
