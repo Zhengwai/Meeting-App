@@ -12,6 +12,8 @@ public class Conversation implements Serializable {
     private final ArrayList<UUID> members;
     private final ArrayList<Message> messages;
     private String convName = null;
+    private boolean readOnly = false;
+    private UUID owner;
 
     /**
      * Initializes a conversation with no members and no messages.
@@ -72,5 +74,21 @@ public class Conversation implements Serializable {
 
     public String getName() {
         return this.convName;
+    }
+
+    public boolean getReadOnly() {
+        return this.readOnly;
+    }
+
+    public void setReadOnly(boolean t) {
+        this.readOnly = t;
+    }
+
+    public UUID getOwner() {
+        return this.owner;
+    }
+
+    public void setOwner(UUID id) {
+        this.owner = id;
     }
 }
