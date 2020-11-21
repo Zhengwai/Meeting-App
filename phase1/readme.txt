@@ -3,9 +3,6 @@ Project Phase 1
 The program is designed to provide the user with enough information via console prompts for easy use.
 Below is some additional information about how each part of the program works.
 
-=== Event System ===
-
-
 == Login System ===
 This system is used first when the program starts running. It is here where you may register new users and login to
 access the rest of the program. Registered users are added to the UserManager and is immediately serialized.
@@ -26,8 +23,10 @@ There are several usages of serialization for saving data:
 The program generates these files if they don't exist on your local machine. The program needs to be exited through the
 program's main screen via the console, otherwise it is not guaranteed that data will be saved properly.
 
-
 === Schedule System ===
+
+
+=== Signup System ===
 
 
 === Users ===
