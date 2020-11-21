@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * A controller class that handles the organizer's event management.
+ */
 public class AttendeeEventController {
     protected User currentUser;
     protected EventManager em;
@@ -18,12 +21,23 @@ public class AttendeeEventController {
     private UserGateway ug = new UserGateway();
     protected InputValidityChecker vc = new InputValidityChecker();
 
+    /**
+     * Initializes an AttendeeEventController
+     * @param user the user associated.
+     * @param um the user manager in the system.
+     * @param em the event manager in the system.
+     */
     public AttendeeEventController(User user, UserManager um, EventManager em) {
         currentUser = user;
         this.um = um;
         this.em = em;
     }
 
+    /**
+     * Executes the event management program for organizer, enabling different options.
+     * @return true when the program exits.
+     * @throws IOException when file reading or writing is interrupted.
+     */
     public boolean attendeeRun() throws IOException {
         String[] validInputs = new String[]{"1", "2", "3"};
         while (true) {
@@ -68,7 +82,7 @@ public class AttendeeEventController {
 
 
 
-    protected boolean signUpForEvent() throws IOException{
+    private boolean signUpForEvent() throws IOException{
         ArrayList<String> validInputEvents = getValidEventsNames();
         if (validInputEvents.size() == 0){
             ep.noAvailableEvents();
@@ -98,7 +112,7 @@ public class AttendeeEventController {
         return signUpAgain();
     }
 
-    protected boolean viewAndCancelEvent() {
+    private boolean viewAndCancelEvent() {
         ArrayList<String> validInputEvents = getValidCancelEventsNames();
         if (validInputEvents.size() == 0){
             ep.noAvailableEvents();
@@ -126,35 +140,35 @@ public class AttendeeEventController {
 
     }
 
-    protected boolean signUpAgain(){
+    private boolean signUpAgain(){
         ep.signUpAgainPrompt();
         String[] validInputs = new String[]{"1", "2"};
         String input = vc.isValidInput(vc.validList(validInputs), scanner.nextLine());
         return input.equals("1");
     }
 
-    protected boolean signUpOrGoBack() {
+    private boolean signUpOrGoBack() {
         ep.signUpOrGoBackPrompt();
         String[] validInputs = new String[]{"1", "2"};
         String input = vc.isValidInput(vc.validList(validInputs), scanner.nextLine());
         return input.equals("1");
     }
 
-    protected boolean cancelOrGoBack() {
+    private boolean cancelOrGoBack() {
         ep.cancelOrGoBackPrompt();
         String[] validInputs = new String[]{"1", "2"};
         String input = vc.isValidInput(vc.validList(validInputs), scanner.nextLine());
         return input.equals("1");
     }
 
-    protected boolean cancelAgain(){
+    private boolean cancelAgain(){
         ep.cancelAgainPrompt();
         String[] validInputs = new String[]{"1", "2"};
         String input = vc.isValidInput(vc.validList(validInputs), scanner.nextLine());
         return input.equals("1");
     }
 
-    protected ArrayList<String> getValidEventsNames() {
+    private ArrayList<String> getValidEventsNames() {
         ArrayList<Event> validInputEvents = em.getAvailableEventsForUser(currentUser);
         ArrayList<String> validInputs = new ArrayList<>();
         for (Event e:validInputEvents){
@@ -162,7 +176,12 @@ public class AttendeeEventController {
         }
         return validInputs;
     }
-    protected ArrayList<String> getAllEventsNames() {
+
+    /**
+     * Returns all the names of the events in the system.
+     * @return an ArrayList of Strings of all event names.
+     */
+    public ArrayList<String> getAllEventsNames() {
         ArrayList<Event> validInputEvents = em.getEvents();
         ArrayList<String> validInputs = new ArrayList<>();
         for (Event e:validInputEvents){
@@ -170,7 +189,10 @@ public class AttendeeEventController {
         }
         return validInputs;
     }
-
+    /**
+     * Returns all the names of the rooms in the system.
+     * @return an ArrayList of Strings of all room names.
+     */
     protected ArrayList<String> getAllRoomsNames() {
         ArrayList<Room> validInputRooms = em.getRooms();
         ArrayList<String> validInputs = new ArrayList<>();
@@ -180,7 +202,7 @@ public class AttendeeEventController {
         return validInputs;
     }
 
-    protected ArrayList<String> getValidCancelEventsNames() {
+    private ArrayList<String> getValidCancelEventsNames() {
         ArrayList<Event> validInputEvents = em.getEventsByUser(currentUser);
         ArrayList<String> validInputs = new ArrayList<>();
         for (Event e:validInputEvents){
