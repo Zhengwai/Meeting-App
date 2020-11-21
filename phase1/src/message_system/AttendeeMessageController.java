@@ -152,6 +152,16 @@ public class AttendeeMessageController {
                             if (conInput.equals("exit")) {
                                 break;
                             }
+                        } else {
+                            System.out.println("Enter your message or type 'exit' to leave.");
+                            conInput = br.readLine();
+
+                            if (conInput.equals("exit")) {
+                                break;
+                            }
+
+                            Message msg = new Message(user.getID(), conInput);
+                            c.sendMessage(msg);
                         }
                     } else {
                         System.out.println("Enter your message or type 'exit' to leave.");
