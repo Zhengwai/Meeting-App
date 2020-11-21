@@ -13,11 +13,29 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.UUID;
 
+/**
+ * Controller class.
+ * A subclass of the AttendeeMessageController.
+ * Similar in functionality to AttendeeMessageController only it supports messaging all attendees in an event.
+ */
 public class SpeakerMessageController extends AttendeeMessageController {
+
+    /**
+     * Creates a new instance of OrganizerMessageController using its parent's constructor.
+     * @param inpUser the current user logged in
+     * @param um a reference of the deserialized UserManager
+     * @param em a reference of the deserialized EventManager
+     */
     public SpeakerMessageController(User inpUser, UserManager um, EventManager em) {
         super(inpUser, um, em);
     }
 
+    /**
+     * This method is to be called immediately after SpeakerMessageController is instantiated.
+     * Prompts the user with different options for interaction with the message system.
+     * Includes the message to all Attendees functionality.
+     * Serializes the <code>ConversationManager</code> to <code>cm.ser</code>.
+     */
     public void run() {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
@@ -93,6 +111,9 @@ public class SpeakerMessageController extends AttendeeMessageController {
         }
     }*/
 
+    /**
+     * Helper method for the <code>run()</code> method.
+     */
     public void handleMessageAllAttendees() {
         try {
             ArrayList<Event> events = em.getEventsByUser(user);
