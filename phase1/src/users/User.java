@@ -7,17 +7,18 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 /**
- * A user in the conference program.
+ * A user i
+ * n the conference program.
  * The <code>User</code> type user only has basic functions and parameters. Most users would fall under one of its
  * child class types: <code>Attendee</code>, <code>Organizer</code>, or <code>Speaker</code>
  */
 public class User implements Serializable{
-    private UUID id = UUID.randomUUID();
-    private String username;
-    private String password;
-    private ArrayList<UUID> enrolledEvents = new ArrayList<>();
-    private ArrayList<UUID> conversations = new ArrayList<>();
-    private ArrayList<UUID> friends = new ArrayList<>();
+    protected UUID id = UUID.randomUUID();
+    protected String username;
+    protected String password;
+    protected ArrayList<UUID> enrolledEvents = new ArrayList<>();
+    protected ArrayList<UUID> conversations = new ArrayList<>();
+    protected ArrayList<UUID> friends = new ArrayList<>();
 
     /**
      * Initializes a user in the conference program.
