@@ -66,7 +66,7 @@ public class OrganizerEventController extends AttendeeEventController{
         return true;
     }
 
-    private boolean createEvent() {
+    private boolean createEvent() throws IOException {
         String [] validYN = new String[]{"1", "2"};
         if (!createEventUpOrGoBack()){
             return false;

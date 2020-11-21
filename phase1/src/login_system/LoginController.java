@@ -99,7 +99,8 @@ public class LoginController {
                 running = false;
                 user = getUserByCredentials(username, password);
                 System.out.println("Login success!");
-            } else {
+            }
+            else {
                 System.out.println("Incorrect username or password, please try again");
                 return null;
             }
