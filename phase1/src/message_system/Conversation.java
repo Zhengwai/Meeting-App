@@ -6,7 +6,7 @@ import java.util.UUID;
 
 /**
  * Entity class.
- *
+ * Handles messages and members of a conversation. Allows user to send messages.
  */
 public class Conversation implements Serializable {
     private final ArrayList<UUID> members;
@@ -90,5 +90,9 @@ public class Conversation implements Serializable {
 
     public void setOwner(UUID id) {
         this.owner = id;
+    }
+
+    public  boolean hasOwner() {
+        return !(this.owner == null);
     }
 }

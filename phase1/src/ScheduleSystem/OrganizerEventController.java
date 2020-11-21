@@ -1,6 +1,4 @@
 package ScheduleSystem;
-
-import sun.security.util.ArrayUtil;
 import users.Speaker;
 import users.User;
 import users.UserGateway;

@@ -7,6 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Presenter class.
+ * Handles how the conversation screen and main screen of the message system should be presented.
+ */
 public class MessagePresenter {
     private User user;
     private UserManager um;
@@ -26,11 +30,10 @@ public class MessagePresenter {
 
         // Assuming for now only two members in a conversation
         for (int i = 0; i < conversations.size(); i++) {
-
-            ArrayList<UUID> memberIds = conversations.get(i).getMembers();
             String name = "";
 
             if (!conversations.get(i).nameExists()) {
+                ArrayList<UUID> memberIds = conversations.get(i).getMembers();
                 for (UUID memberID : memberIds) {
                     if (!memberID.equals(user.getID())) {
                         name = um.getUserByID(memberID).getUsername();
