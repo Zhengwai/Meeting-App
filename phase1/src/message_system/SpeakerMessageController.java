@@ -3,7 +3,6 @@ package message_system;
 
 import ScheduleSystem.EventManager;
 import users.User;
-import users.UserGateway;
 import users.UserManager;
 import ScheduleSystem.Event;
 import users.Speaker;
@@ -58,6 +57,7 @@ public class SpeakerMessageController extends AttendeeMessageController {
                         if (!input.equals("exit")) {
                             System.out.println("Chose invalid option");
                         }
+                        break;
                 }
 
             }
@@ -112,7 +112,7 @@ public class SpeakerMessageController extends AttendeeMessageController {
                 Event evt = events.get(Integer.parseInt(inp));
                 ArrayList<UUID> attendants = evt.getAttendees();
                 ArrayList<User> attendeesUser = new ArrayList<>();
-                ;
+
                 for (int i = 0; i < attendants.size(); i++) {
                     attendeesUser.add(um.getUserByID(attendants.get(i)));
                 }

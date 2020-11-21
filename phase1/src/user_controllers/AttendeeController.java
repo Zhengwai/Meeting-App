@@ -23,7 +23,13 @@ public class AttendeeController {
     private AttendeeEventController ec;
     private InputValidityChecker ivc = new InputValidityChecker();
 
-    public AttendeeController(User thisUser, UserManager um, EventManager em) throws ClassNotFoundException {
+    /**
+     * Initializes AttendeeController with specific user, the UserManager and the EventManager.
+     * @param thisUser the associated user.
+     * @param um the UserManager
+     * @param em the EventManager
+     */
+    public AttendeeController(User thisUser, UserManager um, EventManager em) {
         user = thisUser;
         this.um = um;
         this.em = em;
@@ -60,22 +66,7 @@ public class AttendeeController {
         }
     }
 
-    /**
-     * Displays all the talks to user.
-     */
-    public void browseAllTalks(){
-        ArrayList<Event> allEvents = em.getEvents();
-        ep.showEvents(allEvents);
-    }
-    /**
-     * Displays all the talks this user signed up.
-     */
-    public void browseSignedUpTalks(){
-        ArrayList<Event> allEvents = em.getEventsByUser(user);
-        ep.showEvents(allEvents);
-    }
-
-    public boolean message() {
+    private boolean message() {
         AttendeeMessageController amc = new AttendeeMessageController(this.user, this.um, this.em);
         amc.run();
         System.out.println("Would you like to enter the message system again? Enter Y for yes, N for no.");

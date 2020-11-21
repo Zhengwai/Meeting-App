@@ -3,9 +3,7 @@ package message_system;
 
 import ScheduleSystem.EventManager;
 import users.User;
-import users.UserGateway;
 import users.UserManager;
-import ScheduleSystem.Event;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,6 +11,15 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.UUID;
 
+/**
+ * Controller class.
+ * Allows for <code>Attendee</code> user interaction with the messaging system.
+ * Attendees may add friends to start conversations with other Users and they
+ * can message each other within those conversations.
+ *
+ * Is a parent class of OrganizeMessageController and SpeakerMessageController as they both
+ * inherit AttendeeMessageController's basic functionality.
+ */
 public class AttendeeMessageController {
     protected ConversationGateway cg;
     protected ConversationManager cm;
@@ -21,6 +28,13 @@ public class AttendeeMessageController {
     protected UserManager um;
     protected EventManager em;
 
+    /**
+     * Creates a new instance of AttendeeMessageController and handles the deserialization of the local
+     * <code>cm.ser</code> file into a <code>ConversationManager</code> for the program to use.
+     * @param user The user currently logged in (of type "a" for attendee)
+     * @param um A reference of the UserManager to use and modify
+     * @param em A reference of the EventManager to use.
+     */
     public AttendeeMessageController(User user, UserManager um, EventManager em) {
         this.user = user;
         this.cg = new ConversationGateway();
@@ -30,6 +44,11 @@ public class AttendeeMessageController {
         this.em = em;
     }
 
+    /**
+     * This method is to be called immediately after instantiation of AttendeeMessageController.
+     * Gives prompts and handles user input which gets directed to appropriate helper methods.
+     * This method serializes the <code>ConversationManager</code> to the local <code>cm.ser</code> file.
+     */
     public void run() {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
@@ -56,10 +75,12 @@ public class AttendeeMessageController {
                         input = br.readLine();
                         handleConversations(input, conversations);
                         break;
+
                     default:
                         if (!input.equals("exit")) {
                             System.out.println("Chose invalid option.");
                         }
+                        break;
                 }
             }
             serializeCM();
@@ -69,6 +90,12 @@ public class AttendeeMessageController {
         }
     }
 
+    /**
+     * Helper method for the <code>run()</code> method.
+     * Method expects a username to be passed and tries to add that user to their friends.
+     * Also handles generating a new conversation between the two users.
+     * @param input The name of the friend the user is entering
+     */
     public void handleAddFriend(String input) {
         User newFriend = um.getUserByName(input);
         UUID conID = cm.newConversation();
@@ -98,6 +125,14 @@ public class AttendeeMessageController {
     }
 
 
+    /**
+     * Helper method for the <code>run()</code> method.
+     * Method checks if the input is numeric and is a valid index of <code>conversations</code>.
+     * Upon the conversation selection it creates a screen for the user to type in further inputs
+     * for messaging in the chosen conversation.
+     * @param input The selection of index of conversation. Should be numeric but cleans up if not.
+     * @param conversations The list of conversations for the user to select and interact with.
+     */
     public void handleConversations(String input, ArrayList<Conversation> conversations) {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 

@@ -25,6 +25,7 @@ public class EventManager implements Serializable{
         }
     }
 
+
     public boolean addRoom(Room room) throws IOException {
         if (this.rooms.contains(room)) {
             return false;

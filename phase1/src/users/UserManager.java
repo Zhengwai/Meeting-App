@@ -20,6 +20,7 @@ public class UserManager implements Serializable {
      */
     public UserManager() {
         this.allUsers = new ArrayList<>();
+        //TODO: Initialize this.em
     }
 
     /**
@@ -33,8 +34,11 @@ public class UserManager implements Serializable {
                 return false;
             }
         }
+
         allUsers.add(newUser);
         return true;
+
+
     }
 
     /**
@@ -53,6 +57,7 @@ public class UserManager implements Serializable {
         }
         return false;
     }
+
     /**
      * Unfriends two users.
      * @param user1 first user to be unfriended.
@@ -96,6 +101,14 @@ public class UserManager implements Serializable {
             }
         }
         return NotFoundUser;
+    }
+
+    public ArrayList<User> getAllFriends(User user){
+        ArrayList<User> allFriends= new ArrayList<>();
+        for (UUID id:user.getFriends()){
+            allFriends.add(getUserByID(id));
+        }
+        return allFriends;
     }
 
     /**
@@ -156,6 +169,7 @@ public class UserManager implements Serializable {
     public void addEventForUser(Event event, User user) {
         user.addEvent(event.getId());
     }
+
     /**
      * Remove an user for an ever, remove the id of the event from the user's event ID list.
      * @param event event to be removed.
@@ -164,6 +178,7 @@ public class UserManager implements Serializable {
     public void removeEvent(Event event, User user) {
         user.removeEvent(event.getId());
     }
+
 
     /**
      * Returns all the attendees in the system.
