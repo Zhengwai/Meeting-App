@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
- * A controller class that handles the organizer's event management.
+ * A controller class that handles the attendee's event management.
  */
 public class AttendeeEventController {
     protected User currentUser;
@@ -127,7 +127,7 @@ public class AttendeeEventController {
         try{
             em.removeUser(currentUser, targetEvent);
             um.removeEvent(targetEvent, currentUser);
-        } catch (UnableToCancelException | IOException e) {
+        } catch (UnableToCancelException e) {
             ep.unableToCancelPrompt();
             return cancelAgain();
         }

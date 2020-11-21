@@ -155,15 +155,21 @@ public class EventPresenter {
     public void noAvailableRoomPrompt(){
         System.out.println("Sorry, there are no rooms available to you at the moment.");
     }
-
+    /**
+     * Prints text to UI. Prompts user to enter the event they want to assign.
+     */
     public void promptEventAssign(){
         System.out.println("Please enter the event you selected: ");
     }
-
+    /**
+     * Prints text to UI. Alerts the user that the speaker they chose has already been assigned to the event.
+     */
     public void alreadyAssigned(){
         System.out.println("This speaker has already been assigned to this event.");
     }
-
+    /**
+     * Prints text to UI. Alerts the user that the speaker they chose has been assigned to another event at the same time.
+     */
     public void speakerTimeConflict(){
         System.out.println("Sorry, this speaker is already registered to speak at this time.");
     }
