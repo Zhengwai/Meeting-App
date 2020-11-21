@@ -95,7 +95,7 @@ public class SpeakerMessageController extends AttendeeMessageController {
 
     public void handleMessageAllAttendees() {
         try {
-            ArrayList<Event> events = em.getEventsBySpeaker((Speaker) user);
+            ArrayList<Event> events = em.getEventsByUser(user);
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
             if(events.size() > 0) {
