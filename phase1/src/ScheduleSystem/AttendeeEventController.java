@@ -127,7 +127,7 @@ public class AttendeeEventController {
         try{
             em.removeUser(currentUser, targetEvent);
             um.removeEvent(targetEvent, currentUser);
-        } catch (UnableToCancelException e) {
+        } catch (UnableToCancelException | IOException e) {
             ep.unableToCancelPrompt();
             return cancelAgain();
         }
