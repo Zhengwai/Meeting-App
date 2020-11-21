@@ -145,7 +145,15 @@ public class AttendeeMessageController {
                     Conversation c = conversations.get(index);
                     System.out.println(mp.promptConversationScreen(c));
 
-                    if (!(c.getReadOnly()) && !(c.getOwner().equals(user.getID()))) {
+                    if (c.hasOwner()) {
+                        if (c.getReadOnly() && !(c.getOwner().equals(user.getID()))) {
+                            System.out.println("Type exit to leave");
+                            conInput = br.readLine();
+                            if (conInput.equals("exit")) {
+                                break;
+                            }
+                        }
+                    } else {
                         System.out.println("Enter your message or type 'exit' to leave.");
                         conInput = br.readLine();
 
@@ -155,12 +163,6 @@ public class AttendeeMessageController {
 
                         Message msg = new Message(user.getID(), conInput);
                         c.sendMessage(msg);
-                    } else {
-                        System.out.println("Type exit to leave");
-                        conInput = br.readLine();
-                        if (conInput.equals("exit")) {
-                            break;
-                        }
                     }
                 }
             } else {

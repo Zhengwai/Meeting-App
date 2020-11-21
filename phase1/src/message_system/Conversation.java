@@ -91,4 +91,8 @@ public class Conversation implements Serializable {
     public void setOwner(UUID id) {
         this.owner = id;
     }
+
+    public  boolean hasOwner() {
+        return !(this.owner == null);
+    }
 }

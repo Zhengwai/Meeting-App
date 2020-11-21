@@ -26,11 +26,10 @@ public class MessagePresenter {
 
         // Assuming for now only two members in a conversation
         for (int i = 0; i < conversations.size(); i++) {
-
-            ArrayList<UUID> memberIds = conversations.get(i).getMembers();
             String name = "";
 
             if (!conversations.get(i).nameExists()) {
+                ArrayList<UUID> memberIds = conversations.get(i).getMembers();
                 for (UUID memberID : memberIds) {
                     if (!memberID.equals(user.getID())) {
                         name = um.getUserByID(memberID).getUsername();
