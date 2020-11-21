@@ -24,11 +24,17 @@ The program generates these files if they don't exist on your local machine. The
 program's main screen via the console, otherwise it is not guaranteed that data will be saved properly.
 
 === Schedule System ===
+Organizers can create events, rooms and assign them in the event management tab once they login. Note that all events
+must start on the hour between 9 to 16 and lasts one hour long. Rooms that have the event held on one specific time
+period cannot be assigned to any other events in the same time period.
 
-
+Organizers can also create account for the speaker of the events and assign them to each event. A speaker can only be
+present at one event in the same time period.
 === Signup System ===
+Attendees can sign up for events in the event tab once they login. The program will generate a list of events that
+the user hasn't signed up and are not full to the user.
 
-
+Attendee can only sign up for one event for every time period.
 === Users ===
 Types of users are denoted with a type of "o" for Organizer, "a" for Attendee and "s" for Speaker. These types are used
 for determining which types of controllers to instantiate.
