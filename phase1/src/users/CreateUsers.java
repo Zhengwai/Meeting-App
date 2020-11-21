@@ -1,13 +1,8 @@
 package users;
 
-import ScheduleSystem.Event;
-import ScheduleSystem.Serialization;
-
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Scanner;
 
- public class CreateUsers {
+public class CreateUsers {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
         //Users
         Attendee user1 = new Attendee("attendee1", "attendee1");
