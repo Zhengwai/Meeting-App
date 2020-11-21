@@ -208,6 +208,7 @@ public class OrganizerEventController extends AttendeeEventController{
 
         try{
             em.signUpUser(targetSpeaker, targetEvent);
+            targetSpeaker.addSpeakingEvent(targetEvent.getId());
         } catch(AlreadySignedUpException e){
             ep.alreadyAssigned();
             return assignSpeakerAgain();

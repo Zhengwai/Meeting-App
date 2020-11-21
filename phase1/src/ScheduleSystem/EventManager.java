@@ -1,6 +1,7 @@
 package ScheduleSystem;
 
 import users.User;
+import users.Speaker;
 import users.UserGateway;
 import users.UserManager;
 
@@ -114,6 +115,14 @@ public class EventManager implements Serializable{
             }
         }
         return userEvents;
+    }
+
+    public ArrayList<Event> getEventsBySpeaker(Speaker user) {
+        ArrayList<Event> speakerEvents = new ArrayList<>();
+        for (UUID id : user.getSpeakerEvents()) {
+            speakerEvents.add(getEventByID(id));
+        }
+        return speakerEvents;
     }
 
     public Event getEventByName(String name){
