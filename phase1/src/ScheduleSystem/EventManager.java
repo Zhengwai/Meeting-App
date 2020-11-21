@@ -7,9 +7,8 @@ import users.UserManager;
 
 import java.io.*;
 import java.util.*;
-
 /**
- * Use case class for event entity
+ * A use case class that manages the events.
  */
 public class EventManager implements Serializable{
     private final Event notFoundEvent = new Event();
@@ -17,15 +16,12 @@ public class EventManager implements Serializable{
     private ArrayList<Event> events = new ArrayList<>();
     private ArrayList<Room> rooms = new ArrayList<>();
 
-    public EventManager() {
+    public EventManager() throws ClassNotFoundException {
     }
-
     /**
-     * Add an event to the Schedule system
-     * @param event the event being added to the system
-     * @return true if and only if the event was successfully added
+     *Initializes the EventManager.
      */
-    public boolean addEvent(Event event) {
+    public boolean addEvent(Event event){
         if (this.events.contains(event)) {
             return false;
         } else {
@@ -35,22 +31,21 @@ public class EventManager implements Serializable{
     }
 
     /**
-     * add empty room to the system
-     * @param room the room being added to the system
-     * @return true if and only if a room was successfully added that did not exist before
+     * Adds a room to the system.
+     * @param room room to be added.
+     * @return true iff the room has successfully been added.
      */
-    public boolean addRoom(Room room) {
+    public boolean addRoom(Room room){
         if (this.rooms.contains(room)) {
             return false;
         }
         this.rooms.add(room);
         return true;
     }
-
     /**
-     * Search the system for an event by the ID of the event.
-     * @param eventID the ID of the event we are searching for
-     * @return the event if it exits.
+     * Returns the event with associated ID.
+     * @param eventID the ID to be searching for.
+     * @return the event with <code>eventID</code>
      */
     public Event getEventByID(UUID eventID) {
         for (Event e : events) {
@@ -60,11 +55,10 @@ public class EventManager implements Serializable{
         }
         return notFoundEvent;
     }
-
     /**
-     * Search the system for an room by the ID of the room
-     * @param roomID the ID of the room we are searching for
-     * @return the event if it exists
+     * Returns the room with associated ID.
+     * @param roomID the ID to be searching for.
+     * @return the event with <code>roomID</code>
      */
     public Room getRoomByID(UUID roomID) {
         for (Room r : rooms) {
@@ -74,11 +68,10 @@ public class EventManager implements Serializable{
         }
         return notFoundRoom;
     }
-
     /**
-     * Search the system for an room by the name of the room
-     * @param name the name of the room we are searching for
-     * @return the room if it exists
+     * Returns the room with associated name.
+     * @param name the room to be searching for.
+     * @return the room called <code>name</code>
      */
     public Room getRoomByName(String name){
         for (Room r:rooms){
@@ -88,28 +81,29 @@ public class EventManager implements Serializable{
         }
         return notFoundRoom;
     }
-
     /**
-     * @return an ArrayList of the events registered in the system
+     * Returns all the events in the system.
+     * @return an ArrayList of all events in the system.
      */
     public ArrayList<Event> getEvents() {
         return this.events;
     }
-
     /**
-     * @return and ArrayList of the rooms registered in the system
+     * Returns all the rooms in the system.
+     * @return an ArrayList of all rooms in the system.
      */
     public ArrayList<Room> getRooms(){
         return this.rooms;
     }
-
     /**
-     * Sign up a user to an already existing event.
-     * @param user the user we are signing up
-     * @param event the event which we are attempting to sign to user up to
-     * @return true if and only if the user was successfully signed up for the event
+     * Sign a user up for an event
+     * @param user the user to sign up
+     * @param event the event to sign the user up
+     * @return true iff the event is successfully signed up for the user.
+     * @throws AlreadySignedUpException if the user has already signed up for the event
+     * @throws TimeConflictException if the user has signed up for another event at the same time period.
      */
-    public boolean signUpUser(User user, Event event) throws AlreadySignedUpException, TimeConflictException {
+    public boolean signUpUser(User user, Event event) throws AlreadySignedUpException, TimeConflictException{
         for (Event i : getEventsByUser(user)) {
             if (event.getId().equals(i.getId())) {
                 throw new AlreadySignedUpException();
@@ -130,14 +124,14 @@ public class EventManager implements Serializable{
 
         return false;
     }
-
     /**
-     * Remove an user from an event that they are signed up for
-     * @param user the user whom we are removing
-     * @param event the event which we are removing the user from
-     * @return true if and only if the user was successfully removed from the event
+     * Removes a user from the event.
+     * @param user the user to be removed.
+     * @param event the event to remove from.
+     * @return true iff the event has been successfully removed the user.
+     * @throws UnableToCancelException when the user did not sign up for the event.
      */
-    public boolean removeUser(User user, Event event) throws UnableToCancelException {
+    public boolean removeUser(User user, Event event) throws UnableToCancelException, IOException {
         if (event.getAttendees().contains(user.getID())) {
             event.removeAttendee(user.getID());
             return true;
@@ -146,11 +140,10 @@ public class EventManager implements Serializable{
         }
 
     }
-
     /**
-     * Search the system for events the user is a participant in (whether attendee or speaker)
-     * @param user the user whom we are searching
-     * @return an ArrayList of events the user is a participant in
+     * Returns all the events a user has signed up for.
+     * @param user the user whose events are to be returned.
+     * @return an ArrayList of the events <code>user</code> has signed up for.
      */
     public ArrayList<Event> getEventsByUser(User user) {
         ArrayList<Event> userEvents = new ArrayList<>();
@@ -169,9 +162,9 @@ public class EventManager implements Serializable{
     }
 
     /**
-     * Search the system for events which the user is a speaker for
-     * @param user the user whom we are searching for
-     * @return an ArrayList of events the user if a speaker for
+     * Returns all the events a speaker has been assigned to.
+     * @param user the speaker.
+     * @return an ArrayList of the events the speaker has been assigned to.
      */
     public ArrayList<Event> getEventsBySpeaker(Speaker user) {
         ArrayList<Event> speakerEvents = new ArrayList<>();
@@ -180,11 +173,10 @@ public class EventManager implements Serializable{
         }
         return speakerEvents;
     }
-
     /**
-     * Search the system for the event by the name of the event
-     * @param name the name of the event we are serching for
-     * @return the event with the matching name if it exists in the system
+     * Returns the event with specific name.
+     * @param name name to search for.
+     * @return returns the first event with an associated name.
      */
     public Event getEventByName(String name){
         for (Event e:events){
@@ -194,11 +186,11 @@ public class EventManager implements Serializable{
         }
         return notFoundEvent;
     }
-
     /**
-     * Search the system for all events which are not at full capacity and which the user is not already signed up for
-     * @param user the user we are searching for available events
-     * @return an ArrayList of events which are available for the user
+     * Returns all the events available for this user.
+     * The events must not be full and the user must not have signed this event up before.
+     * @param user the user to search for.
+     * @return ArrayList of events this user can choose to sign up.
      */
     public ArrayList<Event> getAvailableEventsForUser(User user){
         ArrayList<Event> events = new ArrayList<>();
@@ -211,12 +203,11 @@ public class EventManager implements Serializable{
         }
         return events;
     }
-
     /**
-     * Checks if a room in the system is empty during the duration of an event
-     * @param room the room which we are checking availability for
-     * @param event the event whose time is when we are checking if the room is empty
-     * @return true if and only if the room is empty during the entire duration of the event
+     * Checks whether a room is available for a specific event.
+     * @param room the room to check.
+     * @param event the event to check.
+     * @return true iff the room is available for event.
      */
     public boolean roomAvailableForEvent(Room room, Event event){
         for (UUID eventID : room.getEvents()) {
@@ -226,22 +217,20 @@ public class EventManager implements Serializable{
         }
         return true;
     }
-
     /**
-     * Assign a room to an event or change the room of the event if the event is already assigned a room.
-     * @param room the room we which we are assigning for the event
-     * @param event the event which we are assigning the room for
+     * Assign a room to a specific event.
+     * @param room the room to assign.
+     * @param event the event to assign.
      */
-    public void assignRoom(Room room, Event event) {
+    public void assignRoom(Room room, Event event) throws IOException {
         room.addEvent(event.getId());
         event.setRoom(room.getID());
     }
-
     /**
-     * Checks an event if it has a time conflict with any event the user is already a participant in.
-     * @param user the user which we are checking for availability during the event
-     * @param event the event which we are checking for time conflicts
-     * @return true if and only if the user has no time conflicts for the entire duration of the event
+     * Checks if a user is available for a certain event, aka no time conflict.
+     * @param user the user to check.
+     * @param event the event to check.
+     * @return true iff the user is available to participate in the event.
      */
     public boolean userAvailableForEvent(User user, Event event) {
         ArrayList<UUID> enrolledEvents = user.getEnrolledEvents();

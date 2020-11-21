@@ -66,7 +66,7 @@ public class SpeakerMessageController extends AttendeeMessageController {
 
     }
 
-    public void handleMessageAll(ArrayList<User> users) {
+    /*public void handleMessageAll(ArrayList<User> users) {
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
@@ -77,6 +77,7 @@ public class SpeakerMessageController extends AttendeeMessageController {
             UUID conID = this.cm.newConversation();
             Conversation c = this.cm.getConversation(conID);
             c.addMember(user.getID());
+            c.setOwner(user.getID());
             user.addConversation(conID);
             for (int i = 0; i < users.size(); i++) {
                 c.addMember(users.get(i).getID());
@@ -90,11 +91,11 @@ public class SpeakerMessageController extends AttendeeMessageController {
         } catch (IOException e) {
             System.out.println("Failed to read input.");
         }
-    }
+    }*/
 
     public void handleMessageAllAttendees() {
         try {
-            ArrayList<Event> events = em.getEventsBySpeaker((Speaker) user);
+            ArrayList<Event> events = em.getEventsByUser(user);
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
             if(events.size() > 0) {
