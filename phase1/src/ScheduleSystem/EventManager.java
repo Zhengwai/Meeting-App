@@ -82,7 +82,7 @@ public class EventManager implements Serializable{
             return true;
         }
 
-        if(user.getType().equals("o")) {
+        else if (user.getType().equals("o") | user.getType().equals("a")) {
             event.addAttendee(user.getID());
             return true;
         }
