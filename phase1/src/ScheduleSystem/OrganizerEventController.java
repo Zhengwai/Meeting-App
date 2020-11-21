@@ -11,6 +11,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+/**
+ * A controller class for organizer to manage events.
+ */
 public class OrganizerEventController extends AttendeeEventController{
     private EventGateway eg;
     private UserGateway ug;
@@ -21,7 +24,13 @@ public class OrganizerEventController extends AttendeeEventController{
     public OrganizerEventController(User user, UserManager um, EventManager em) throws ClassNotFoundException {
         super(user, um, em);
     }
-
+    /**
+     * Executes the event management program for organizer, enabling different options.
+     * @return true when the program exits.
+     * @throws IOException when file reading or writing is interrupted.
+     * @throws AlreadySignedUpException when a user is being signed up to a program they've signed up already.
+     * @throws TimeConflictException when a user is being signed up to a program they cannot participate.
+     */
     public boolean organizerRun() throws IOException, AlreadySignedUpException, TimeConflictException {
         boolean running = true;
         String[] validInputs = new String[]{"1", "2","3","4", "5"};
@@ -59,7 +68,7 @@ public class OrganizerEventController extends AttendeeEventController{
         return true;
     }
 
-    private boolean createEvent() throws IOException {
+    private boolean createEvent() {
         String [] validYN = new String[]{"1", "2"};
         if (!createEventUpOrGoBack()){
             return false;
