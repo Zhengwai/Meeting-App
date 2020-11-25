@@ -31,14 +31,15 @@ public class OrganizerEventController extends AttendeeEventController{
      */
     public boolean organizerRun() throws IOException, AlreadySignedUpException, TimeConflictException {
         boolean running = true;
-        String[] validInputs = new String[]{"1", "2","3","4", "5"};
+        String[] validInputs = new String[]{"1", "2","3","4", "5","6"};
         while (running) {
             System.out.println("Please enter the number of corresponding choice: \n" +
                     "1.Create Room \n" +
                     "2.Create Event \n" +
                     "3.Assign Room \n" +
                     "4.Assign Speaker\n" +
-                    "5.Exit");
+                    "5.Cancel Event\n" +
+                    "6.Exit");
             String input = vc.isValidInput(vc.validList(validInputs), scanner.nextLine());
             boolean r = true;
             if (input.equals("1")) {
@@ -59,7 +60,12 @@ public class OrganizerEventController extends AttendeeEventController{
                 while (r){
                     r = assignSpeaker();
                 }
-            } else {
+            }else if (input.equals("5")){
+                while (r){
+                    r = cancelEvent();
+                }
+            }
+            else {
                 running = false;
             }
         }
@@ -95,12 +101,40 @@ public class OrganizerEventController extends AttendeeEventController{
         if (confirm.equals("2")){
             return true;
         }
-        Event event = new Event(eventName, date, 2);
+        Event event = new Event(eventName, date, 0);
         em.addEvent(event);
         oep.eventSuccessfullyAddedPrompt();
         return createEventAgain();
     }
+    public boolean cancelEvent() throws IOException{
+        if (!cancelOrGoback()){
+            return false;
+        }
+        ArrayList<Event> Events = em.getEvents();
+        ArrayList<String> names = new ArrayList<>();
+        for (Event e: Events){
+            names.add(e.getName());
+        }
 
+        if (names.size() == 0){
+            ep.noAvailableEvents();
+            return false;
+        }
+        ep.showEvents(em.getEvents());
+        ep.promptCancelEvent();
+        String input = vc.isValidInput(names, scanner.nextLine());
+        Event targetEvent = em.getEventByName(input);
+        if(em.removeEvent(targetEvent)){
+            for(UUID user: targetEvent.getAttendees()){
+                um.removeEvent(targetEvent,um.getUserByID(user));
+            }
+            ep.cancelSuccess(input);
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
     public boolean createRoom() throws IOException {
         String [] validYN = new String[]{"1", "2"};
         if (!createRoomOrGoBack()){
@@ -170,7 +204,12 @@ public class OrganizerEventController extends AttendeeEventController{
 
 
     }
-
+    private boolean cancelOrGoback(){
+        ep.cancelOrGoBackPrompt();
+        String[] validInputs = new String[]{"1", "2"};
+        String input = vc.isValidInput(vc.validList(validInputs), scanner.nextLine());
+        return input.equals("1");
+    }
     public boolean assignSpeaker() throws IOException, AlreadySignedUpException, TimeConflictException {
         String [] validYN = new String[]{"1", "2"};
         ArrayList<String> validInputEvents = getAllEventsNames();

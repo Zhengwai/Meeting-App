@@ -79,9 +79,6 @@ public class AttendeeEventController {
         }
     }
 
-
-
-
     private boolean signUpForEvent() throws IOException{
         ArrayList<String> validInputEvents = getValidEventsNames();
         if (validInputEvents.size() == 0){

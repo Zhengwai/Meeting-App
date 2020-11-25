@@ -46,7 +46,7 @@ public class AttendeeController {
             System.out.println("Please enter the corresponding number for your choice: \n" +
                     "1. Navigating Events\n" +
                     "2. Message\n" +
-                    "3. Exit program");
+                    "3. Log out");
 
             String input = ivc.isValidInput(ivc.validList(valid), scanner.nextLine());
 
@@ -60,7 +60,7 @@ public class AttendeeController {
                 while (r){
                     r = message();
                 }
-            } else {
+            } else if(input.equals("3")) {
                 running = false;
             }
         }

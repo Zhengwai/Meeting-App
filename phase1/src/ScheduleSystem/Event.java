@@ -64,9 +64,7 @@ public class Event implements Serializable {
     /**
      * @return date of the event as a date object
      */
-    public Date getDate(){
-        return date;
-    }
+    public Date getDate() { return date; }
 
     /**
      * @return the the maximum capacity of the event
@@ -74,6 +72,11 @@ public class Event implements Serializable {
     public int getCapacity(){
         return this.capacity;
     }
+
+    /**
+     * @set the capacity
+     */
+    public void setCapacity(int c){this.capacity = c; }
 
     /**
      * @return the current amount of attendees registered for the event

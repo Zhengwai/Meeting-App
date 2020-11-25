@@ -44,6 +44,11 @@ public class Room implements Serializable {
     public String getRoomName(){ return roomName;}
 
     /**
+     * @return the capacity of the room
+     */
+    public int getCapacity(){return this.capacity; }
+
+    /**
      * Returns the list of events the room has been assigned to.
      * @return an ArrayList of events the room has been assigned to.
      */

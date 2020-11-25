@@ -140,6 +140,15 @@ public class EventManager implements Serializable{
         }
 
     }
+    public boolean removeEvent(Event event){
+        if(this.events.contains(event)){
+            this.events.remove(event);
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
     /**
      * Returns all the events a user has signed up for.
      * @param user the user whose events are to be returned.
@@ -225,6 +234,7 @@ public class EventManager implements Serializable{
     public void assignRoom(Room room, Event event) throws IOException {
         room.addEvent(event.getId());
         event.setRoom(room.getID());
+        event.setCapacity(room.getCapacity());
     }
     /**
      * Checks if a user is available for a certain event, aka no time conflict.

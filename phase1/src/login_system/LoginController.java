@@ -56,6 +56,9 @@ public class LoginController {
                     SpeakerController sc = new SpeakerController(user, um, em);
                     sc.run();
                 }
+                serializeUM();
+                serializeEM();
+                in = new Scanner(System.in);
             }
             if (indicator.equals("2")){
                 boolean added = false;
@@ -72,7 +75,7 @@ public class LoginController {
                     }
                 }
             }
-            else {
+            if (indicator.equals("0")) {
                 serializeUM();
                 serializeEM();
                 running = false;

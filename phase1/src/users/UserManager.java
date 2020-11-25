@@ -40,7 +40,6 @@ public class UserManager implements Serializable {
 
 
     }
-
     /**
      * Adds two users as friends.
      * @param user1 first user to be added.

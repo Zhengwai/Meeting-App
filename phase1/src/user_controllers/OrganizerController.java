@@ -45,7 +45,7 @@ public class OrganizerController {
                     "1.Manage Events  \n" +
                     "2.Message \n" +
                     "3.Create Speaker Account \n" +
-                    "4.Exit program");
+                    "4.Log out");
             String input = ivc.isValidInput(ivc.validList(validInputs), scanner.nextLine());
 
             if (input.equals("1")){

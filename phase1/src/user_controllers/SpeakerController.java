@@ -46,7 +46,7 @@ public class SpeakerController {
             System.out.println("Please enter the number of corresponding choice:\n" +
                     "1.View Assigned Events  \n" +
                     "2.Message \n" +
-                    "3.Exit program");
+                    "3.Log out");
             String input = ivc.isValidInput(ivc.validList(validInputs), scanner.nextLine());
 
             if (input.equals("1")){
