@@ -1,10 +1,10 @@
 package ScheduleSystem;
 
-import ScheduleSystem.Event;
+import entities.Event;
+import gateways.EventGateway;
+import use_cases.EventManager;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 public class CreateEvents {

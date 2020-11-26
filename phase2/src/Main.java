@@ -1,4 +1,4 @@
-import login_system.LoginController;
+import controllers.LoginController;
 
 public class Main {
     public static void main(String[] args) throws Exception {

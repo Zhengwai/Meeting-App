@@ -1,5 +1,12 @@
 package users;
 
+import entities.Attendee;
+import entities.Organizer;
+import entities.Speaker;
+import entities.User;
+import gateways.UserGateway;
+import use_cases.UserManager;
+
 import java.io.IOException;
 
 public class CreateUsers {
