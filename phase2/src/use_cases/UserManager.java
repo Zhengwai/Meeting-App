@@ -41,12 +41,14 @@ public class UserManager implements Serializable {
 
     }
     /**
-     * Adds two users as friends.
-     * @param user1 first user to be added.
-     * @param user2 second user to be added.
+     * Adds two users as friends. Assumes valid UUIDs are passed.
+     * @param userID1 ID of first user to be added.
+     * @param userID2 ID of second user to be added.
      * @return true iff the two users have been befriended successfully.
      */
-    public boolean addFriends(User user1, User user2) {
+    public boolean addFriends(UUID userID1, UUID userID2) {
+        User user1 = getUserByID(userID1);
+        User user2 = getUserByID(userID2);
         if (!user1.isFriendWithID(user2.getID())){
             if(!user2.isFriendWithID(user1.getID())){
                 user1.addFriend(user2.getID());
@@ -102,12 +104,14 @@ public class UserManager implements Serializable {
         return NotFoundUser;
     }
 
-    public ArrayList<User> getAllFriends(User user){
-        ArrayList<User> allFriends= new ArrayList<>();
-        for (UUID id:user.getFriends()){
-            allFriends.add(getUserByID(id));
+    public ArrayList<UUID> getAllFriendIDs(UUID userID){
+        User user = getUserByID(userID);
+        try {
+            return new ArrayList<>(user.getFriends());
+        } catch (NullPointerException e) {
+            System.out.println("This user has no friends.");
+            return new ArrayList<>();
         }
-        return allFriends;
     }
 
     /**

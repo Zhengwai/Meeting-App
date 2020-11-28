@@ -2,7 +2,7 @@ package presenters;
 
 import entities.Conversation;
 import entities.Message;
-import entities.User;
+import use_cases.ConversationManager;
 import use_cases.UserManager;
 
 import java.util.ArrayList;
@@ -14,12 +14,14 @@ import java.util.UUID;
  * Handles how the conversation screen and main screen of the message system should be presented.
  */
 public class MessagePresenter {
-    private User user;
+    private UUID userID;
     private UserManager um;
+    private ConversationManager cm;
 
-    public MessagePresenter(User user, UserManager um) {
-        this.user = user;
+    public MessagePresenter(UUID userID, UserManager um, ConversationManager cm) {
+        this.userID = userID;
         this.um = um;
+        this.cm = cm;
     }
 
     /**
@@ -36,11 +38,13 @@ public class MessagePresenter {
 
             if (!conversations.get(i).nameExists()) {
                 ArrayList<UUID> memberIds = conversations.get(i).getMembers();
+
                 for (UUID memberID : memberIds) {
-                    if (!memberID.equals(user.getID())) {
+                    if (!memberID.equals(userID)) {
                         name = um.getUserByID(memberID).getUsername();
                     }
                 }
+
             } else {
                 name = conversations.get(i).getName();
             }
@@ -53,14 +57,16 @@ public class MessagePresenter {
 
     /**
      * Creates a textual representation of a given conversation.
-     * @param c The conversation preparing to be showed on the screen
+     * @param conID The ID of the conversation preparing to be showed on the screen
      * @return Formatted text of the messages in the conversation
      */
-    public String promptConversationScreen(Conversation c) {
-        ArrayList<Message> msgs = c.getMessages();
+
+   public String promptConversationScreen(UUID conID) {
         StringBuilder output = new StringBuilder();
 
-        for (Message msg : msgs) {
+        // Violates clean architecture slightly. Is there a way we can present messages without needing to call
+       // the message class?
+        for (Message msg : cm.getMessagesInConversation(conID)) {
             String name = um.getUserByID(msg.getSenderID()).getUsername();
             output.append(name).append(": ").append(msg.getBody()).append("\n");
         }

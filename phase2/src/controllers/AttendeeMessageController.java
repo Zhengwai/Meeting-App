@@ -45,7 +45,7 @@ public class AttendeeMessageController {
         this.cg = new ConversationGateway();
         deserializeCM();
         this.um = um;
-        this.mp = new MessagePresenter(this.user, this.um);
+        //this.mp = new MessagePresenter(this.user, this.um);
         this.em = em;
     }
 
@@ -122,7 +122,7 @@ public class AttendeeMessageController {
             }
         }
         UUID conID = cm.newConversation();
-        um.addFriends(user, newFriend);
+        //um.addFriends(user, newFriend);
         cm.addUserToConversation(conID, user.getID());
         cm.addUserToConversation(conID, newFriend.getID());
         user.addConversation(conID);
@@ -148,7 +148,7 @@ public class AttendeeMessageController {
                 String conInput;
                 while (true) {
                     Conversation c = conversations.get(index);
-                    System.out.println(mp.promptConversationScreen(c));
+                    //System.out.println(mp.promptConversationScreen(c));
 
                     if (c.hasOwner()) {
                         if (c.getReadOnly() && !(c.getOwner().equals(user.getID()))) {
@@ -166,7 +166,7 @@ public class AttendeeMessageController {
                             }
 
                             Message msg = new Message(user.getID(), conInput);
-                            c.sendMessage(msg);
+                            //c.sendMessage(msg);
                         }
                     } else {
                         System.out.println("Enter your message or type 'exit' to leave.");
@@ -177,7 +177,7 @@ public class AttendeeMessageController {
                         }
 
                         Message msg = new Message(user.getID(), conInput);
-                        c.sendMessage(msg);
+                       // c.sendMessage(msg);
                     }
                 }
             } else {
@@ -211,7 +211,7 @@ public class AttendeeMessageController {
             System.out.println("Enter your message title");
             inp = br.readLine();
             c.setName(inp);
-            c.sendMessage(msg);
+            //c.sendMessage(msg);
             c.setReadOnly(true);
         } catch (IOException e) {
             System.out.println("Failed to read input.");

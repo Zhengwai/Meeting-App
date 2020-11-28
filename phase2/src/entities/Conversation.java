@@ -10,7 +10,8 @@ import java.util.UUID;
  */
 public class Conversation implements Serializable {
     private final ArrayList<UUID> members;
-    private final ArrayList<Message> messages;
+    private final ArrayList<UUID> messages;
+    private final UUID conID;
     private String convName = null;
     private boolean readOnly = false;
     private UUID owner;
@@ -22,22 +23,27 @@ public class Conversation implements Serializable {
     public Conversation() {
         this.members = new ArrayList<>();
         this.messages = new ArrayList<>();
+        this.conID = UUID.randomUUID();
     }
 
     /**
      * Sends a Message in this conversation. This method assumes that the senderID of the message is in the UserManager.
-     * @param msg The message to be sent in this conversation
+     * @param msgID The messageID to be stored in this conversation
      */
-    public void sendMessage(Message msg) {
-        messages.add(msg);
+    public void addMessage(UUID msgID) {
+        messages.add(msgID);
     }
 
     /**
-     * Returns an ArrayList of all Messages in this conversation.
+     * Returns an ArrayList of all Message IDs in this conversation.
      * @return all messages in conversation.
      */
-    public ArrayList<Message> getMessages() {
+    public ArrayList<UUID> getMessageIDs() {
         return this.messages;
+    }
+
+    public UUID getID() {
+        return this.conID;
     }
 
     /**
