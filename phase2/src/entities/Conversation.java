@@ -42,6 +42,7 @@ public class Conversation implements Serializable {
         return this.messages;
     }
 
+
     public UUID getID() {
         return this.conID;
     }

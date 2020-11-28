@@ -38,7 +38,7 @@ public class OrganizerMessageController extends AttendeeMessageController {
      * Serializes the <code>ConversationManager</code> to <code>cm.ser</code>.
      */
     public void run() {
-        MessagePresenter mp = new MessagePresenter(this.user, this.um);
+        //MessagePresenter mp = new MessagePresenter(this.user, this.um);
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         try {
             String input = "";

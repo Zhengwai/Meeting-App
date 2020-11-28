@@ -108,7 +108,7 @@ public class ConversationManager implements Serializable {
     public ArrayList<Conversation> getConversations(UUID[] conIDs) {
         ArrayList<Conversation> output = new ArrayList<>();
         for (UUID conID: conIDs) {
-            output.add(this.getConversation(conID));
+            output.add(getConversation(conID));
         }
         return output;
     }
