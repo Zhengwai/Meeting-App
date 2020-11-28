@@ -1,6 +1,7 @@
 package use_cases;
 
 import entities.Conversation;
+import entities.Message;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -12,28 +13,43 @@ import java.util.UUID;
  * Use Case class.
  * Stores every Conversation within the program (more suitable for Conversations to be stored in a DB for phase 2).
  */
-public class ConversationManager implements Serializable {
-    private final Map<UUID, Conversation> allConversations;
+public class ConversationManager {
+    private final UUID userID;
+    private final Map<UUID, Conversation> userConversations;
+    private final Map<UUID, ArrayList<Message>> userMessages;
+
     /**
      * Initialize ConversationManager with no conversations
      */
-    public ConversationManager() {
-        this.allConversations = new HashMap<>();
+    public ConversationManager(UUID userID) {
+        this.userID = userID;
+        this.userConversations = new HashMap<>();
+        this.userMessages = new HashMap<>();
     }
 
     /**
      * Creates a new Conversation with a random UUID.
      * @return The conversation id of the newly created Conversation
      */
-    public UUID newConversation() {
-        UUID conID = UUID.randomUUID();
+    public Conversation newConversation() {
         Conversation c = new Conversation();
-        this.allConversations.put(conID, c);
-        return conID;
+        this.userConversations.put(c.getConID(), c);
+        return c;
     }
 
-    public void addUserToConversation(UUID conID, UUID userID) {
-        this.allConversations.get(conID).addMember(userID);
+    public void sendMessage(UUID conID, String body) {
+        Message msg = new Message(userID, body);
+        userMessages.computeIfAbsent(conID, k -> new ArrayList<>());
+        userMessages.get(conID).add(msg);
+        userConversations.get(conID).addMessage(msg.getMessageID());
+    }
+
+    public ArrayList<Message> getMessages(UUID conID) {
+        return this.userMessages.get(conID);
+    }
+
+    public void addUserToConversation(UUID conID, UUID newUserID) {
+       userConversations.get(conID).addMember(newUserID);
     }
 
     /**
@@ -43,7 +59,7 @@ public class ConversationManager implements Serializable {
      * @return The conversation with the corresponding conID.
      */
     public Conversation getConversation(UUID conID) {
-        return allConversations.get(conID);
+        return userConversations.get(conID);
     }
 
     /**
@@ -53,7 +69,7 @@ public class ConversationManager implements Serializable {
     public ArrayList<Conversation> getConversations(UUID[] conIDs) {
         ArrayList<Conversation> output = new ArrayList<>();
         for (UUID conID: conIDs) {
-            output.add(this.getConversation(conID));
+            output.add(getConversation(conID));
         }
         return output;
     }
