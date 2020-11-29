@@ -12,7 +12,7 @@ import java.util.UUID;
  * A use case class for user that manages user related activities.
  */
 public class UserManager implements Serializable {
-    private  ArrayList<User> allUsers;
+    private ArrayList<User> allUsers;
     public User NotFoundUser = new User("NotFound", "NotFound");
 
     /**
@@ -34,12 +34,10 @@ public class UserManager implements Serializable {
                 return false;
             }
         }
-
         allUsers.add(newUser);
         return true;
-
-
     }
+
     /**
      * Adds two users as friends. Assumes valid UUIDs are passed.
      * @param userID1 ID of first user to be added.
@@ -138,7 +136,7 @@ public class UserManager implements Serializable {
 
     /**
      * Returns all speakers in the system.
-     * @@return an ArrayList of all speakers in the system.
+     * @return an ArrayList of all speakers in the system.
      */
     public ArrayList<User> getAllSpeakersUser(){
         ArrayList<User> speakers = new ArrayList<>();
@@ -182,7 +180,6 @@ public class UserManager implements Serializable {
         user.removeEvent(event.getId());
     }
 
-
     /**
      * Returns all the attendees in the system.
      * @return an ArrayList of all attendees in the system.
@@ -195,7 +192,6 @@ public class UserManager implements Serializable {
             }
         }
         return attendees;
-
     }
 
     /**
