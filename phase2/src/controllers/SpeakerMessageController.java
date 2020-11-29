@@ -57,12 +57,12 @@ public class SpeakerMessageController extends AttendeeMessageController {
                         break;
 
                     case "2":
-                        ArrayList<Conversation> conversations = cm.getConversations(this.user.getConversations());
+                        /*ArrayList<Conversation> conversations = cm.getConversations(this.user.getConversations());
                         System.out.println(mp.promptMainScreen(conversations));
                         System.out.println("Enter the number of the conversation to open:");
                         input = br.readLine();
                         handleConversations(input, conversations);
-                        break;
+                        break;*/
 
                     case "3":
                         handleMessageAllAttendees();

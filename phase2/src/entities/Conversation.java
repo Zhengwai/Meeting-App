@@ -30,7 +30,7 @@ public class Conversation implements Serializable {
      * Sends a Message in this conversation. This method assumes that the senderID of the message is in the UserManager.
      * @param msgID The messageID to be stored in this conversation
      */
-    public void addMessage(UUID msgID) {
+    public void addMessageID(UUID msgID) {
         messages.add(msgID);
     }
 
