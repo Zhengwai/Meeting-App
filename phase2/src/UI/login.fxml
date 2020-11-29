@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.GridPane?>
+
+
+<BorderPane prefHeight="396.0" prefWidth="524.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.LoginController">
+   <center>
+      <AnchorPane BorderPane.alignment="CENTER">
+         <children>
+            <TextField fx:id="usernameTextField" layoutX="203.0" layoutY="139.0" promptText="Username" />
+            <TextField fx:id="passwordTextField" layoutX="203.0" layoutY="177.0" promptText="Password" />
+            <Label layoutX="95.0" layoutY="138.0" text="Username">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+            <Label layoutX="95.0" layoutY="176.0" text="Password">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+            <Button fx:id="loginButton" layoutX="259.0" layoutY="245.0" mnemonicParsing="false" text="Login" />
+            <Button fx:id="registerButton" layoutX="252.0" layoutY="287.0" mnemonicParsing="false" text="Register" />
+            <Label layoutX="120.0" layoutY="216.0" text="Username or password incorrect, please try again" />
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>
