@@ -43,7 +43,7 @@ public class ConversationManager implements Serializable {
      */
     public void sendMessageInConversation(UUID conID, UUID senderID, String body) {
         Message msg = new Message(senderID, body);
-        this.allConversations.get(conID).addMessage(msg.getMessageID());
+        this.allConversations.get(conID).addMessageID(msg.getMessageID());
         this.allMessages.put(msg.getMessageID(), msg);
     }
 
@@ -82,6 +82,11 @@ public class ConversationManager implements Serializable {
         return allConversations.get(conID).getMembers().contains(userID);
     }
 
+    /**
+     * Returns all conversations that the specified user is in.
+     * @param userID The ID of the user who's conversations will be returned.
+     * @return List of their conversations.
+     */
     public ArrayList<Conversation> getUserConversations(UUID userID) {
         ArrayList<Conversation> out = new ArrayList<>();
         for (Conversation c : allConversations.values()) {
@@ -90,6 +95,15 @@ public class ConversationManager implements Serializable {
             }
         }
         return out;
+    }
+
+    /**
+     * Returns all members part of a specified conversation.
+     * @param conID The ID of the conversation who's members will be returned
+     * @return List of member IDs.
+     */
+    public ArrayList<UUID> getMemberIDsInConversation(UUID conID) {
+        return allConversations.get(conID).getMembers();
     }
 
     /**
@@ -105,7 +119,7 @@ public class ConversationManager implements Serializable {
      * @param conIDs Array of all conversation IDs to be retrieved
      * @return All conversations that this user is member of.
      */
-    public ArrayList<Conversation> getConversations(UUID[] conIDs) {
+    public ArrayList<Conversation> getConversations(ArrayList<UUID> conIDs) {
         ArrayList<Conversation> output = new ArrayList<>();
         for (UUID conID: conIDs) {
             output.add(getConversation(conID));
