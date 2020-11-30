@@ -4,6 +4,7 @@ import controllers.actions.MessageAction;
 import controllers.actions.MessageActionClient;
 import use_cases.ConversationManager;
 import use_cases.UserManager;
+import use_cases.EventManager;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,17 +16,19 @@ public class MessageController {
     private ConversationManager cm;
     private UserManager um;
     private UUID userID;
+    private EventManager em;
 
-    public MessageController(UUID userID) {
+    public MessageController(UUID userID) throws ClassNotFoundException {
         //TODO: Need to fetch appropriate data from database (when it's ready of course).
         this.cm = new ConversationManager();
         this.um = new UserManager();
+        this.em = new EventManager();
         this.userID = userID;
     }
 
     public void run() {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        MessageActionClient mac = new MessageActionClient(userID, um, cm); // mac wit da scope haha brrr
+        MessageActionClient mac = new MessageActionClient(userID, um, cm, em); // mac wit da scope haha brrr
         try {
             String input;
 
@@ -47,8 +50,12 @@ public class MessageController {
                     // Action gets called here!
                     if (0 < idx && idx < actions.size() + 1) {
                         actions.get(idx - 1).run();
+                    } else {
+                        System.out.println("Invalid Input!");
                     }
 
+                } else if (input.equals("exit")) {
+                    System.out.println("Exiting");
                 } else {
                     System.out.println("Invalid input!");
                 };
