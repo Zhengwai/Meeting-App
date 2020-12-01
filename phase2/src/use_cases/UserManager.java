@@ -36,6 +36,10 @@ public class UserManager implements Serializable{
         return true;
     }
 
+    public boolean login(String username, String password){
+        return userData.loginVerification(username, password);
+    }
+
     /**
      * Adds two users as friends. Assumes valid UUIDs are passed.
      * @param userID1 ID of first user to be added.
