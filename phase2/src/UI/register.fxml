@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.GridPane?>
+
+<BorderPane prefHeight="396.0" prefWidth="524.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.RegisterController">
+   <center>
+      <AnchorPane BorderPane.alignment="CENTER">
+         <children>
+            <TextField fx:id="usernameTextField" layoutX="196.0" layoutY="79.0" promptText="Username" />
+            <TextField fx:id="passwordTextField" layoutX="196.0" layoutY="143.0" promptText="Password" />
+            <Label layoutX="90.0" layoutY="77.0" text="Username">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+            <Label layoutX="93.0" layoutY="141.0" text="Password">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+            <Button fx:id="createAttendeeButton" layoutX="232.0" layoutY="263.0" mnemonicParsing="false" onAction="#createAttendeeButtonOnAction" text="Register" />
+            <Label fx:id="usernameErrorLabel" layoutX="196.0" layoutY="113.0" />
+            <Button fx:id="goBackButton" layoutX="6.0" layoutY="2.0" mnemonicParsing="false" onAction="#goBackButtonOnAction" text="Go Back" />
+            <Label layoutX="23.0" layoutY="184.0" text="Confirm Password">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+            <TextField fx:id="confirmPasswordTextField" layoutX="196.0" layoutY="186.0" promptText="Password" />
+            <Label fx:id="passwordErrorLabel" layoutX="196.0" layoutY="221.0" />
+            <Label fx:id="registrationSuccessLabel" layoutX="206.0" layoutY="298.0" />
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>

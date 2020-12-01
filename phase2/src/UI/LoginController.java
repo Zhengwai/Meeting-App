@@ -54,6 +54,7 @@ public class LoginController {
             mainModel.setCurrentUser(user); //Sets this user as current user in main model.
             promptLabel.setText(""); //Clears the error message label.
             String type = (user.getType()); //gets the user's type, launches different menus depending on type.
+            System.out.println("test print");
             if (type.equals("a") | type.equals("v")){
                 showMenu("AttendeeMenu.fxml");
             } else if (type.equals("o")){
@@ -73,7 +74,7 @@ public class LoginController {
         Stage stage = new Stage(); //sets stage.
         stage.initOwner(loginButton.getScene().getWindow());//this scene with the login button will be the owner of the stage.(Kinda like the root of a tree)
         stage.setScene(new Scene((Parent) loader.load())); //adds the menu scene to the stage.
-        MenuController controller = loader.getController(); //stores the controller of the menu scene
+        GeneralController controller = loader.getController(); //stores the controller of the menu scene
         controller.initData(mainModel); //Pass the mainModel, storing information, to the menu's controller.
 
 
@@ -82,6 +83,10 @@ public class LoginController {
         stage.showAndWait();//showAndWait will block execution until the window closes.
         Stage thisStage = (Stage) loginButton.getScene().getWindow(); //get a reference to this stage.
         thisStage.show();// show the login screen again.
+    }
+
+    public void registerButtonAction(ActionEvent event) throws IOException {
+        showMenu("register.fxml");
     }
 
 

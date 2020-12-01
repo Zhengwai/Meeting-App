@@ -2,6 +2,7 @@ package use_cases;
 
 import Repository.UserData;
 import com.sun.xml.internal.bind.v2.TODO;
+import entities.Attendee;
 import entities.Event;
 import entities.Speaker;
 import entities.User;
@@ -32,18 +33,12 @@ public class UserManager implements Serializable{
      */
     //TODO: This will be outdated and replaced by registerUser.
     public boolean addUser(User newUser) {
-        this.allUsers.add(newUser);
-        saveData();
         return true;
     }
 
-    public boolean registerUser(String username, String password){
-        for (User u:allUsers){
-            if (u.getUsername().equals(username)){
-                return false;
-            }
-        }
-        allUsers.add(new User(username, password));
+    public boolean registerAttendee(String username, String password){
+        allUsers.add(new Attendee(username, password));
+        saveData();
         return true;
     }
     public boolean login(String username, String password){
@@ -225,7 +220,7 @@ public class UserManager implements Serializable{
     public String getType(UUID userID) {return getUserByID(userID).getType();}
 
     public void saveData(){
-        this.userData.serializeUserManager("UserManager.ser", this);
+        this.userData.serializeUserManager("phase2/src/use_cases/UserManager.ser", this);
     }
 
     public User verifyLogin(String username, String password){
@@ -237,5 +232,14 @@ public class UserManager implements Serializable{
             }
         }
         return null;
+    }
+
+    public boolean isValidUserName(String username){
+        for (User u:allUsers){
+            if (u.getUsername().equals(username)){
+                return false;
+            }
+        }
+        return true;
     }
 }

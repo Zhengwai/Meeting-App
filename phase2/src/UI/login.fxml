@@ -24,7 +24,7 @@
                </font>
             </Label>
             <Button fx:id="loginButton" layoutX="259.0" layoutY="245.0" mnemonicParsing="false" onAction="#loginButtonOnAction" text="Login" />
-            <Button fx:id="registerButton" layoutX="252.0" layoutY="287.0" mnemonicParsing="false" text="Register" />
+            <Button fx:id="registerButton" layoutX="252.0" layoutY="287.0" mnemonicParsing="false" onAction="#registerButtonAction" text="Register" />
             <Label fx:id="promptLabel" layoutX="120.0" layoutY="216.0" text="" />
          </children>
       </AnchorPane>

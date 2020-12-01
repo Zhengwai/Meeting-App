@@ -15,4 +15,5 @@ import javafx.event.ActionEvent;
  */
 public class AttendeeMenuController extends MenuController{
 
+
 }

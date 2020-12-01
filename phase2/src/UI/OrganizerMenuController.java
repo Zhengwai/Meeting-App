@@ -10,6 +10,7 @@ public class OrganizerMenuController extends MenuController{
     @FXML
     Button createButton;
 
+
     /**
      * Opens up a new scene/stage for organizer to create new users.
      * Returns back to this scene when done.
@@ -18,4 +19,5 @@ public class OrganizerMenuController extends MenuController{
     public void createButtonOnAction(ActionEvent event){
         //TODO:
     }
+
 }
