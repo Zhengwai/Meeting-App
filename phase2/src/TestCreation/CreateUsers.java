@@ -1,4 +1,4 @@
-package ScheduleSystem;
+package TestCreation;
 
 import entities.Attendee;
 import entities.Organizer;

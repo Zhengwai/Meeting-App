@@ -1,4 +1,4 @@
-package ScheduleSystem;
+package TestCreation;
 
 import entities.Event;
 import gateways.EventGateway;
