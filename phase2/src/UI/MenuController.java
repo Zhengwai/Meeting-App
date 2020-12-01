@@ -34,12 +34,12 @@ abstract class MenuController extends GeneralController{
      * Returns back to this scene when done.
      * @param event an event denoting the user's clicking action.
      */
-    public void browseButtonOnAction(ActionEvent event){
+    public void browseButtonOnAction(ActionEvent event) throws IOException {
         //TODO: Implement this, you can get the current user by using mainModel.getCurrentUser. Open different type of
         //TODO: scene depending on the user's type.
         String type = mainModel.getCurrentUser().getType();
         if (type.equals("a")|type.equals("v")) {
-
+            showEvent("AttendeeScheduleMenu.fxml");
         }
 
     }
