@@ -1,4 +1,4 @@
-package gateways;
+package database;
 
 import java.io.File;
 import java.sql.*;
@@ -55,17 +55,10 @@ public class Database {
      * Returns all user data within the database (for now, the method simply prints this data).
      * @throws SQLException Thrown when executing the SQL statement goes wrong.
      */
-    public void getAllUsers() throws SQLException {
+    public ResultSet getAllUsers() throws SQLException {
         String sql = "SELECT * FROM users;";
         ResultSet rs = stmt.executeQuery(sql);
-        while (rs.next()) {
-            System.out.println("==========");
-            System.out.println("User 1:");
-            System.out.println(rs.getString("uuid"));
-            System.out.println(rs.getString("username"));
-            System.out.println(rs.getString("password"));
-            System.out.println("==========\n");
-        }
+        return rs;
     }
 
     /**
