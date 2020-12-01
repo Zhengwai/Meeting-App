@@ -205,4 +205,11 @@ public class UserManager implements Serializable{
     public boolean createSpeaker(String username, String password){
         return addUser(new Speaker(username, password));
     }
+
+    /**
+     * Returns the type of given user
+     * @param userID The UUID of the user whose type you want to return
+     * @return type of user with UUID userID
+     */
+    public String getType(UUID userID) {return getUserByID(userID).getType();}
 }

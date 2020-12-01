@@ -2,6 +2,7 @@ package entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.UUID;
 
 /**
@@ -15,6 +16,8 @@ public class Conversation implements Serializable {
     private String convName = null;
     private boolean readOnly = false;
     private UUID owner;
+    private HashMap<UUID, ArrayList<UUID>> unreadMessages = new HashMap<>();
+    private ArrayList<UUID> archivedFor = new ArrayList<>();
 
     /**
      * Initializes a conversation with no members and no messages.
@@ -53,6 +56,9 @@ public class Conversation implements Serializable {
      */
     public void addMember(UUID userID) {
         this.members.add(userID);
+
+        ArrayList<UUID> rey = new ArrayList<>();
+        this.unreadMessages.put(userID, rey);
     }
 
     /**
@@ -61,6 +67,8 @@ public class Conversation implements Serializable {
      */
     public void removeMember(UUID userID) {
         members.remove(userID);
+
+        this.unreadMessages.remove(userID);
     }
 
     /**
@@ -76,7 +84,7 @@ public class Conversation implements Serializable {
     }
 
     public boolean nameExists() {
-        return !(this.convName == null);
+        return this.convName != null;
     }
 
     public String getName() {
@@ -102,4 +110,32 @@ public class Conversation implements Serializable {
     public  boolean hasOwner() {
         return !(this.owner == null);
     }
+
+    public void deleteMessage(UUID id) {
+        this.messages.remove(id);
+
+        for (ArrayList<UUID> unreadMsgs : unreadMessages.values()) {
+            unreadMsgs.remove(id);
+        }
+    }
+
+    public void addUnreadMessage(UUID id, UUID userID) {
+        this.unreadMessages.get(userID).add(id);
+    }
+
+    public void removeUnreadMessage(UUID userID) {
+        this.unreadMessages.get(userID).clear();
+    }
+
+    public boolean hasUnreadMessages(UUID userID) {return !(this.unreadMessages.get(userID).isEmpty());}
+
+    public ArrayList<UUID> getUnreadMessages(UUID userID) {
+        return this.unreadMessages.get(userID);
+    }
+
+    public void setArchivedFor(UUID id) {this.archivedFor.add(id);}
+
+    public void removeArchivedFor() {this.archivedFor.clear();}
+
+    public boolean isArchivedFor(UUID id) {return this.archivedFor.contains(id);}
 }

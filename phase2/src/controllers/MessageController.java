@@ -3,6 +3,7 @@ package controllers;
 import controllers.actions.MessageAction;
 import controllers.actions.MessageActionClient;
 import use_cases.ConversationManager;
+import use_cases.EventManager;
 import use_cases.UserManager;
 
 import java.io.BufferedReader;
@@ -15,17 +16,19 @@ public class MessageController {
     private ConversationManager cm;
     private UserManager um;
     private UUID userID;
+    private EventManager em;
 
-    public MessageController(UUID userID) {
+    public MessageController(UUID userID) throws ClassNotFoundException {
         //TODO: Need to fetch appropriate data from database (when it's ready of course).
         this.cm = new ConversationManager();
         this.um = new UserManager();
         this.userID = userID;
+        this.em = new EventManager();
     }
 
     public void run() {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        MessageActionClient mac = new MessageActionClient(userID, um, cm); // mac wit da scope haha brrr
+        MessageActionClient mac = new MessageActionClient(userID, um, cm, em); // mac wit da scope haha brrr
         try {
             String input;
 
@@ -43,15 +46,15 @@ public class MessageController {
                 if (input.matches("^[0-9]$")) {
                     int idx = Integer.parseInt(input);
 
-                    //TODO: Finish adding remaining Message actions!
-                    // Action gets called here!
                     if (0 < idx && idx < actions.size() + 1) {
                         actions.get(idx - 1).run();
                     }
 
-                } else {
+                } else if (!input.equals("exit")) {
                     System.out.println("Invalid input!");
-                };
+                } else {
+                    System.out.println("Exiting");
+                }
 
             } while (!input.equals("exit"));
 
