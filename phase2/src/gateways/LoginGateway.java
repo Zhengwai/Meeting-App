@@ -53,8 +53,8 @@ public class LoginGateway implements Serializable{
         return temp;
     }
 
-    public boolean verifyLogin(String username, String password){
+    public User verifyLogin(String username, String password){
         //TODO: Implement this with database;
-        return false;
+        return null;
     }
 }
