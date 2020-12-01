@@ -1,6 +1,5 @@
 package controllers.actions;
 
-import entities.Conversation;
 import presenters.MessagePresenter;
 import use_cases.ConversationManager;
 import use_cases.UserManager;
@@ -24,7 +23,7 @@ public class GetConversationsAction extends MessageAction {
     @Override
     public void run() throws IOException {
         this.mp = new MessagePresenter(userID, um, cm);
-        ArrayList<Conversation> convos = cm.getUserConversations(userID);
+        ArrayList<UUID> convos = cm.getUserConversations(userID);
 
         if (convos.isEmpty()) {
             System.out.println("Add a friend to start a conversation!");
@@ -39,11 +38,12 @@ public class GetConversationsAction extends MessageAction {
             if (0 <= index && index < convos.size()) {
                 String conInput;
                 while (true) {
-                    Conversation c = convos.get(index);
-                    System.out.println(mp.promptConversationScreen(c.getID()));
+                    //Conversation c = cm.getConversation(convos.get(index));
+                    UUID cid = convos.get(index);
+                    System.out.println(mp.promptConversationScreen(cid));
 
-                    if (c.hasOwner()) {
-                        if (c.getReadOnly() && !(c.getOwner().equals(userID))) {
+                    if (cm.hasOwner(cid)) {
+                        if (cm.getReadOnly(cid) && !(cm.getOwner(cid).equals(userID))) {
                             System.out.println("Type exit to leave");
                             conInput = br.readLine();
                             if (conInput.equals("exit")) {
@@ -57,7 +57,7 @@ public class GetConversationsAction extends MessageAction {
                                 break;
                             }
 
-                            cm.sendMessageInConversation(c.getID(), userID, conInput);
+                            cm.sendMessageInConversation(cid, userID, conInput);
                         }
                     } else {
                         System.out.println("Enter your message or type 'exit' to leave.");
@@ -67,7 +67,7 @@ public class GetConversationsAction extends MessageAction {
                             break;
                         }
 
-                        cm.sendMessageInConversation(c.getID(), userID, conInput);
+                        cm.sendMessageInConversation(cid, userID, conInput);
                     }
                 }
             } else {

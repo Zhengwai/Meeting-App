@@ -1,6 +1,7 @@
 package controllers.actions;
 
 import use_cases.ConversationManager;
+import use_cases.EventManager;
 import use_cases.UserManager;
 
 import java.util.ArrayList;
@@ -11,11 +12,13 @@ public class MessageActionClient {
     private UUID userID;
     private UserManager um;
     private ConversationManager cm;
+    private EventManager em;
 
-    public MessageActionClient(UUID userID, UserManager um, ConversationManager cm) {
+    public MessageActionClient(UUID userID, UserManager um, ConversationManager cm, EventManager em) {
         this.userID = userID;
         this.um = um;
         this.cm = cm;
+        this.em = em;
     }
 
     public List<MessageAction> getUserActions() {
