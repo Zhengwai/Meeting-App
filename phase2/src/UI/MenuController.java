@@ -30,16 +30,31 @@ abstract class MenuController {
         this.mainModel = mainModel;
 
     }
-
+    /**
+     * Closes this menu and goes back to the login screen.
+     * @param event an event denoting the user's clicking action.
+     */
     public void goBackButtonOnAction(ActionEvent event) {
         goBackButton.getScene().getWindow().hide();
     }
-
+    /**
+     * Opens up a new scene/stage for the user to browse events available.
+     * Scene/stage opened will vary depending on the type of user.
+     * Returns back to this scene when done.
+     * @param event an event denoting the user's clicking action.
+     */
     public void browseButtonOnAction(ActionEvent event){
-        //TODO:
+        //TODO: Implement this, you can get the current user by using mainModel.getCurrentUser. Open different type of
+        //TODO: scene depending on the user's type.
     }
-
+    /**
+     * Opens up a new scene/stage for the user to browse events they've signed up.
+     * Scene/stage opened will vary depending on the type of user.
+     * Returns back to this scene when done.
+     * @param event an event denoting the user's clicking action.
+     */
     public void seeSignedUpButtonOnAction(ActionEvent event){
-        //TODO:
+        //TODO: Implement this, you can get the current user by using mainModel.getCurrentUser. Open different type of
+        //TODO: scene depending on the user's type.
     }
 }

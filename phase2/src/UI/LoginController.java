@@ -16,6 +16,9 @@ import javafx.event.ActionEvent;
 
 import java.io.IOException;
 
+/**
+ * A controller for a scene that handles login procedure.
+ */
 public class LoginController {
 
     LoginGateway lg = new LoginGateway();
@@ -36,80 +39,51 @@ public class LoginController {
     public LoginController() throws ClassNotFoundException {
     }
 
+    /**
+     * Checks the user's credentials and log them in if correct, prompts error message if wrong.
+     * When logged in, this scene will temporarily disappear.
+     * Different types of user get different types menu scene.
+     * This scene re-appears when the user exits the menu scene.
+     * @param event an event denoting the user's clicking action.
+     * @throws IOException
+     */
     public void loginButtonOnAction(ActionEvent event) throws IOException {
-        for (User u:mainModel.getUm().getAllUsers()){
-            System.out.println("This user:");
-            System.out.println(u.getUsername());
-            System.out.println(u.getPassword());
-        }
-        System.out.println(mainModel.getUm());
-        System.out.println(usernameTextField.getText());
-        System.out.println(passwordTextField.getText());
+        //verifies the login credentials through main model and stores the user, stores null if credentials are incorrect.
         User user = mainModel.getUm().verifyLogin(usernameTextField.getText(), passwordTextField.getText());
-        if (user != null) {
-            String type = (user.getType());
+        if (user != null) { //correct credentials.
+            mainModel.setCurrentUser(user); //Sets this user as current user in main model.
+            promptLabel.setText(""); //Clears the error message label.
+            String type = (user.getType()); //gets the user's type, launches different menus depending on type.
             if (type.equals("a") | type.equals("v")){
-                showAttendeeMenu();
+                showMenu("AttendeeMenu.fxml");
             } else if (type.equals("o")){
-                showOrganizerMenu();
+                showMenu("OrganizerMenu.fxml");
             } else if (type.equals("s")) {
-                showSpeakerMenu();
+                showMenu("SpeakerMenu.fxml");
             }
 
         } else {
-            promptLabel.setText("Username or password incorrect, please try again");
+            promptLabel.setText("Username or password incorrect, please try again"); //prompts error message.
         }
     }
-    //TODO: I know these 3 methods below are repetitive, I will refactor some of the controllers with an abstract contr-
-    //      oller so that these 3 methods could be combined. Just trying to get things working rn.
 
-    private void showSpeakerMenu() throws IOException{
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("SpeakerMenu.fxml"));
-        Stage stage = new Stage();
-        stage.initOwner(loginButton.getScene().getWindow());
-        stage.setScene(new Scene((Parent) loader.load()));
-        SpeakerMenuController controller = loader.getController();
-        controller.initData(mainModel);
+    private void showMenu(String filePath) throws IOException{
+        //Gets the loader with the specific menu's fxml path.
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(filePath));
+        Stage stage = new Stage(); //sets stage.
+        stage.initOwner(loginButton.getScene().getWindow());//this scene with the login button will be the owner of the stage.(Kinda like the root of a tree)
+        stage.setScene(new Scene((Parent) loader.load())); //adds the menu scene to the stage.
+        MenuController controller = loader.getController(); //stores the controller of the menu scene
+        controller.initData(mainModel); //Pass the mainModel, storing information, to the menu's controller.
 
 
-        // showAndWait will block execution until the window closes...
-        loginButton.getScene().getWindow().hide();
-        stage.showAndWait();
-        Stage thisStage = (Stage) loginButton.getScene().getWindow();
-        thisStage.show();
+
+        loginButton.getScene().getWindow().hide();//temporarily close this window
+        stage.showAndWait();//showAndWait will block execution until the window closes.
+        Stage thisStage = (Stage) loginButton.getScene().getWindow(); //get a reference to this stage.
+        thisStage.show();// show the login screen again.
     }
 
-    private void showOrganizerMenu() throws IOException{
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("OrganizerMenu.fxml"));
-        Stage stage = new Stage();
-        stage.initOwner(loginButton.getScene().getWindow());
-        stage.setScene(new Scene((Parent) loader.load()));
-        OrganizerMenuController controller = loader.getController();
-        controller.initData(mainModel);
-
-
-        // showAndWait will block execution until the window closes...
-        loginButton.getScene().getWindow().hide();
-        stage.showAndWait();
-        Stage thisStage = (Stage) loginButton.getScene().getWindow();
-        thisStage.show();
-    }
-
-    public void showAttendeeMenu() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("AttendeeMenu.fxml"));
-        Stage stage = new Stage();
-        stage.initOwner(loginButton.getScene().getWindow());
-        stage.setScene(new Scene((Parent) loader.load()));
-        AttendeeMenuController controller = loader.getController();
-        controller.initData(mainModel);
-
-
-        // showAndWait will block execution until the window closes...
-        loginButton.getScene().getWindow().hide();
-        stage.showAndWait();
-        Stage thisStage = (Stage) loginButton.getScene().getWindow();
-        thisStage.show();
-    }
 
 
 

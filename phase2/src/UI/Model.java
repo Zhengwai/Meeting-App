@@ -1,5 +1,6 @@
 package UI;
 
+import entities.User;
 import gateways.EventGateway;
 import gateways.UserGateway;
 import use_cases.ConversationManager;
@@ -15,6 +16,16 @@ public class Model {
 
     private UserGateway ug = new UserGateway();
     private EventGateway eg = new EventGateway();
+
+    private User currentUser;
+
+    public User getCurrentUser() {
+        return currentUser;
+    }
+
+    public void setCurrentUser(User currentUser) {
+        this.currentUser = currentUser;
+    }
 
     public Model() throws ClassNotFoundException {
         this.um = ug.deserializeUserManager("phase2/src/use_cases/UserManager.ser");

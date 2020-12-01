@@ -10,7 +10,9 @@ import javafx.stage.Stage;
 import use_cases.UserManager;
 
 import javafx.event.ActionEvent;
-
+/**
+ * A controller for the menu layout of an Attendee user.
+ */
 public class AttendeeMenuController extends MenuController{
 
 }
