@@ -31,6 +31,8 @@ public class LoginController {
     @FXML
     private Label promptLabel;
 
+    private Model mainModel = new Model();
+
     public void loginButtonOnAction(ActionEvent event) throws IOException {
         //Check Username and Password:
         if (lg.verifyLogin(usernameTextField.getText(), passwordTextField.getText()) != null) {
@@ -54,6 +56,9 @@ public class LoginController {
         Stage stage = new Stage();
         stage.initOwner(loginButton.getScene().getWindow());
         stage.setScene(new Scene((Parent) loader.load()));
+        AttendeeMenuController controller = loader.getController();
+        controller.initData(mainModel);
+
 
         // showAndWait will block execution until the window closes...
         loginButton.getScene().getWindow().hide();

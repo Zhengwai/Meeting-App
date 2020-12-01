@@ -19,6 +19,14 @@ public class AttendeeMenuController {
     @FXML
     Button seeSignedUpButton;
 
+    Model mainModel;
+    void initialize(){}
+
+    void initData(Model mainModel){
+        this.mainModel = mainModel;
+
+    }
+
     public void goBackButtonOnAction(ActionEvent event) {
         goBackButton.getScene().getWindow().hide();
     }
