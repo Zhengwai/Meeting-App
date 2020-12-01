@@ -1,5 +1,7 @@
 package use_cases;
 
+import Repository.UserData;
+import com.sun.xml.internal.bind.v2.TODO;
 import entities.Event;
 import entities.Speaker;
 import entities.User;
@@ -11,9 +13,10 @@ import java.util.UUID;
 /**
  * A use case class for user that manages user related activities.
  */
-public class UserManager implements Serializable {
+public class UserManager implements Serializable{
     private ArrayList<User> allUsers;
     public User NotFoundUser = new User("NotFound", "NotFound");
+    private UserData userData;
 
     /**
      * Initializes this UserManager.
@@ -29,12 +32,7 @@ public class UserManager implements Serializable {
      * @return true iff the user has been successfully added.
      */
     public boolean addUser(User newUser) {
-        for (User u:allUsers){
-            if (u.getUsername().equals(newUser.getUsername())){
-                return false;
-            }
-        }
-        allUsers.add(newUser);
+        userData.addUser(newUser);
         return true;
     }
 

@@ -1,6 +1,9 @@
 package users;
 
+import entities.User;
+import gateways.UserGateway;
 import org.junit.Test;
+import use_cases.UserManager;
 
 import java.io.IOException;
 
