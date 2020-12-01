@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.SpeakerMenuController">
+   <children>
+      <Button fx:id="goBackButton" layoutY="2.0" mnemonicParsing="false" onAction="#goBackButtonOnAction" text="Go Back" />
+      <Button fx:id="browseButton" layoutX="60.0" layoutY="282.0" mnemonicParsing="false" text="Browse Events" />
+      <Button fx:id="seeSignedUpButton" layoutX="183.0" layoutY="282.0" mnemonicParsing="false" text="See Signed Up Events" />
+      <Button layoutX="346.0" layoutY="282.0" mnemonicParsing="false" text="Message" />
+   </children>
+</AnchorPane>

@@ -40,19 +40,54 @@ public class LoginController {
             //TODO: first decide on what type of user it is, them open the associated window.
             String type = (lg.verifyLogin(usernameTextField.getText(), passwordTextField.getText())).getType();
             if (type.equals("a") | type.equals("v")){
-                showMenu("AttendeeMenu.fxml");
+                showAttendeeMenu();
             } else if (type.equals("o")){
-                //TODO
+                showOrganizerMenu();
             } else if (type.equals("s")) {
-                //TODO
+                showSpeakerMenu();
             }
 
         } else {
             promptLabel.setText("Username or password incorrect, please try again");
         }
     }
-    public void showMenu(String filePath) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(filePath));
+    //TODO: I know these 3 methods below are repetitive, I will refactor some of the controllers with an abstract contr-
+    //      oller so that these 3 methods could be combined. Just trying to get things working rn.
+
+    private void showSpeakerMenu() throws IOException{
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("SpeakerMenu.fxml"));
+        Stage stage = new Stage();
+        stage.initOwner(loginButton.getScene().getWindow());
+        stage.setScene(new Scene((Parent) loader.load()));
+        SpeakerMenuController controller = loader.getController();
+        controller.initData(mainModel);
+
+
+        // showAndWait will block execution until the window closes...
+        loginButton.getScene().getWindow().hide();
+        stage.showAndWait();
+        Stage thisStage = (Stage) loginButton.getScene().getWindow();
+        thisStage.show();
+    }
+
+    private void showOrganizerMenu() throws IOException{
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("OrganizerMenu.fxml"));
+        Stage stage = new Stage();
+        stage.initOwner(loginButton.getScene().getWindow());
+        stage.setScene(new Scene((Parent) loader.load()));
+        OrganizerMenuController controller = loader.getController();
+        controller.initData(mainModel);
+
+
+        // showAndWait will block execution until the window closes...
+        loginButton.getScene().getWindow().hide();
+        stage.showAndWait();
+        Stage thisStage = (Stage) loginButton.getScene().getWindow();
+        thisStage.show();
+    }
+
+    public void showAttendeeMenu() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("AttendeeMenu.fxml"));
         Stage stage = new Stage();
         stage.initOwner(loginButton.getScene().getWindow());
         stage.setScene(new Scene((Parent) loader.load()));
