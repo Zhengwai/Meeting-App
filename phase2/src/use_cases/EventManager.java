@@ -1,10 +1,7 @@
 package use_cases;
 
 import Repository.EventData;
-import controllers.AlreadySignedUpException;
 import entities.Room;
-import controllers.TimeConflictException;
-import controllers.UnableToCancelException;
 import entities.Event;
 import entities.User;
 import entities.Speaker;
@@ -101,50 +98,7 @@ public class EventManager implements Serializable{
         return this.rooms;
     }
     /**
-     * Sign a user up for an event
-     * @param user the user to sign up
-     * @param event the event to sign the user up
-     * @return true iff the event is successfully signed up for the user.
-     * @throws AlreadySignedUpException if the user has already signed up for the event
-     * @throws TimeConflictException if the user has signed up for another event at the same time period.
-     */
-    public boolean signUpUser(User user, Event event) throws AlreadySignedUpException, TimeConflictException{
-        for (Event i : getEventsByUser(user)) {
-            if (event.getId().equals(i.getId())) {
-                throw new AlreadySignedUpException();
-            }
-            if (i.getDate().toString().equals(event.getDate().toString())){
-                throw new TimeConflictException();
-            }
-        }
-        if(user.getType().equals("s")){
-            event.setSpeaker(user.getID());
-            return true;
-        }
 
-        else if (user.getType().equals("o") | user.getType().equals("a")) {
-            event.addAttendee(user.getID());
-            return true;
-        }
-
-        return false;
-    }
-    /**
-     * Removes a user from the event.
-     * @param user the user to be removed.
-     * @param event the event to remove from.
-     * @return true iff the event has been successfully removed the user.
-     * @throws UnableToCancelException when the user did not sign up for the event.
-     */
-    public boolean removeUser(User user, Event event) throws UnableToCancelException, IOException {
-        if (event.getAttendees().contains(user.getID())) {
-            event.removeAttendee(user.getID());
-            return true;
-        } else {
-            throw new UnableToCancelException();
-        }
-
-    }
     public boolean removeEvent(Event event){
         if(this.events.contains(event)){
             this.events.remove(event);
