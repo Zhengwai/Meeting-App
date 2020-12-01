@@ -29,15 +29,15 @@ public class MessagePresenter {
      * @param conversations The list of conversations to be showed on the screen
      * @return Formatted text of this user's list of conversations.
      */
-    public String promptMainScreen(List<UUID> conversations) {
+    public String promptMainScreen(List<Conversation> conversations) {
         StringBuilder output = new StringBuilder("Contacts: \n");
 
         // Assuming for now only two members in a conversation
         for (int i = 0; i < conversations.size(); i++) {
             String name = "";
 
-            if (!cm.nameExists(conversations.get(i))) {
-                ArrayList<UUID> memberIds = cm.getMemberIDsInConversation(conversations.get(i));
+            if (!conversations.get(i).nameExists()) {
+                ArrayList<UUID> memberIds = conversations.get(i).getMembers();
 
                 for (UUID memberID : memberIds) {
                     if (!memberID.equals(userID)) {
@@ -46,7 +46,7 @@ public class MessagePresenter {
                 }
 
             } else {
-                name = cm.getName(conversations.get(i));
+                name = conversations.get(i).getName();
             }
 
             output.append("(").append(i).append(") ").append(name).append("\n");
@@ -66,23 +66,9 @@ public class MessagePresenter {
 
         // Violates clean architecture slightly. Is there a way we can present messages without needing to call
        // the message class?
-        for (String[] msg : cm.getMessagesInConversation(conID)) {
-            String name = um.getUserByID(UUID.fromString(msg[0])).getUsername();
-            output.append(name).append(" ").append(msg[1]).append(": ").append(msg[2]).append("\n");
-        }
-
-        return output.toString();
-    }
-
-
-
-    public String promptConversationNumberedScreen(UUID conID) {
-        StringBuilder output = new StringBuilder();
-        int i = 1;
-        for (String[] msg : cm.getMessagesInConversation(conID)) {
-            String name = um.getUserByID(UUID.fromString(msg[0])).getUsername();
-            output.append(i).append(". ").append(name).append(" ").append(msg[1]).append(": ").append(msg[2]).append("\n");
-            i++;
+        for (Message msg : cm.getMessagesInConversation(conID)) {
+            String name = um.getUserByID(msg.getSenderID()).getUsername();
+            output.append(name).append(": ").append(msg.getBody()).append("\n");
         }
 
         return output.toString();

@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-import java.util.List;
 
 /**
  * Use Case class.
@@ -53,16 +52,12 @@ public class ConversationManager implements Serializable {
      * @param conID The ID of the conversation to retrieve messages from.
      * @return All messages that belong to the specified conversation.
      */
-    public ArrayList<String[]> getMessagesInConversation(UUID conID) {
+    public ArrayList<Message> getMessagesInConversation(UUID conID) {
         Conversation c = allConversations.get(conID);
-        ArrayList<String[]> out = new ArrayList<>();
+        ArrayList<Message> out = new ArrayList<>();
 
         for (UUID msgID : c.getMessageIDs()) {
-            String[] term = new String[3];
-            term[0] = String.valueOf(this.allMessages.get(msgID).getSenderID());
-            term[1] = String.valueOf(this.allMessages.get(msgID).getTimeSent());
-            term[2] = this.allMessages.get(msgID).getBody();
-            out.add(term);
+            out.add(this.allMessages.get(msgID));
         }
 
         return out;
@@ -75,15 +70,6 @@ public class ConversationManager implements Serializable {
      */
     public void addUserToConversation(UUID conID, UUID userID) {
         this.allConversations.get(conID).addMember(userID);
-    }
-
-    /**
-     * Sets a user as the owner of a conversation
-     * @param conID The ID of the conversation to set owner to
-     * @param userID The ID of the user to make owner of conversation
-    */
-    public void setUserOwner(UUID conID, UUID userID) {
-        this.allConversations.get(conID).setOwner(userID);
     }
 
     /**
@@ -101,11 +87,11 @@ public class ConversationManager implements Serializable {
      * @param userID The ID of the user who's conversations will be returned.
      * @return List of their conversations.
      */
-    public ArrayList<UUID> getUserConversations(UUID userID) {
-        ArrayList<UUID> out = new ArrayList<>();
+    public ArrayList<Conversation> getUserConversations(UUID userID) {
+        ArrayList<Conversation> out = new ArrayList<>();
         for (Conversation c : allConversations.values()) {
-            if (/*c.getMembers().contains(userID)*/    userInConversation(userID, c.getID())) {
-                out.add(c.getID());
+            if (c.getMembers().contains(userID)) {
+                out.add(c);
             }
         }
         return out;
@@ -130,30 +116,14 @@ public class ConversationManager implements Serializable {
     }
 
     /**
-     * Sets Conversation name to given name
-     * @param conID The ID of the conversation whose name will be set
-     * @param name String which will become conversation name
+     * @param conIDs Array of all conversation IDs to be retrieved
+     * @return All conversations that this user is member of.
      */
-    public void setConversationName(UUID conID, String name) {
-        this.allConversations.get(conID).setName(name);
+    public ArrayList<Conversation> getConversations(ArrayList<UUID> conIDs) {
+        ArrayList<Conversation> output = new ArrayList<>();
+        for (UUID conID: conIDs) {
+            output.add(getConversation(conID));
+        }
+        return output;
     }
-
-    /**
-     *Turns on/off Conversation read only mode depending on boolean input
-     * @param conID The ID of the conversation which will be set to read only mode
-     * @param b The boolean which determines whether read only mode is set on/off
-     */
-    public void setConversationReadOnly(UUID conID, boolean b) {
-        this.allConversations.get(conID).setReadOnly(b);
-    }
-
-    public boolean hasOwner(UUID conID) {return this.allConversations.get(conID).hasOwner();}
-
-    public boolean getReadOnly(UUID conID) {return this.allConversations.get(conID).getReadOnly();}
-
-    public UUID getOwner(UUID conID) {return this.allConversations.get(conID).getOwner();}
-
-    public boolean nameExists(UUID conID) {return this.allConversations.get(conID).nameExists();}
-
-    public String getName(UUID conID) {return this.allConversations.get(conID).getName();}
 }
