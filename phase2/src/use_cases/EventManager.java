@@ -1,5 +1,6 @@
 package use_cases;
 
+import Repository.EventData;
 import controllers.AlreadySignedUpException;
 import entities.Room;
 import controllers.TimeConflictException;
@@ -18,6 +19,7 @@ public class EventManager implements Serializable{
     private final Room notFoundRoom = new Room();
     private ArrayList<Event> events = new ArrayList<>();
     private ArrayList<Room> rooms = new ArrayList<>();
+    private EventData eventData;
 
     public EventManager() throws ClassNotFoundException {
     }
