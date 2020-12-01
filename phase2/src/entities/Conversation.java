@@ -3,7 +3,6 @@ package entities;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.UUID;
-import java.util.HashMap;
 
 /**
  * Entity class.
@@ -16,8 +15,6 @@ public class Conversation implements Serializable {
     private String convName = null;
     private boolean readOnly = false;
     private UUID owner;
-    private HashMap<UUID, ArrayList<UUID>> unreadMessages = new  HashMap<UUID, ArrayList<UUID>>();
-    private ArrayList<UUID> archivedMessages;
 
     /**
      * Initializes a conversation with no members and no messages.
@@ -56,8 +53,6 @@ public class Conversation implements Serializable {
      */
     public void addMember(UUID userID) {
         this.members.add(userID);
-        ArrayList<UUID> ids = new ArrayList<>();
-        this.unreadMessages.put(userID, ids);
     }
 
     /**
@@ -106,33 +101,5 @@ public class Conversation implements Serializable {
 
     public  boolean hasOwner() {
         return !(this.owner == null);
-    }
-
-    public void deleteMessage(UUID id) {
-        this.messages.remove(id);
-    }
-
-    public void addArchivedMessage(UUID id) {
-        this.archivedMessages.add(id);
-    }
-
-    public void removeArchivedMessage(UUID id) {
-        this.archivedMessages.remove(id);
-    }
-
-    public ArrayList<UUID> getArchivedMessages() {
-        return this.archivedMessages;
-    }
-
-    public void addUnreadMessage(UUID id, UUID userID) {
-        this.unreadMessages.get(userID).add(id);
-    }
-
-    public void removeUnreadMessage(UUID id, UUID userID) {
-        this.unreadMessages.get(userID).remove(id);
-    }
-
-    public ArrayList<UUID> getUnreadMessages(UUID userID) {
-        return this.unreadMessages.get(userID);
     }
 }
