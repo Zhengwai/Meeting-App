@@ -10,7 +10,6 @@ public class Organizer extends User implements Serializable {
     //private String username;
     //private String email = "";
     //private String password;
-    private String type;
     //private ArrayList<UUID> enrolledEvents = new ArrayList<UUID>();
     /**
      * Initializing an organizer.
@@ -19,7 +18,6 @@ public class Organizer extends User implements Serializable {
      */
     public Organizer(String username, String password) {
         super(username, password);
-        type = "o";
     }
     /**
      * Returns the type of this user.
