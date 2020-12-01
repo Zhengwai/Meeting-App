@@ -215,6 +215,11 @@ public class User implements Serializable{
         return friends.contains(id);
     }
 
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
     /**
      * Returns the string representation of this user.
      * Shows this user's type and user name.
