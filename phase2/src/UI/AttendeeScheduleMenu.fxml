@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.AttendeeScheduleMenuController">
+   <children>
+      <DatePicker layoutX="7.0" layoutY="14.0" promptText="Pick a Date" />
+      <ChoiceBox layoutX="225.0" layoutY="14.0" prefWidth="150.0" />
+      <ChoiceBox layoutX="409.0" layoutY="14.0" prefWidth="150.0" />
+   </children>
+</AnchorPane>
