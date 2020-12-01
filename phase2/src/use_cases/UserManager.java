@@ -5,6 +5,7 @@ import com.sun.xml.internal.bind.v2.TODO;
 import entities.Event;
 import entities.Speaker;
 import entities.User;
+import gateways.UserGateway;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -14,16 +15,14 @@ import java.util.UUID;
  * A use case class for user that manages user related activities.
  */
 public class UserManager implements Serializable{
-    private ArrayList<User> allUsers;
+    private ArrayList<User> allUsers = new ArrayList<>();
     public User NotFoundUser = new User("NotFound", "NotFound");
-    private UserData userData;
+    private UserData userData = new UserGateway();
 
     /**
      * Initializes this UserManager.
      */
     public UserManager() {
-        this.allUsers = new ArrayList<>();
-        //TODO: Initialize this.em
     }
 
     /**
@@ -31,13 +30,25 @@ public class UserManager implements Serializable{
      * @param newUser the user to be added.
      * @return true iff the user has been successfully added.
      */
+    //TODO: This will be outdated and replaced by registerUser.
     public boolean addUser(User newUser) {
-        userData.addUser(newUser);
+        this.allUsers.add(newUser);
+        saveData();
         return true;
     }
 
+    public boolean registerUser(String username, String password){
+        for (User u:allUsers){
+            if (u.getUsername().equals(username)){
+                return false;
+            }
+        }
+        allUsers.add(new User(username, password));
+        return true;
+    }
     public boolean login(String username, String password){
-        return userData.loginVerification(username, password);
+        //TODO:
+        return false;
     }
 
     /**
@@ -212,4 +223,19 @@ public class UserManager implements Serializable{
      * @return type of user with UUID userID
      */
     public String getType(UUID userID) {return getUserByID(userID).getType();}
+
+    public void saveData(){
+        this.userData.serializeUserManager("UserManager.ser", this);
+    }
+
+    public User verifyLogin(String username, String password){
+        for (User u : allUsers){
+            if (u.getUsername().equals(username)){
+                if (u.getPassword().equals(password)){
+                    return u;
+                }
+            }
+        }
+        return null;
+    }
 }

@@ -11,31 +11,6 @@ import use_cases.UserManager;
 
 import javafx.event.ActionEvent;
 
-public class AttendeeMenuController {
-    @FXML
-    Button goBackButton;
-    @FXML
-    Button browseButton;
-    @FXML
-    Button seeSignedUpButton;
+public class AttendeeMenuController extends MenuController{
 
-    Model mainModel;
-    void initialize(){}
-
-    void initData(Model mainModel){
-        this.mainModel = mainModel;
-
-    }
-
-    public void goBackButtonOnAction(ActionEvent event) {
-        goBackButton.getScene().getWindow().hide();
-    }
-
-    public void browseButtonOnAction(ActionEvent event){
-        //TODO:
-    }
-
-    public void seeSignedUpButtonOnAction(ActionEvent event){
-        //TODO:
-    }
 }

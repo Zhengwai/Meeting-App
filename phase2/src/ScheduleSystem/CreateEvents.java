@@ -22,8 +22,8 @@ public class CreateEvents {
         EventManager em = new EventManager();
         em.addEvent(e1);
         em.addEvent(e2);
-        eg.serializeEM("em.ser", em);
-        EventManager em1 = eg.deserializeEM("em.ser");
+        eg.serializeEM("phase2/src/use_cases/EventManager.ser", em);
+        EventManager em1 = eg.deserializeEM("phase2/src/use_cases/EventManager.ser");
         for (Event e:em1.getEvents()){
             System.out.println(e);
         }

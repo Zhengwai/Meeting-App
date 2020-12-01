@@ -33,12 +33,21 @@ public class LoginController {
 
     private Model mainModel = new Model();
 
+    public LoginController() throws ClassNotFoundException {
+    }
+
     public void loginButtonOnAction(ActionEvent event) throws IOException {
-        //Check Username and Password:
-        if (lg.verifyLogin(usernameTextField.getText(), passwordTextField.getText()) != null) {
-            //TODO: implement what to do after the user is verified to login.
-            //TODO: first decide on what type of user it is, them open the associated window.
-            String type = (lg.verifyLogin(usernameTextField.getText(), passwordTextField.getText())).getType();
+        for (User u:mainModel.getUm().getAllUsers()){
+            System.out.println("This user:");
+            System.out.println(u.getUsername());
+            System.out.println(u.getPassword());
+        }
+        System.out.println(mainModel.getUm());
+        System.out.println(usernameTextField.getText());
+        System.out.println(passwordTextField.getText());
+        User user = mainModel.getUm().verifyLogin(usernameTextField.getText(), passwordTextField.getText());
+        if (user != null) {
+            String type = (user.getType());
             if (type.equals("a") | type.equals("v")){
                 showAttendeeMenu();
             } else if (type.equals("o")){

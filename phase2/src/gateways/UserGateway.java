@@ -1,13 +1,16 @@
 package gateways;
 
+import Repository.UserData;
+import entities.User;
 import use_cases.UserManager;
 
 import java.io.*;
+import java.util.ArrayList;
 
 /**
  * A gateway class for User that stores and reads user data.
  */
-public class UserGateway {
+public class UserGateway implements UserData, Serializable{
     private String filepath;
     /**
      * deserializes the UserManager from a .ser file.
@@ -23,6 +26,7 @@ public class UserGateway {
             input.close();
             return um;
         } catch (IOException ex) {
+            System.out.println("we have an error!");
             return new UserManager();
         }
     }
