@@ -72,6 +72,7 @@ public class LoginController {
         //Gets the loader with the specific menu's fxml path.
         FXMLLoader loader = new FXMLLoader(getClass().getResource(filePath));
         Stage stage = new Stage(); //sets stage.
+        stage.initModality(Modality.APPLICATION_MODAL);
         stage.initOwner(loginButton.getScene().getWindow());//this scene with the login button will be the owner of the stage.(Kinda like the root of a tree)
         stage.setScene(new Scene((Parent) loader.load())); //adds the menu scene to the stage.
         GeneralController controller = loader.getController(); //stores the controller of the menu scene
