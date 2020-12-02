@@ -31,8 +31,10 @@ public class UserManager implements Serializable{
      * @param newUser the user to be added.
      * @return true iff the user has been successfully added.
      */
-    //TODO: This will be outdated and replaced by registerUser.
+
     public boolean addUser(User newUser) {
+        allUsers.add(newUser);
+        saveData();
         return true;
     }
 

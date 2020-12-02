@@ -23,6 +23,12 @@ public class CreateUsers {
         um.addUser(user2);
         um.addUser(user3);
         um.addUser(user4);
+        for (User e : um.getAllUsers()) {
+            System.out.println(e);
+            System.out.println(e.getUsername());
+            System.out.println(e.getPassword());
+
+        }
         UserGateway ug = new UserGateway();
         ug.serializeUserManager("phase2/src/use_cases/UserManager.ser", um);
         UserManager um1 = ug.deserializeUserManager("phase2/src/use_cases/UserManager.ser");
@@ -30,6 +36,7 @@ public class CreateUsers {
             System.out.println(e);
             System.out.println(e.getUsername());
             System.out.println(e.getPassword());
+
         }
     }
 }

@@ -62,7 +62,5 @@ abstract class MenuController extends GeneralController{
 
         /*browseButton.getScene().getWindow().hide();//temporarily close this window*/
         stage.showAndWait();//showAndWait will block execution until the window closes.
-        Stage thisStage = (Stage) browseButton.getScene().getWindow(); //get a reference to this stage.
-        thisStage.show();// show the login screen again.
     }
 }
