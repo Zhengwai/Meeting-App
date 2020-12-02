@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.AttendeeScheduleMenuController">
-   <children>
-      <DatePicker fx:id="datePicker" layoutX="6.0" layoutY="42.0" promptText="Pick a Date" />
-      <Button fx:id="goBackButton" layoutY="1.0" mnemonicParsing="false" onAction="#goBackButtonOnAction" text="Go Back" />
-      <ComboBox fx:id="roomFilterComboBox" layoutX="218.0" layoutY="42.0" prefWidth="150.0" promptText="Pick a Room" />
-      <ComboBox fx:id="eventTypeFilterComboBox" layoutX="397.0" layoutY="42.0" prefWidth="150.0" promptText="Pick an Event Type" />
-   </children>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="UI.AttendeeScheduleMenuController"
+            prefHeight="400.0" prefWidth="600.0">
+
 </AnchorPane>
