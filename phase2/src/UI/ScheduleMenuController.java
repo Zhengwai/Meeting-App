@@ -13,4 +13,5 @@ public class ScheduleMenuController extends GeneralController{
 
     @FXML
     protected DatePicker datePicker;
+
 }

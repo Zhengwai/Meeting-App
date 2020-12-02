@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.OrganizerScheduleMenuController">
+    <children>
+        <Button fx:id="goBackButton" layoutY="1.0" mnemonicParsing="false" onAction="#goBackButtonOnAction" text="Go Back" />
+        <DatePicker fx:id="datePicker" layoutY="40.0" promptText="Pick a Date" showWeekNumbers="true" />
+        <ComboBox fx:id="roomFilterComboBox" layoutX="199.0" layoutY="40.0" prefWidth="150.0" promptText="Pick a Room" />
+        <ComboBox fx:id="eventTypeFilterComboBox" layoutX="365.0" layoutY="40.0" prefWidth="150.0" promptText="Pick an Event Type" />
+      <Button fx:id="createEventButton" layoutX="533.0" layoutY="40.0" mnemonicParsing="false" text="Create" />
+    </children>
+
+</AnchorPane>
