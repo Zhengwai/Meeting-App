@@ -213,6 +213,16 @@ public class UserManager implements Serializable{
     }
 
     /**
+     * Add an organizer to the system.
+     * @param username username of the organizer
+     * @param password password of the organizer
+     * @return true iff the speaker has been successfully added.
+     */
+    public boolean createOrganizer(String username, String password){
+        return addUser(new Speaker(username, password));
+    }
+
+    /**
      * Returns the type of given user
      * @param userID The UUID of the user whose type you want to return
      * @return type of user with UUID userID
