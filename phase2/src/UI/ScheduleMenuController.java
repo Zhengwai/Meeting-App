@@ -24,6 +24,7 @@ public class ScheduleMenuController extends GeneralController implements Initial
     @FXML
     private DatePicker datePicker;
 
+    private String fxmlName = "ScheduleMenu";
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

@@ -22,6 +22,10 @@ abstract class GeneralController {
 
     protected Model mainModel;
 
+    protected String previousScene;
+
+    private String fxmlName;
+
     protected void initData(Model mainModel){
         this.mainModel = mainModel;
 
@@ -30,7 +34,7 @@ abstract class GeneralController {
      * Closes this menu and goes back to the login screen.
      * @param event an event denoting the user's clicking action.
      */
-    public void goBackButtonOnAction(ActionEvent event) {
+    public void goBackButtonOnAction(ActionEvent event) throws IOException {
         goBackButton.getScene().getWindow().hide();
     }
 

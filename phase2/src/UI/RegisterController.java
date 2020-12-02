@@ -14,22 +14,24 @@ import javafx.event.ActionEvent;
 public class RegisterController extends GeneralController {
 
     @FXML
-    private Button createAttendeeButton;
+    protected Button createAccountButton;
     @FXML
-    private TextField usernameTextField;
+    protected TextField usernameTextField;
     @FXML
-    private TextField passwordTextField;
+    protected TextField passwordTextField;
     @FXML
-    private TextField confirmPasswordTextField;
+    protected TextField confirmPasswordTextField;
     @FXML
-    private Label usernameErrorLabel;
+    protected Label usernameErrorLabel;
     @FXML
-    private Label passwordErrorLabel;
+    protected Label passwordErrorLabel;
     @FXML
-    private Label registrationSuccessLabel;
+    protected Label registrationSuccessLabel;
+
+    private String fxmlName = "register.fxml";
 
 
-    public void createAttendeeButtonOnAction(ActionEvent event){
+    public void createAccountButtonOnAction(ActionEvent event){
         if (checkValidInput()){
             String un = usernameTextField.getText();
             String pw = passwordTextField.getText();
@@ -43,14 +45,14 @@ public class RegisterController extends GeneralController {
         }
 }
 
-    private boolean checkValidInput() {
+    protected boolean checkValidInput() {
         registrationSuccessLabel.setText("");
         passwordErrorLabel.setText("");
         usernameErrorLabel.setText("");
         return checkValidUsername() && checkValidPassword();
     }
 
-    private boolean checkValidUsername() {
+    protected boolean checkValidUsername() {
         if (usernameTextField.getText().equals("")){
             usernameErrorLabel.setText("Username cannot be empty!");
             return false;
@@ -68,7 +70,7 @@ public class RegisterController extends GeneralController {
         return true;
     }
 
-    private boolean checkValidPassword() {
+    protected boolean checkValidPassword() {
         if (!passwordTextField.getText().equals(confirmPasswordTextField.getText())){
             passwordErrorLabel.setText("Inconsistent password, make sure you confirm your password.");
             return false;

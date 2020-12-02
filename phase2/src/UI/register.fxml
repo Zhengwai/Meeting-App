@@ -23,7 +23,7 @@
                   <Font size="19.0" />
                </font>
             </Label>
-            <Button fx:id="createAttendeeButton" layoutX="232.0" layoutY="263.0" mnemonicParsing="false" onAction="#createAttendeeButtonOnAction" text="Register" />
+            <Button fx:id="createAccountButton" layoutX="232.0" layoutY="263.0" mnemonicParsing="false" onAction="#createAccountButtonOnAction" text="Register" />
             <Label fx:id="usernameErrorLabel" layoutX="196.0" layoutY="113.0" />
             <Button fx:id="goBackButton" layoutX="6.0" layoutY="2.0" mnemonicParsing="false" onAction="#goBackButtonOnAction" text="Go Back" />
             <Label layoutX="23.0" layoutY="184.0" text="Confirm Password">

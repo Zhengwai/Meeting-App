@@ -13,6 +13,8 @@ public class OrganizerMenuController extends MenuController{
     @FXML
     Button createButton;
 
+    private String fxmlName = "OrganizerMenu.fxml";
+
 
     /**
      * Opens up a new scene/stage for organizer to create new users.
@@ -21,7 +23,7 @@ public class OrganizerMenuController extends MenuController{
      */
     public void createButtonOnAction(ActionEvent event) throws IOException {
         //TODO:
-        showEvent("OrganizerCreateAccountController.fxml");
+        showEvent("OrganizerCreateAccount.fxml");
     }
 
 }

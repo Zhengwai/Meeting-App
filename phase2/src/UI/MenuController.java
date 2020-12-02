@@ -22,6 +22,8 @@ abstract class MenuController extends GeneralController{
     @FXML
     protected Button browseButton;
 
+    private String fxmlName;
+
 
     public void seeSignedUpButtonOnAction(ActionEvent event){
         //TODO: Implement this, you can get the current user by using mainModel.getCurrentUser. Open different type of
@@ -49,7 +51,6 @@ abstract class MenuController extends GeneralController{
     }
 
     public void showEvent(String filePath) throws IOException {
-        //Gets the loader with the specific menu's fxml path.
         FXMLLoader loader = new FXMLLoader(getClass().getResource(filePath));
         Stage stage = new Stage(); //sets stage.
         stage.initModality(Modality.APPLICATION_MODAL);
@@ -62,5 +63,7 @@ abstract class MenuController extends GeneralController{
 
         /*browseButton.getScene().getWindow().hide();//temporarily close this window*/
         stage.showAndWait();//showAndWait will block execution until the window closes.
+        Stage thisStage = (Stage) browseButton.getScene().getWindow(); //get a reference to this stage.
+        thisStage.show();// show the login screen again.
     }
 }

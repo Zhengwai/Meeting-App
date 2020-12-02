@@ -2,10 +2,7 @@ package use_cases;
 
 import Repository.UserData;
 import com.sun.xml.internal.bind.v2.TODO;
-import entities.Attendee;
-import entities.Event;
-import entities.Speaker;
-import entities.User;
+import entities.*;
 import gateways.UserGateway;
 
 import java.io.*;
@@ -43,6 +40,23 @@ public class UserManager implements Serializable{
         saveData();
         return true;
     }
+
+    public boolean registerOrganizer(String username, String password){
+        allUsers.add(new Organizer(username, password));
+        saveData();
+        return true;
+    }
+    public boolean registerSpeaker(String username, String password){
+        allUsers.add(new Speaker(username, password));
+        saveData();
+        return true;
+    }
+    public boolean registerVIP(String username, String password){
+        allUsers.add(new VIP(username, password));
+        saveData();
+        return true;
+    }
+
     public boolean login(String username, String password){
         //TODO:
         return false;

@@ -36,6 +36,8 @@ public class LoginController {
 
     private Model mainModel = new Model();
 
+    private String fxmlName = "login.fxml";
+
     public LoginController() throws ClassNotFoundException {
     }
 
@@ -69,7 +71,8 @@ public class LoginController {
     }
 
     private void showMenu(String filePath) throws IOException{
-        //Gets the loader with the specific menu's fxml path.
+
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource(filePath));
         Stage stage = new Stage(); //sets stage.
         stage.initModality(Modality.APPLICATION_MODAL);

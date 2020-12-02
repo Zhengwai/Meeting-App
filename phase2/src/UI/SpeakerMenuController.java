@@ -11,6 +11,7 @@ public class SpeakerMenuController extends MenuController{
     @FXML
     Button seeAssignedButton;
 
+    private String fxmlName = "SpeakerMenu.fxml";
     /**
      * Opens up a new scene/stage for speaker to see events they 've been assigned.
      * Returns back to this scene when done.

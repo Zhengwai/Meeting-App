@@ -14,93 +14,58 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class
-OrganizerCreateAccountController extends GeneralController implements Initializable{
-    @FXML
-    private TextField usernameTextField;
-    @FXML
-    private TextField passwordTextField;
-    @FXML
-    private TextField confirmPasswordTextField;
-    @FXML
-    private Label usernameErrorLabel;
-    @FXML
-    private Label passwordErrorLabel;
-    @FXML
-    private Label registrationSuccessLabel;
-    @FXML
-    private Button createAccountButton;
+OrganizerCreateAccountController extends RegisterController {
+
     @FXML
     ComboBox<String> selectTypeAccountComboBox;
-    ObservableList<String> accountTypeList = FXCollections.observableArrayList("Attendee", "Organizer", "Speaker");
-    @Override
-    public void initialize(URL location, ResourceBundle resources){
-        selectTypeAccountComboBox.setItems(accountTypeList);
+    @FXML
+    Label hasTypeLabel;
+
+    private String fxmlName = "OrganizerCreateAccount.fxml";
+
+    @FXML
+    public void initialize() {
+        selectTypeAccountComboBox.getItems().removeAll(selectTypeAccountComboBox.getItems());
+        selectTypeAccountComboBox.getItems().addAll("Attendee", "Organizer", "Speaker", "VIP");
     }
 
-    public void createAccountButtonOnAction(ActionEvent event){
-        if (checkValidInput()){
+    @Override
+    public void createAccountButtonOnAction(ActionEvent event) {
+        if (checkValidInput() && hasChosenType()) {
             String un = usernameTextField.getText();
             String pw = passwordTextField.getText();
-            switch (selectTypeAccountComboBox.getValue()) {
-                case "Attendee":
-                    mainModel.getUm().registerAttendee(un, pw);
-                    break;
-                case "Speaker":
-                    mainModel.getUm().createSpeaker(un, pw);
-                    break;
-                case "Organizer":
-                    mainModel.getUm().createOrganizer(un, pw);
-                    break;
-            }
+            createBasedOnType(un, pw);
             passwordErrorLabel.setText("");
             usernameErrorLabel.setText("");
             registrationSuccessLabel.setText("Registration success!\n" +
-                    "Your username is: " + un +"\n" +
+                    "Your username is: " + un + "\n" +
                     "Your password is: " + pw);
 
         }
+
     }
 
-    private boolean checkValidInput() {
-        registrationSuccessLabel.setText("");
-        passwordErrorLabel.setText("");
-        usernameErrorLabel.setText("");
-        return checkValidUsername() && checkValidPassword();
+    private void createBasedOnType(String un, String pw){
+        if (selectTypeAccountComboBox.getValue().equals("Attendee")){
+            mainModel.getUm().registerAttendee(un, pw);
+        }
+        if (selectTypeAccountComboBox.getValue().equals("Organizer")){
+            mainModel.getUm().registerOrganizer(un, pw);
+        }
+        if (selectTypeAccountComboBox.getValue().equals("Speaker")){
+            mainModel.getUm().registerSpeaker(un, pw);
+        }
+        if (selectTypeAccountComboBox.getValue().equals("VIP")){
+            mainModel.getUm().registerVIP(un, pw);
+        }
     }
 
-    private boolean checkValidUsername() {
-        if (usernameTextField.getText().equals("")){
-            usernameErrorLabel.setText("Username cannot be empty!");
+    private boolean hasChosenType(){
+        hasTypeLabel.setText("");
+        if (selectTypeAccountComboBox.getSelectionModel().isEmpty()){
+            hasTypeLabel.setText("Please select a user type!");
             return false;
         }
-        if (usernameTextField.getText().contains(" ")){
-            usernameErrorLabel.setText("Username cannot contain any space!");
-            return false;
-        }
-        String un = usernameTextField.getText();
-        if (!mainModel.getUm().isValidUserName(un)){
-            usernameErrorLabel.setText("Username is taken, please choose another one!");
-            return false;
-        }
-        usernameErrorLabel.setText("");
-        return true;
-    }
-
-    private boolean checkValidPassword() {
-        if (!passwordTextField.getText().equals(confirmPasswordTextField.getText())){
-            passwordErrorLabel.setText("Inconsistent password, make sure you confirm your password.");
-            return false;
-        }
-
-        if (passwordTextField.getText().equals("")){
-            passwordErrorLabel.setText("Password cannot be empty!");
-            return false;
-        }
-        if (passwordTextField.getText().contains(" ")){
-            passwordErrorLabel.setText("Password cannot contain any space!");
-            return false;
-        }
-        passwordErrorLabel.setText("");
         return true;
     }
 }

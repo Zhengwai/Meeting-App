@@ -8,7 +8,7 @@ public class OrganizerScheduleMenuController extends ScheduleMenuController{
 
     @FXML
     Button createEventButton;
-
+    private String fxmlName = "OrganizerScheduleMenu.fxml";
     public void createEventButtonOnAction(ActionEvent event) {
     }
 }

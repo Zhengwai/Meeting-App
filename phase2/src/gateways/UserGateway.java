@@ -26,7 +26,7 @@ public class UserGateway implements UserData, Serializable{
             input.close();
             return um;
         } catch (IOException ex) {
-            System.out.println("we have an error!");
+            System.out.println("IO Exception caught when reading file.");
             return new UserManager();
         }
     }
