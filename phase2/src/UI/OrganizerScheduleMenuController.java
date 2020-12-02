@@ -1,16 +1,14 @@
 package UI;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-
-import java.awt.event.ActionEvent;
 
 public class OrganizerScheduleMenuController extends ScheduleMenuController{
 
     @FXML
     Button createEventButton;
 
-    public void createEventButtonOnAction(ActionEvent event){
-
+    public void createEventButtonOnAction(ActionEvent event) {
     }
 }

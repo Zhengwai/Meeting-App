@@ -9,7 +9,7 @@
         <DatePicker fx:id="datePicker" layoutY="40.0" promptText="Pick a Date" showWeekNumbers="true" />
         <ComboBox fx:id="roomFilterComboBox" layoutX="199.0" layoutY="40.0" prefWidth="150.0" promptText="Pick a Room" />
         <ComboBox fx:id="eventTypeFilterComboBox" layoutX="365.0" layoutY="40.0" prefWidth="150.0" promptText="Pick an Event Type" />
-      <Button fx:id="createEventButton" layoutX="533.0" layoutY="40.0" mnemonicParsing="false" text="Create" />
+      <Button fx:id="createEventButton" layoutX="533.0" layoutY="40.0" mnemonicParsing="false" onAction="#createEventButtonOnAction" text="Create" />
     </children>
 
 </AnchorPane>
