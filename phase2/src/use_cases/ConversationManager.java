@@ -47,6 +47,11 @@ public class ConversationManager implements Serializable {
         this.allMessages.put(msg.getMessageID(), msg);
 
         this.allConversations.get(conID).removeArchivedFor();
+        for (UUID id : this.allConversations.get(conID).getMembers()) {
+            if (!id.equals(senderID)) {
+                this.allConversations.get(conID).addUnreadMessage(msg.getMessageID(), id);
+            }
+        }
     }
 
     /**
@@ -155,14 +160,46 @@ public class ConversationManager implements Serializable {
      */
     public boolean hasOwner(UUID conID) {return this.allConversations.get(conID).hasOwner();}
 
+    /**
+     * Getter for Conversation.getReadOnly()
+     * @param conID UUID of conversation
+     * @return boolean value of Conversation.getReadOnly(). True if conversation is readOnly and False if not
+     */
     public boolean getReadOnly(UUID conID) {return this.allConversations.get(conID).getReadOnly();}
 
+    /**
+     * Getter for Conversation.getOwner(). Assumes Conversation has an Owner
+     * @param conID UUID of conversation
+     * @return UUID of the owner of the conversation
+     */
     public UUID getOwner(UUID conID) {return this.allConversations.get(conID).getOwner();}
 
+    /**
+     * Function to remove a member from a conversation
+     * @param conID UUID of the conversation that the member will be removed from
+     * @param userID UUID of the user who will be removed from given conversation
+     */
+    public void removeMember(UUID conID, UUID userID) {this.allConversations.get(conID).removeMember(userID);}
+
+    /**
+     * Returns whether conversation has a name or not
+     * @param conID UUID of the conversation in question
+     * @return boolean. True if Conversation does NOT have a name. False if Convewrsation does have a name.
+     */
     public boolean noNameExists(UUID conID) {return !this.allConversations.get(conID).nameExists();}
 
+    /**
+     * Getter for Conversation Name. Assumes conversation has a name
+     * @param conID UUID of Conversation in question
+     * @return String value of Conversation Name
+     */
     public String getName(UUID conID) {return this.allConversations.get(conID).getName();}
 
+    /**
+     * Returns list of UUIDs of members of a conversation who have not archived the conversation
+     * @param userID UUID of Conversation in question
+     * @return list of UUIDs of members of a conversation who have not archived the conversation
+     */
     public ArrayList<UUID> getUserConversationsNotArchived(UUID userID) {
         ArrayList<UUID> out = new ArrayList<>();
         for (Conversation c : allConversations.values()) {
@@ -175,6 +212,11 @@ public class ConversationManager implements Serializable {
         return out;
     }
 
+    /**
+     * Returns a list of UUIDs of members in a given conversation who have archived the conversation.
+     * @param userID UUID of the conversation in question
+     * @return list of UUIDs of members in a given conversation who have archived the conversation.
+     */
     public ArrayList<UUID> getUserConversationsArchived(UUID userID) {
         ArrayList<UUID> out = new ArrayList<>();
         for (Conversation c : allConversations.values()) {
@@ -187,6 +229,11 @@ public class ConversationManager implements Serializable {
         return out;
     }
 
+    /**
+     * Return a list of UUIDs of conversations which have unread messages for the given user
+     * @param userID UUID of user in question
+     * @return list of UUIDs of conversations which have unread messages for the given user
+     */
     public ArrayList<UUID> getUserConversationsUnread(UUID userID) {
         ArrayList<UUID> out = new ArrayList<>();
         for (Conversation c : allConversations.values()) {
@@ -199,25 +246,64 @@ public class ConversationManager implements Serializable {
         return out;
     }
 
+    /**
+     * Return a list of UUIDs of messages which are unread for a given user in a given conversation
+     * @param conID UUID of conversation in question
+     * @param userID UUID of user in quesiton
+     * @return list of UUIDs of messages which are unread for a given user in a given conversation
+     */
     public ArrayList<UUID> getUserUnreadMessages(UUID conID, UUID userID) {
         return this.allConversations.get(conID).getUnreadMessages(userID);
     }
 
+    /**
+     * Set a given conversation as archived for a given user
+     * @param conID UUID of conversation that is being archived
+     * @param userID UUID of user who is archiving the conversation for themself
+     */
     public void setArchivedMessage(UUID conID, UUID userID) {
         this.allConversations.get(conID).setArchivedFor(userID);
     }
 
+    /**
+     * Clears all unread messages a given user has in a given conversation
+     * @param conID UUID of conversation in quesiton
+     * @param userID UUID of user whose unread messages are being cleared
+     */
     public void setReadMessage(UUID conID, UUID userID) {this.allConversations.get(conID).removeUnreadMessage(userID);}
 
+    /**
+     * Adds a given UUID of a message to the list of unread messages a given user has in a given conversation
+     * @param conID UUID of conversation in question
+     * @param userID UUID of user in question
+     * @param msgID UUID of message to be added to list of unread messages
+     */
     public void setUnreadMessage(UUID conID, UUID userID, UUID msgID) {this.allConversations.get(conID).addUnreadMessage(msgID, userID);}
 
+    /**
+     * Return a list of UUIDs of the Messages in a given conversation
+     * @param conID UUID of Conversation in question
+     * @return list of UUIDs of the Messages in a given conversation
+     */
     public ArrayList<UUID> getMessagesInConversationUUID(UUID conID) {return this.allConversations.get(conID).getMessageIDs();}
 
+    /**
+     * Delete a given UUID of a message from a conversation
+     * @param conID UUID of conversation that message is going to be deleted from
+     * @param msgID UUID of message that is being deleted
+     */
     public void deleteMessage(UUID conID, UUID msgID) {
         this.allConversations.get(conID).deleteMessage(msgID);
         this.allMessages.remove(msgID);
     }
 
+    /**
+     * Return a list of String Arrays, that contains the senderID, Time and Body of a message, for each message inside a
+     * corresponding given list of message UUIDs
+     * @param msgIDs List of UUIDs of messages that are to be returned in String array form
+     * @return list of String Arrays, that contains the senderID, Time and Body of a message, for each message inside a
+     * corresponding given list of message UUIDs
+     */
     public ArrayList<String[]> getMessagesInList(ArrayList<UUID> msgIDs) {
         ArrayList<String[]> out = new ArrayList<>();
 

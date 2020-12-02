@@ -29,8 +29,10 @@ public class InConvActionClient {
         GetUnreadMessagesInConvAction unreadMessage = new GetUnreadMessagesInConvAction(userID, um, cm, conID, unread);
         MarkUnreadAction markUnread = new MarkUnreadAction(userID, um, cm, conID);
 
+
         out.add(unreadMessage);
         out.add(markUnread);
+
 
         if (cm.hasOwner(conID)) {
             if (!(cm.getReadOnly(conID) && !(cm.getOwner(conID).equals(userID)))) {
@@ -38,15 +40,17 @@ public class InConvActionClient {
                 out.add(deleteMessage);
                 MessageConversationAction messageConv = new MessageConversationAction(userID, um, cm, conID);
                 out.add(messageConv);
+                RemoveMemberAction removeMember = new RemoveMemberAction(userID, um, cm, conID);
+                out.add(removeMember);
             }
         } else {
             DeleteMessageAction deleteMessage = new DeleteMessageAction(userID, um, cm, conID);
             out.add(deleteMessage);
             MessageConversationAction messageConv = new MessageConversationAction(userID, um, cm, conID);
             out.add(messageConv);
+            RemoveMemberAction removeMember = new RemoveMemberAction(userID, um, cm, conID);
+            out.add(removeMember);
         }
-
-
 
 
         return out;

@@ -19,6 +19,10 @@ public abstract class MessageAllAction extends MessageAction {
     public abstract void run() throws Exception;
     public abstract String getName();
 
+    /**
+     * Helper method for messaging all people of a given list of Users
+     * @param users ArrayList of Users that are to be messaged
+     */
     public void handleMessageAll(ArrayList<User> users) {
         if (users.isEmpty()) {
             System.out.println("No Users to message");

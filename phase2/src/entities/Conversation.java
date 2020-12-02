@@ -79,38 +79,74 @@ public class Conversation implements Serializable {
         return this.members;
     }
 
+    /**
+     * Setter for convName
+     * @param name sets convName to name
+     */
     public void setName(String name) {
         this.convName = name;
     }
 
+    /**
+     * Returns whether convName exists or not
+     * @return True if convName != null. False if convName == null
+     */
     public boolean nameExists() {
         return this.convName != null;
     }
 
+    /**
+     * Getter for convName
+     * @return returns convName
+     */
     public String getName() {
         return this.convName;
     }
 
+    /**
+     * Getter for readOnly
+     * @return returns readOnly boolean
+     */
     public boolean getReadOnly() {
         return this.readOnly;
     }
 
+    /**
+     * Setter for readOnly
+     * @param t sets readOnly to t
+     */
     public void setReadOnly(boolean t) {
         this.readOnly = t;
     }
 
+    /**
+     * Getter for owner
+     * @return returns owner
+     */
     public UUID getOwner() {
         return this.owner;
     }
 
+    /**
+     * Setter for owner
+     * @param id sets owner to UUID id
+     */
     public void setOwner(UUID id) {
         this.owner = id;
     }
 
+    /**
+     * Function for seeing if conversation has owner or not
+     * @return True if owner exists, False if owner == null
+     */
     public  boolean hasOwner() {
         return !(this.owner == null);
     }
 
+    /**
+     * Function for deleting a message from conversation
+     * @param id Deletes message with UUID id
+     */
     public void deleteMessage(UUID id) {
         this.messages.remove(id);
 
@@ -119,23 +155,54 @@ public class Conversation implements Serializable {
         }
     }
 
+    /**
+     * Adds the UUID of the message to a user's unreadMessages list
+     * @param id UUID of the message
+     * @param userID UUID of the user who has not read the message
+     */
     public void addUnreadMessage(UUID id, UUID userID) {
         this.unreadMessages.get(userID).add(id);
     }
 
+    /**
+     * Clears the unreadMessages list for given user
+     * @param userID UUID of user
+     */
     public void removeUnreadMessage(UUID userID) {
         this.unreadMessages.get(userID).clear();
     }
 
+    /**
+     * Returns whether user has unread messages or not
+     * @param userID UUID of user
+     * @return True if user has unread messages. False if user does not.
+     */
     public boolean hasUnreadMessages(UUID userID) {return !(this.unreadMessages.get(userID).isEmpty());}
 
+    /**
+     * Getter for a user's unread messages
+     * @param userID UUID of user
+     * @return ArrayList of UUIDs of the unread messages that user has
+     */
     public ArrayList<UUID> getUnreadMessages(UUID userID) {
         return this.unreadMessages.get(userID);
     }
 
+    /**
+     * Setter for a user to archive conversation
+     * @param id UUID of user
+     */
     public void setArchivedFor(UUID id) {this.archivedFor.add(id);}
 
+    /**
+     * Clears the entire archivedFor list
+     */
     public void removeArchivedFor() {this.archivedFor.clear();}
 
+    /**
+     * Returns whether the conversation is archived for user or not
+     * @param id UUID of user
+     * @return True if id is in archivedFor, False if not.
+     */
     public boolean isArchivedFor(UUID id) {return this.archivedFor.contains(id);}
 }
