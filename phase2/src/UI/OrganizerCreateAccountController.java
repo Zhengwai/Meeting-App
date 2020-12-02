@@ -14,7 +14,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class
-OrganizerCreateAccountController extends GeneralController{
+OrganizerCreateAccountController extends GeneralController implements Initializable{
     @FXML
     private TextField usernameTextField;
     @FXML
@@ -32,8 +32,8 @@ OrganizerCreateAccountController extends GeneralController{
     @FXML
     ComboBox<String> selectTypeAccountComboBox;
     ObservableList<String> accountTypeList = FXCollections.observableArrayList("Attendee", "Organizer", "Speaker");
-    @FXML
-    private void initialize(){
+    @Override
+    public void initialize(URL location, ResourceBundle resources){
         selectTypeAccountComboBox.setItems(accountTypeList);
     }
 
