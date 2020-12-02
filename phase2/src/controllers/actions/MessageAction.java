@@ -20,5 +20,10 @@ public abstract class MessageAction {
     }
 
     public abstract void run() throws Exception;
+
+    /**
+     * Method for returning Name of action
+     * @return String name of action
+     */
     public abstract String getName();
 }

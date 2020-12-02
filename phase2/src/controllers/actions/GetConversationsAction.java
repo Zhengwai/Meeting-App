@@ -24,21 +24,31 @@ public class GetConversationsAction extends MessageAction {
     }
 
     @Override
-    public void run() /*throws IOException*/ {
-        this.mp = new MessagePresenter(userID, um, cm);
+    public void run() {
         ArrayList<UUID> convos = cm.getUserConversationsNotArchived(userID);
+        handleGetConversation("Conversations", convos);
+    }
+
+    /**
+     * Helper method for getting and presenting a given list of UUIDs of Conversations with a title
+     * @param title Title for presentation
+     * @param convos ArrayList of UUIDs of Conversations which will be handled.
+     */
+    public void handleGetConversation(String title, ArrayList<UUID> convos) {
+        this.mp = new MessagePresenter(userID, um, cm);
+
 
         if (convos.isEmpty()) {
             System.out.println("No Conversations Found. Either add a friend or check your Archived Conversations.");
             return;
         } else {
-            System.out.println(mp.promptMainScreen(convos));
+            System.out.println(mp.promptMainScreenCustom(convos, title));
         }
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String input;
         try {
             do {
-                System.out.println("Select a conversation to view or 'exit' to go back.");
+                System.out.println("Select a valid conversation to view or 'exit' to go back.");
                 input = br.readLine();
 
                 if (input.matches("^[0-9]*$")) {
