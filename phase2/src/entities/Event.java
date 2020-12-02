@@ -1,7 +1,8 @@
 package entities;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -9,23 +10,24 @@ import java.util.UUID;
  * The event entity is a class responsible for the events in the convention. Each instance of an event models a
  * separate event.
  */
-public class Event implements Serializable {
-    private UUID id;
-    private String name;
-    private Date date;
-    private int capacity;
-    private ArrayList<UUID> attendees;
-    private UUID speaker;
-    private UUID room;
-
+public abstract class Event implements Serializable {
+    protected UUID id;
+    protected String name;
+    protected ZonedDateTime startTime;
+    protected ZonedDateTime endTime;
+    protected int capacity;
+    protected ArrayList<UUID> attendees;
+    protected UUID room;
+    protected String description = "No information on this event has been disclosed yet.";
+    protected ZoneId defaultZone = ZoneId.of("UTC-5");
     /**
      * @param name the name of the event
-     * @param date the time and date of the event
      * @param capacity the maximum attendee capacity of the event
      */
-    public Event(String name, Date date, int capacity){
+    public Event(String name, int capacity,ZonedDateTime startTime, ZonedDateTime endTime){
         this.name = name.toUpperCase();
-        this.date = date;
+        this.startTime = startTime;
+        this.endTime = endTime;
         this.capacity = capacity;
         this.attendees = new ArrayList<>();
         this.id = UUID.randomUUID();
@@ -36,6 +38,26 @@ public class Event implements Serializable {
      */
     public Event() {
         this.id = UUID.randomUUID();
+    }
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+
+    public void setAttendees(ArrayList<UUID> attendees) {
+        this.attendees = attendees;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     /**
@@ -55,7 +77,7 @@ public class Event implements Serializable {
     /**
      * @return date of the event as a date object
      */
-    public Date getDate() { return date; }
+
 
     /**
      * @return the the maximum capacity of the event
@@ -83,41 +105,7 @@ public class Event implements Serializable {
         return attendees;
     }
 
-    /**
-     * Add a designated speaker for the event
-     * @param id The id of the speaker
-     */
-    public void addSpeaker(UUID id){
-        speaker = id;
-    }
 
-    /**
-     * @return true if and only if the event has a designated speaker
-     */
-    public boolean existsSpeaker(){
-        return speaker != null;
-    }
-
-    /**
-     * remove the speaker of the event
-     */
-    public void removeSpeaker(){
-        speaker = null;
-    }
-
-    /**
-     * @return the speaker of the event if it exists. Null otherwise
-     */
-    public UUID getSpeaker(){
-        if (this.existsSpeaker()){
-            return speaker;
-        }
-        return null;
-    }
-
-    public void setSpeaker(UUID u){
-        speaker = u;
-    }
 
     /**
      * @return the assigned room of the event if it exists. Null otherwise.
@@ -193,6 +181,22 @@ public class Event implements Serializable {
         room = null;
     }
 
+    public ZonedDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(ZonedDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public ZonedDateTime getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(ZonedDateTime endTime) {
+        this.endTime = endTime;
+    }
+
     @Override
     public String toString() {
         String full;
@@ -202,6 +206,17 @@ public class Event implements Serializable {
             full = "full";
         }
 
-        return name+"@"+ date.toString() +", status: "+ attendees.size() + "/" + capacity + " " + full;
+        return name+"@"+ startTime + ", status: "+ attendees.size() + "/" + capacity + " " + full;
+    }
+
+    public String getStatus(){
+        ZonedDateTime.now(defaultZone);
+        if ((ZonedDateTime.now(defaultZone).compareTo(startTime)) >= 0) {
+            return "past";
+        }
+        if (hasSpace()){
+            return "available";
+        }
+        return "full";
     }
 }

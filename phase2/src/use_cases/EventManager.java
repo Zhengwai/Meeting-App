@@ -12,7 +12,6 @@ import java.util.*;
  * A use case class that manages the events.
  */
 public class EventManager implements Serializable{
-    private final Event notFoundEvent = new Event();
     private final Room notFoundRoom = new Room();
     private ArrayList<Event> events = new ArrayList<>();
     private ArrayList<Room> rooms = new ArrayList<>();
@@ -55,7 +54,7 @@ public class EventManager implements Serializable{
                 return e;
             }
         }
-        return notFoundEvent;
+        return null;
     }
     /**
      * Returns the room with associated ID.
@@ -114,19 +113,8 @@ public class EventManager implements Serializable{
      * @return an ArrayList of the events <code>user</code> has signed up for.
      */
     public ArrayList<Event> getEventsByUser(User user) {
-        ArrayList<Event> userEvents = new ArrayList<>();
-        for (Event e : events) {
-            if (e.existsSpeaker()) {
-                if (e.getAttendees().contains(user.getID()) | e.getSpeaker().equals(user.getID())) {
-                    userEvents.add(e);
-                }
-            } else {
-                if (e.getAttendees().contains(user.getID())) {
-                    userEvents.add(e);
-                }
-            }
-        }
-        return userEvents;
+        //TODO:
+        return null;
     }
 
     /**
@@ -152,7 +140,7 @@ public class EventManager implements Serializable{
                 return e;
             }
         }
-        return notFoundEvent;
+        return null;
     }
     /**
      * Returns all the events available for this user.
@@ -179,9 +167,16 @@ public class EventManager implements Serializable{
      */
     public boolean roomAvailableForEvent(Room room, Event event){
         for (UUID eventID : room.getEvents()) {
-            if (getEventByID(eventID).getDate().equals(event.getDate())) {
+            if (eventsOverlap(getEventByID(eventID),event)) {
                 return false;
             }
+        }
+        return true;
+    }
+
+    private boolean eventsOverlap(Event e1, Event e2){
+        if ((e1.getEndTime().compareTo(e2.getStartTime())) < 0 | (e1.getStartTime().compareTo(e2.getEndTime())) > 0){
+            return false;
         }
         return true;
     }
@@ -205,7 +200,7 @@ public class EventManager implements Serializable{
         ArrayList<UUID> enrolledEvents = user.getEnrolledEvents();
         if(enrolledEvents.size() > 0) {
             for (UUID id : enrolledEvents) {
-                if (getEventByID(id).getDate().equals(event.getDate())) {
+                if (eventsOverlap(getEventByID(id), event)) {
                     return false;
                 }
             }
