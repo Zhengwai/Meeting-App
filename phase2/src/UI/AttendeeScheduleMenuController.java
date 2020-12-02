@@ -1,4 +1,4 @@
 package UI;
 
-public class AttendeeScheduleMenuController {
+public class AttendeeScheduleMenuController extends ScheduleMenuController{
 }
