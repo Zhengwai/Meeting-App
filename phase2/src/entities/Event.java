@@ -1,8 +1,13 @@
 package entities;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -12,25 +17,58 @@ import java.util.UUID;
  */
 public abstract class Event implements Serializable {
     protected UUID id;
-    protected String name;
-    protected ZonedDateTime startTime;
-    protected ZonedDateTime endTime;
+    protected StringProperty name;
+    protected LocalDateTime startTime;
+    protected LocalDateTime endTime;
     protected int capacity;
     protected ArrayList<UUID> attendees;
     protected UUID room;
     protected String description = "No information on this event has been disclosed yet.";
-    protected ZoneId defaultZone = ZoneId.of("UTC-5");
+    protected DateTimeFormatter dateFormatter = DateTimeFormatter.ISO_LOCAL_DATE;
+    protected DateTimeFormatter timeFormatter = DateTimeFormatter.ISO_LOCAL_TIME;
+
+    protected StringProperty dateString;
+    protected StringProperty type = new SimpleStringProperty("");
+    protected StringProperty startTimeString;
+    protected StringProperty endTimeString;
+    protected StringProperty capacityString;
+    protected StringProperty status;
+
+    public StringProperty getDateString() {
+        return dateString;
+    }
+
+    public StringProperty getType() {
+        return type;
+    }
+
+    public StringProperty getStartTimeString() {
+        return startTimeString;
+    }
+
+    public StringProperty getEndTimeString() {
+        return endTimeString;
+    }
+
+    public StringProperty getCapacityString() {
+        return new SimpleStringProperty(getTotalPeople() + "/" + capacity);
+    }
+
     /**
      * @param name the name of the event
      * @param capacity the maximum attendee capacity of the event
      */
-    public Event(String name, int capacity,ZonedDateTime startTime, ZonedDateTime endTime){
-        this.name = name.toUpperCase();
+    public Event(String name, int capacity,LocalDateTime startTime, LocalDateTime endTime){
+        this.name = new SimpleStringProperty(name.toUpperCase());
         this.startTime = startTime;
         this.endTime = endTime;
         this.capacity = capacity;
         this.attendees = new ArrayList<>();
         this.id = UUID.randomUUID();
+
+        dateString = new SimpleStringProperty(dateFormatter.format(startTime));
+        startTimeString = new SimpleStringProperty(timeFormatter.format(startTime));
+        endTimeString = new SimpleStringProperty(timeFormatter.format(endTime));
     }
 
     /**
@@ -44,7 +82,7 @@ public abstract class Event implements Serializable {
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = new SimpleStringProperty(name);
     }
 
 
@@ -70,7 +108,7 @@ public abstract class Event implements Serializable {
     /**
      * @return the name of the event
      */
-    public String getName(){
+    public StringProperty getName(){
         return this.name;
     }
 
@@ -181,19 +219,19 @@ public abstract class Event implements Serializable {
         room = null;
     }
 
-    public ZonedDateTime getStartTime() {
+    public LocalDateTime getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(ZonedDateTime startTime) {
+    public void setStartTime(LocalDateTime startTime) {
         this.startTime = startTime;
     }
 
-    public ZonedDateTime getEndTime() {
+    public LocalDateTime getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(ZonedDateTime endTime) {
+    public void setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
     }
 
@@ -209,14 +247,17 @@ public abstract class Event implements Serializable {
         return name+"@"+ startTime + ", status: "+ attendees.size() + "/" + capacity + " " + full;
     }
 
-    public String getStatus(){
-        ZonedDateTime.now(defaultZone);
-        if ((ZonedDateTime.now(defaultZone).compareTo(startTime)) >= 0) {
-            return "past";
+    public StringProperty getStatus(){
+        if ((LocalDateTime.now().compareTo(startTime)) >= 0) {
+            return new SimpleStringProperty("past");
         }
         if (hasSpace()){
-            return "available";
+            return new SimpleStringProperty("available");
         }
-        return "full";
+        return new SimpleStringProperty("full");
+    }
+
+    public int getTotalPeople(){
+        return attendees.size();
     }
 }

@@ -71,4 +71,8 @@ public class Room implements Serializable {
     public String toString(){
         return roomName + " capacity: " + capacity;
     }
+
+    public UUID getRoomId() {
+        return roomId;
+    }
 }
