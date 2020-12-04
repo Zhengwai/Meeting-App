@@ -49,7 +49,30 @@ public class UserDataMapper implements UserDataGateway {
                         break;
                 }
                 assert u != null;
+
+                // Final data mapping
                 u.setId(UUID.fromString(rs.getString("uuid")));
+
+                String rawEvents = (String) rs.getObject("events");
+                if (rawEvents != null) {
+                    rawEvents = rawEvents.substring(1, rawEvents.length() - 1); // Remove the "[" and "]" from string
+                    String[] eventList = rawEvents.split(", ");
+
+                    for (String s : eventList) {
+                        u.addEvent(UUID.fromString(s));
+                    }
+                }
+
+                String rawFriends = (String) rs.getObject("friends");
+                if (rawFriends != null) {
+                    rawFriends = rawFriends.substring(1, rawFriends.length() - 1); // Remove the "[" and "]" from string
+                    String[] friendList = rawFriends.split(",");
+
+                    for (String s: friendList) {
+                        u.addFriend(UUID.fromString(s));
+                    }
+                }
+
                 out.add(u);
             }
 

@@ -13,15 +13,15 @@ public class DatabaseTesting {
 
 
         // Setup stuff (creating a dummy user and messing around with it)
-        /*User newUser = new Attendee("AttendeeTest", "12345");
-        mapper.insertNewUser(newUser);
         UUID dummyID = UUID.fromString("8cd3ac39-6a91-4d5a-be96-e4bd2b5596e1");
-        UUID randomID = UUID.randomUUID();
-        ArrayList<UUID> testList = new ArrayList<>();
-        testList.add(randomID);
-        mapper.updateUserType(dummyID, "o");
-        mapper.updateUserPassword(dummyID, "updatePassword");
-        mapper.updateUserEvents(dummyID, testList); */
+        UUID randomID1 = UUID.randomUUID();
+        UUID randomID2 = UUID.randomUUID();
+        ArrayList<UUID> test = new ArrayList<UUID>();
+
+        test.add(randomID1);
+        test.add(randomID2);
+
+        mapper.updateUserEvents(dummyID, test);
 
         ArrayList<User> allUsers = mapper.fetchAllUsers();
         for (User u : allUsers) {
