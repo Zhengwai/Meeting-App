@@ -2,7 +2,9 @@ package use_cases;
 
 import Repository.UserData;
 import com.sun.xml.internal.bind.v2.TODO;
+import database.UserDataMapper;
 import entities.*;
+import gateways.UserDataGateway;
 import gateways.UserGateway;
 
 import java.io.*;
@@ -15,7 +17,8 @@ import java.util.UUID;
 public class UserManager implements Serializable{
     private ArrayList<User> allUsers = new ArrayList<>();
     public User NotFoundUser = new User("NotFound", "NotFound");
-    private UserData userData = new UserGateway();
+    private UserDataGateway udg = new UserDataMapper();
+    //private UserData userData = new UserGateway();
 
     /**
      * Initializes this UserManager.
@@ -31,29 +34,33 @@ public class UserManager implements Serializable{
 
     public boolean addUser(User newUser) {
         allUsers.add(newUser);
-        saveData();
+        udg.insertNewUser(newUser);
         return true;
     }
 
     public boolean registerAttendee(String username, String password){
-        allUsers.add(new Attendee(username, password));
-        saveData();
+        Attendee a = new Attendee(username, password);
+        allUsers.add(a);
+        udg.insertNewUser(a);
         return true;
     }
 
     public boolean registerOrganizer(String username, String password){
-        allUsers.add(new Organizer(username, password));
-        saveData();
+        Organizer o = new Organizer(username, password);
+        allUsers.add(o);
+        udg.insertNewUser(o);
         return true;
     }
     public boolean registerSpeaker(String username, String password){
-        allUsers.add(new Speaker(username, password));
-        saveData();
+        Speaker s = new Speaker(username, password);
+        allUsers.add(s);
+        udg.insertNewUser(s);
         return true;
     }
     public boolean registerVIP(String username, String password){
-        allUsers.add(new VIP(username, password));
-        saveData();
+        VIP vip = new VIP(username, password);
+        allUsers.add(vip);
+        udg.insertNewUser(vip);
         return true;
     }
 
@@ -245,9 +252,18 @@ public class UserManager implements Serializable{
      */
     public String getType(UUID userID) {return getUserByID(userID).getType();}
 
-    public void saveData(){
+   /* public void saveData(){
         this.userData.serializeUserManager("phase2/src/use_cases/UserManager.ser", this);
+    } */
+
+    /**
+     * Populates <code>this.allUsers</code> with instances of all Users from the database.
+     * Instantiates appropriate types as well.
+     */
+    public void getUsersFromDB() {
+        allUsers = udg.fetchAllUsers();
     }
+
 
     public User verifyLogin(String username, String password){
         for (User u : allUsers){

@@ -40,14 +40,15 @@ public class Database {
      * @param password The password for this user.
      * @throws SQLException Thrown when executing the SQL statement goes wrong.
      */
-    public void insertUser(UUID userID, String username, String password) throws SQLException {
-        String query = " INSERT INTO users (uuid, username, password)"
-                + " VALUES (?, ?, ?)";;
-        PreparedStatement ps = conn.prepareStatement(query);
+    public void insertUser(UUID userID, String username, String password, String type) throws SQLException {
+        String sql = " INSERT INTO users (uuid, username, password, type)"
+                + " VALUES (?, ?, ?, ?);";
+        PreparedStatement ps = conn.prepareStatement(sql);
 
         ps.setString(1, userID.toString());
         ps.setString(2, username);
         ps.setString(3, password);
+        ps.setString(4, type);
         ps.execute();
     }
 
@@ -61,6 +62,24 @@ public class Database {
         return rs;
     }
 
+    public void updateUserType(UUID userID, String newType) throws SQLException {
+        String sql = " UPDATE users SET type = ? WHERE uuid = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+
+        ps.setString(1, newType);
+        ps.setString(2, userID.toString());
+        ps.execute();
+    }
+
+    public void updateUserPassword(UUID userID, String newPassword) throws SQLException {
+        String sql = " UPDATE users SET password = ? WHERE uuid = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+
+        ps.setString(1, newPassword);
+        ps.setString(2, userID.toString());
+        ps.execute();
+    }
+
     /**
      * Creates a users table, an events table and a messages table.
      * These tables are only created if they don't already exist.
@@ -71,7 +90,8 @@ public class Database {
                 + "	id INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + " uuid text NOT NULL,"
                 + "	username text NOT NULL,"
-                + "	password text NOT NULL"
+                + "	password text NOT NULL,"
+                + " type text NOT NULL"
                 + ");";
 
         /*String sqlMsgs = "CREATE TABLE IF NOT EXISTS messages (\n"

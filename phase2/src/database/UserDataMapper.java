@@ -1,6 +1,6 @@
 package database;
 
-import entities.User;
+import entities.*;
 import gateways.UserDataGateway;
 
 import java.sql.ResultSet;
@@ -25,14 +25,37 @@ public class UserDataMapper implements UserDataGateway {
         try {
             ArrayList<User> out = new ArrayList<>();
             ResultSet rs = db.getAllUsers();
+
+            // Another design pattern: Iterator
             while(rs.next()) {
-                User u = new User(rs.getString("username"), rs.getString("password"));
+                User u = null;
+
+                // Instantiate by user's type
+                switch (rs.getString("type")) {
+                    case "a":
+                        u = new Attendee(rs.getString("username"), rs.getString("password"));
+                        break;
+                    case "o":
+                        u = new Organizer(rs.getString("username"), rs.getString("password"));
+                        break;
+                    case "s":
+                        u = new Speaker(rs.getString("username"), rs.getString("password"));
+                        break;
+                    case "v":
+                        u = new VIP(rs.getString("username"), rs.getString("password"));
+                        break;
+                    case "User":
+                        u = new User(rs.getString("username"), rs.getString("password"));
+                        break;
+                }
+                assert u != null;
                 u.setId(UUID.fromString(rs.getString("uuid")));
                 out.add(u);
             }
+
             return out;
         } catch (SQLException e) {
-            System.out.println("Something went wrong with the users ResultSet");
+            System.out.println("Something went wrong with the users ResultSet.");
             e.printStackTrace();
             return new ArrayList<>();
         }
@@ -45,17 +68,28 @@ public class UserDataMapper implements UserDataGateway {
     @Override
     public void insertNewUser(User newUser) {
         try {
-            db.insertUser(newUser.getID(), newUser.getUsername(), newUser.getPassword());
+            db.insertUser(newUser.getID(), newUser.getUsername(), newUser.getPassword(), newUser.getType());
         } catch (SQLException e) {
-            System.out.println("Something went wrong trying to insert a new user");
+            System.out.println("Something went wrong trying to insert a new user.");
             e.printStackTrace();
         }
     }
 
     @Override
-    public void saveAllUsers(ArrayList<User> users) {
-        //TODO: Need database to handle data updates.
-        // Right now we only have reading (SELECT) and
-        // writing a new user (INSERT).
+    public void updateUserType(UUID userID, String newType) {
+        try {
+            db.updateUserType(userID, newType);
+        } catch (SQLException e) {
+            System.out.println("Something went wrong trying to update that user's type.");
+        }
+    }
+
+    @Override
+    public void updateUserPassword(UUID userID, String newPassword) {
+        try {
+            db.updateUserPassword(userID, newPassword);
+        } catch (SQLException e) {
+            System.out.println("Something went wrong trying to update that user's password.");
+        }
     }
 }
