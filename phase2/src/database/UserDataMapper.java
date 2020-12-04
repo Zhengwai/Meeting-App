@@ -75,21 +75,59 @@ public class UserDataMapper implements UserDataGateway {
         }
     }
 
+    /**
+     * Updates a given user's type in the database.
+     * @param userID The ID of the user who's type will change.
+     * @param newType The new type of user ("a", "o", "v", "User").
+     */
     @Override
     public void updateUserType(UUID userID, String newType) {
         try {
             db.updateUserType(userID, newType);
         } catch (SQLException e) {
-            System.out.println("Something went wrong trying to update that user's type.");
+            System.out.println("Something went wrong trying to update this user's type.");
         }
     }
 
+    /**
+     * Updates a given user's password in the database.
+     * @param userID The ID of the user who's password will change.
+     * @param newPassword The new password for this user.
+     */
     @Override
     public void updateUserPassword(UUID userID, String newPassword) {
         try {
             db.updateUserPassword(userID, newPassword);
         } catch (SQLException e) {
-            System.out.println("Something went wrong trying to update that user's password.");
+            System.out.println("Something went wrong trying to update this user's password.");
+        }
+    }
+
+    /**
+     * Updates a given user's list of event ID's in the database.
+     * @param userID The ID of the user who's events are being updated.
+     * @param newEventsList The new list of event IDs to be replaced.
+     */
+    @Override
+    public void updateUserEvents(UUID userID, ArrayList<UUID> newEventsList) {
+        try {
+            db.updateUserEvents(userID, newEventsList);
+        } catch (SQLException e) {
+            System.out.println("Something went wrong trying to update this user's events.");
+        }
+    }
+
+    /**
+     * Update a given user's list of friends in the database.
+     * @param userID  The ID of the user who's events are being updated.
+     * @param newFriendsList The new list of friend IDs to be replaced.
+     */
+    @Override
+    public void updateUserFriends(UUID userID, ArrayList<UUID> newFriendsList) {
+        try {
+            db.updateUserEvents(userID, newFriendsList);
+        } catch (SQLException e) {
+            System.out.println("Something went wrong trying to update this user's friends.");
         }
     }
 }
