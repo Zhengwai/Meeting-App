@@ -13,7 +13,10 @@ public class DatabaseTesting {
 
 
         // Setup stuff (creating a dummy user and messing around with it)
-        UUID dummyID = UUID.fromString("8cd3ac39-6a91-4d5a-be96-e4bd2b5596e1");
+        User newUser = new Attendee("test", "test");
+        mapper.insertNewUser(newUser);
+
+        UUID dummyID = newUser.getID();
         UUID randomID1 = UUID.randomUUID();
         UUID randomID2 = UUID.randomUUID();
         ArrayList<UUID> test = new ArrayList<UUID>();

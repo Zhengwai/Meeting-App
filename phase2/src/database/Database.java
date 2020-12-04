@@ -110,8 +110,8 @@ public class Database {
                 + "	username text NOT NULL,"
                 + "	password text NOT NULL,"
                 + " type text NOT NULL,"
-                + " friends JSON_ARRAY,"
-                + " events JSON_ARRAY"
+                + " friends object,"
+                + " events object"
                 + ");";
 
         /*String sqlMsgs = "CREATE TABLE IF NOT EXISTS messages (\n"
