@@ -9,6 +9,7 @@ import gateways.UserGateway;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -266,7 +267,7 @@ public class UserManager implements Serializable{
 
 
     public User verifyLogin(String username, String password){
-        for (User u : allUsers){
+        for (User u : udg.fetchAllUsers()){
             if (u.getUsername().equals(username)){
                 if (u.getPassword().equals(password)){
                     return u;
@@ -283,5 +284,44 @@ public class UserManager implements Serializable{
             }
         }
         return true;
+    }
+
+    public List<String> getAllFriendNames(UUID userID){
+        User user = getUserByID(userID);
+        List<String> friendNames = new ArrayList<String>();
+        try {
+            ArrayList<UUID> friendID = getAllFriendIDs(userID);
+            for(UUID f: friendID){
+                friendNames.add(getUserByID(f).getUsername());
+            }
+            return friendNames;
+        } catch (NullPointerException e) {
+            System.out.println("This user has no friends.");
+            return friendNames;
+        }
+    }
+
+    public List<String> getAllNonFriendNames(UUID userID){
+        System.out.println("Am I even working lmao");
+        User user = getUserByID(userID);
+        System.out.println("Check 1");
+        List<String> nonFriendNames = new ArrayList<String>();
+        try {
+            System.out.println("Inside try");
+            ArrayList<UUID> friendID = getAllFriendIDs(userID);
+            ArrayList<User> all = udg.fetchAllUsers();
+            for(User u: all){
+                System.out.println("Inside for");
+                if(!friendID.contains(u.getID()) | u.getID() == user.getID()){
+                    System.out.println(u.getUsername());
+                    nonFriendNames.add(u.getUsername());
+                }
+            }
+            System.out.println("Returned stuff");
+            return nonFriendNames;
+        } catch (NullPointerException e) {
+            nonFriendNames.add("You're pals with everyone");
+            return nonFriendNames;
+        }
     }
 }

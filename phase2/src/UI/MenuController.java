@@ -21,9 +21,10 @@ abstract class MenuController extends GeneralController{
     Button seeSignedUpButton;
     @FXML
     protected Button browseButton;
+    @FXML
+    Button seeMessageButton;
 
     private String fxmlName;
-
 
     public void seeSignedUpButtonOnAction(ActionEvent event){
         //TODO: Implement this, you can get the current user by using mainModel.getCurrentUser. Open different type of
@@ -48,6 +49,11 @@ abstract class MenuController extends GeneralController{
             showEvent("SpeakerScheduleMenu.fxml");
         }
 
+    }
+
+    public void seeMessageAction(ActionEvent event) throws IOException{
+        System.out.println(mainModel.getCurrentUser().getUsername());
+        showEvent("MainMessage.fxml");
     }
 
     public void showEvent(String filePath) throws IOException {

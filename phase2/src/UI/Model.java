@@ -44,5 +44,8 @@ public class Model {
         return cm;
     }
 
+    public String toString(){
+        return "Hi";
+    }
 
 }
