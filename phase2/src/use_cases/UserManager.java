@@ -112,7 +112,7 @@ public class UserManager implements Serializable{
      * @return the first user found with its username matching with <code>name</code>.
      */
     public User getUserByName(String name) {
-        for (User u:allUsers) {
+        for (User u:udg.fetchAllUsers()) {
             if (u.getUsername().equals(name)) {
                 return u;
             }
@@ -126,7 +126,7 @@ public class UserManager implements Serializable{
      * @return the user that matches the <code>id</code>. If no use is found, return <code>NotFoundUser</code>.
      */
     public User getUserByID(UUID id){
-        for (User u:allUsers){
+        for (User u:udg.fetchAllUsers()){
             if (u.getID().equals(id)){
                 return u;
             }
@@ -158,7 +158,7 @@ public class UserManager implements Serializable{
      */
     public ArrayList<Speaker> getAllSpeakers(){
         ArrayList<Speaker> speakers = new ArrayList<>();
-        for (User u: allUsers){
+        for (User u: udg.fetchAllUsers()){
             if (u.getType().equals("s")){
                 speakers.add((Speaker)u);
             }
@@ -218,7 +218,7 @@ public class UserManager implements Serializable{
      */
     public ArrayList<User> getAllAttendees() {
         ArrayList<User> attendees = new ArrayList<>();
-        for (User u:allUsers){
+        for (User u:udg.fetchAllUsers()){
             if (u.getType().equals("a")){
                 attendees.add(u);
             }
@@ -278,7 +278,7 @@ public class UserManager implements Serializable{
     }
 
     public boolean isValidUserName(String username){
-        for (User u:allUsers){
+        for (User u:udg.fetchAllUsers()){
             if (u.getUsername().equals(username)){
                 return false;
             }
@@ -302,22 +302,16 @@ public class UserManager implements Serializable{
     }
 
     public List<String> getAllNonFriendNames(UUID userID){
-        System.out.println("Am I even working lmao");
         User user = getUserByID(userID);
-        System.out.println("Check 1");
         List<String> nonFriendNames = new ArrayList<String>();
         try {
-            System.out.println("Inside try");
             ArrayList<UUID> friendID = getAllFriendIDs(userID);
             ArrayList<User> all = udg.fetchAllUsers();
             for(User u: all){
-                System.out.println("Inside for");
-                if(!friendID.contains(u.getID()) | u.getID() == user.getID()){
-                    System.out.println(u.getUsername());
+                if(!friendID.contains(u.getID()) && !u.getID().equals(user.getID())){
                     nonFriendNames.add(u.getUsername());
                 }
             }
-            System.out.println("Returned stuff");
             return nonFriendNames;
         } catch (NullPointerException e) {
             nonFriendNames.add("You're pals with everyone");
