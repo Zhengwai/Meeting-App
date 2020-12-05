@@ -5,4 +5,7 @@ package UI;
  */
 public class AttendeeMenuController extends MenuController{
     private String fxmlName = "AttendeeMenu.fxml";
+
+    public AttendeeMenuController() throws ClassNotFoundException {
+    }
 }

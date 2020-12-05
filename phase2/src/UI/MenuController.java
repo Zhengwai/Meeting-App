@@ -26,6 +26,9 @@ abstract class MenuController extends GeneralController{
 
     private String fxmlName;
 
+    public MenuController() throws ClassNotFoundException {
+    }
+
     public void seeSignedUpButtonOnAction(ActionEvent event){
         //TODO: Implement this, you can get the current user by using mainModel.getCurrentUser. Open different type of
         //TODO: scene depending on the user's type.

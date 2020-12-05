@@ -8,16 +8,16 @@ import use_cases.EventManager;
 import use_cases.UserManager;
 
 public class Model {
-    private UserManager um;
+    private static UserManager um;
 
-    private EventManager em;
+    private static EventManager em;
 
-    private ConversationManager cm;
+    private static ConversationManager cm;
 
     private UserGateway ug = new UserGateway();
     private EventGateway eg = new EventGateway();
 
-    private User currentUser;
+    private static User currentUser;
 
     public User getCurrentUser() {
         return currentUser;

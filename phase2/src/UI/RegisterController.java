@@ -30,6 +30,9 @@ public class RegisterController extends GeneralController {
 
     private String fxmlName = "register.fxml";
 
+    public RegisterController() throws ClassNotFoundException {
+    }
+
 
     public void createAccountButtonOnAction(ActionEvent event){
         if (checkValidInput()){

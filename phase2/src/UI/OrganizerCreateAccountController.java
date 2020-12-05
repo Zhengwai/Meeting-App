@@ -23,6 +23,9 @@ OrganizerCreateAccountController extends RegisterController {
 
     private String fxmlName = "OrganizerCreateAccount.fxml";
 
+    public OrganizerCreateAccountController() throws ClassNotFoundException {
+    }
+
     @FXML
     public void initialize() {
         selectTypeAccountComboBox.getItems().removeAll(selectTypeAccountComboBox.getItems());

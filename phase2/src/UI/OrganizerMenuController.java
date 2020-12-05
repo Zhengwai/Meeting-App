@@ -15,6 +15,9 @@ public class OrganizerMenuController extends MenuController{
 
     private String fxmlName = "OrganizerMenu.fxml";
 
+    public OrganizerMenuController() throws ClassNotFoundException {
+    }
+
 
     /**
      * Opens up a new scene/stage for organizer to create new users.

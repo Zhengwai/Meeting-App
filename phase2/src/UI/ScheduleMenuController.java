@@ -55,7 +55,8 @@ public class ScheduleMenuController extends GeneralController{
 
     private String fxmlName = "ScheduleMenu";
 
-    public ScheduleMenuController(){
+    public ScheduleMenuController() throws ClassNotFoundException {
+        super();
         ArrayList<Event> emEvents = mainModel.getEm().getEvents();
         allEvents.addAll(emEvents);
     }

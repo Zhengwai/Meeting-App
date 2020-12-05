@@ -37,6 +37,9 @@ public class MessageMenuController extends GeneralController implements Initiali
 
     private ObservableList<String>  friends = FXCollections.observableArrayList("Jenn","Joe","Sherry", "Eunice");
 
+    public MessageMenuController() throws ClassNotFoundException {
+    }
+
     public void buildNewMessageSurroundings(){
         Label toLabel = new Label("To: ");
 
@@ -72,10 +75,9 @@ public class MessageMenuController extends GeneralController implements Initiali
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //System.out.println(mainModel);
-        //System.out.println(mainModel.getCurrentUser().getUsername());
-        //String user = mainModel.getCurrentUser().getUsername();
-        //List<String> friends = mainModel.getUm().getAllFriendNames(user);
-        //ObservableList<String>  friends = FXCollections.observableArrayList("Jenn","Joe","Sherry", "Eunice");
+        System.out.println(mainModel.getCurrentUser().getUsername());
+        UUID user = mainModel.getCurrentUser().getID();
+        List<String> friends = mainModel.getUm().getAllFriendNames(user);
         //List<String> friendshaha = new ArrayList<>();
         //friendshaha.add(user);
         /*

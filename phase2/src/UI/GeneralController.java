@@ -26,6 +26,9 @@ abstract class GeneralController {
 
     private String fxmlName;
 
+    public GeneralController() throws ClassNotFoundException {
+        mainModel = new Model();
+    }
     protected void initData(Model mainModel){
         this.mainModel = mainModel;
 

@@ -12,6 +12,10 @@ public class SpeakerMenuController extends MenuController{
     Button seeAssignedButton;
 
     private String fxmlName = "SpeakerMenu.fxml";
+
+    public SpeakerMenuController() throws ClassNotFoundException {
+    }
+
     /**
      * Opens up a new scene/stage for speaker to see events they 've been assigned.
      * Returns back to this scene when done.
