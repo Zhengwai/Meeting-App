@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="773.0" prefWidth="1022.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.AttendeeScheduleMenuController">
+<AnchorPane prefHeight="773.0" prefWidth="1022.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.AttendeeScheduleMenuController">
    <children>
       <Button fx:id="goBackButton" layoutY="1.0" mnemonicParsing="false" onAction="#goBackButtonOnAction" text="Go Back" />
-      <DatePicker fx:id="datePicker" layoutX="15.0" layoutY="40.0" promptText="Pick a Date" showWeekNumbers="true" />
-      <ComboBox fx:id="roomFilterComboBox" editable="true" layoutX="196.0" layoutY="40.0" prefWidth="150.0" promptText="Pick a Room" />
-      <ComboBox fx:id="eventTypeFilterComboBox" editable="true" layoutX="352.0" layoutY="40.0" prefHeight="25.0" prefWidth="140.0" promptText="Pick an Event Type" />
+      <DatePicker fx:id="datePicker" layoutX="24.0" layoutY="40.0" promptText="Pick a Date" showWeekNumbers="true" />
+      <ComboBox fx:id="roomFilterComboBox" editable="true" layoutX="212.0" layoutY="40.0" prefWidth="150.0" promptText="Pick a Room" />
+      <ComboBox fx:id="eventTypeFilterComboBox" editable="true" layoutX="362.0" layoutY="40.0" prefHeight="25.0" prefWidth="140.0" promptText="Pick an Event Type" />
       <TableView fx:id="eventTable" layoutX="28.0" layoutY="110.0" prefHeight="349.0" prefWidth="947.0">
         <columns>
           <TableColumn fx:id="dateColumn" prefWidth="84.0" text="Date" />
