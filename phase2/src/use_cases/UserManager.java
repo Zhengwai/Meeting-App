@@ -6,6 +6,8 @@ import database.UserDataMapper;
 import entities.*;
 import gateways.UserDataGateway;
 import gateways.UserGateway;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -15,7 +17,7 @@ import java.util.UUID;
 /**
  * A use case class for user that manages user related activities.
  */
-public class UserManager implements Serializable{
+public class UserManager implements Serializable, Observable {
     private ArrayList<User> allUsers = new ArrayList<>();
     public User NotFoundUser = new User("NotFound", "NotFound");
     private UserDataGateway udg = new UserDataMapper();
@@ -324,5 +326,15 @@ public class UserManager implements Serializable{
             nonFriendNames.add("You're pals with everyone");
             return nonFriendNames;
         }
+    }
+    
+    @Override
+    public void addListener(InvalidationListener listener) {
+
+    }
+
+    @Override
+    public void removeListener(InvalidationListener listener) {
+
     }
 }

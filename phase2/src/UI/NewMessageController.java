@@ -10,6 +10,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 
 import javax.security.auth.Subject;
 import java.net.URL;
@@ -24,12 +26,16 @@ public class NewMessageController extends GeneralController implements Initializ
     TextField messageBox;
     @FXML
     ListView messageHistory;
+    @FXML
+    AnchorPane newMessageAnchor;
 
     ObservableList<String> notFriends;
 
     List<Observer> observers;
 
     MessageMenuController mmc = new MessageMenuController();
+
+    SendeeHolder sendee = SendeeHolder.getInstance();
 
     public NewMessageController() throws ClassNotFoundException {
     }
@@ -40,6 +46,10 @@ public class NewMessageController extends GeneralController implements Initializ
 
     }
 
+    public void update(){
+
+    }
+
     public void handleSendButton(ActionEvent actionEvent) {
         String newFriend = (String) chooseNewFriend.getValue();
         boolean nowFriends = mainModel.getUm().addFriends(mainModel.getCurrentUser().getID(),
@@ -47,13 +57,6 @@ public class NewMessageController extends GeneralController implements Initializ
         String myMessage = messageBox.getText();
         messageHistory.getItems().setAll("Me: " + myMessage);
 
-        if(mainModel.getUm().getAllFriendNames(mainModel.getCurrentUser().getID()).size() > 0){
-            for(String s: mainModel.getUm().getAllFriendNames(mainModel.getCurrentUser().getID())){
-                System.out.println(s);
-            }
-        } else{
-            System.out.println("Friend List is Empty");
-        }
 
         updateNotFriends(newFriend);
 
@@ -68,17 +71,16 @@ public class NewMessageController extends GeneralController implements Initializ
                 mainModel.getUm().getAllNonFriendNames(mainModel.getCurrentUser().getID()));
         chooseNewFriend.getItems().setAll(notFriends);
 
-        //notFriends.addListener(new ListChangeListener() {
-        //    @Override
-        //    public void onChanged(ListChangeListener.Change c) {
-        //        System.out.println("Detected a change!");
-        //        while(c.next()){
-        //            if(c.wasRemoved()){
-
-        //            }
-        //        }
-        //    }
-        //});
+        notFriends.addListener(new ListChangeListener() {
+            @Override
+            public void onChanged(ListChangeListener.Change c) {
+                while(c.next()){
+                    if(c.wasRemoved()){
+                        update();
+                    }
+                }
+            }
+        });
 
 
     }

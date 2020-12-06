@@ -9,6 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -34,6 +35,8 @@ public class MessageMenuController extends GeneralController implements Initiali
     ListView myMessageList;
     @FXML
     BorderPane subPane;
+
+    SendeeHolder sendee = SendeeHolder.getInstance();
 
     private ObservableList<String>  friends = FXCollections.observableArrayList("Jenn","Joe","Sherry", "Eunice");
 
@@ -83,5 +86,15 @@ public class MessageMenuController extends GeneralController implements Initiali
         } else{
             myMessageList.setPlaceholder(new Label("No Messages"));
         }
+    }
+
+    public void handleSelectChat(MouseEvent mouseEvent) {
+        String recipient = (String) myMessageList.getSelectionModel().getSelectedItem();
+        sendee.setSendee(mainModel.getUm().getUserByName(recipient).getID());
+        FxmlLoaderMessage object = new FxmlLoaderMessage();
+        Pane view = object.getPage("Chat.fxml");
+        messageMain.setCenter(view);
+        System.out.println(sendee);
+
     }
 }
