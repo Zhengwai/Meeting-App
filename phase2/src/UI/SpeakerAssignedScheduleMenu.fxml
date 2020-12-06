@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="773.0" prefWidth="1022.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.AttendeeSignedUpScheduleMenuController">
+<AnchorPane prefHeight="773.0" prefWidth="1022.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.SpeakerAssignedScheduleMenuController">
     <children>
         <Button fx:id="goBackButton" layoutY="1.0" mnemonicParsing="false" onAction="#goBackButtonOnAction" text="Go Back" />
         <DatePicker fx:id="datePicker" layoutX="24.0" layoutY="40.0" promptText="Pick a Date" showWeekNumbers="true" />
@@ -23,7 +23,7 @@
         <ComboBox fx:id="statusFilterComboBox" editable="true" layoutX="501.0" layoutY="40.0" prefWidth="150.0" promptText="Status" />
         <TextField fx:id="eventNameTextBox" layoutX="676.0" layoutY="40.0" promptText="Event name" />
         <TextArea fx:id="descriptionBox" editable="false" layoutX="28.0" layoutY="463.0" prefHeight="122.0" prefWidth="947.0" />
-        <Button fx:id="cancelButton" layoutX="427.0" layoutY="615.0" mnemonicParsing="false" onAction="#cancelButtonOnAction" prefHeight="25.0" prefWidth="150.0" text="Cancel" />
-        <Label fx:id="cancelPrompt" layoutX="435.0" layoutY="646.0" text="Cancellation successful!" />
+        <Button fx:id="requestCancellationButton" layoutX="427.0" layoutY="615.0" mnemonicParsing="false" onAction="#requestCancellationButtonOnAction" prefHeight="25.0" prefWidth="150.0" text="Request Cancellation" />
+        <Label fx:id="cancellationPrompt" layoutX="434.0" layoutY="653.0" text="Cancellation Successful!" />
     </children>
 </AnchorPane>

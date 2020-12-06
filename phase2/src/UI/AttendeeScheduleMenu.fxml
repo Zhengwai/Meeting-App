@@ -24,6 +24,6 @@
       <TextField fx:id="eventNameTextBox" layoutX="676.0" layoutY="40.0" promptText="Event name" />
       <TextArea fx:id="descriptionBox" editable="false" layoutX="28.0" layoutY="463.0" prefHeight="122.0" prefWidth="947.0" />
       <Button fx:id="signUpButton" layoutX="427.0" layoutY="615.0" mnemonicParsing="false" onAction="#signUpButtonOnAction" prefHeight="25.0" prefWidth="150.0" text="Sign-Up" />
-      <Label fx:id="signUpPrompt" layoutX="450.0" layoutY="646.0" text="Sign-up successful!" />
+      <Label fx:id="signUpPrompt" layoutX="450.0" layoutY="646.0" text="Sign-up Successful!" />
    </children>
 </AnchorPane>
