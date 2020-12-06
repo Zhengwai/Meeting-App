@@ -66,7 +66,7 @@ public class UserDataMapper implements UserDataGateway {
                 String rawFriends = (String) rs.getObject("friends");
                 if (rawFriends != null) {
                     rawFriends = rawFriends.substring(1, rawFriends.length() - 1); // Remove the "[" and "]" from string
-                    String[] friendList = rawFriends.split(",");
+                    String[] friendList = rawFriends.split(", ");
 
                     for (String s: friendList) {
                         u.addFriend(UUID.fromString(s));

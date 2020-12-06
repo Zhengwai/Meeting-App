@@ -2,7 +2,7 @@ package users;
 
 import entities.User;
 import gateways.UserGateway;
-import org.junit.Test;
+import org.testng.annotations.Test;
 //import org.testing.annotations.Test;
 import use_cases.UserManager;
 

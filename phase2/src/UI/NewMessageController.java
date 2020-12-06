@@ -68,17 +68,17 @@ public class NewMessageController extends GeneralController implements Initializ
                 mainModel.getUm().getAllNonFriendNames(mainModel.getCurrentUser().getID()));
         chooseNewFriend.getItems().setAll(notFriends);
 
-        notFriends.addListener(new ListChangeListener() {
-            @Override
-            public void onChanged(ListChangeListener.Change c) {
-                System.out.println("Detected a change!");
-                while(c.next()){
-                    if(c.wasRemoved()){
+        //notFriends.addListener(new ListChangeListener() {
+        //    @Override
+        //    public void onChanged(ListChangeListener.Change c) {
+        //        System.out.println("Detected a change!");
+        //        while(c.next()){
+        //            if(c.wasRemoved()){
 
-                    }
-                }
-            }
-        });
+        //            }
+        //        }
+        //    }
+        //});
 
 
     }
