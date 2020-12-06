@@ -25,6 +25,7 @@ public class UserManager implements Serializable{
      * Initializes this UserManager.
      */
     public UserManager() {
+        allUsers = udg.fetchAllUsers();
     }
 
     /**
@@ -78,11 +79,15 @@ public class UserManager implements Serializable{
      */
     public boolean addFriends(UUID userID1, UUID userID2) {
         User user1 = getUserByID(userID1);
+        System.out.println(user1.getUsername());
         User user2 = getUserByID(userID2);
+        System.out.println(user2.getUsername());
         if (!user1.isFriendWithID(user2.getID())){
             if(!user2.isFriendWithID(user1.getID())){
                 user1.addFriend(user2.getID());
                 user2.addFriend(user1.getID());
+                udg.updateUserFriends(userID1, user1.getFriends());
+                udg.updateUserFriends(userID2, user2.getFriends());
                 return true;
             }
         }
@@ -112,7 +117,7 @@ public class UserManager implements Serializable{
      * @return the first user found with its username matching with <code>name</code>.
      */
     public User getUserByName(String name) {
-        for (User u:udg.fetchAllUsers()) {
+        for (User u:allUsers) {
             if (u.getUsername().equals(name)) {
                 return u;
             }
@@ -126,7 +131,7 @@ public class UserManager implements Serializable{
      * @return the user that matches the <code>id</code>. If no use is found, return <code>NotFoundUser</code>.
      */
     public User getUserByID(UUID id){
-        for (User u:udg.fetchAllUsers()){
+        for (User u:allUsers){
             if (u.getID().equals(id)){
                 return u;
             }
@@ -218,7 +223,7 @@ public class UserManager implements Serializable{
      */
     public ArrayList<User> getAllAttendees() {
         ArrayList<User> attendees = new ArrayList<>();
-        for (User u:udg.fetchAllUsers()){
+        for (User u:allUsers){
             if (u.getType().equals("a")){
                 attendees.add(u);
             }
@@ -267,7 +272,7 @@ public class UserManager implements Serializable{
 
 
     public User verifyLogin(String username, String password){
-        for (User u : udg.fetchAllUsers()){
+        for (User u : allUsers){
             if (u.getUsername().equals(username)){
                 if (u.getPassword().equals(password)){
                     return u;
@@ -278,7 +283,7 @@ public class UserManager implements Serializable{
     }
 
     public boolean isValidUserName(String username){
-        for (User u:udg.fetchAllUsers()){
+        for (User u:allUsers){
             if (u.getUsername().equals(username)){
                 return false;
             }
@@ -291,9 +296,11 @@ public class UserManager implements Serializable{
         List<String> friendNames = new ArrayList<String>();
         try {
             ArrayList<UUID> friendID = getAllFriendIDs(userID);
+            System.out.println(friendID.size());
             for(UUID f: friendID){
                 friendNames.add(getUserByID(f).getUsername());
             }
+            System.out.println(friendNames.size());
             return friendNames;
         } catch (NullPointerException e) {
             System.out.println("This user has no friends.");
@@ -306,7 +313,7 @@ public class UserManager implements Serializable{
         List<String> nonFriendNames = new ArrayList<String>();
         try {
             ArrayList<UUID> friendID = getAllFriendIDs(userID);
-            ArrayList<User> all = udg.fetchAllUsers();
+            ArrayList<User> all = allUsers;
             for(User u: all){
                 if(!friendID.contains(u.getID()) && !u.getID().equals(user.getID())){
                     nonFriendNames.add(u.getUsername());

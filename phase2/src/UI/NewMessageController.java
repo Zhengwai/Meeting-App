@@ -1,5 +1,8 @@
 package UI;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -8,9 +11,9 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 
+import javax.security.auth.Subject;
 import java.net.URL;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class NewMessageController extends GeneralController implements Initializable {
     @FXML
@@ -22,11 +25,20 @@ public class NewMessageController extends GeneralController implements Initializ
     @FXML
     ListView messageHistory;
 
+    ObservableList<String> notFriends;
+
+    List<Observer> observers;
+
+    MessageMenuController mmc = new MessageMenuController();
 
     public NewMessageController() throws ClassNotFoundException {
     }
 
+    public void updateNotFriends(String newFriend){
+        notFriends.remove(newFriend);
+        chooseNewFriend.getItems().setAll(notFriends);
 
+    }
 
     public void handleSendButton(ActionEvent actionEvent) {
         String newFriend = (String) chooseNewFriend.getValue();
@@ -35,6 +47,16 @@ public class NewMessageController extends GeneralController implements Initializ
         String myMessage = messageBox.getText();
         messageHistory.getItems().setAll("Me: " + myMessage);
 
+        if(mainModel.getUm().getAllFriendNames(mainModel.getCurrentUser().getID()).size() > 0){
+            for(String s: mainModel.getUm().getAllFriendNames(mainModel.getCurrentUser().getID())){
+                System.out.println(s);
+            }
+        } else{
+            System.out.println("Friend List is Empty");
+        }
+
+        updateNotFriends(newFriend);
+
         //TODO: transition to chat after first message is sent
         //TODO: add functionality (link to message system)
 
@@ -42,8 +64,22 @@ public class NewMessageController extends GeneralController implements Initializ
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        System.out.println("does the controller " + mainModel.getCurrentUser().getUsername());
-        List<String> notFriends = mainModel.getUm().getAllNonFriendNames(mainModel.getCurrentUser().getID());
+        notFriends = FXCollections.observableList(
+                mainModel.getUm().getAllNonFriendNames(mainModel.getCurrentUser().getID()));
         chooseNewFriend.getItems().setAll(notFriends);
+
+        notFriends.addListener(new ListChangeListener() {
+            @Override
+            public void onChanged(ListChangeListener.Change c) {
+                System.out.println("Detected a change!");
+                while(c.next()){
+                    if(c.wasRemoved()){
+
+                    }
+                }
+            }
+        });
+
+
     }
 }

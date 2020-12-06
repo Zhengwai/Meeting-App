@@ -148,7 +148,7 @@ public class UserDataMapper implements UserDataGateway {
     @Override
     public void updateUserFriends(UUID userID, ArrayList<UUID> newFriendsList) {
         try {
-            db.updateUserEvents(userID, newFriendsList);
+            db.updateUserFriends(userID, newFriendsList);
         } catch (SQLException e) {
             System.out.println("Something went wrong trying to update this user's friends.");
         }

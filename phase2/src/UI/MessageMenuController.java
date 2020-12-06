@@ -78,22 +78,10 @@ public class MessageMenuController extends GeneralController implements Initiali
         System.out.println(mainModel.getCurrentUser().getUsername());
         UUID user = mainModel.getCurrentUser().getID();
         List<String> friends = mainModel.getUm().getAllFriendNames(user);
-        //List<String> friendshaha = new ArrayList<>();
-        //friendshaha.add(user);
-        /*
-        if(friendshaha.size() > 0) {
-            for (String friend : friendshaha) {
-                myMessageList.getItems().add(friend);
-            }
+        if(friends.size() > 0){
+            myMessageList.getItems().setAll(friends);
+        } else{
+            myMessageList.setPlaceholder(new Label("No Messages"));
         }
-        else{
-            myMessageList.setPlaceholder(new Label("No Content In List"));
-        }
-        //myMessageList.getItems().add("a");
-        //myMessageList.setItems(myFriends);
-        )
-         */
-
-        myMessageList.setPlaceholder(new Label("No Messages"));
     }
 }
