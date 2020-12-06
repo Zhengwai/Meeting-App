@@ -30,49 +30,37 @@ public class MessageMenuController extends GeneralController implements Initiali
     @FXML
     BorderPane messageMain;
     @FXML
-    ComboBox chooseNewFriend;
+    ChoiceBox chooseNewFriend;
     @FXML
     ListView myMessageList;
     @FXML
     BorderPane subPane;
+    @FXML
+    TextField message;
+    @FXML
+    ListView messageHistory;
+
 
     SendeeHolder sendee = SendeeHolder.getInstance();
 
-    private ObservableList<String>  friends = FXCollections.observableArrayList("Jenn","Joe","Sherry", "Eunice");
+    ObservableList<String> notFriends;
+
+    private ObservableList<String>  friends;
 
     public MessageMenuController() throws ClassNotFoundException {
     }
 
-    public void buildNewMessageSurroundings(){
-        Label toLabel = new Label("To: ");
-
-        ComboBox<String> newFriends = new ComboBox<String>();
-
-        newFriends.getItems().setAll(mainModel.getUm().getAllNonFriendNames(mainModel.getCurrentUser().getID()));
-
-        HBox hbox = new HBox(toLabel, newFriends);
-
-        subPane.setTop(hbox);
-
-        TextField messageField = new TextField();
-        messageField.setPromptText("Enter your message");
-
-        Button send = new Button("Send");
-
-        HBox bottom = new HBox(messageField, send);
-
-        subPane.setBottom(bottom);
-    }
-
-    public void buildMessageUserSurroundings(){
-
-    }
-
     public void handleNewMessage(ActionEvent actionEvent) throws IOException {
-        //buildNewMessageSurroundings();
-        FxmlLoaderMessage object = new FxmlLoaderMessage();
-        Pane view = object.getPage("NewMessage.fxml");
-        messageMain.setCenter(view);
+        buildNewMessage();
+        messageMain.setCenter(subPane);
+        messageHistory.getItems().clear();
+        subPane.setVisible(true);
+    }
+
+    public void buildNewMessage(){
+        notFriends = FXCollections.observableList(
+                mainModel.getUm().getAllNonFriendNames(mainModel.getCurrentUser().getID()));
+        chooseNewFriend.getItems().setAll(notFriends);
     }
 
     @Override
@@ -80,12 +68,13 @@ public class MessageMenuController extends GeneralController implements Initiali
         //System.out.println(mainModel);
         System.out.println(mainModel.getCurrentUser().getUsername());
         UUID user = mainModel.getCurrentUser().getID();
-        List<String> friends = mainModel.getUm().getAllFriendNames(user);
+        friends = FXCollections.observableList(mainModel.getUm().getAllFriendNames(user));
         if(friends.size() > 0){
             myMessageList.getItems().setAll(friends);
         } else{
             myMessageList.setPlaceholder(new Label("No Messages"));
         }
+        subPane.setVisible(false);
     }
 
     public void handleSelectChat(MouseEvent mouseEvent) {
@@ -96,5 +85,30 @@ public class MessageMenuController extends GeneralController implements Initiali
         messageMain.setCenter(view);
         System.out.println(sendee);
 
+    }
+
+    public void handleSendNewAction(ActionEvent actionEvent) {
+
+        String newFriend = (String) chooseNewFriend.getValue();
+        System.out.println(newFriend);
+        String myMessage = message.getText();
+        messageHistory.getItems().setAll("Me: " + myMessage);
+        mainModel.getUm().addFriends(mainModel.getCurrentUser().getID(),
+                mainModel.getUm().getUserByName(newFriend).getID());
+
+        UUID conID = mainModel.getCm().newConversation();
+        mainModel.getCm().addUserToConversation(conID, mainModel.getCurrentUser().getID());
+        mainModel.getCm().addUserToConversation(conID, mainModel.getUm().getUserByName(newFriend).getID());
+
+        this.message.setText("");
+
+        updateLists(newFriend);
+    }
+
+    public void updateLists(String friend){
+        friends.add(friend);
+        notFriends.remove(friend);
+        chooseNewFriend.getItems().setAll(notFriends);
+        myMessageList.getItems().setAll(friends);
     }
 }
