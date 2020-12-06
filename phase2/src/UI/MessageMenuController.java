@@ -66,10 +66,10 @@ public class MessageMenuController extends GeneralController implements Initiali
     }
 
     public void handleNewMessage(ActionEvent actionEvent) throws IOException {
-        buildNewMessageSurroundings();
-        //FxmlLoaderMessage object = new FxmlLoaderMessage();
-        //Pane view = object.getPage("NewMessage.fxml");
-        //messageMain.setCenter(view);
+        //buildNewMessageSurroundings();
+        FxmlLoaderMessage object = new FxmlLoaderMessage();
+        Pane view = object.getPage("NewMessage.fxml");
+        messageMain.setCenter(view);
     }
 
     @Override
