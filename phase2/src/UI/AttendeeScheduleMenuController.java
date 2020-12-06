@@ -1,5 +1,6 @@
 package UI;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
 public class AttendeeScheduleMenuController extends ScheduleMenuController{
@@ -8,8 +9,7 @@ public class AttendeeScheduleMenuController extends ScheduleMenuController{
     public AttendeeScheduleMenuController() throws ClassNotFoundException {
     }
 
-    @FXML
-    private void signUpButtonOnAction(){
+    public void signUpButtonOnAction(ActionEvent event) {
 
     }
 }

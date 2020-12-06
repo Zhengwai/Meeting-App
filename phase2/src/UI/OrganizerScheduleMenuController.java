@@ -21,6 +21,6 @@ public class OrganizerScheduleMenuController extends ScheduleMenuController{
     }
 
     public void cancelEventButtonOnAction(ActionEvent event) {
-        
+        OrganizerCancelEventAlertBox.display();
     }
 }
