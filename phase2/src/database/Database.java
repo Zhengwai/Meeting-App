@@ -5,6 +5,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.UUID;
 
+//TODO: Needs to be refactored after all functionality implemented (Facade?)
 public class Database {
     private Connection conn;
     private Statement stmt;
@@ -77,6 +78,82 @@ public class Database {
         ps.execute();
     }
 
+    protected void insertNewMessage(UUID messageID, String body, UUID senderID,  Date timeSent) throws SQLException {
+        String sql = " INSERT INTO users (uuid, body, senderID, timeSent)"
+                + " VALUES (?, ?, ?, ?);";
+        PreparedStatement ps = conn.prepareStatement(sql);
+
+        ps.setString(1, messageID.toString());
+        ps.setString(2, body);
+        ps.setString(3, senderID.toString());
+        ps.setDate(4, timeSent);
+        ps.execute();
+    }
+
+    protected ResultSet getAllMessages() throws SQLException {
+        String sql = "SELECT * FROM messages;";
+        ResultSet rs = stmt.executeQuery(sql);
+        return rs;
+    }
+
+    protected ResultSet getAllUserMessages(UUID userID) throws SQLException {
+        String sql = "SELECT * FROM messages WHERE senderID = " + userID.toString() + ";";
+        ResultSet rs = stmt.executeQuery(sql);
+        return rs;
+    }
+
+    protected void insertNewConversation(UUID conID, ArrayList<UUID> members, String name, int readOnly, UUID owner) throws SQLException {
+        String sql = " INSERT INTO conversations (conID, members, convName, readonly, owner, unreadMessages)";
+        PreparedStatement ps = conn.prepareStatement(sql);
+
+        ps.setString(1, conID.toString());
+        ps.setObject(2, members);
+        ps.setString(3, name);
+        ps.setInt(4, readOnly);
+        ps.setString(5, owner.toString());
+    }
+
+    protected ResultSet getAllConversations() throws SQLException {
+        String sql = "SELECT * FROM conversations;";
+        ResultSet rs = stmt.executeQuery(sql);
+        return rs;
+    }
+
+    protected void updateConversationMembers(UUID conID, ArrayList<UUID> newMembers) throws SQLException {
+        String sql = " UPDATE messages SET members = ? WHERE uuid = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+
+        ps.setObject(1, newMembers);
+        ps.setString(2, conID.toString());
+        ps.execute();
+    }
+
+    protected void updateConversationName(UUID conID, String newName) throws SQLException {
+        String sql = " UPDATE messages SET name = ? WHERE uuid = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+
+        ps.setString(1, newName);
+        ps.setString(2, conID.toString());
+        ps.execute();
+    }
+
+    protected void updateConversationReadOnly(UUID conID, boolean readOnly) throws SQLException {
+        String sql = " UPDATE messages SET readOnly  = ? WHERE uuid = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+
+        ps.setInt(1, readOnly ? 1 : 0);
+        ps.setString(2, conID.toString());
+        ps.execute();
+    }
+
+    protected void updateConversationOwner(UUID conID, UUID newOwnerID) throws SQLException {
+        String sql = " UPDATE messages SET members = ? WHERE uuid = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+
+        ps.setString(1, newOwnerID.toString());
+        ps.setString(2, conID.toString());
+        ps.execute();
+    }
     /**
      * Attempts to create a connection to the MySQLite database.
      * Creates a database if there already isn't one.
@@ -114,21 +191,33 @@ public class Database {
                 + " events object"
                 + ");";
 
-        /*String sqlMsgs = "CREATE TABLE IF NOT EXISTS messages (\n"
-                + "	id blob PRIMARY KEY,\n"
-                + "	body text NOT NULL,\n"
-                + "	timeSent blob NOT NULL,\n"
+        String sqlMsgs = "CREATE TABLE IF NOT EXISTS messages ("
+                + "	id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + " uuid text NOT NULL,"
+                + " body text NOT NULL,"
+                + " senderID text NOT NULL,"
+                + "	timeSent date NOT NULL"
                 + ");";
+
+        String sqlConvos = "CREATE TABLE IF NOT EXISTS conversations ("
+                + " id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + " uuid text NOT NULL,"
+                + " members object NOT NULL,"
+                + " convName text,"
+                + " readonly TINYINT NOT NULL,"
+                + " owner text,"
+                + " unreadMessages object";
 
         String sqlEvts = "CREATE TABLE IF NOT EXISTS events (\n"
                 + "	id blob PRIMARY KEY,\n"
                 + "	name text NOT NULL,\n"
                 + "	capacity blob NOT NULL,\n"
                 + " attendees blob, \n"
-                + ");";*/
+                + ");";
 
         stmt.execute(sqlUsers);
-        //stmt.execute(sqlMsgs);
+        stmt.execute(sqlMsgs);
+        stmt.execute(sqlConvos);
         //stmt.execute(sqlEvts);
     }
 }

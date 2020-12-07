@@ -19,7 +19,7 @@ public class DatabaseTesting {
         UUID dummyID = newUser.getID();
         UUID randomID1 = UUID.randomUUID();
         UUID randomID2 = UUID.randomUUID();
-        ArrayList<UUID> test = new ArrayList<UUID>();
+        ArrayList<UUID> test = new ArrayList<>();
 
         test.add(randomID1);
         test.add(randomID2);

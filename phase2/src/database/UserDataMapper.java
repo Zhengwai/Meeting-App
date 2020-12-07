@@ -15,11 +15,6 @@ public class UserDataMapper implements UserDataGateway {
         db = new Database();
     }
 
-    /**
-     * Retrieves all user data from the database and creates an instance of all of them.
-     * As of now the database only stores the user's ID, username and password.
-     * @return An ArrayList of all Users in the database.
-     */
     @Override
     public ArrayList<User> fetchAllUsers() {
         try {
@@ -84,10 +79,6 @@ public class UserDataMapper implements UserDataGateway {
         }
     }
 
-    /**
-     * Inserts a new user (from signing up) into the database.
-     * @param newUser The new user to be stored.
-     */
     @Override
     public void insertNewUser(User newUser) {
         try {
@@ -98,11 +89,6 @@ public class UserDataMapper implements UserDataGateway {
         }
     }
 
-    /**
-     * Updates a given user's type in the database.
-     * @param userID The ID of the user who's type will change.
-     * @param newType The new type of user ("a", "o", "v", "User").
-     */
     @Override
     public void updateUserType(UUID userID, String newType) {
         try {
@@ -112,11 +98,6 @@ public class UserDataMapper implements UserDataGateway {
         }
     }
 
-    /**
-     * Updates a given user's password in the database.
-     * @param userID The ID of the user who's password will change.
-     * @param newPassword The new password for this user.
-     */
     @Override
     public void updateUserPassword(UUID userID, String newPassword) {
         try {
@@ -126,11 +107,6 @@ public class UserDataMapper implements UserDataGateway {
         }
     }
 
-    /**
-     * Updates a given user's list of event ID's in the database.
-     * @param userID The ID of the user who's events are being updated.
-     * @param newEventsList The new list of event IDs to be replaced.
-     */
     @Override
     public void updateUserEvents(UUID userID, ArrayList<UUID> newEventsList) {
         try {
@@ -140,11 +116,6 @@ public class UserDataMapper implements UserDataGateway {
         }
     }
 
-    /**
-     * Update a given user's list of friends in the database.
-     * @param userID  The ID of the user who's events are being updated.
-     * @param newFriendsList The new list of friend IDs to be replaced.
-     */
     @Override
     public void updateUserFriends(UUID userID, ArrayList<UUID> newFriendsList) {
         try {
