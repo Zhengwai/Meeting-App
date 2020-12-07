@@ -79,7 +79,7 @@ public class Database {
     }
 
     protected void insertNewMessage(UUID messageID, String body, UUID senderID,  Date timeSent) throws SQLException {
-        String sql = " INSERT INTO users (uuid, body, senderID, timeSent)"
+        String sql = " INSERT INTO messages (uuid, body, senderID, timeSent)"
                 + " VALUES (?, ?, ?, ?);";
         PreparedStatement ps = conn.prepareStatement(sql);
 
@@ -168,6 +168,9 @@ public class Database {
             conn = DriverManager.getConnection("jdbc:sqlite:phase2.db");
             stmt = conn.createStatement();
             createTables();
+
+            UUID adminID = UUID.fromString("37ce95a7-b11f-4bc1-938e-4ab8b5b5d225");
+            insertUser(adminID, "organizerAdmin", "organizerAdmin", "o");
 
         } catch (IllegalAccessException | InstantiationException | SQLException | ClassNotFoundException e) {
             System.out.println("Something went wrong trying to access the database.");
