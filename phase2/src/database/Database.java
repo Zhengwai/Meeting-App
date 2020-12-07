@@ -209,7 +209,8 @@ public class Database {
                 + " convName text,"
                 + " readonly TINYINT NOT NULL,"
                 + " owner text,"
-                + " unreadMessages object";
+                + " unreadMessages object"
+                + ");";
 
         String sqlEvts = "CREATE TABLE IF NOT EXISTS events (\n"
                 + "	id blob PRIMARY KEY,\n"
