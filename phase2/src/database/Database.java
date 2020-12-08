@@ -3,6 +3,7 @@ package database;
 import java.io.File;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 //TODO: Needs to be refactored after all functionality implemented (Facade?)
@@ -103,7 +104,8 @@ public class Database {
     }
 
     protected void insertNewConversation(UUID conID, ArrayList<UUID> members, String name, int readOnly, UUID owner) throws SQLException {
-        String sql = " INSERT INTO conversations (conID, members, convName, readonly, owner, unreadMessages)";
+        String sql = " INSERT INTO conversations (conID, members, convName, readonly, owner, unreadMessages)"
+                + " VALUES (?, ?, ?, ?, ?, ?)";
         PreparedStatement ps = conn.prepareStatement(sql);
 
         ps.setString(1, conID.toString());
@@ -153,6 +155,48 @@ public class Database {
         ps.setString(1, newOwnerID.toString());
         ps.setString(2, conID.toString());
         ps.execute();
+    }
+
+    protected void insertNewEvent(UUID eventID, String name, int capacity) throws SQLException {
+        String sql = " INSERT INTO events (uuid, name, capacity)"
+                + "VALUES (?, ?, ?);";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1, eventID.toString());
+        ps.setString(2, name);
+        ps.setInt(3, capacity);
+    }
+
+    protected void updateEventName(UUID eventID, String newName) throws SQLException {
+        String sql = " UPDATE events SET name  = ? WHERE uuid = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+
+        ps.setString(1, newName);
+        ps.setString(2, eventID.toString());
+        ps.execute();
+    }
+
+    protected void updateEventCapacity(UUID eventID, int newCapacity) throws SQLException {
+        String sql = " UPDATE events SET capacity  = ? WHERE uuid = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+
+        ps.setInt(1, newCapacity);
+        ps.setString(2, eventID.toString());
+        ps.execute();
+    }
+
+    protected void updateEventAttendees(UUID eventID, List<UUID> newAttendees) throws SQLException {
+        String sql = " UPDATE messages SET attendees  = ? WHERE uuid = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+
+        ps.setObject(1, newAttendees);
+        ps.setString(2, eventID.toString());
+        ps.execute();
+    }
+
+    protected ResultSet getAllEvents() throws SQLException {
+        String sql = "SELECT * FROM events;";
+        ResultSet rs = stmt.executeQuery(sql);
+        return rs;
     }
     /**
      * Attempts to create a connection to the MySQLite database.
@@ -212,16 +256,17 @@ public class Database {
                 + " unreadMessages object"
                 + ");";
 
-        String sqlEvts = "CREATE TABLE IF NOT EXISTS events (\n"
-                + "	id blob PRIMARY KEY,\n"
-                + "	name text NOT NULL,\n"
-                + "	capacity blob NOT NULL,\n"
-                + " attendees blob, \n"
+        String sqlEvts = "CREATE TABLE IF NOT EXISTS events ("
+                + "	id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + " uuid text NOT NULL,"
+                + "	name text NOT NULL,"
+                + "	capacity INTEGER NOT NULL,"
+                + " attendees object"
                 + ");";
 
         stmt.execute(sqlUsers);
         stmt.execute(sqlMsgs);
         stmt.execute(sqlConvos);
-        //stmt.execute(sqlEvts);
+        stmt.execute(sqlEvts);
     }
 }
