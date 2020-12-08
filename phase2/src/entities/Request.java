@@ -1,17 +1,17 @@
 package entities;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
 /**
  * Entity class for a specific user request
  */
-public class Request {
+public class Request implements Serializable{
     private User requestingUser;
     private String requestText;
     private HashSet<String> tags;
     private boolean resolved;
-    // TODO: 11/28/2020 try catch for illegal arguments
 
     /**
      * Creates a new request with a User and text. A new request has no tags initially.
@@ -59,7 +59,6 @@ public class Request {
      */
     public void editRequestText(String newText){
         this.requestText = newText;
-        // TODO: 11/28/2020 try catch for illegal input
     }
 
     /**

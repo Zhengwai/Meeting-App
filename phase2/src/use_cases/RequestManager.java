@@ -2,6 +2,7 @@ package use_cases;
 
 import entities.Request;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -9,7 +10,7 @@ import java.util.Iterator;
 /**
  * Use case class for special user requests
  */
-public class RequestManager {
+public class RequestManager implements Serializable {
     private ArrayList<Request> requestArrayList;
 
     /**
@@ -38,7 +39,7 @@ public class RequestManager {
      * return all the tags such that at least one request in the request manager has such a tag
      * @return an HashSet of tags
      */
-    public HashSet<String> getTags() {
+    public HashSet<String> getAllTags() {
         HashSet<String> tags = new HashSet<>();
 
         for (Request request : this.requestArrayList) {
@@ -48,11 +49,11 @@ public class RequestManager {
     }
 
     /**
-     * search the RequestManager for all requests with the specified tag
+     * search the RequestManager for all requests with the specified tag. If no requests with specified tag,
+     * return an empty ArrayList.
      * @param tag the tag we are searching for
      * @return an ArrayList of the request with the specified tag
      */
-    // TODO: 11/28/2020 what to do if the is no request with such tag, try catch block maybe?
     public ArrayList<Request> getRequestByTag(String tag){
         ArrayList<Request> filteredRequests = new ArrayList<>();
         for (Request request : this.requestArrayList){
