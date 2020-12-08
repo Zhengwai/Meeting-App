@@ -1,7 +1,11 @@
 package use_cases;
 
+import database.MessageDataMapper;
+import database.UserDataMapper;
 import entities.Conversation;
 import entities.Message;
+import gateways.MessageDataGateway;
+import gateways.UserDataGateway;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -16,6 +20,7 @@ import java.util.UUID;
 public class ConversationManager implements Serializable {
     private final Map<UUID, Conversation> allConversations;
     private final Map<UUID, Message> allMessages;
+    private MessageDataGateway mdg = new MessageDataMapper();
     /**
      * Initialize ConversationManager with no conversations
      */
@@ -31,6 +36,7 @@ public class ConversationManager implements Serializable {
     public UUID newConversation() {
         Conversation c = new Conversation();
         this.allConversations.put(c.getID(), c);
+        mdg.insertConversation(c);
         return c.getID();
     }
 
@@ -318,3 +324,4 @@ public class ConversationManager implements Serializable {
         return out;
     }
 }
+

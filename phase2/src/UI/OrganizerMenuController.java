@@ -29,4 +29,7 @@ public class OrganizerMenuController extends MenuController{
         showEvent("OrganizerCreateAccount.fxml");
     }
 
+    public void handleMessageAction(ActionEvent actionEvent) throws IOException {
+        showEvent("MainMessage.fxml");
+    }
 }
