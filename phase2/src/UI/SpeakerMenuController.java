@@ -3,6 +3,9 @@ package UI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+
+import java.io.IOException;
+
 /**
  * A controller for the menu layout of an Speaker user.
  */
@@ -25,4 +28,7 @@ public class SpeakerMenuController extends MenuController{
         //TODO:
     }
 
+    public void handleMessageButton(ActionEvent actionEvent) throws IOException {
+        showEvent("MainMessage.fxml");
+    }
 }

@@ -17,7 +17,7 @@ import java.util.UUID;
 /**
  * A use case class for user that manages user related activities.
  */
-public class UserManager implements Serializable, Observable {
+public class UserManager implements Serializable {
     private ArrayList<User> allUsers = new ArrayList<>();
     public User NotFoundUser = new User("NotFound", "NotFound");
     private UserDataGateway udg = new UserDataMapper();
@@ -326,15 +326,5 @@ public class UserManager implements Serializable, Observable {
             nonFriendNames.add("You're pals with everyone");
             return nonFriendNames;
         }
-    }
-    
-    @Override
-    public void addListener(InvalidationListener listener) {
-
-    }
-
-    @Override
-    public void removeListener(InvalidationListener listener) {
-
     }
 }

@@ -214,7 +214,7 @@ public class Database {
             createTables();
 
             UUID adminID = UUID.fromString("37ce95a7-b11f-4bc1-938e-4ab8b5b5d225");
-            insertUser(adminID, "organizerAdmin", "organizerAdmin", "o");
+            //insertUser(adminID, "organizerAdmin", "organizerAdmin", "o");
 
         } catch (IllegalAccessException | InstantiationException | SQLException | ClassNotFoundException e) {
             System.out.println("Something went wrong trying to access the database.");

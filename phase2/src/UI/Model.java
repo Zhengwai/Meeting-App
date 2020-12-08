@@ -7,7 +7,7 @@ import use_cases.ConversationManager;
 import use_cases.EventManager;
 import use_cases.UserManager;
 
-public class Model {
+public final class Model {
     private static UserManager um;
 
     private static EventManager em;
@@ -28,8 +28,9 @@ public class Model {
     }
 
     public Model() throws ClassNotFoundException {
-        this.um = ug.deserializeUserManager("phase2/src/use_cases/UserManager.ser");
-        this.em = eg.deserializeEM("phase2/src/use_cases/EventManager.ser");
+        this.um = new UserManager();
+        this.em = new EventManager();
+        this.cm = new ConversationManager();
     }
 
     public UserManager getUm() {
@@ -42,10 +43,6 @@ public class Model {
 
     public ConversationManager getCm() {
         return cm;
-    }
-
-    public String toString(){
-        return "Hi";
     }
 
 }

@@ -40,10 +40,12 @@ public class MessageMenuController extends GeneralController implements Initiali
     ListView messageHistory;
     @FXML
     ChoiceBox filterMessages;
+    @FXML
+    ChoiceBox newMessageType;
 
     ContextMenu contextMenu;
 
-    SendeeHolder sendee = SendeeHolder.getInstance();
+    ConversationHolder ch = ConversationHolder.getInstance();
 
     MessageBuilder mb = new MessageBuilder();
 
@@ -52,16 +54,12 @@ public class MessageMenuController extends GeneralController implements Initiali
     List<String> filterOptions = new ArrayList<String>(
             Arrays.asList("All Messages", "Unread Messages", "Archived Messages"));
 
-
-
-
-    private ObservableList<String> friends;
+    private ObservableList<String> conversations;
 
     public MessageMenuController() throws ClassNotFoundException {
     }
 
     public void handleNewMessage(ActionEvent actionEvent) throws IOException {
-
         buildNewMessage();
         messageMain.setCenter(subPane);
         messageHistory.getItems().clear();
@@ -79,11 +77,13 @@ public class MessageMenuController extends GeneralController implements Initiali
     public void initialize(URL location, ResourceBundle resources) {
         myMessageList.setContextMenu(mb.buildContextMenu());
         filterMessages.getItems().setAll(filterOptions);
-        System.out.println(mainModel.getCurrentUser().getUsername());
+        if(mainModel.getCurrentUser().getType().equals("s") | mainModel.getCurrentUser().getType().equals("o")){
+            newMessageType.setDisable(false);
+        }
         UUID user = mainModel.getCurrentUser().getID();
-        friends = FXCollections.observableList(mainModel.getUm().getAllFriendNames(user));
-        if (friends.size() > 0) {
-            myMessageList.getItems().setAll(friends);
+        conversations = FXCollections.observableList(mb.buildMyConversations(mainModel.getCm().getUserConversationsNotArchived(user)));
+        if (conversations.size() > 0) {
+            myMessageList.getItems().setAll(conversations);
         } else {
             myMessageList.setPlaceholder(new Label("No Messages"));
         }
@@ -97,7 +97,7 @@ public class MessageMenuController extends GeneralController implements Initiali
             contextMenu = new ContextMenu();
         } else {
             String recipient = (String) myMessageList.getSelectionModel().getSelectedItem();
-            sendee.setSendee(mainModel.getUm().getUserByName(recipient).getID());
+            ch.setConversation(mainModel.getUm().getUserByName(recipient).getID());
             messageMain.setCenter(mb.chatBuilder());
         }
     }
@@ -111,10 +111,12 @@ public class MessageMenuController extends GeneralController implements Initiali
         mainModel.getUm().addFriends(mainModel.getCurrentUser().getID(),
                 mainModel.getUm().getUserByName(newFriend).getID());
 
-        //TODO: add the functionality needed for creating a conversation, etc.
-        //UUID conID = mainModel.getCm().newConversation();
-        //mainModel.getCm().addUserToConversation(conID, mainModel.getCurrentUser().getID());
-        //mainModel.getCm().addUserToConversation(conID, mainModel.getUm().getUserByName(newFriend).getID());
+        UUID conID = mainModel.getCm().newConversation();
+        mainModel.getCm().addUserToConversation(conID, mainModel.getCurrentUser().getID());
+        mainModel.getCm().addUserToConversation(conID, mainModel.getUm().getUserByName(newFriend).getID());
+
+        ch.setConversation(conID);
+        messageMain.setCenter(mb.chatBuilder());
 
         this.message.setText("");
 
@@ -122,9 +124,11 @@ public class MessageMenuController extends GeneralController implements Initiali
     }
 
     public void updateLists(String friend){
-        friends.add(friend);
+        conversations.add(friend);
         notFriends.remove(friend);
         chooseNewFriend.getItems().setAll(notFriends);
-        myMessageList.getItems().setAll(friends);
+        myMessageList.getItems().setAll(conversations);
     }
+
+
 }

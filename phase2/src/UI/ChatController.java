@@ -31,9 +31,11 @@ public class ChatController extends GeneralController implements Initializable {
     @FXML
     BorderPane chatPane;
 
-    SendeeHolder sendee = SendeeHolder.getInstance();
+    ConversationHolder ch = ConversationHolder.getInstance();
 
     ObservableList<String> conversation;
+
+    MessageBuilder mb = new MessageBuilder();
 
     public ChatController() throws ClassNotFoundException {
     }
@@ -44,6 +46,8 @@ public class ChatController extends GeneralController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        sendeeLabel.setText(mainModel.getUm().getUserByID(sendee.getSendee()).getUsername());
+        //sendeeLabel.setText(mainModel.getUm().getUserByID(sendee.getSendee()).getUsername());
+        messageHistory.getItems().setAll(mb.buildChatContents(mainModel.getCm().
+                getUserUnreadMessages(ch.getConversation(), mainModel.getCurrentUser().getID())));
     }
 }
