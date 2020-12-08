@@ -45,10 +45,15 @@ public class MessageMenuController extends GeneralController implements Initiali
 
     SendeeHolder sendee = SendeeHolder.getInstance();
 
+    MessageBuilder mb = new MessageBuilder();
+
     ObservableList<String> notFriends;
 
     List<String> filterOptions = new ArrayList<String>(
             Arrays.asList("All Messages", "Unread Messages", "Archived Messages"));
+
+
+
 
     private ObservableList<String> friends;
 
@@ -56,12 +61,14 @@ public class MessageMenuController extends GeneralController implements Initiali
     }
 
     public void handleNewMessage(ActionEvent actionEvent) throws IOException {
+
         buildNewMessage();
         messageMain.setCenter(subPane);
         messageHistory.getItems().clear();
         subPane.setVisible(true);
     }
 
+    //Put in builder DP
     public void buildNewMessage() {
         notFriends = FXCollections.observableList(
                 mainModel.getUm().getAllNonFriendNames(mainModel.getCurrentUser().getID()));
@@ -70,7 +77,7 @@ public class MessageMenuController extends GeneralController implements Initiali
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        buildContextMenu();
+        myMessageList.setContextMenu(mb.buildContextMenu());
         filterMessages.getItems().setAll(filterOptions);
         System.out.println(mainModel.getCurrentUser().getUsername());
         UUID user = mainModel.getCurrentUser().getID();
@@ -83,42 +90,6 @@ public class MessageMenuController extends GeneralController implements Initiali
         subPane.setVisible(false);
     }
 
-    public void buildContextMenu(){
-        contextMenu = new ContextMenu();
-        MenuItem archive = new MenuItem("Archive Message");
-        MenuItem delete = new MenuItem("Delete Message");
-        MenuItem unread = new MenuItem("Set Unread");
-
-        archive.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("Archive");
-                MessageDialog.display("archive");
-            }
-        });
-
-        delete.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("Delete");
-                MessageDialog.display("delete");
-            }
-        });
-
-        unread.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("Unread");
-            }
-        });
-
-        contextMenu.getItems().add(archive);
-        contextMenu.getItems().add(delete);
-        contextMenu.getItems().add(unread);
-
-        myMessageList.setContextMenu(contextMenu);
-    }
-
     public void handleSelectChat(MouseEvent mouseEvent) {
         if(mouseEvent.getButton() == MouseButton.SECONDARY){
             String recipienttest = (String) myMessageList.getSelectionModel().getSelectedItem();
@@ -127,10 +98,7 @@ public class MessageMenuController extends GeneralController implements Initiali
         } else {
             String recipient = (String) myMessageList.getSelectionModel().getSelectedItem();
             sendee.setSendee(mainModel.getUm().getUserByName(recipient).getID());
-            FxmlLoaderMessage object = new FxmlLoaderMessage();
-            Pane view = object.getPage("Chat.fxml");
-            messageMain.setCenter(view);
-            System.out.println(sendee);
+            messageMain.setCenter(mb.chatBuilder());
         }
     }
 
@@ -143,9 +111,10 @@ public class MessageMenuController extends GeneralController implements Initiali
         mainModel.getUm().addFriends(mainModel.getCurrentUser().getID(),
                 mainModel.getUm().getUserByName(newFriend).getID());
 
-        UUID conID = mainModel.getCm().newConversation();
-        mainModel.getCm().addUserToConversation(conID, mainModel.getCurrentUser().getID());
-        mainModel.getCm().addUserToConversation(conID, mainModel.getUm().getUserByName(newFriend).getID());
+        //TODO: add the functionality needed for creating a conversation, etc.
+        //UUID conID = mainModel.getCm().newConversation();
+        //mainModel.getCm().addUserToConversation(conID, mainModel.getCurrentUser().getID());
+        //mainModel.getCm().addUserToConversation(conID, mainModel.getUm().getUserByName(newFriend).getID());
 
         this.message.setText("");
 
