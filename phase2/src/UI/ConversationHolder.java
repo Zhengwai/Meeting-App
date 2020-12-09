@@ -4,6 +4,7 @@ import java.util.UUID;
 
 public final class ConversationHolder {
     private UUID conversation;
+    private String name;
     private final static ConversationHolder INSTANCE = new ConversationHolder();
 
     private ConversationHolder(){}
@@ -18,6 +19,14 @@ public final class ConversationHolder {
 
     public UUID getConversation(){
         return conversation;
+    }
+
+    public void setConversationName(String name){
+        this.name = name;
+    }
+
+    public String getConversationName(){
+        return name;
     }
 
 }

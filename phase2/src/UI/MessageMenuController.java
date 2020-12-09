@@ -77,9 +77,16 @@ public class MessageMenuController extends GeneralController implements Initiali
     public void initialize(URL location, ResourceBundle resources) {
         myMessageList.setContextMenu(mb.buildContextMenu());
         filterMessages.getItems().setAll(filterOptions);
-        if(mainModel.getCurrentUser().getType().equals("s") | mainModel.getCurrentUser().getType().equals("o")){
+
+        //Can maybe go in builder
+        if(mainModel.getCurrentUser().getType().equals("s")){
+            newMessageType.getItems().setAll("Speaking Event", "Users");
+            newMessageType.setDisable(false);
+        } else if(mainModel.getCurrentUser().getType().equals("o")){
+            newMessageType.getItems().setAll("Speaking Event", "Users", "All Speakers", "All Users");
             newMessageType.setDisable(false);
         }
+
         UUID user = mainModel.getCurrentUser().getID();
         conversations = FXCollections.observableList(mb.buildMyConversations(mainModel.getCm().getUserConversationsNotArchived(user)));
         if (conversations.size() > 0) {
@@ -103,7 +110,15 @@ public class MessageMenuController extends GeneralController implements Initiali
     }
 
     public void handleSendNewAction(ActionEvent actionEvent) {
+        String choice = (String) newMessageType.getValue();
 
+        if(choice.equals("Speaking Event")){
+
+        } else if (choice.equals("All Speakers")){
+
+        } else if (choice.equals("All Users")){
+
+        }
         String newFriend = (String) chooseNewFriend.getValue();
         System.out.println(newFriend);
         String myMessage = message.getText();
@@ -131,4 +146,18 @@ public class MessageMenuController extends GeneralController implements Initiali
     }
 
 
+    public void folderByCategory(ActionEvent actionEvent) {
+        String choice = (String) newMessageType.getValue();
+        if(choice.equals("Speaking Event")){
+            chooseNewFriend.setDisable(false);
+            chooseNewFriend.getItems().setAll(mb.buildSpeakingEvent());
+        }
+        if(choice.equals("All Speakers") | choice.equals("All Users")){
+            chooseNewFriend.setDisable(true);
+        }
+        if(choice.equals("Users")){
+            chooseNewFriend.setDisable(false);
+            buildNewMessage();
+        }
+    }
 }

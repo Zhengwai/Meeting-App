@@ -59,6 +59,23 @@
                <top>
                   <VBox prefHeight="36.0" prefWidth="411.0" BorderPane.alignment="CENTER">
                      <children>
+                        <HBox prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <Label text="Type: ">
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <ChoiceBox fx:id="newMessageType" onAction="#folderByCategory" disable="true" prefHeight="27.0" prefWidth="352.0" value="Users">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" />
+                                 </HBox.margin>
+                              </ChoiceBox>
+                           </children>
+                        </HBox>
                         <HBox prefHeight="0.0" prefWidth="411.0">
                            <children>
                               <Label alignment="CENTER" text="To:">
@@ -78,23 +95,6 @@
                            <VBox.margin>
                               <Insets bottom="5.0" />
                            </VBox.margin>
-                        </HBox>
-                        <HBox prefHeight="100.0" prefWidth="200.0">
-                           <children>
-                              <Label text="Type: ">
-                                 <HBox.margin>
-                                    <Insets left="10.0" />
-                                 </HBox.margin>
-                                 <font>
-                                    <Font size="16.0" />
-                                 </font>
-                              </Label>
-                              <ChoiceBox fx:id="newMessageType" disable="true" prefHeight="27.0" prefWidth="352.0">
-                                 <HBox.margin>
-                                    <Insets bottom="5.0" />
-                                 </HBox.margin>
-                              </ChoiceBox>
-                           </children>
                         </HBox>
                      </children>
                   </VBox>

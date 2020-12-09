@@ -89,6 +89,15 @@ public class EventManager implements Serializable{
     public ArrayList<Event> getEvents() {
         return this.events;
     }
+
+    public ArrayList<String> getAllEventNames(){
+        ArrayList<String> eventNames = new ArrayList<>();
+        for(Event e: getEvents()){
+            eventNames.add(e.getName().toString());
+        }
+        return eventNames;
+    }
+
     /**
      * Returns all the rooms in the system.
      * @return an ArrayList of all rooms in the system.
@@ -129,6 +138,23 @@ public class EventManager implements Serializable{
         }
         return speakerEvents;
     }
+
+    /**
+     * Returns the names of all the events a speaker has been assigned to.
+     * @param user the speaker.
+     * @return an ArrayList of the event names the speaker has been assigned to.
+     */
+    public ArrayList<String> getEventNamesBySpeaker(Speaker user){
+        ArrayList<String> speakerString = new ArrayList<>();
+        ArrayList<Event> speakerEvent = getEventsBySpeaker(user);
+
+        for(Event e: speakerEvent){
+            speakerString.add(e.getName().toString());
+        }
+
+        return speakerString;
+    }
+
     /**
      * Returns the event with specific name.
      * @param name name to search for.

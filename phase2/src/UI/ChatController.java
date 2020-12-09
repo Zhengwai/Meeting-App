@@ -46,8 +46,8 @@ public class ChatController extends GeneralController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        //sendeeLabel.setText(mainModel.getUm().getUserByID(sendee.getSendee()).getUsername());
-        messageHistory.getItems().setAll(mb.buildChatContents(mainModel.getCm().
-                getUserUnreadMessages(ch.getConversation(), mainModel.getCurrentUser().getID())));
+        //sendeeLabel.setText(ch.getConversationName());
+        //messageHistory.getItems().setAll(mb.buildChatContents(mainModel.getCm().
+                //getUserUnreadMessages(ch.getConversation(), mainModel.getCurrentUser().getID())));
     }
 }
