@@ -11,10 +11,18 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class ArchiveConversationAction extends MessageAction {
-    public ArchiveConversationAction(UUID userID, UserManager um, ConversationManager cm) {
+    private UUID conID;
+
+    public ArchiveConversationAction(UUID userID, UserManager um, ConversationManager cm, UUID conID) {
         super(userID, um, cm);
+        this.conID = conID;
     }
 
+    public void run() {
+        cm.setArchivedMessage(conID, userID);
+    }
+
+    /*
     public void run() {
         this.mp = new MessagePresenter(userID, um, cm);
         ArrayList<UUID> convos = cm.getUserConversationsNotArchived(userID);
@@ -50,6 +58,7 @@ public class ArchiveConversationAction extends MessageAction {
             System.out.println("Failed to read input.");
         }
     }
+    */
 
     public String getName() {
         return "Archive A Conversation";

@@ -20,9 +20,26 @@ public abstract class MessageAllAction extends MessageAction {
     public abstract String getName();
 
     /**
-     * Helper method for messaging all people of a given list of Users
-     * @param users ArrayList of Users that are to be messaged
+     * Helper method for messaging all
+     * @param users ArrayList of users to message
+     * @param bdy Body of the message
+     * @param title Title of the message
      */
+    public void handleMessage(ArrayList<User> users, String bdy, String title) {
+        UUID conID = this.cm.newConversation();
+        cm.addUserToConversation(conID, userID);
+        cm.setUserOwner(conID, userID);
+
+        for (User value : users) {
+            cm.addUserToConversation(conID, value.getID());
+        }
+
+        cm.setConversationName(conID, title);
+        cm.sendMessageInConversation(conID, userID, bdy);
+        cm.setConversationReadOnly(conID, true);
+    }
+
+    /*
     public void handleMessageAll(ArrayList<User> users) {
         if (users.isEmpty()) {
             System.out.println("No Users to message");
@@ -54,4 +71,5 @@ public abstract class MessageAllAction extends MessageAction {
             System.out.println("Failed to read input.");
         }
     }
+    */
 }

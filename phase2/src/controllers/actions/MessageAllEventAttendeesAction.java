@@ -15,12 +15,31 @@ import java.util.UUID;
 
 public class MessageAllEventAttendeesAction extends MessageAllAction {
     private EventManager em;
+    private String body;
+    private String title;
+    private UUID eventID;
 
-    public MessageAllEventAttendeesAction(UUID userID, UserManager um, ConversationManager cm, EventManager em) {
+    public MessageAllEventAttendeesAction(UUID userID, UserManager um, ConversationManager cm, EventManager em, String body, String title, UUID eventID) {
         super(userID, um, cm);
         this.em = em;
+        this.body = body;
+        this.title = title;
+        this.eventID = eventID;
     }
 
+    public void run() {
+        Event evt = em.getEventByID(eventID);
+        ArrayList<UUID> attendants = evt.getAttendees();
+        ArrayList<User> attendeesUser = new ArrayList<>();
+
+        for (UUID attendant : attendants) {
+            attendeesUser.add(um.getUserByID(attendant));
+        }
+
+        handleMessage(attendeesUser, body, title);
+    }
+
+    /*
     public void run() {
         if (em.getEventsBySpeaker((Speaker) um.getUserByID(userID)).isEmpty()) {
             System.out.println("No Events by Speaker");
@@ -64,6 +83,7 @@ public class MessageAllEventAttendeesAction extends MessageAllAction {
             System.out.println("Failed to read input.");
         }
     }
+    */
 
     public String getName() {
         return "Message All Attendees of an Event";

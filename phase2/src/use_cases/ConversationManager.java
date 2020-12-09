@@ -190,7 +190,7 @@ public class ConversationManager implements Serializable {
     /**
      * Returns whether conversation has a name or not
      * @param conID UUID of the conversation in question
-     * @return boolean. True if Conversation does NOT have a name. False if Convewrsation does have a name.
+     * @return boolean. True if Conversation does NOT have a name. False if Conversation does have a name.
      */
     public boolean noNameExists(UUID conID) {return !this.allConversations.get(conID).nameExists();}
 
@@ -202,9 +202,9 @@ public class ConversationManager implements Serializable {
     public String getName(UUID conID) {return this.allConversations.get(conID).getName();}
 
     /**
-     * Returns list of UUIDs of members of a conversation who have not archived the conversation
-     * @param userID UUID of Conversation in question
-     * @return list of UUIDs of members of a conversation who have not archived the conversation
+     * Returns a list of UUIDs of conversations which are not archived for user.
+     * @param userID UUID of the user in question
+     * @return list of UUIDs of conversations which are not archived for user.
      */
     public ArrayList<UUID> getUserConversationsNotArchived(UUID userID) {
         ArrayList<UUID> out = new ArrayList<>();
@@ -219,9 +219,9 @@ public class ConversationManager implements Serializable {
     }
 
     /**
-     * Returns a list of UUIDs of members in a given conversation who have archived the conversation.
-     * @param userID UUID of the conversation in question
-     * @return list of UUIDs of members in a given conversation who have archived the conversation.
+     * Returns a list of UUIDs of conversations which are archived for user.
+     * @param userID UUID of the user in question
+     * @return list of UUIDs of conversations which are archived for user.
      */
     public ArrayList<UUID> getUserConversationsArchived(UUID userID) {
         ArrayList<UUID> out = new ArrayList<>();

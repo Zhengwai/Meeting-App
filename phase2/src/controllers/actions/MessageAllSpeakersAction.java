@@ -7,11 +7,18 @@ import java.io.IOException;
 import java.util.UUID;
 
 public class MessageAllSpeakersAction extends MessageAllAction {
+    String body;
+    String title;
 
-    public MessageAllSpeakersAction(UUID userID, UserManager um, ConversationManager cm) {super(userID, um, cm);}
+
+    public MessageAllSpeakersAction(UUID userID, UserManager um, ConversationManager cm, String body, String title) {
+        super(userID, um, cm);
+        this.body = body;
+        this.title = title;
+    }
 
     public void run() {
-        handleMessageAll(this.um.getAllSpeakersUser());
+        handleMessage(this.um.getAllSpeakersUser(), body, title);
     }
 
     /**
