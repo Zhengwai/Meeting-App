@@ -46,10 +46,10 @@ public class ChatController extends GeneralController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        if(mainModel.getCm().getReadOnly(ch.getConversation())){
-            messageBox.setDisable(true);
-        }
-        
+        //if(mainModel.getCm().getReadOnly(ch.getConversation())){
+        //    messageBox.setDisable(true);
+        //}
+
         //sendeeLabel.setText(ch.getConversationName());
         //messageHistory.getItems().setAll(mb.buildChatContents(mainModel.getCm().
                 //getUserUnreadMessages(ch.getConversation(), mainModel.getCurrentUser().getID())));
