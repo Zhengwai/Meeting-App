@@ -1,5 +1,7 @@
 package UI;
 
+import entities.Event;
+import entities.Speaker;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -112,6 +114,21 @@ public class MessageBuilder {
         }
 
         return messages;
+    }
+
+    public List<String> buildSpeakingEvent(){
+        List<String> mySpeakingEvents;
+
+        if(mainModel.getCurrentUser().getType().equals("s")){
+            mySpeakingEvents = mainModel.getEm().getEventNamesBySpeaker((Speaker) mainModel.getCurrentUser());
+            return mySpeakingEvents;
+        } else if (mainModel.getCurrentUser().getType().equals("o")){
+            mySpeakingEvents = mainModel.getEm().getAllEventNames();
+            return mySpeakingEvents;
+        }
+
+        mySpeakingEvents = new ArrayList<>();
+        return mySpeakingEvents;
     }
 
     /*
