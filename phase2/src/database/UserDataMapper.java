@@ -49,7 +49,7 @@ public class UserDataMapper implements UserDataGateway {
                 u.setId(UUID.fromString(rs.getString("uuid")));
 
                 String rawEvents = (String) rs.getObject("events");
-                if (rawEvents != null) {
+                if (rawEvents != null && rawEvents != "[]") {
                     rawEvents = rawEvents.substring(1, rawEvents.length() - 1); // Remove the "[" and "]" from string
                     String[] eventList = rawEvents.split(", ");
 
@@ -59,7 +59,7 @@ public class UserDataMapper implements UserDataGateway {
                 }
 
                 String rawFriends = (String) rs.getObject("friends");
-                if (rawFriends != null) {
+                if (rawFriends != null && rawFriends != "[]") {
                     rawFriends = rawFriends.substring(1, rawFriends.length() - 1); // Remove the "[" and "]" from string
                     String[] friendList = rawFriends.split(", ");
 
