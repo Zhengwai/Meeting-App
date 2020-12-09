@@ -86,7 +86,7 @@
                                     <Font size="17.0" />
                                  </font>
                               </Label>
-                              <ChoiceBox fx:id="chooseNewFriend" prefHeight="27.0" prefWidth="362.0">
+                              <ChoiceBox fx:id="chooseNewFriend" onAction="#isChosen" prefHeight="27.0" prefWidth="362.0">
                                  <HBox.margin>
                                     <Insets left="10.0" />
                                  </HBox.margin>

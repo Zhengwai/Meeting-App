@@ -42,6 +42,8 @@ public class MessageMenuController extends GeneralController implements Initiali
     ChoiceBox filterMessages;
     @FXML
     ChoiceBox newMessageType;
+    @FXML
+    Button sendButton;
 
     ContextMenu contextMenu;
 
@@ -61,6 +63,7 @@ public class MessageMenuController extends GeneralController implements Initiali
 
     public void handleNewMessage(ActionEvent actionEvent) throws IOException {
         buildNewMessage();
+        sendButton.setDisable(true);
         messageMain.setCenter(subPane);
         messageHistory.getItems().clear();
         subPane.setVisible(true);
@@ -101,7 +104,7 @@ public class MessageMenuController extends GeneralController implements Initiali
         if(mouseEvent.getButton() == MouseButton.SECONDARY){
             String recipienttest = (String) myMessageList.getSelectionModel().getSelectedItem();
             System.out.println("Right click :)" + recipienttest);
-            contextMenu = new ContextMenu();
+            //contextMenu = new ContextMenu();
         } else {
             String recipient = (String) myMessageList.getSelectionModel().getSelectedItem();
             ch.setConversation(mainModel.getUm().getUserByName(recipient).getID());
@@ -134,6 +137,7 @@ public class MessageMenuController extends GeneralController implements Initiali
         messageMain.setCenter(mb.chatBuilder());
 
         this.message.setText("");
+        sendButton.setDisable(true);
 
         updateLists(newFriend);
     }
@@ -151,13 +155,22 @@ public class MessageMenuController extends GeneralController implements Initiali
         if(choice.equals("Speaking Event")){
             chooseNewFriend.setDisable(false);
             chooseNewFriend.getItems().setAll(mb.buildSpeakingEvent());
+            sendButton.setDisable(true);
         }
         if(choice.equals("All Speakers") | choice.equals("All Users")){
             chooseNewFriend.setDisable(true);
+            sendButton.setDisable(false);
         }
         if(choice.equals("Users")){
             chooseNewFriend.setDisable(false);
+            sendButton.setDisable(true);
             buildNewMessage();
+        }
+    }
+
+    public void isChosen(ActionEvent actionEvent) {
+        if(chooseNewFriend.getValue() != null){
+            sendButton.setDisable(false);
         }
     }
 }
