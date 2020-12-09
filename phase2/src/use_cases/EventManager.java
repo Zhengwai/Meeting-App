@@ -5,8 +5,11 @@ import entities.Room;
 import entities.Event;
 import entities.User;
 import entities.Speaker;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 import java.io.*;
+import java.time.LocalDateTime;
 import java.util.*;
 /**
  * A use case class that manages the events.
@@ -232,5 +235,17 @@ public class EventManager implements Serializable{
             }
         }
         return true;
+    }
+
+    public Event createTempEvent(String name, int capacity, LocalDateTime start, LocalDateTime end){
+        Event e = new Event(name, capacity, start, end);
+        return e;
+    }
+
+    public void createAndAddEvent(String name, int capacity, LocalDateTime start, LocalDateTime end, UUID room, String type){
+        Event e = new Event(name, capacity, start, end);
+        e.setRoom(room);
+        e.setType(new SimpleStringProperty(type));
+        events.add(e);
     }
 }

@@ -24,14 +24,7 @@ public class OrganizerScheduleMenuController extends ScheduleMenuController{
     public OrganizerScheduleMenuController() throws ClassNotFoundException {
     }
 
-    public void createEventButtonOnAction(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("OrganizerCreateEvent.fxml"));
-        Parent parent = fxmlLoader.load();
-        Scene scene = new Scene(parent);
-        Stage stage = new Stage();
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setScene(scene);
-        stage.showAndWait();
+    public void createEventButtonOnAction(ActionEvent event) {
 
     }
 

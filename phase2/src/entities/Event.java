@@ -15,7 +15,7 @@ import java.util.UUID;
  * The event entity is a class responsible for the events in the convention. Each instance of an event models a
  * separate event.
  */
-public abstract class Event implements Serializable {
+public class Event implements Serializable {
     protected UUID id;
     protected StringProperty name;
     protected LocalDateTime startTime;
@@ -233,6 +233,10 @@ public abstract class Event implements Serializable {
 
     public void setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
+    }
+
+    public void setType(StringProperty type){
+        this.type = type;
     }
 
     @Override
