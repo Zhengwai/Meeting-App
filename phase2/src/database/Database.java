@@ -12,7 +12,22 @@ public class Database {
     private Statement stmt;
 
     public Database() {
-        initializeDB();
+
+        // For first time running
+        if (! new File("phase2.db").exists()) {
+            initializeDB();
+            return;
+        }
+
+        // Opens connection to DB
+        try {
+            Class.forName("org.sqlite.JDBC").newInstance();
+            conn = DriverManager.getConnection("jdbc:sqlite:phase2.db");
+            stmt = conn.createStatement();
+        } catch (IllegalAccessException | SQLException | InstantiationException | ClassNotFoundException e) {
+            System.out.println("Something went wrong while trying to connect to the database.");
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -204,20 +219,15 @@ public class Database {
      */
     private void initializeDB() {
         try {
-            File file = new File("phase2.db");
-            if (!file.exists()) {
-                Class.forName("org.sqlite.JDBC").newInstance();
-            }
-
+            Class.forName("org.sqlite.JDBC").newInstance();
             conn = DriverManager.getConnection("jdbc:sqlite:phase2.db");
             stmt = conn.createStatement();
             createTables();
-
+            // For testing purposes.
             UUID adminID = UUID.fromString("37ce95a7-b11f-4bc1-938e-4ab8b5b5d225");
-            //insertUser(adminID, "organizerAdmin", "organizerAdmin", "o");
-
-        } catch (IllegalAccessException | InstantiationException | SQLException | ClassNotFoundException e) {
-            System.out.println("Something went wrong trying to access the database.");
+            insertUser(adminID, "DBAdmin", "DBAdmin", "o");
+        } catch (SQLException | IllegalAccessException | ClassNotFoundException | InstantiationException e) {
+            System.out.println("Something went wrong on first time initialization of DB.");
             e.printStackTrace();
         }
     }
