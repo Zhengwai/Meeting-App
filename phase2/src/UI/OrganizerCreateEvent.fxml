@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane prefHeight="396.0" prefWidth="524.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.OrganizerCreateEventController">
+    <center>
+        <AnchorPane BorderPane.alignment="CENTER">
+            <children>
+                <TextField fx:id="eventNameTextField" layoutX="196.0" layoutY="79.0" promptText="Event Name" />
+                <TextField fx:id="eventSpeakerTextField" layoutX="196.0" layoutY="143.0" promptText="Event Speaker" />
+                <Label layoutX="90.0" layoutY="77.0" text="Event Name">
+                    <font>
+                        <Font size="19.0" />
+                    </font>
+                </Label>
+                <Label layoutX="70.0" layoutY="145.0" text="Event Speaker">
+                    <font>
+                        <Font size="19.0" />
+                    </font>
+                </Label>
+                <Button fx:id="createEventButton" layoutX="232.0" layoutY="263.0" mnemonicParsing="false" onAction="#createEventButtonOnAction" text="Create" />
+                <Label fx:id="speakerErrorLabel" layoutX="196.0" layoutY="113.0" />
+                <Button fx:id="goBackButton" layoutX="6.0" layoutY="2.0" mnemonicParsing="false" onAction="#goBackButtonOnAction" text="Go Back" />
+                <Label fx:id="createEventSuccessLabel" layoutX="206.0" layoutY="298.0" />
+                <ComboBox fx:id="selectTypeEventComboBox" layoutX="196.0" layoutY="27.0" prefWidth="150.0" promptText="Select Type of Event" AnchorPane.bottomAnchor="344.0" AnchorPane.leftAnchor="196.0" AnchorPane.rightAnchor="178.0" AnchorPane.topAnchor="27.0" />
+                <Label fx:id="hasTypeLabel" layoutX="196.0" layoutY="52.0" />
+            </children>
+        </AnchorPane>
+    </center>
+</BorderPane>
