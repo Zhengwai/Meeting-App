@@ -38,7 +38,7 @@ public class RegisterController extends GeneralController {
         if (checkValidInput()){
             String un = usernameTextField.getText();
             String pw = passwordTextField.getText();
-            mainModel.getUm().registerAttendee(un, pw);
+            mainModel.getUm().registerOrganizer(un, pw);
             passwordErrorLabel.setText("");
             usernameErrorLabel.setText("");
             registrationSuccessLabel.setText("Registration success!\n" +

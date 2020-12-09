@@ -13,6 +13,7 @@ public class OrganizerMenuController extends MenuController{
     @FXML
     Button createButton;
 
+
     private String fxmlName = "OrganizerMenu.fxml";
 
     public OrganizerMenuController() throws ClassNotFoundException {
@@ -28,6 +29,7 @@ public class OrganizerMenuController extends MenuController{
         //TODO:
         showEvent("OrganizerCreateAccount.fxml");
     }
+
 
     public void handleMessageAction(ActionEvent actionEvent) throws IOException {
         showEvent("MainMessage.fxml");

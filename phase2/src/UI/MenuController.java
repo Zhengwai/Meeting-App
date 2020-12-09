@@ -35,6 +35,8 @@ abstract class MenuController extends GeneralController{
         String type = mainModel.getCurrentUser().getType();
         if (type.equals("a")|type.equals("v")){
             showEvent("AttendeeSignedUpScheduleMenu.fxml");
+        }else if (type.equals("o")){
+            showEvent("OrganizerSignedUpScheduleMenu.fxml");
         }
     }
 
