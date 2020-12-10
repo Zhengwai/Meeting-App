@@ -196,6 +196,33 @@ public class EventManager implements Serializable{
         return notFoundEvent;
     }
     /**
+     * Returns if the event given by the name exists.
+     * @param name name to search for.
+     * @return true when the event exists and false otherwise.
+     */
+    public boolean hasEvent(String name){
+        if (getEventByName(name) == notFoundEvent){
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+    /**
+     * Returns if the event given by the id exists.
+     * @param id id to search for.
+     * @return true when the event exists and false otherwise.
+     */
+    public boolean hasEvent(UUID id){
+        if (getEventByID(id) == notFoundEvent){
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+
+    /**
      * Returns all the events available for this user.
      * The events must not be full and the user must not have signed this event up before.
      * @param user the user to search for.

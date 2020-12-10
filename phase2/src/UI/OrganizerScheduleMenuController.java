@@ -35,7 +35,15 @@ public class OrganizerScheduleMenuController extends ScheduleMenuController impl
     }
 
     public void createEventButtonOnAction(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("OrganizerCreateEvent.fxml"));
+        showEvent("OrganizerCreateEvent.fxml");
+    }
+
+    public void cancelEventButtonOnAction(ActionEvent event) throws IOException {
+        showEvent("OrganizerCancelEvent.fxml");
+        //OrganizerCancelEventAlertBox.display();
+    }
+    public void showEvent(String filePath) throws IOException{
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(filePath));
         Stage stage = new Stage(); //sets stage.
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.initOwner(createEventButton.getScene().getWindow());
@@ -46,14 +54,9 @@ public class OrganizerScheduleMenuController extends ScheduleMenuController impl
         Stage thisStage = (Stage) createEventButton.getScene().getWindow();
         thisStage.show();
     }
-
-    public void cancelEventButtonOnAction(ActionEvent event) {
-        OrganizerCancelEventAlertBox.display();
-    }
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        cancelEventButton.setDisable(true);
+        //cancelEventButton.setDisable(true);
     }
 
     public void selectEventAction(MouseEvent mouseEvent) {

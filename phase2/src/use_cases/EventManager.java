@@ -16,6 +16,7 @@ import java.util.*;
  */
 public class EventManager implements Serializable{
     private final Room notFoundRoom = new Room();
+    private final Event notFoundEvent = new Event();
     private ArrayList<Event> events = new ArrayList<>();
     private ArrayList<Room> rooms = new ArrayList<>();
     private EventData eventData;
@@ -57,7 +58,7 @@ public class EventManager implements Serializable{
                 return e;
             }
         }
-        return null;
+        return notFoundEvent;
     }
     /**
      * Returns the room with associated ID.
@@ -169,7 +170,33 @@ public class EventManager implements Serializable{
                 return e;
             }
         }
-        return null;
+        return notFoundEvent;
+    }
+    /**
+     * Returns if the event given by the name exists.
+     * @param name name to search for.
+     * @return true when the event exists and false otherwise.
+     */
+    public boolean hasEvent(String name){
+        if (getEventByName(name) == notFoundEvent){
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+    /**
+     * Returns if the event given by the id exists.
+     * @param id id to search for.
+     * @return true when the event exists and false otherwise.
+     */
+    public boolean hasEvent(UUID id){
+        if (getEventByID(id) == notFoundEvent){
+            return false;
+        }
+        else{
+            return true;
+        }
     }
     /**
      * Returns all the events available for this user.
@@ -248,4 +275,14 @@ public class EventManager implements Serializable{
         e.setType(new SimpleStringProperty(type));
         events.add(e);
     }
+
+    public void cancelEvent(String name){
+        for(Event e: events){
+            if(e.getName().equals(name)){
+                events.remove(e);
+            }
+        }
+    }
+
+
 }
