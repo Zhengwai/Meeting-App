@@ -203,7 +203,13 @@ public class MessageControllerAdapter {
         messageAll.run();
     }
 
-
+    /**
+     * Implemented for all. Deletes conversation with id conID from program
+     * @param conID UUID of conversation
+     */
+    public void DeleteConversation(UUID conID) {
+        cm.deleteConversation(conID);
+    }
 
     /*
      * TODO: Below are actions that are to be done once a Conversation is selected
