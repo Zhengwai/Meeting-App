@@ -1,15 +1,10 @@
 package use_cases;
 
-import Repository.UserData;
-import com.sun.xml.internal.bind.v2.TODO;
 import database.UserDataMapper;
 import entities.*;
 import gateways.UserDataGateway;
-import gateways.UserGateway;
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 
-import java.io.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -20,13 +15,14 @@ import java.util.UUID;
 public class UserManager implements Serializable {
     private ArrayList<User> allUsers = new ArrayList<>();
     public User NotFoundUser = new User("NotFound", "NotFound");
-    private UserDataGateway udg = new UserDataMapper();
+    private UserDataGateway udg;
     //private UserData userData = new UserGateway();
 
     /**
      * Initializes this UserManager.
      */
     public UserManager() {
+        udg = new UserDataMapper();
         allUsers = udg.fetchAllUsers();
     }
 
