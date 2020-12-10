@@ -82,7 +82,7 @@ public class ChatController extends GeneralController implements Initializable {
     }
 
     public void handleDelete(ActionEvent actionEvent) {
-        mainModel.getCm().deleteConversation(ch.getConversation());
+        mca.DeleteConversation(ch.getConversation());
         chatPane.setVisible(false);
     }
 

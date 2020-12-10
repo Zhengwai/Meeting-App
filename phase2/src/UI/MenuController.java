@@ -3,6 +3,7 @@ import entities.User;
 import gateways.LoginGateway;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.Parent;
@@ -23,6 +24,8 @@ abstract class MenuController extends GeneralController{
     protected Button browseButton;
     @FXML
     Button seeMessageButton;
+    @FXML
+    Label welcomeLabel;
 
     private String fxmlName;
 

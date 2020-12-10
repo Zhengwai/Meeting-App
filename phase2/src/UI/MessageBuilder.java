@@ -29,45 +29,6 @@ public class MessageBuilder {
     public MessageBuilder() throws ClassNotFoundException {
     }
 
-    /*
-    public ContextMenu buildContextMenu(){
-        ContextMenu contextMenu = new ContextMenu();
-        MenuItem archive = new MenuItem("Archive Message");
-        MenuItem delete = new MenuItem("Delete Message");
-        MenuItem unread = new MenuItem("Set Unread");
-
-        archive.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-
-                System.out.println("Archive");
-                //display("archive");
-            }
-        });
-
-        delete.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("Delete");
-                //display("delete");
-            }
-        });
-
-        unread.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("Unread");
-            }
-        });
-
-        contextMenu.getItems().add(archive);
-        contextMenu.getItems().add(delete);
-        contextMenu.getItems().add(unread);
-
-        return contextMenu;
-    }
-    */
-
     public Pane chatBuilder(){
         Pane view = new Pane();
         try {

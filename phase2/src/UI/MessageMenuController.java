@@ -50,26 +50,30 @@ public class MessageMenuController extends GeneralController implements Initiali
     @FXML
     Button sendButton;
 
-    ContextMenu contextMenu;
-
     ConversationHolder ch = ConversationHolder.getInstance();
 
     MessageBuilder mb = new MessageBuilder();
 
     ObservableList<String> notFriends;
 
-    List<String> filterOptions = new ArrayList<String>(
-            Arrays.asList("All Messages", "Unread Messages", "Archived Messages"));
+    List<String> filterOptions = new ArrayList<String>(Arrays.asList("All Messages", "Unread Messages", "Archived Messages"));
 
-    MessageControllerAdapter mca = new MessageControllerAdapter(mainModel.getCurrentUser().getID(), mainModel.getCm(), mainModel.getUm(), mainModel.getEm());
+    MessageControllerAdapter mca = new MessageControllerAdapter(mainModel.getCurrentUser().getID(), mainModel.getCm(),
+            mainModel.getUm(), mainModel.getEm());
 
     private ObservableList<String> conversations;
 
     ArrayList<String[]> filteredMessages;
 
     public MessageMenuController() throws ClassNotFoundException {
+        mainModel.getCm().addObserver(this);
     }
 
+    /**
+     * Sets up GUI for sending a new message.
+     * @param actionEvent occurs when "New Message" button is clicked.
+     * @throws IOException
+     */
     public void handleNewMessage(ActionEvent actionEvent) throws IOException {
         buildNewMessage();
         sendButton.setDisable(true);
@@ -87,8 +91,6 @@ public class MessageMenuController extends GeneralController implements Initiali
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        mainModel.getCm().addObserver(this);
-        //myMessageList.setContextMenu(mb.buildContextMenu());
         filterMessages.getItems().setAll(filterOptions);
 
         //Can maybe go in builder
@@ -120,13 +122,9 @@ public class MessageMenuController extends GeneralController implements Initiali
         subPane.setVisible(false);
     }
 
-    public void handleSelectChat(MouseEvent mouseEvent) {
-        if (mouseEvent.getButton() == MouseButton.SECONDARY) {
-            String[] recipienttest = (String[]) myMessageList.getSelectionModel().getSelectedItem();
 
-            System.out.println("Right click :)" + recipienttest);
-            //contextMenu = new ContextMenu();
-        } else {
+    public void handleSelectChat(MouseEvent mouseEvent) {
+        if(!(myMessageList.getSelectionModel().getSelectedItem() == null)) {
             String[] recipient = (String[]) myMessageList.getSelectionModel().getSelectedItem();
             //ch.setConversation(UUID.fromString(recipient[1]));
             ch.setConversationName(recipient[0]);
@@ -143,17 +141,15 @@ public class MessageMenuController extends GeneralController implements Initiali
             String newFriend = (String) chooseNewFriend.getValue();
             mca.MessageAllEventAttendees(myMessage, newFriend,
                     mainModel.getEm().getEventByName((String) chooseNewFriend.getValue()).getId());
-            title = newFriend;
         } else if (choice.equals("All Speakers")) {
             title = "Notice from Organizer";
-            mca.MessageAllAttendees(myMessage, title);
+            mca.MessageAllSpeakers(myMessage, title);
         } else if (choice.equals("All Users")) {
             title = "Notice from Organizer";
             mca.MessageAllAttendees(myMessage, title);
         } else {
             String newFriend = (String) chooseNewFriend.getValue();
             mca.AddFriend(mainModel.getUm().getUserByName(newFriend).getID());
-            title = newFriend;
         }
 
         messageMain.setCenter(mb.chatBuilder());
@@ -230,8 +226,6 @@ public class MessageMenuController extends GeneralController implements Initiali
         } else {
             myMessageList.setPlaceholder(new Label("No Messages"));
         }
-
-
     }
 
     @Override

@@ -1,4 +1,6 @@
 package UI;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.stage.*;
 import javafx.scene.*;
 import javafx.scene.layout.*;
@@ -17,6 +19,19 @@ public class OrganizerCancelEventAlertBox {
         label.setText("Are you sure that you want to cancel this event?");
         Button confirmButton = new Button("Yes");
         Button denyButton = new Button("No");
+        denyButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                window.close();
+            }
+        });
+
+        confirmButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+
+            }
+        });
 
         VBox layout = new VBox(10);
         layout.getChildren().addAll(label, confirmButton, denyButton);

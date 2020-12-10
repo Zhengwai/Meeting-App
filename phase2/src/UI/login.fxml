@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
-<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
-<?import java.lang.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.text.*?>
 
-<BorderPane prefHeight="396.0" prefWidth="524.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.LoginController">
+<BorderPane prefHeight="396.0" prefWidth="524.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.LoginController">
    <center>
       <AnchorPane BorderPane.alignment="CENTER">
          <children>
             <TextField fx:id="usernameTextField" layoutX="203.0" layoutY="139.0" promptText="Username" />
-            <TextField fx:id="passwordTextField" layoutX="203.0" layoutY="177.0" promptText="Password" />
+            <PasswordField fx:id="passwordField" layoutX="203.0" layoutY="175.0" promptText="Password" />
             <Label layoutX="95.0" layoutY="138.0" text="Username">
                <font>
                   <Font size="19.0" />
