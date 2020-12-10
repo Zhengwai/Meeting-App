@@ -94,7 +94,7 @@ public class Database {
         ps.execute();
     }
 
-    protected void insertNewMessage(UUID messageID, String body, UUID senderID,  Date timeSent) throws SQLException {
+    protected void insertNewMessage(UUID messageID, String body, UUID senderID,  String timeSent) throws SQLException {
         String sql = " INSERT INTO messages (uuid, body, senderID, timeSent)"
                 + " VALUES (?, ?, ?, ?);";
         PreparedStatement ps = conn.prepareStatement(sql);
@@ -102,18 +102,12 @@ public class Database {
         ps.setString(1, messageID.toString());
         ps.setString(2, body);
         ps.setString(3, senderID.toString());
-        ps.setDate(4, timeSent);
+        ps.setString(4, timeSent);
         ps.execute();
     }
 
     protected ResultSet getAllMessages() throws SQLException {
         String sql = "SELECT * FROM messages;";
-        ResultSet rs = stmt.executeQuery(sql);
-        return rs;
-    }
-
-    protected ResultSet getAllUserMessages(UUID userID) throws SQLException {
-        String sql = "SELECT * FROM messages WHERE senderID = " + userID.toString() + ";";
         ResultSet rs = stmt.executeQuery(sql);
         return rs;
     }
@@ -261,7 +255,7 @@ public class Database {
                 + " uuid text NOT NULL,"
                 + " body text NOT NULL,"
                 + " senderID text NOT NULL,"
-                + "	timeSent date NOT NULL"
+                + "	timeSent text NOT NULL"
                 + ");";
 
         String sqlConvos = "CREATE TABLE IF NOT EXISTS conversations ("

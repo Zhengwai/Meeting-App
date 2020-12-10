@@ -12,7 +12,7 @@ import java.util.UUID;
 public class Conversation implements Serializable {
     private final ArrayList<UUID> members;
     private final ArrayList<UUID> messages;
-    private final UUID conID;
+    private UUID conID;
     private String convName = null;
     private boolean readOnly = false;
     private UUID owner;
@@ -205,4 +205,8 @@ public class Conversation implements Serializable {
      * @return True if id is in archivedFor, False if not.
      */
     public boolean isArchivedFor(UUID id) {return this.archivedFor.contains(id);}
+
+    public void setConID(UUID id) {
+        this.conID = id;
+    }
 }

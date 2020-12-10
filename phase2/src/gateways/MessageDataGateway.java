@@ -7,10 +7,23 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public interface MessageDataGateway {
-    void insertMessage(Message msg);
+
+    /**
+     * Adds a new message to the database. This method assumes that this message does not already exist in the database.
+     * @param msg The message to be inserted.
+     */
+    void insertNewMessage(Message msg);
+
     void insertConversation(Conversation c);
+
+
+    /**
+     * Retrieves *all* messages stored in the database.
+     * @return ArrayList of all messages.
+     */
     ArrayList<Message> fetchMessages();
-    ArrayList<Message> fetchAllUserMessages(UUID userID);
+
+
     ArrayList<Conversation> fetchConversations();
     void updateConversationName(Conversation c);
     void updateConversationOwner(Conversation c);

@@ -10,7 +10,7 @@ import java.util.UUID;
  * Stores all relevant data pertaining to a Message.
  */
 public class Message implements Serializable {
-    private final UUID messageID;
+    private UUID messageID;
     private final UUID senderID;
     private String body;
     private Date timeSent;
@@ -57,5 +57,13 @@ public class Message implements Serializable {
      */
     public Date getTimeSent() {
         return this.timeSent;
+    }
+
+    public void setMessageID(UUID id) {
+        this.messageID = id;
+    }
+
+    public void setTimeSent(Date timeSent) {
+        this.timeSent = timeSent;
     }
 }

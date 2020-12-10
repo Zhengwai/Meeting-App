@@ -1,34 +1,18 @@
 package database;
 
-import entities.Attendee;
-import entities.User;
-import gateways.UserDataGateway;
-
-import java.util.ArrayList;
+import entities.Message;
+import gateways.MessageDataGateway;
 import java.util.UUID;
 
 public class DatabaseTesting {
     public static void main(String[] args) {
-        UserDataGateway mapper = new UserDataMapper();
-
-
-        // Setup stuff (creating a dummy user and messing around with it)
-        User newUser = new Attendee("test", "test");
-        mapper.insertNewUser(newUser);
-
-        UUID dummyID = newUser.getID();
-        UUID randomID1 = UUID.randomUUID();
-        UUID randomID2 = UUID.randomUUID();
-        ArrayList<UUID> test = new ArrayList<>();
-
-        test.add(randomID1);
-        test.add(randomID2);
-
-        mapper.updateUserEvents(dummyID, test);
-
-        ArrayList<User> allUsers = mapper.fetchAllUsers();
-        for (User u : allUsers) {
-            System.out.println(u.getUsername() + " " + u.getType());
+        MessageDataGateway mdg = new MessageDataMapper();
+        UUID dummyID = UUID.fromString("f4970970-3af5-11eb-adc1-0242ac120002");
+        Message msg = new Message(dummyID, "Hello!");
+        System.out.println(msg.getTimeSent());
+        mdg.insertNewMessage(msg);
+        for (Message m : mdg.fetchMessages()) {
+            System.out.println(m.getMessageID() + " " + m.getSenderID() + " " + m.getBody() + " " + m.getTimeSent());
         }
     }
 }

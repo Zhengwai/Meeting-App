@@ -4,9 +4,10 @@ import entities.Conversation;
 import entities.Message;
 import gateways.MessageDataGateway;
 
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -18,9 +19,9 @@ public class MessageDataMapper implements MessageDataGateway  {
     }
 
     @Override
-    public void insertMessage(Message msg) {
+    public void insertNewMessage(Message msg) {
         try {
-            db.insertNewMessage(msg.getMessageID(), msg.getBody(), msg.getSenderID(), (Date) msg.getTimeSent());
+            db.insertNewMessage(msg.getMessageID(), msg.getBody(), msg.getSenderID(), msg.getTimeSent().toString());
         } catch (SQLException e) {
             System.out.println("Something went wrong trying to insert a new message.");
             e.printStackTrace();
@@ -43,36 +44,19 @@ public class MessageDataMapper implements MessageDataGateway  {
             ResultSet rs = db.getAllMessages();
             ArrayList<Message> out = new ArrayList<>();
             while(rs.next()) {
-                Message msg = new Message(UUID.fromString(rs.getString("body")), rs.getString("senderID"));
-                //TODO: Message ID and Date needs a setter.
+                Message msg = new Message(UUID.fromString(rs.getString("senderID")), rs.getString("body"));
+                msg.setMessageID(UUID.fromString(rs.getString("uuid")));
+                SimpleDateFormat parser = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy");
+                msg.setTimeSent(parser.parse(rs.getString("timeSent")));
                 out.add(msg);
             }
             return out;
-        } catch (SQLException e) {
+        } catch (SQLException | ParseException e) {
             System.out.println("Something went wrong trying to get all messages.");
             e.printStackTrace();
             return new ArrayList<>();
         }
     }
-
-    @Override
-    public ArrayList<Message> fetchAllUserMessages(UUID userID) {
-        try {
-            ResultSet rs = db.getAllUserMessages(userID);
-            ArrayList<Message> out = new ArrayList<>();
-            while(rs.next()) {
-                Message msg = new Message(UUID.fromString(rs.getString("body")), rs.getString("senderID"));
-                //TODO: Message ID and Date needs a setter.
-                out.add(msg);
-            }
-            return out;
-        } catch (SQLException e) {
-            System.out.println("Something went wrong trying to get all messages.");
-            e.printStackTrace();
-            return new ArrayList<>();
-        }
-    }
-
 
     @Override
     public ArrayList<Conversation> fetchConversations() {
