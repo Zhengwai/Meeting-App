@@ -1,11 +1,11 @@
 package UI;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
-import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -18,6 +18,9 @@ public class AttendeeMenuController extends MenuController implements Initializa
     @FXML
     Label welcomeLabel;
 
+    @FXML
+    Button requestsButton;
+
     private String fxmlName = "AttendeeMenu.fxml";
 
     public AttendeeMenuController() throws ClassNotFoundException {
@@ -26,5 +29,9 @@ public class AttendeeMenuController extends MenuController implements Initializa
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         welcomeLabel.setText("Welcome " + mainModel.getCurrentUser().getUsername() + "!");
+    }
+
+    public void handleRequestButton(ActionEvent actionEvent) throws IOException {
+        showEvent("UserRequests.fxml");
     }
 }

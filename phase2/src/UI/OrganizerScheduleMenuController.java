@@ -48,7 +48,9 @@ public class OrganizerScheduleMenuController extends ScheduleMenuController impl
     }
 
     public void selectEventAction(MouseEvent mouseEvent) {
-        cancelEventButton.setDisable(false);
-        eventTable.getSelectionModel().getSelectedItem();
+        if(!(eventTable.getSelectionModel().getSelectedItem() == null)) {
+            cancelEventButton.setDisable(false);
+            eventTable.getSelectionModel().getSelectedItem();
+        }
     }
 }

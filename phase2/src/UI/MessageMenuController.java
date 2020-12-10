@@ -124,10 +124,12 @@ public class MessageMenuController extends GeneralController implements Initiali
 
 
     public void handleSelectChat(MouseEvent mouseEvent) {
-        String[] recipient = (String[]) myMessageList.getSelectionModel().getSelectedItem();
-        //ch.setConversation(UUID.fromString(recipient[1]));
-        ch.setConversationName(recipient[0]);
-        messageMain.setCenter(mb.chatBuilder());
+        if(!(myMessageList.getSelectionModel().getSelectedItem() == null)) {
+            String[] recipient = (String[]) myMessageList.getSelectionModel().getSelectedItem();
+            //ch.setConversation(UUID.fromString(recipient[1]));
+            ch.setConversationName(recipient[0]);
+            messageMain.setCenter(mb.chatBuilder());
+        }
     }
 
     public void handleSendNewAction(ActionEvent actionEvent) {
