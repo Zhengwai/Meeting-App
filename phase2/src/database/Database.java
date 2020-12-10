@@ -172,13 +172,17 @@ public class Database {
         ps.execute();
     }
 
-    protected void insertNewEvent(UUID eventID, String name, int capacity) throws SQLException {
+    protected void insertNewEvent(UUID eventID, String name, String desc, Date startTime, Date endTime, int capacity) throws SQLException {
         String sql = " INSERT INTO events (uuid, name, capacity)"
                 + "VALUES (?, ?, ?);";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setString(1, eventID.toString());
         ps.setString(2, name);
-        ps.setInt(3, capacity);
+        ps.setString(3, desc);
+        ps.setDate(4, startTime);
+        ps.setDate(5, endTime);
+        ps.setInt(6, capacity);
+        ps.execute();
     }
 
     protected void updateEventName(UUID eventID, String newName) throws SQLException {
@@ -200,12 +204,16 @@ public class Database {
     }
 
     protected void updateEventAttendees(UUID eventID, List<UUID> newAttendees) throws SQLException {
-        String sql = " UPDATE messages SET attendees  = ? WHERE uuid = ?";
+        String sql = " UPDATE events SET attendees  = ? WHERE uuid = ?";
         PreparedStatement ps = conn.prepareStatement(sql);
 
         ps.setObject(1, newAttendees);
         ps.setString(2, eventID.toString());
         ps.execute();
+    }
+
+    protected void updateEventTime(UUID eventID, Date newStartTime, Date newEndTime) throws SQLDataException {
+        String sql = " UPDATE events SET ";
     }
 
     protected ResultSet getAllEvents() throws SQLException {
@@ -270,6 +278,9 @@ public class Database {
                 + "	id INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + " uuid text NOT NULL,"
                 + "	name text NOT NULL,"
+                + " description text,"
+                + " startTime date,"
+                + " endTime date,"
                 + "	capacity INTEGER NOT NULL,"
                 + " attendees object"
                 + ");";
