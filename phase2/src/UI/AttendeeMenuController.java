@@ -31,7 +31,7 @@ public class AttendeeMenuController extends MenuController implements Initializa
         welcomeLabel.setText("Welcome " + mainModel.getCurrentUser().getUsername() + "!");
     }
 
-    public void handleRequestButton(ActionEvent actionEvent) throws IOException {
-        showEvent("UserRequests.fxml");
+    public void RequestButtonOnAction(ActionEvent actionEvent) throws IOException {
+        showEvent("Requests.fxml");
     }
 }
