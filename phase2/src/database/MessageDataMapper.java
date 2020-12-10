@@ -66,17 +66,19 @@ public class MessageDataMapper implements MessageDataGateway  {
             while (rs.next()) {
                 // Data retrieval
                 Conversation c = new Conversation();
-                //TODO: Conversation ID needs a setter.
                 UUID conID = UUID.fromString(rs.getString("uuid"));
+                c.setConID(conID);
                 String rawMembers = (String) rs.getObject("members");
-                //TODO: Not sure what this looks like in DB yet so needs to be parsed still
+
+                //TODO: Not sure where to store? Either the user should know which messages are unread
+                //      or the message should know the IDs of the users who read it.
                 String rawUnreadMsgs = (String) rs.getObject("unreadMessages");
+
                 String convName = rs.getString("convName");
                 String strOwnerID = rs.getString("owner");
 
 
-                // Building the conversation
-                //TODO: Make this a protected parse method
+                // Putting the stored data into an instance of conversation
                 if (rawMembers != null) {
                     rawMembers = rawMembers.substring(1, rawMembers.length() - 1); // Remove the "[" and "]" from string
                     String[] membersList = rawMembers.split(", ");
@@ -84,11 +86,14 @@ public class MessageDataMapper implements MessageDataGateway  {
                         c.addMember(UUID.fromString(s));
                     }
                 }
+
                 c.setName(convName);
+
                 if (strOwnerID != null) {
                     c.setOwner(UUID.fromString(strOwnerID));
                 }
 
+                // Instance of conversation with all fields retrieved from DB
                 out.add(c);
             }
 

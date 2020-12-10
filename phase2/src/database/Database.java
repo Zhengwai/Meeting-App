@@ -113,7 +113,7 @@ public class Database {
     }
 
     protected void insertNewConversation(UUID conID, ArrayList<UUID> members, String name, int readOnly, UUID owner) throws SQLException {
-        String sql = " INSERT INTO conversations (conID, members, convName, readonly, owner, unreadMessages)"
+        String sql = " INSERT INTO conversations (uuid, members, convName, readonly, owner, unreadMessages)"
                 + " VALUES (?, ?, ?, ?, ?, ?)";
         PreparedStatement ps = conn.prepareStatement(sql);
 
@@ -121,7 +121,8 @@ public class Database {
         ps.setObject(2, members);
         ps.setString(3, name);
         ps.setInt(4, readOnly);
-        ps.setString(5, owner.toString());
+        if (owner != null) ps.setString(5, owner.toString());
+        ps.execute();
     }
 
     protected ResultSet getAllConversations() throws SQLException {
@@ -131,7 +132,7 @@ public class Database {
     }
 
     protected void updateConversationMembers(UUID conID, ArrayList<UUID> newMembers) throws SQLException {
-        String sql = " UPDATE messages SET members = ? WHERE uuid = ?";
+        String sql = " UPDATE conversations SET members = ? WHERE uuid = ?;";
         PreparedStatement ps = conn.prepareStatement(sql);
 
         ps.setObject(1, newMembers);
@@ -140,7 +141,7 @@ public class Database {
     }
 
     protected void updateConversationName(UUID conID, String newName) throws SQLException {
-        String sql = " UPDATE messages SET name = ? WHERE uuid = ?";
+        String sql = " UPDATE conversations SET convName = ? WHERE uuid = ?;";
         PreparedStatement ps = conn.prepareStatement(sql);
 
         ps.setString(1, newName);
@@ -149,7 +150,7 @@ public class Database {
     }
 
     protected void updateConversationReadOnly(UUID conID, boolean readOnly) throws SQLException {
-        String sql = " UPDATE messages SET readOnly  = ? WHERE uuid = ?";
+        String sql = " UPDATE conversations SET readOnly  = ? WHERE uuid = ?;";
         PreparedStatement ps = conn.prepareStatement(sql);
 
         ps.setInt(1, readOnly ? 1 : 0);
@@ -158,7 +159,7 @@ public class Database {
     }
 
     protected void updateConversationOwner(UUID conID, UUID newOwnerID) throws SQLException {
-        String sql = " UPDATE messages SET members = ? WHERE uuid = ?";
+        String sql = " UPDATE conversations SET members = ? WHERE uuid = ?;";
         PreparedStatement ps = conn.prepareStatement(sql);
 
         ps.setString(1, newOwnerID.toString());

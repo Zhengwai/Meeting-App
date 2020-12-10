@@ -34,7 +34,22 @@ public class ConversationManager implements Serializable {
     public ConversationManager() {
         this.allConversations = new HashMap<>();
         this.allMessages = new HashMap<>();
+        retrieveDataFromDB();
         this.observable = new PropertyChangeSupport (this);
+    }
+
+    // Put this at bottom when done
+    private void retrieveDataFromDB() {
+        ArrayList<Message> msgs = mdg.fetchMessages();
+        ArrayList<Conversation> cvs = mdg.fetchConversations();
+
+        for (Message msg: msgs) {
+            allMessages.put(msg.getMessageID(), msg);
+        }
+
+        for (Conversation con: cvs) {
+            allConversations.put(con.getID(), con);
+        }
     }
 
     /**
@@ -365,10 +380,8 @@ public class ConversationManager implements Serializable {
 
     }
 
-    public void removePropertyChangeListener (String propertyName, PropertyChangeListener listener)
-    {
+    public void removePropertyChangeListener (String propertyName, PropertyChangeListener listener) {
         observable.removePropertyChangeListener (propertyName, listener);
     }
-
 }
 
