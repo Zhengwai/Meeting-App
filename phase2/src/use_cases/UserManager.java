@@ -4,6 +4,7 @@ import database.UserDataMapper;
 import entities.*;
 import gateways.UserDataGateway;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;

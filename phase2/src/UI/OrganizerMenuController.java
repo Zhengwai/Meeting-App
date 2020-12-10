@@ -2,16 +2,23 @@ package UI;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 /**
  * A controller for the menu layout of an Organizer user.
  */
-public class OrganizerMenuController extends MenuController{
+public class OrganizerMenuController extends MenuController implements Initializable {
     @FXML
     Button createButton;
+
+    @FXML
+    Label welcomeLabel;
 
 
     private String fxmlName = "OrganizerMenu.fxml";
@@ -30,8 +37,13 @@ public class OrganizerMenuController extends MenuController{
         showEvent("OrganizerCreateAccount.fxml");
     }
 
-
-    public void handleMessageAction(ActionEvent actionEvent) throws IOException {
-        showEvent("MainMessage.fxml");
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        welcomeLabel.setText("Welcome " + mainModel.getCurrentUser().getUsername() + "!");
     }
+
+
+    //public void handleMessageAction(ActionEvent actionEvent) throws IOException {
+    //    showEvent("MainMessage.fxml");
+    //}
 }

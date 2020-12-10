@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -30,7 +31,7 @@ public class LoginController {
     @FXML
     private TextField usernameTextField;
     @FXML
-    private TextField passwordTextField;
+    private PasswordField passwordField;
     @FXML
     private Button registerButton;
     @FXML
@@ -53,8 +54,9 @@ public class LoginController {
      */
     public void loginButtonOnAction(ActionEvent event) throws IOException, ClassNotFoundException {
         //verifies the login credentials through main model and stores the user, stores null if credentials are incorrect.
-        User user = mainModel.getUm().verifyLogin(usernameTextField.getText(), passwordTextField.getText());
+        User user = mainModel.getUm().verifyLogin(usernameTextField.getText(), passwordField.getText());
         if (user != null) { //correct credentials.
+            promptLabel.setVisible(false);
             mainModel.setCurrentUser(user); //Sets this user as current user in main model.
             promptLabel.setText(""); //Clears the error message label.
             String type = (user.getType()); //gets the user's type, launches different menus depending on type.
@@ -67,7 +69,11 @@ public class LoginController {
                 showMenu("SpeakerMenu.fxml");
             }
 
+            usernameTextField.setText("");
+            passwordField.setText("");
+
         } else {
+            promptLabel.setVisible(true);
             promptLabel.setText("Username or password incorrect, please try again"); //prompts error message.
         }
     }
