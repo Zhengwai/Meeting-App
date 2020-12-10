@@ -74,6 +74,7 @@ public class ConversationManager implements Serializable {
         Message msg = new Message(senderID, body);
         this.allConversations.get(conID).addMessageID(msg.getMessageID());
         this.allMessages.put(msg.getMessageID(), msg);
+        mdg.insertNewMessage(msg);
 
         this.allConversations.get(conID).removeArchivedFor();
         for (UUID id : this.allConversations.get(conID).getMembers()) {
@@ -93,10 +94,11 @@ public class ConversationManager implements Serializable {
         ArrayList<String[]> out = new ArrayList<>();
 
         for (UUID msgID : c.getMessageIDs()) {
-            String[] term = new String[3];
+            String[] term = new String[4];
             term[0] = String.valueOf(this.allMessages.get(msgID).getSenderID());
             term[1] = String.valueOf(this.allMessages.get(msgID).getTimeSent());
             term[2] = this.allMessages.get(msgID).getBody();
+            term[3] = String.valueOf(msgID);
             out.add(term);
         }
 
@@ -110,6 +112,8 @@ public class ConversationManager implements Serializable {
      */
     public void addUserToConversation(UUID conID, UUID userID) {
         this.allConversations.get(conID).addMember(userID);
+        mdg.updateConversationMembers(getConversation(conID));
+
     }
 
     /**

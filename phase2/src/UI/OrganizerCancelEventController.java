@@ -19,9 +19,12 @@ public class OrganizerCancelEventController extends MenuController{
     @FXML
     Label cancelEventSuccessLabel;
 
+
+
     public OrganizerCancelEventController() throws ClassNotFoundException {
     }
     public void cancelEventButtonOnAction(ActionEvent actionEvent){
+        OrganizerCancelEventAlertBox.display();
         String name = eventNameTextField.getText();
         if (checkValidName()){
             mainModel.getEm().cancelEvent(name);

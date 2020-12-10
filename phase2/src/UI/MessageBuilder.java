@@ -43,6 +43,7 @@ public class MessageBuilder {
         return view;
     }
 
+    /*
     public List<String> buildMyConversations(List<UUID> conversations){
         List<String> output = new ArrayList<>();
 
@@ -67,6 +68,7 @@ public class MessageBuilder {
 
         return output;
     }
+    */
 
     public List<String> buildChatContents(ArrayList<UUID> msgIDs) {
         StringBuilder output = new StringBuilder();
