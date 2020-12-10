@@ -39,7 +39,7 @@ public class MessageControllerAdapter {
         ArrayList<String[]> msgs = cm.getMessagesInConversation(conID);
         ArrayList<String[]> newMsgs = new ArrayList<>();
         for (String[] c : msgs) {
-            String[] term = new String[3];
+            String[] term = new String[4];
             if (UUID.fromString(c[0]).equals(userID)) {
                 term[0] = String.valueOf(userID);
             }
@@ -48,6 +48,7 @@ public class MessageControllerAdapter {
             }
             term[1] = String.valueOf(c[1]);
             term[2] = String.valueOf(c[2]);
+            term[3] = String.valueOf(c[3]);
             newMsgs.add(term);
         }
         ArrayList<UUID> unread = new ArrayList<>(cm.getUserUnreadMessages(conID, userID));

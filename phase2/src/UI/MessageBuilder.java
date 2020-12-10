@@ -1,5 +1,6 @@
 package UI;
 
+import controllers.MessageControllerAdapter;
 import entities.Event;
 import entities.Speaker;
 import javafx.event.ActionEvent;
@@ -22,10 +23,13 @@ import java.util.UUID;
 
 public class MessageBuilder {
     Model mainModel = new Model();
+    MessageControllerAdapter mca = new MessageControllerAdapter(mainModel.getCurrentUser().getID(), mainModel.getCm(), mainModel.getUm(), mainModel.getEm());
+    ConversationHolder ch = ConversationHolder.getInstance();
 
     public MessageBuilder() throws ClassNotFoundException {
     }
 
+    /*
     public ContextMenu buildContextMenu(){
         ContextMenu contextMenu = new ContextMenu();
         MenuItem archive = new MenuItem("Archive Message");
@@ -35,6 +39,7 @@ public class MessageBuilder {
         archive.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+
                 System.out.println("Archive");
                 //display("archive");
             }
@@ -61,6 +66,7 @@ public class MessageBuilder {
 
         return contextMenu;
     }
+    */
 
     public Pane chatBuilder(){
         Pane view = new Pane();

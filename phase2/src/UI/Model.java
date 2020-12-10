@@ -28,6 +28,12 @@ public final class Model {
     }
 
     public Model() throws ClassNotFoundException {
+        if(um == null | em == null | cm == null){
+            initUC();
+        }
+    }
+
+    public void initUC() throws ClassNotFoundException {
         this.um = new UserManager();
         this.em = new EventManager();
         this.cm = new ConversationManager();

@@ -1,5 +1,8 @@
 package UI;
 
+import controllers.MessageControllerAdapter;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,11 +21,13 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
-public class MessageMenuController extends GeneralController implements Initializable {
+public class MessageMenuController extends GeneralController implements Initializable, PropertyChangeListener{
 
     @FXML
     Button newMessageButton;
@@ -56,7 +61,11 @@ public class MessageMenuController extends GeneralController implements Initiali
     List<String> filterOptions = new ArrayList<String>(
             Arrays.asList("All Messages", "Unread Messages", "Archived Messages"));
 
+    MessageControllerAdapter mca = new MessageControllerAdapter(mainModel.getCurrentUser().getID(), mainModel.getCm(), mainModel.getUm(), mainModel.getEm());
+
     private ObservableList<String> conversations;
+
+    ArrayList<String[]> filteredMessages;
 
     public MessageMenuController() throws ClassNotFoundException {
     }
@@ -78,90 +87,96 @@ public class MessageMenuController extends GeneralController implements Initiali
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        myMessageList.setContextMenu(mb.buildContextMenu());
+        mainModel.getCm().addObserver(this);
+        //myMessageList.setContextMenu(mb.buildContextMenu());
         filterMessages.getItems().setAll(filterOptions);
 
         //Can maybe go in builder
-        if(mainModel.getCurrentUser().getType().equals("s")){
+        if (mainModel.getCurrentUser().getType().equals("s")) {
             newMessageType.getItems().setAll("Speaking Event", "Users");
             newMessageType.setDisable(false);
-        } else if(mainModel.getCurrentUser().getType().equals("o")){
-            newMessageType.getItems().setAll("Speaking Event", "Users", "All Speakers", "All Users");
+        } else if (mainModel.getCurrentUser().getType().equals("o")) {
+            newMessageType.getItems().setAll("Users", "All Speakers", "All Users");
             newMessageType.setDisable(false);
         }
 
         UUID user = mainModel.getCurrentUser().getID();
-        conversations = FXCollections.observableList(mb.buildMyConversations(mainModel.getCm().getUserConversationsNotArchived(user)));
-        if (conversations.size() > 0) {
-            myMessageList.getItems().setAll(conversations);
+
+        String choice = (String) filterMessages.getValue();
+        List<String> messageNames = new ArrayList<>();
+
+        filteredMessages = mca.getConversations();
+
+        for (String[] s : filteredMessages) {
+            messageNames.add(s[0]);
+        }
+
+        if (messageNames.size() > 0) {
+            myMessageList.getItems().setAll(messageNames);
         } else {
             myMessageList.setPlaceholder(new Label("No Messages"));
         }
+
         subPane.setVisible(false);
     }
 
     public void handleSelectChat(MouseEvent mouseEvent) {
-        if(mouseEvent.getButton() == MouseButton.SECONDARY){
-            String recipienttest = (String) myMessageList.getSelectionModel().getSelectedItem();
+        if (mouseEvent.getButton() == MouseButton.SECONDARY) {
+            String[] recipienttest = (String[]) myMessageList.getSelectionModel().getSelectedItem();
+
             System.out.println("Right click :)" + recipienttest);
             //contextMenu = new ContextMenu();
         } else {
-            String recipient = (String) myMessageList.getSelectionModel().getSelectedItem();
-            ch.setConversation(mainModel.getUm().getUserByName(recipient).getID());
+            String[] recipient = (String[]) myMessageList.getSelectionModel().getSelectedItem();
+            //ch.setConversation(UUID.fromString(recipient[1]));
+            ch.setConversationName(recipient[0]);
             messageMain.setCenter(mb.chatBuilder());
         }
     }
 
     public void handleSendNewAction(ActionEvent actionEvent) {
         String choice = (String) newMessageType.getValue();
-
-        if(choice.equals("Speaking Event")){
-
-        } else if (choice.equals("All Speakers")){
-
-        } else if (choice.equals("All Users")){
-
-        }
-        String newFriend = (String) chooseNewFriend.getValue();
-        System.out.println(newFriend);
         String myMessage = message.getText();
-        messageHistory.getItems().setAll("Me: " + myMessage);
-        mainModel.getUm().addFriends(mainModel.getCurrentUser().getID(),
-                mainModel.getUm().getUserByName(newFriend).getID());
+        String title;
 
-        UUID conID = mainModel.getCm().newConversation();
-        mainModel.getCm().addUserToConversation(conID, mainModel.getCurrentUser().getID());
-        mainModel.getCm().addUserToConversation(conID, mainModel.getUm().getUserByName(newFriend).getID());
+        if (choice.equals("Speaking Event")) {
+            String newFriend = (String) chooseNewFriend.getValue();
+            mca.MessageAllEventAttendees(myMessage, newFriend,
+                    mainModel.getEm().getEventByName((String) chooseNewFriend.getValue()).getId());
+            title = newFriend;
+        } else if (choice.equals("All Speakers")) {
+            title = "Notice from Organizer";
+            mca.MessageAllAttendees(myMessage, title);
+        } else if (choice.equals("All Users")) {
+            title = "Notice from Organizer";
+            mca.MessageAllAttendees(myMessage, title);
+        } else {
+            String newFriend = (String) chooseNewFriend.getValue();
+            mca.AddFriend(mainModel.getUm().getUserByName(newFriend).getID());
+            title = newFriend;
+        }
 
-        ch.setConversation(conID);
         messageMain.setCenter(mb.chatBuilder());
 
         this.message.setText("");
         sendButton.setDisable(true);
 
-        updateLists(newFriend);
-    }
-
-    public void updateLists(String friend){
-        conversations.add(friend);
-        notFriends.remove(friend);
-        chooseNewFriend.getItems().setAll(notFriends);
-        myMessageList.getItems().setAll(conversations);
+        updateFilterMessages();
     }
 
 
     public void folderByCategory(ActionEvent actionEvent) {
         String choice = (String) newMessageType.getValue();
-        if(choice.equals("Speaking Event")){
+        if (choice.equals("Speaking Event")) {
             chooseNewFriend.setDisable(false);
             chooseNewFriend.getItems().setAll(mb.buildSpeakingEvent());
             sendButton.setDisable(true);
         }
-        if(choice.equals("All Speakers") | choice.equals("All Users")){
+        if (choice.equals("All Speakers") | choice.equals("All Users")) {
             chooseNewFriend.setDisable(true);
             sendButton.setDisable(false);
         }
-        if(choice.equals("Users")){
+        if (choice.equals("Users")) {
             chooseNewFriend.setDisable(false);
             sendButton.setDisable(true);
             buildNewMessage();
@@ -169,8 +184,59 @@ public class MessageMenuController extends GeneralController implements Initiali
     }
 
     public void isChosen(ActionEvent actionEvent) {
-        if(chooseNewFriend.getValue() != null){
+        if (chooseNewFriend.getValue() != null) {
             sendButton.setDisable(false);
         }
+    }
+
+    public void handleFilterMessages(ActionEvent actionEvent) {
+        updateFilterMessages();
+    }
+
+    public void updateFilterMessages() {
+        String choice = (String) filterMessages.getValue();
+        List<String> messageNames = new ArrayList<>();
+
+        if (choice.equals("All Messages")) {
+            filteredMessages = mca.getConversations();
+            String[] s = {"All", "All"};
+            filteredMessages.add(s);
+        }
+        if (choice.equals("Unread Messages")) {
+            filteredMessages = mca.getUnreadConversations();
+            String[] s = {"Unread", "Unread"};
+            filteredMessages.add(s);
+        }
+        if (choice.equals("Archived Messages")) {
+            filteredMessages = mca.getArchivedConversations();
+            String[] s = {"Archived", "Archived"};
+            filteredMessages.add(s);
+        }
+
+
+        if (filteredMessages.size() > 0) {
+            myMessageList.getItems().setAll(filteredMessages);
+
+            myMessageList.setCellFactory(param -> new ListCell<String[]>() {
+                protected void updateItem(String[] item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == null || item[0] == null || item[1] == null) {
+                        setText(null);
+                    } else {
+                        setText(item[0]);
+                    }
+                }
+            });
+        } else {
+            myMessageList.setPlaceholder(new Label("No Messages"));
+        }
+
+
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        System.out.println("Hello");
+        updateFilterMessages();
     }
 }

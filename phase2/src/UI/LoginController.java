@@ -10,7 +10,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import use_cases.EventManager;
 import use_cases.UserManager;
+import use_cases.ConversationManager;
 
 import javafx.event.ActionEvent;
 
@@ -49,7 +51,7 @@ public class LoginController {
      * @param event an event denoting the user's clicking action.
      * @throws IOException
      */
-    public void loginButtonOnAction(ActionEvent event) throws IOException {
+    public void loginButtonOnAction(ActionEvent event) throws IOException, ClassNotFoundException {
         //verifies the login credentials through main model and stores the user, stores null if credentials are incorrect.
         User user = mainModel.getUm().verifyLogin(usernameTextField.getText(), passwordTextField.getText());
         if (user != null) { //correct credentials.

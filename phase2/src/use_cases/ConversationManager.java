@@ -6,7 +6,12 @@ import entities.Conversation;
 import entities.Message;
 import gateways.MessageDataGateway;
 import gateways.UserDataGateway;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,12 +26,15 @@ public class ConversationManager implements Serializable {
     private final Map<UUID, Conversation> allConversations;
     private final Map<UUID, Message> allMessages;
     private MessageDataGateway mdg = new MessageDataMapper();
+    private PropertyChangeSupport  observable;
+
     /**
      * Initialize ConversationManager with no conversations
      */
     public ConversationManager() {
         this.allConversations = new HashMap<>();
         this.allMessages = new HashMap<>();
+        this.observable = new PropertyChangeSupport (this);
     }
 
     /**
@@ -269,6 +277,8 @@ public class ConversationManager implements Serializable {
      */
     public void setArchivedMessage(UUID conID, UUID userID) {
         this.allConversations.get(conID).setArchivedFor(userID);
+        updateMessages();
+
     }
 
     /**
@@ -284,7 +294,10 @@ public class ConversationManager implements Serializable {
      * @param userID UUID of user in question
      * @param msgID UUID of message to be added to list of unread messages
      */
-    public void setUnreadMessage(UUID conID, UUID userID, UUID msgID) {this.allConversations.get(conID).addUnreadMessage(msgID, userID);}
+    public void setUnreadMessage(UUID conID, UUID userID, UUID msgID) {
+        this.allConversations.get(conID).addUnreadMessage(msgID, userID);
+        updateMessages();
+    }
 
     /**
      * Return a list of UUIDs of the Messages in a given conversation
@@ -303,6 +316,10 @@ public class ConversationManager implements Serializable {
         this.allMessages.remove(msgID);
     }
 
+    public void deleteConversation(UUID conID){
+        this.allConversations.remove(conID);
+    }
+
     /**
      * Return a list of String Arrays, that contains the senderID, Time and Body of a message, for each message inside a
      * corresponding given list of message UUIDs
@@ -314,14 +331,44 @@ public class ConversationManager implements Serializable {
         ArrayList<String[]> out = new ArrayList<>();
 
         for (UUID msgID : msgIDs) {
-            String[] term = new String[3];
+            String[] term = new String[4];
             term[0] = String.valueOf(this.allMessages.get(msgID).getSenderID());
             term[1] = String.valueOf(this.allMessages.get(msgID).getTimeSent());
             term[2] = this.allMessages.get(msgID).getBody();
+            term[4] = msgID.toString();
             out.add(term);
         }
 
         return out;
     }
+
+    public void addObserver(PropertyChangeListener observer) {
+        observable.addPropertyChangeListener("location", observer);
+        System.out.println("Number: " + observable.getPropertyChangeListeners().length);
+    }
+
+    public void notifyObservers (PropertyChangeEvent newEvent)
+    {
+        System.out.println("not in for");
+        System.out.println("Number in Notify: " + observable.getPropertyChangeListeners().length);
+        for ( PropertyChangeListener observer : observable.getPropertyChangeListeners()){
+            System.out.println("in for");
+            observer.propertyChange(newEvent);
+            System.out.println(observer);
+        }
+    }
+
+    public void updateMessages() {
+        PropertyChangeEvent newEvent = new PropertyChangeEvent (this, "location", "a", "b");
+        notifyObservers (newEvent);
+        System.out.println("updateMessages");
+
+    }
+
+    public void removePropertyChangeListener (String propertyName, PropertyChangeListener listener)
+    {
+        observable.removePropertyChangeListener (propertyName, listener);
+    }
+
 }
 
