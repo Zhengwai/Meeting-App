@@ -16,7 +16,7 @@ import javafx.event.ActionEvent;
 
 import java.io.IOException;
 
-abstract class GeneralController {
+public abstract class GeneralController {
     @FXML
     protected Button goBackButton;
 
