@@ -1,5 +1,6 @@
 package UI;
 
+import entities.Request;
 import entities.User;
 import gateways.EventGateway;
 import gateways.RequestGateway;
@@ -48,6 +49,7 @@ public final class Model {
         this.um = new UserManager();
         this.em = new EventManager();
         this.cm = new ConversationManager();
+        this.rm = new RequestManager();
     }
 
     public UserManager getUm() {

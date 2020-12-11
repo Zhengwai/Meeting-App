@@ -12,9 +12,7 @@
 <BorderPane prefHeight="396.0" prefWidth="524.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.newRequestController">
     <center>
         <AnchorPane BorderPane.alignment="CENTER">
-            <children>
                 <VBox layoutX="42.0" layoutY="53.0" prefHeight="201.0" prefWidth="441.0">
-                    <children>
                         <Label text="Request Description ">
                             <font>
                                 <Font size="20.0" />
@@ -30,19 +28,7 @@
                                 <Insets left="110.0" top="10.0" />
                             </VBox.margin>
                         </Button>
-                        <!--
-                        <Label fx:id="statusLabel" prefHeight="17.0" prefWidth="489.0" text="Label" textFill="RED" visible="false">
-                            <VBox.margin>
-                                <Insets top="10.0" />
-                            </VBox.margin>
-                            <font>
-                                <Font size="16.0" />
-                            </font>
-                        </Label>
-                        -->
-                    </children>
                 </VBox>
-            </children>
         </AnchorPane>
     </center>
     <top>
