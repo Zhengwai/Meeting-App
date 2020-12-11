@@ -167,16 +167,17 @@ public class Database {
         ps.execute();
     }
 
-    protected void insertNewEvent(UUID eventID, String name, String desc, Date startTime, Date endTime, int capacity) throws SQLException {
-        String sql = " INSERT INTO events (uuid, name, capacity)"
-                + "VALUES (?, ?, ?);";
+    protected void insertNewEvent(UUID eventID, String name, String desc, String startTime, String endTime, int capacity, UUID roomID) throws SQLException {
+        String sql = " INSERT INTO events (uuid, name, description, startTime, endTime, capacity, room)"
+                + "VALUES (?, ?, ?, ?, ?, ?, ?);";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setString(1, eventID.toString());
         ps.setString(2, name);
         ps.setString(3, desc);
-        ps.setDate(4, startTime);
-        ps.setDate(5, endTime);
+        ps.setString(4, startTime);
+        ps.setString(5, endTime);
         ps.setInt(6, capacity);
+        ps.setString(7, roomID.toString());
         ps.execute();
     }
 
@@ -207,8 +208,19 @@ public class Database {
         ps.execute();
     }
 
-    protected void updateEventTime(UUID eventID, Date newStartTime, Date newEndTime) throws SQLException {
-        // Needs implementing
+    protected void updateEventTime(UUID eventID, String newStartTime, String newEndTime) throws SQLException {
+        String sql = " UPDATE events SET startTime = ? WHERE uuid = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+
+        ps.setString(1, newStartTime);
+        ps.setString(2, eventID.toString());
+        ps.execute();
+
+        sql = "UPDATE events SET endTime = ? WHERE uuid = ?";
+        ps = conn.prepareStatement(sql);
+        ps.setString(1, newEndTime);
+        ps.setString(2, newEndTime);
+        ps.execute();
     }
 
     protected ResultSet getAllEvents() throws SQLException {
@@ -274,8 +286,8 @@ public class Database {
                 + " uuid text NOT NULL,"
                 + "	name text NOT NULL,"
                 + " description text,"
-                + " startTime date,"
-                + " endTime date,"
+                + " startTime text,"
+                + " endTime text,"
                 + "	capacity INTEGER NOT NULL,"
                 + " attendees object,"
                 + " room text NOT NULL"

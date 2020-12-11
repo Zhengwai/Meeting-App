@@ -25,13 +25,9 @@ public class EventDataMapper implements EventDataGateway {
     @Override
     public void insertEvent(Event evt) {
         try {
-            Date startTime = Date.from(evt.getStartTime().atZone(ZoneId.systemDefault()).toInstant());
-            Date endTime = Date.from(evt.getEndTime().atZone(ZoneId.systemDefault()).toInstant());
-            java.sql.Date sqlStartTime = java.sql.Date.valueOf(String.valueOf(startTime));
-            java.sql.Date sqlEndTime = java.sql.Date.valueOf(String.valueOf(endTime));
 
-            db.insertNewEvent(evt.getId(), evt.getName().toString(), evt.getDescription(), sqlStartTime,
-                    sqlEndTime, evt.getCapacity());
+            db.insertNewEvent(evt.getId(), evt.getName().toString(), evt.getDescription(), evt.getStartTime().toString(),
+                    evt.getEndTime().toString(), evt.getCapacity(), evt.getRoom());
         } catch (SQLException e) {
             System.out.println("Something went wrong trying to insert that event");
             e.printStackTrace();
@@ -51,9 +47,7 @@ public class EventDataMapper implements EventDataGateway {
     @Override
     public void updateEventTime(Event evt) {
         try {
-            Date startTime = Date.from(evt.getStartTime().atZone(ZoneId.systemDefault()).toInstant());
-            Date endTime = Date.from(evt.getEndTime().atZone(ZoneId.systemDefault()).toInstant());
-            db.updateEventTime(evt.getId(), java.sql.Date.valueOf(String.valueOf(startTime)), java.sql.Date.valueOf(String.valueOf(endTime)));
+            db.updateEventTime(evt.getId(), evt.getStartTime().toString(), evt.getEndTime().toString());
         } catch (SQLException e) {
             System.out.println("Something went wrong trying to update the time of this event");
             e.printStackTrace();
@@ -102,11 +96,15 @@ public class EventDataMapper implements EventDataGateway {
                         e.addAttendee(UUID.fromString(s));
                     }
                 }
+
                 UUID roomID = UUID.fromString(rs.getString("room"));
                 e.setRoom(roomID);
                 e.setCapacity(rs.getInt("capacity"));
                 e.setDescription(rs.getString("description"));
+                out.add(e);
             }
+
+            return out;
         } catch (SQLException e) {
             System.out.println("Something went wrong with getting all events.");
         }

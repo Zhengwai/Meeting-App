@@ -5,10 +5,39 @@ import entities.Event;
 import java.util.ArrayList;
 
 public interface EventDataGateway {
-    void insertEvent(Event e);
-    void updateEventName(Event e);
-    void updateEventTime(Event e);
-    void updateEventCapacity(Event e);
-    void updateEventAttendees(Event e);
+    /**
+     * Inserts a new event into the database. Assumes the ID, name, room and capacity are all not null.
+     * Also assumes this event is not already in the database.
+     * @param evt The event to be inserted.
+     */
+    void insertEvent(Event evt);
+
+    /**
+     * Updates the name of a given event already in the database.
+     * @param evt The event being updated.
+     */
+    void updateEventName(Event evt);
+
+    /**
+     * Updates the startTime and endTime of a given event already in the database.
+     * @param evt The event being updated.
+     */
+    void updateEventTime(Event evt);
+
+    /**
+     * Updates the Capacity field of a given event already in the database.
+     * @param evt The event being updated.
+     */
+    void updateEventCapacity(Event evt);
+
+    /**
+     * Updates the Attendees field of a given event already in the database.
+     * @param evt The event being updated.
+     */
+    void updateEventAttendees(Event evt);
+
+    /**
+     * @return ArrayList of all events.
+     */
     ArrayList<Event> getAllEventsFromDB();
 }

@@ -4,7 +4,6 @@ import entities.Conversation;
 import entities.Message;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 public interface MessageDataGateway {
 
@@ -36,13 +35,14 @@ public interface MessageDataGateway {
     ArrayList<Conversation> fetchConversations();
 
     /**
-     * @param c
+     * Updates the Name field of a conversation in the database.
+     * @param c The conversation being updated.
      */
     void updateConversationName(Conversation c);
 
     /**
-     * Updates the Name field of a conversation in the database.
-     * @param c
+     * Updates the Owner field of a conversation in the database.
+     * @param c The conversation being updated.
      */
     void updateConversationOwner(Conversation c);
 

@@ -76,6 +76,7 @@ public class Event implements Serializable {
      */
     public Event() {
         this.id = UUID.randomUUID();
+        this.attendees = new ArrayList<>();
     }
     public void setId(UUID id) {
         this.id = id;
