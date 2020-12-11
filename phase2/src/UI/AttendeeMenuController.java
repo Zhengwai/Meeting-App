@@ -31,8 +31,9 @@ public class AttendeeMenuController extends MenuController implements Initializa
     public void initialize(URL location, ResourceBundle resources) {
         welcomeLabel.setText("Welcome " + mainModel.getCurrentUser().getUsername() + "!");
     }
-
     public void RequestButtonOnAction(ActionEvent actionEvent) throws IOException {
-        newButtonStage("Requests.fxml", requestsButton);
+        System.out.println("test request menu");
+        showEvent("Requests.fxml");
     }
+
 }
