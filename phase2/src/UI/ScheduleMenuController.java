@@ -45,6 +45,8 @@ public class ScheduleMenuController extends GeneralController{
     @FXML
     protected TableColumn<Event, String> typeColumn;
     @FXML
+    protected TableColumn<Event, String> vipColumn;
+    @FXML
     protected TextArea descriptionBox;
     @FXML
     protected Button signUpButton;
@@ -79,6 +81,7 @@ public class ScheduleMenuController extends GeneralController{
         capacityColumn.setCellValueFactory(cellData -> cellData.getValue().getCapacityString());
         statusColumn.setCellValueFactory(cellData -> cellData.getValue().getStatus());
         typeColumn.setCellValueFactory(cellData -> cellData.getValue().getType());
+        vipColumn.setCellValueFactory(cellData -> cellData.getValue().getVipString());
         FilteredList<Event> filteredEvents = new FilteredList<>(allEvents, p -> true);
 
         eventTable.setOnMousePressed(e ->{

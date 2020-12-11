@@ -54,15 +54,6 @@ public class OrganizerCreateEventController extends MenuController{
         selectRoomComboBox.getItems().addAll(roomNames);
     }
 
-    //private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyy-MM-dd HH:mm");
-    //private String name = eventNameTextField.getText();
-    //private int capacity = Integer.parseInt(eventCapacityTextField.getText());
-    //private LocalDateTime stime = LocalDateTime.parse(eventStartTimeTextField.getText());
-    //private LocalDateTime etime = LocalDateTime.parse(eventEndTimeTextField.getText());
-    //private UUID roomid = UUID.fromString(eventRoomTextField.getText());
-    //private Room room = mainModel.getEm().getRoomByID(roomid);
-    //private Event tempE = mainModel.getEm().createTempEvent(name, capacity,stime,etime);
-
     public OrganizerCreateEventController() throws ClassNotFoundException {
     }
 

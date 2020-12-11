@@ -1,6 +1,7 @@
 package use_cases;
 
 import database.EventDataMapper;
+import database.RoomDataMapper;
 import gateways.EventDataGateway;
 import entities.Room;
 import entities.Event;
@@ -9,6 +10,7 @@ import entities.Seminar;
 import entities.User;
 import entities.Speaker;
 import gateways.EventGateway;
+import gateways.RoomDataGateway;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -25,28 +27,16 @@ public class EventManager implements Serializable{
     private ArrayList<Event> events = new ArrayList<>();
     private ArrayList<Room> rooms = new ArrayList<>();
     private EventDataGateway edg;
+    private RoomDataGateway rdg;
     private EventFactory ef = new EventFactory();
     private UserManager um = new UserManager();
 
     public EventManager() {
-         edg = new EventDataMapper();
+        edg = new EventDataMapper();
         events = edg.getAllEventsFromDB();
-        LocalDateTime t1 = LocalDateTime.now();
-        LocalDateTime t2 = LocalDateTime.of(2020, Month.DECEMBER, 30, 10, 00);
-        LocalDateTime t3 = LocalDateTime.of(2020, Month.DECEMBER, 30, 11, 00);
-        Event e1 = new TED("test1",10,t1,t1,true);
-        e1.setDescription("The first test event");
-        Event e2 = new Seminar("test2",20,t1,t1, true);
-        Event e3 = new TED("test3", 30,t2,t3,false);
-        events.add(e1);
-        events.add(e2);
-        events.add(e3);
-        Room r1 = new Room(10,"testRoom1");
-        Room r2 = new Room(20,"testRoom2");
-        Room r3 = new Room(30,"testRoom3");
-        rooms.add(r1);
-        rooms.add(r2);
-        rooms.add(r3);
+        rdg = new RoomDataMapper();
+        rooms = rdg.fetchRooms();
+
     }
     /**
      *Initializes the EventManager.
@@ -71,6 +61,7 @@ public class EventManager implements Serializable{
             return false;
         }
         this.rooms.add(room);
+        rdg.insertRoom(room);
         return true;
     }
     /**
@@ -346,20 +337,6 @@ public class EventManager implements Serializable{
 
     public UUID createAndAddEvent(String name, int capacity, LocalDateTime start, LocalDateTime end, String room, String type, String description, boolean vip) throws IOException{
         Event e = ef.getEvent(type.toUpperCase(), name, capacity, start, end, vip);
-        /*
-        if(type.equals("TED")) {
-            e = new TED(name, capacity, start, end,false);
-        }
-        else if(type.equals("VIP")){
-            e = new TED(name,capacity,start,end,true);
-        }
-        else if(type.equals("SEMINAR")){
-            e = new Seminar(name,capacity,start,end, true);
-        }
-        else{
-            e = new Event(name,capacity,start,end, true);
-        }
-         */
         if(!description.equals("")) {
             e.setDescription(description);
         }
@@ -374,6 +351,7 @@ public class EventManager implements Serializable{
         for (Event e: events){
             if (e.getName().getValue().equals(name.toUpperCase())){
                 events.remove(e);
+                edg.deleteEventInDB(e);
                 break;
             }
         }
@@ -382,6 +360,7 @@ public class EventManager implements Serializable{
     public void createAndAddRoom(String name, int capacity){
         Room r = new Room(capacity,name);
         rooms.add(r);
+        rdg.insertRoom(r);
     }
 
     public void assignSpeaker(UUID eventID, String speaker){

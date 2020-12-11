@@ -53,7 +53,14 @@ public class Event implements Serializable {
     public StringProperty getCapacityString() {
         return new SimpleStringProperty(getTotalPeople() + "/" + capacity);
     }
-
+    public StringProperty getVipString(){
+        if(getVIP()){
+            return new SimpleStringProperty("yes");
+        }
+        else{
+            return new SimpleStringProperty("no");
+        }
+    }
     /**
      * @param name the name of the event
      * @param capacity the maximum attendee capacity of the event
