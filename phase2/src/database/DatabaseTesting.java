@@ -1,21 +1,27 @@
 package database;
 
+import Repository.EventData;
 import entities.Conversation;
+import entities.Event;
 import entities.Message;
+import gateways.EventDataGateway;
 import gateways.MessageDataGateway;
+
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class DatabaseTesting {
     public static void main(String[] args) {
-        MessageDataGateway mdg = new MessageDataMapper();
+        EventDataGateway edg = new EventDataMapper();
         UUID dummyID = UUID.fromString("f4970970-3af5-11eb-adc1-0242ac120002");
         UUID dummyID2 = UUID.fromString("f4970970-3af5-11eb-adc1-0242ac120003");
-        Conversation con = new Conversation();
-        con.addMember(dummyID);
-        con.addMessageID(dummyID2);
-        mdg.insertConversation(con);
-        for (Conversation c : mdg.fetchConversations()) {
-            System.out.println(c.getID() + " " + c.getMembers() + " " + c.getMessageIDs() + " " + c.getName());
+        Event evt = new Event();
+        evt.setId(dummyID);
+        evt.setStartTime(LocalDateTime.now());
+        edg.insertEvent(evt);
+
+        for (Event e : edg.getAllEventsFromDB()) {
+
         }
     }
 }

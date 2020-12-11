@@ -278,7 +278,7 @@ public class ConversationManager implements Serializable {
     /**
      * Return a list of UUIDs of messages which are unread for a given user in a given conversation
      * @param conID UUID of conversation in question
-     * @param userID UUID of user in quesiton
+     * @param userID UUID of user in question
      * @return list of UUIDs of messages which are unread for a given user in a given conversation
      */
     public ArrayList<UUID> getUserUnreadMessages(UUID conID, UUID userID) {
