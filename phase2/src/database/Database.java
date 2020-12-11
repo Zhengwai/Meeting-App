@@ -207,8 +207,8 @@ public class Database {
         ps.execute();
     }
 
-    protected void updateEventTime(UUID eventID, Date newStartTime, Date newEndTime) throws SQLDataException {
-        String sql = " UPDATE events SET ";
+    protected void updateEventTime(UUID eventID, Date newStartTime, Date newEndTime) throws SQLException {
+        // Needs implementing
     }
 
     protected ResultSet getAllEvents() throws SQLException {
@@ -277,7 +277,8 @@ public class Database {
                 + " startTime date,"
                 + " endTime date,"
                 + "	capacity INTEGER NOT NULL,"
-                + " attendees object"
+                + " attendees object,"
+                + " room text NOT NULL"
                 + ");";
 
         stmt.execute(sqlUsers);

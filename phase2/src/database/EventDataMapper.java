@@ -4,11 +4,16 @@ import Repository.EventData;
 import entities.Event;
 import gateways.EventDataGateway;
 
+import java.sql.ResultSet;
 import java.sql.SQLDataException;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.UUID;
 
 public class EventDataMapper implements EventDataGateway {
     private Database db;
@@ -77,10 +82,35 @@ public class EventDataMapper implements EventDataGateway {
 
     @Override
     public ArrayList<Event> getAllEventsFromDB() {
+        try {
+            ResultSet rs = db.getAllEvents();
+            ArrayList<Event> out = new ArrayList<>();
 
+            while (rs.next()) {
+                Event e = new Event();
+                UUID eventID = UUID.fromString(rs.getString("uuid"));
+                e.setId(eventID);
+                e.setName(rs.getString("name"));
+                e.setStartTime(LocalDateTime.parse(rs.getString("startTime")));
+                e.setEndTime(LocalDateTime.parse(rs.getString("endTime")));
+
+                String rawAttendees = (String) rs.getObject("attendees");
+                if (rawAttendees != null) {
+                    rawAttendees = rawAttendees.substring(1, rawAttendees.length() - 1); // Remove the "[" and "]" from string
+                    String[] attendeesList = rawAttendees.split(", ");
+                    for (String s: attendeesList) {
+                        e.addAttendee(UUID.fromString(s));
+                    }
+                }
+                UUID roomID = UUID.fromString(rs.getString("room"));
+                e.setRoom(roomID);
+                e.setCapacity(rs.getInt("capacity"));
+                e.setDescription(rs.getString("description"));
+            }
+        } catch (SQLException e) {
+            System.out.println("Something went wrong with getting all events.");
+        }
         // TODO: Needs to be implemented
-        // Message Data mapper needs further testing
-        // Message + Conversation need setters for their IDs
         // Event Data mapper needs testing when all done
         // Need table for requests (or column in users table)
         // Refactor DB code (organize by subsystem with Facade)
