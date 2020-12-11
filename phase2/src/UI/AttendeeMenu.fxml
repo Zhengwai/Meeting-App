@@ -32,7 +32,7 @@
                   <Insets bottom="5.0" />
                </VBox.margin>
             </Button>
-            <Button fx:id="requestsButton" mnemonicParsing="false" onAction="#handleRequestButton" prefHeight="27.0" prefWidth="316.0" text="User Requests" />
+            <Button fx:id="requestsButton" mnemonicParsing="false" onAction="#RequestButtonOnAction" prefHeight="27.0" prefWidth="316.0" text="User Requests" />
          </children></VBox>
    </children>
 </AnchorPane>

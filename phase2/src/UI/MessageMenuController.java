@@ -102,8 +102,11 @@ public class MessageMenuController extends GeneralController implements Initiali
             newMessageType.setDisable(false);
         }
 
-        UUID user = mainModel.getCurrentUser().getID();
+        updateFilterMessages();
 
+        //UUID user = mainModel.getCurrentUser().getID();
+
+        /*
         String choice = (String) filterMessages.getValue();
         List<String> messageNames = new ArrayList<>();
 
@@ -118,6 +121,7 @@ public class MessageMenuController extends GeneralController implements Initiali
         } else {
             myMessageList.setPlaceholder(new Label("No Messages"));
         }
+    */
 
         subPane.setVisible(false);
     }
@@ -126,7 +130,7 @@ public class MessageMenuController extends GeneralController implements Initiali
     public void handleSelectChat(MouseEvent mouseEvent) {
         if(!(myMessageList.getSelectionModel().getSelectedItem() == null)) {
             String[] recipient = (String[]) myMessageList.getSelectionModel().getSelectedItem();
-            //ch.setConversation(UUID.fromString(recipient[1]));
+            ch.setConversation(UUID.fromString(recipient[1]));
             ch.setConversationName(recipient[0]);
             messageMain.setCenter(mb.chatBuilder());
         }
@@ -149,7 +153,7 @@ public class MessageMenuController extends GeneralController implements Initiali
             mca.MessageAllAttendees(myMessage, title);
         } else {
             String newFriend = (String) chooseNewFriend.getValue();
-            mca.AddFriend(mainModel.getUm().getUserByName(newFriend).getID());
+            mca.AddFriend(mainModel.getUm().getUserByName(newFriend).getID(), myMessage);
         }
 
         messageMain.setCenter(mb.chatBuilder());
@@ -195,18 +199,12 @@ public class MessageMenuController extends GeneralController implements Initiali
 
         if (choice.equals("All Messages")) {
             filteredMessages = mca.getConversations();
-            String[] s = {"All", "All"};
-            filteredMessages.add(s);
         }
         if (choice.equals("Unread Messages")) {
             filteredMessages = mca.getUnreadConversations();
-            String[] s = {"Unread", "Unread"};
-            filteredMessages.add(s);
         }
         if (choice.equals("Archived Messages")) {
             filteredMessages = mca.getArchivedConversations();
-            String[] s = {"Archived", "Archived"};
-            filteredMessages.add(s);
         }
 
 

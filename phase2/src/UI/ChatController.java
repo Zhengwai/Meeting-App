@@ -52,12 +52,13 @@ public class ChatController extends GeneralController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         chatPane.setVisible(true);
+
         //if(mainModel.getCm().getReadOnly(ch.getConversation())){
         //    messageBox.setDisable(true);
         //}
 
         sendeeLabel.setText(ch.getConversationName());
-        //updateMessageHistory();
+        updateMessageHistory();
 
     }
 
@@ -76,7 +77,7 @@ public class ChatController extends GeneralController implements Initializable {
     }
 
     public void handleArchive(ActionEvent actionEvent) {
-        //mca.ArchiveConversation(ch.getConversation());
+        mca.ArchiveConversation(ch.getConversation());
         System.out.println("handleArchive");
         chatPane.setVisible(false);
     }

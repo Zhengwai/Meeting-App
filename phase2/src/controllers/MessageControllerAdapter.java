@@ -68,8 +68,8 @@ public class MessageControllerAdapter {
      * Adds friend with UUID friendID as friend if that person exists and is not already a friend
      * @param friendID UUID of new friend.
      */
-    public void AddFriend(UUID friendID) {
-        AddFriendAction addFriend = new AddFriendAction(userID, um, cm, friendID);
+    public void AddFriend(UUID friendID, String body) {
+        AddFriendAction addFriend = new AddFriendAction(userID, um, cm, friendID, body);
         addFriend.run();
     }
 
@@ -178,6 +178,7 @@ public class MessageControllerAdapter {
     public void MessageAllAttendees(String body, String title) {
         MessageAllAttendeesAction messageAll = new MessageAllAttendeesAction(userID, um, cm, body, title);
         messageAll.run();
+
     }
 
     /**

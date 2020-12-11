@@ -37,6 +37,7 @@ public abstract class MessageAllAction extends MessageAction {
         cm.setConversationName(conID, title);
         cm.sendMessageInConversation(conID, userID, bdy);
         cm.setConversationReadOnly(conID, true);
+
     }
 
     /*

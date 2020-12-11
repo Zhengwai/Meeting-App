@@ -3,17 +3,17 @@ package controllers.actions;
 import use_cases.ConversationManager;
 import use_cases.UserManager;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.*;
 
 public class AddFriendAction extends MessageAction {
     private UUID friendID;
+    private String bdy;
 
-    public AddFriendAction(UUID userID, UserManager um, ConversationManager cm, UUID friendID) {
+    public AddFriendAction(UUID userID, UserManager um, ConversationManager cm, UUID friendID, String bdy) {
         super(userID, um, cm);
         this.friendID = friendID;
+        this.bdy = bdy;
+
     }
 
     public void run() {
@@ -38,6 +38,8 @@ public class AddFriendAction extends MessageAction {
         cm.addUserToConversation(conID, userID);
         cm.addUserToConversation(conID, friendID);
         um.addFriends(userID, friendID);
+
+        cm.sendMessageInConversation(conID, userID, bdy);
     }
 
     /*

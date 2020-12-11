@@ -1,5 +1,6 @@
 package UI;
 
+import UI.GeneralController;
 import entities.User;
 import gateways.LoginGateway;
 import javafx.fxml.FXML;
