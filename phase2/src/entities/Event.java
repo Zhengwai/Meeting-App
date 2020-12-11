@@ -27,14 +27,11 @@ public class Event implements Serializable {
     protected DateTimeFormatter dateFormatter = DateTimeFormatter.ISO_LOCAL_DATE;
     protected DateTimeFormatter timeFormatter = DateTimeFormatter.ISO_LOCAL_TIME;
 
-    protected StringProperty dateString;
     protected StringProperty type = new SimpleStringProperty();
-    protected StringProperty startTimeString;
-    protected StringProperty endTimeString;
     protected StringProperty status = new SimpleStringProperty();
 
     public StringProperty getDateString() {
-        return dateString;
+        return new SimpleStringProperty(dateFormatter.format(startTime));
     }
 
     public StringProperty getType() {
@@ -42,11 +39,11 @@ public class Event implements Serializable {
     }
 
     public StringProperty getStartTimeString() {
-        return startTimeString;
+        return new SimpleStringProperty(timeFormatter.format(startTime));
     }
 
     public StringProperty getEndTimeString() {
-        return endTimeString;
+        return new SimpleStringProperty(timeFormatter.format(endTime));
     }
 
     public StringProperty getCapacityString() {
@@ -57,7 +54,7 @@ public class Event implements Serializable {
      * @param name the name of the event
      * @param capacity the maximum attendee capacity of the event
      */
-    public Event(String name, int capacity,LocalDateTime startTime, LocalDateTime endTime){
+    public Event(String name, int capacity, LocalDateTime startTime, LocalDateTime endTime){
         this.name = new SimpleStringProperty(name.toUpperCase());
         this.startTime = startTime;
         this.endTime = endTime;
@@ -65,9 +62,6 @@ public class Event implements Serializable {
         this.attendees = new ArrayList<>();
         this.id = UUID.randomUUID();
 
-        dateString = new SimpleStringProperty(dateFormatter.format(startTime));
-        startTimeString = new SimpleStringProperty(timeFormatter.format(startTime));
-        endTimeString = new SimpleStringProperty(timeFormatter.format(endTime));
     }
 
     /**
