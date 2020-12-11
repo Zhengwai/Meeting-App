@@ -3,12 +3,13 @@ package entities;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * Entity class for a specific user request
  */
 public class Request implements Serializable{
-    private User requestingUser;
+    private UUID requestingUser;
     private String requestText;
     private HashSet<String> tags;
     private boolean resolved;
@@ -18,7 +19,7 @@ public class Request implements Serializable{
      * @param requestingUser user whom is requesting the request
      * @param requestText a text description of the request
      */
-    public Request(User requestingUser, String requestText){
+    public Request(UUID requestingUser, String requestText){
         this.requestingUser = requestingUser;
         this.requestText = requestText;
         this.tags = new HashSet<>();
@@ -28,7 +29,7 @@ public class Request implements Serializable{
     /**
       * @return the user whom requested this request
      */
-    public User getRequestingUser(){
+    public UUID getRequestingUser(){
         return this.requestingUser;
     }
 
@@ -52,6 +53,9 @@ public class Request implements Serializable{
     public boolean isResolved(){
         return resolved;
     }
+
+    public void markResolved() {this.resolved = true; }
+    public void unmarkResolved() {this.resolved = false; }
 
     /**
      * change the text of the request

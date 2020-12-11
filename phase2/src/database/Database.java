@@ -261,6 +261,38 @@ public class Database {
         ps.execute();
     }
 
+    protected void insertRequest(UUID requestingUser, String text, ArrayList<String> tags, Boolean resolved) throws SQLException {
+        String sql = " INSERT INTO requests (requestingUser, requestText, tags, resolved)" +
+                "VALUES (?, ?, ?, ?)";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1, requestingUser.toString());
+        ps.setString(2, text);
+        ps.setObject(3, tags);
+        ps.setInt(4, resolved ? 1 : 0);
+        ps.execute();
+    }
+
+    protected ResultSet getAllRequests() throws SQLException {
+        String sql = "SELECT * FROM requests";
+        return stmt.executeQuery(sql);
+    }
+
+    protected void updateRequestTags(UUID requestingUser, ArrayList<String> tags) throws SQLException {
+        String sql = " UPDATE requests SET tags = ? WHERE requestingUser = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setObject(1, tags);
+        ps.setString(2, requestingUser.toString());
+        ps.execute();
+    }
+
+    protected void updateRequestResolved(UUID requestingUser, Boolean resolved) throws SQLException {
+        String sql = " UPDATE requests SET resolved = ? WHERE requestingUser = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setInt(1, resolved ? 1 : 0);
+        ps.setString(2, requestingUser.toString());
+        ps.execute();
+    }
+
     /**
      * Attempts to create a connection to the MySQLite database.
      * Creates a database if there already isn't one.
@@ -282,7 +314,7 @@ public class Database {
 
     /**
      * Creates tables for:
-     * users,   messages,   conversations,   events,   rooms
+     * users,   messages,   conversations,   events,   rooms,   requests
      * These tables are only created if they don't already exist.
      * NOTE: Schema not final!
      */
@@ -335,10 +367,19 @@ public class Database {
                 + " events object"
                 + ");";
 
+        String sqlRequests = " CREATE TABLE IF NOT EXISTS requests ("
+                + " id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + " requestingUser text NOT NULL,"
+                + " requestText text NOT NULL,"
+                + " tags object,"
+                + " resolved TINYINT NOT NULL"
+                + ");";
+
         stmt.execute(sqlUsers);
         stmt.execute(sqlMsgs);
         stmt.execute(sqlConvos);
         stmt.execute(sqlEvts);
         stmt.execute(sqlRooms);
+        stmt.execute(sqlRequests);
     }
 }

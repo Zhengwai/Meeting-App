@@ -25,7 +25,7 @@ public class newRequestController extends GeneralController {
         else{
             User user = mainModel.getCurrentUser();
             String requestText = requestTextField.getText();
-            Request newRequest = new Request(user,requestText);
+            Request newRequest = new Request(user.getID(),requestText);
             mainModel.getRm().addRequest(newRequest);
         }
     }
