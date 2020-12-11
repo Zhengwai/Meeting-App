@@ -1,15 +1,20 @@
 package use_cases;
 
-import Repository.EventData;
+import database.EventDataMapper;
+import gateways.EventDataGateway;
 import entities.Room;
 import entities.Event;
+import entities.TED;
+import entities.Seminar;
 import entities.User;
 import entities.Speaker;
+import gateways.EventGateway;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 import java.io.*;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.*;
 /**
  * A use case class that manages the events.
@@ -19,9 +24,20 @@ public class EventManager implements Serializable{
     private final Event notFoundEvent = new Event();
     private ArrayList<Event> events = new ArrayList<>();
     private ArrayList<Room> rooms = new ArrayList<>();
-    private EventData eventData;
+    private EventDataGateway edg;
 
-    public EventManager() throws ClassNotFoundException {
+    public EventManager() {
+         edg = new EventDataMapper();
+        //events = edg.getAllEventsFromDB();
+        LocalDateTime t1 = LocalDateTime.now();
+        LocalDateTime t2 = LocalDateTime.of(2020, Month.DECEMBER, 30, 10, 00);
+        LocalDateTime t3 = LocalDateTime.of(2020, Month.DECEMBER, 30, 11, 00);
+        Event e1 = new TED("test1",10,t1,t1,true);
+        Event e2 = new Seminar("test2",20,t1,t1);
+        Event e3 = new TED("test3", 30,t2,t3,false);
+        events.add(e1);
+        events.add(e2);
+        events.add(e3);
     }
     /**
      *Initializes the EventManager.
@@ -31,6 +47,7 @@ public class EventManager implements Serializable{
             return false;
         } else {
             this.events.add(event);
+            //edg.insertEvent(event);
             return true;
         }
     }
@@ -97,7 +114,7 @@ public class EventManager implements Serializable{
     public ArrayList<String> getAllEventNames(){
         ArrayList<String> eventNames = new ArrayList<>();
         for(Event e: getEvents()){
-            eventNames.add(e.getName().toString());
+            eventNames.add(e.getName().getValue());
         }
         return eventNames;
     }
@@ -166,7 +183,7 @@ public class EventManager implements Serializable{
      */
     public Event getEventByName(String name){
         for (Event e:events){
-            if (e.getName().equals(name.toUpperCase())){
+            if (e.getName().getValue().equals(name.toUpperCase())){
                 return e;
             }
         }
@@ -270,16 +287,29 @@ public class EventManager implements Serializable{
     }
 
     public void createAndAddEvent(String name, int capacity, LocalDateTime start, LocalDateTime end, UUID room, String type){
-        Event e = new Event(name, capacity, start, end);
+        Event e;
+        if(type.equals("TED")) {
+            e = new TED(name, capacity, start, end,false);
+        }
+        else if(type.equals("VIP")){
+            e = new TED(name,capacity,start,end,true);
+        }
+        else if(type.equals("SEMINAR")){
+            e = new Seminar(name,capacity,start,end);
+        }
+        else{
+            e = new Event(name,capacity,start,end);
+        }
         e.setRoom(room);
-        e.setType(new SimpleStringProperty(type));
         events.add(e);
+        //edg.insertEvent(e);
     }
 
     public void cancelEvent(String name){
-        for(Event e: events){
-            if(e.getName().equals(name)){
+        for (Event e: events){
+            if (e.getName().getValue().equals(name.toUpperCase())){
                 events.remove(e);
+                break;
             }
         }
     }

@@ -28,11 +28,10 @@ public class Event implements Serializable {
     protected DateTimeFormatter timeFormatter = DateTimeFormatter.ISO_LOCAL_TIME;
 
     protected StringProperty dateString;
-    protected StringProperty type = new SimpleStringProperty("");
+    protected StringProperty type = new SimpleStringProperty();
     protected StringProperty startTimeString;
     protected StringProperty endTimeString;
-    protected StringProperty capacityString;
-    protected StringProperty status;
+    protected StringProperty status = new SimpleStringProperty();
 
     public StringProperty getDateString() {
         return dateString;
@@ -249,7 +248,7 @@ public class Event implements Serializable {
             full = "full";
         }
 
-        return name+"@"+ startTime + ", status: "+ attendees.size() + "/" + capacity + " " + full;
+        return name.getValue()+" @"+ startTime + ", status: "+ attendees.size() + "/" + capacity + " " + full;
     }
 
     public StringProperty getStatus(){

@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class OrganizerScheduleMenuController extends ScheduleMenuController implements Initializable {
+public class OrganizerScheduleMenuController extends ScheduleMenuController {
 
     @FXML
     Button createEventButton;
@@ -34,11 +34,13 @@ public class OrganizerScheduleMenuController extends ScheduleMenuController impl
 
     public void createEventButtonOnAction(ActionEvent event) throws IOException {
         showEvent("OrganizerCreateEvent.fxml");
+        initialize();
     }
 
     public void cancelEventButtonOnAction(ActionEvent event) throws IOException {
         showEvent("OrganizerCancelEvent.fxml");
         //OrganizerCancelEventAlertBox.display();
+        initialize();
     }
     public void showEvent(String filePath) throws IOException{
         FXMLLoader loader = new FXMLLoader(getClass().getResource(filePath));
@@ -52,11 +54,6 @@ public class OrganizerScheduleMenuController extends ScheduleMenuController impl
         Stage thisStage = (Stage) createEventButton.getScene().getWindow();
         thisStage.show();
     }
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        //cancelEventButton.setDisable(true);
-    }
-
     public void selectEventAction(MouseEvent mouseEvent) {
         if(!(eventTable.getSelectionModel().getSelectedItem() == null)) {
             cancelEventButton.setDisable(false);

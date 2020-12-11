@@ -24,10 +24,10 @@ public class OrganizerCancelEventController extends MenuController{
     public OrganizerCancelEventController() throws ClassNotFoundException {
     }
     public void cancelEventButtonOnAction(ActionEvent actionEvent){
-        OrganizerCancelEventAlertBox.display();
         String name = eventNameTextField.getText();
         if (checkValidName()){
             mainModel.getEm().cancelEvent(name);
+            //OrganizerCancelEventAlertBox.display();
             cancelEventSuccessLabel.setText("Event successfully cancelled!");
         }
     }

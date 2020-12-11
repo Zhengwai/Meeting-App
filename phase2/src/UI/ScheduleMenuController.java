@@ -28,11 +28,11 @@ public class ScheduleMenuController extends GeneralController{
     @FXML
     protected TextField eventNameTextBox;
     @FXML
-    protected TableView<Event> eventTable;
+    protected TableView<Event> eventTable = new TableView<>();
     @FXML
-    protected TableColumn<Event, String> dateColumn;
+    protected TableColumn<Event, String> dateColumn = new TableColumn<>("date");
     @FXML
-    protected TableColumn<Event, String> startTimeColumn;
+    protected TableColumn<Event, String> startTimeColumn = new TableColumn<>("Start Time");
     @FXML
     protected TableColumn<Event, String> endTimeColumn;
     @FXML
@@ -59,24 +59,25 @@ public class ScheduleMenuController extends GeneralController{
 
     public ScheduleMenuController() throws ClassNotFoundException {
         super();
-        ArrayList<Event> emEvents = mainModel.getEm().getEvents();
-        allEvents.addAll(emEvents);
     }
 
     @FXML
     public void initialize() {
-
+        allEvents = FXCollections.observableArrayList();
         eventTypeFilterComboBox.getItems().setAll("", "ted", "vipted", "seminar");
         statusFilterComboBox.getItems().setAll("", "full", "available", "past");
-
         //Initialize the columns
+        ArrayList<Event> emEvents = mainModel.getEm().getEvents();
+        allEvents.addAll(emEvents);
+        System.out.println(allEvents);
+        eventTable.setItems(allEvents);
         dateColumn.setCellValueFactory(cellData -> cellData.getValue().getDateString());
         startTimeColumn.setCellValueFactory(cellData -> cellData.getValue().getStartTimeString());
         endTimeColumn.setCellValueFactory(cellData -> cellData.getValue().getEndTimeString());
         nameColumn.setCellValueFactory(cellData -> cellData.getValue().getName());
         capacityColumn.setCellValueFactory(cellData -> cellData.getValue().getCapacityString());
         statusColumn.setCellValueFactory(cellData -> cellData.getValue().getStatus());
-
+        typeColumn.setCellValueFactory(cellData -> cellData.getValue().getType());
         FilteredList<Event> filteredEvents = new FilteredList<>(allEvents, p -> true);
 
 
