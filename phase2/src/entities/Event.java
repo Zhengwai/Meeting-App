@@ -29,7 +29,7 @@ public class Event implements Serializable {
     protected boolean isVIP;
 
     protected StringProperty dateString;
-    protected StringProperty type = new SimpleStringProperty();
+    protected StringProperty type;
     protected StringProperty startTimeString;
     protected StringProperty endTimeString;
     protected StringProperty status = new SimpleStringProperty();

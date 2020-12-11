@@ -26,6 +26,7 @@ public class EventManager implements Serializable{
     private ArrayList<Room> rooms = new ArrayList<>();
     private EventDataGateway edg;
     private EventFactory ef = new EventFactory();
+    private UserManager um = new UserManager();
 
     public EventManager() {
          edg = new EventDataMapper();
@@ -323,7 +324,27 @@ public class EventManager implements Serializable{
         return e;
     }
 
-    public void createAndAddEvent(String name, int capacity, LocalDateTime start, LocalDateTime end, String room, String type, String description, boolean vip) throws IOException{
+    public ArrayList<String> getAvailableSpeakers(UUID eventID){
+        Event event1 = getEventByID(eventID);
+        ArrayList<Speaker> speakers = um.getAllSpeakers();
+        boolean overlap = false;
+        ArrayList<String> availableSpeakers = new ArrayList<>();
+
+        for(Speaker s: speakers){
+            ArrayList<Event> events = getEventsBySpeaker(s);
+            for(Event e: events){
+                if(eventsOverlap(event1, e)){
+                    overlap = true;
+                }
+            }
+            if(!overlap){
+                availableSpeakers.add(s.getUsername());
+            }
+        }
+        return availableSpeakers;
+    }
+
+    public UUID createAndAddEvent(String name, int capacity, LocalDateTime start, LocalDateTime end, String room, String type, String description, boolean vip) throws IOException{
         Event e = ef.getEvent(type.toUpperCase(), name, capacity, start, end, vip);
         /*
         if(type.equals("TED")) {
@@ -345,6 +366,8 @@ public class EventManager implements Serializable{
         events.add(e);
         assignRoom(getRoomByName(room),e);
         edg.insertEvent(e);
+
+        return e.getId();
     }
 
     public void cancelEvent(String name){
@@ -361,4 +384,16 @@ public class EventManager implements Serializable{
         rooms.add(r);
     }
 
+    public void assignSpeaker(UUID eventID, String speaker){
+        Speaker sp = (Speaker) um.getUserByName(speaker);
+        if(getEventByID(eventID).getType().toString().equals("SEMINAR")){
+            Seminar s = (Seminar) getEventByID(eventID);
+            s.setSpeaker(sp.getID());
+            sp.addSpeakingEvent(eventID);
+        }else if(getEventByID(eventID).getType().equals("TED")){
+            TED t = (TED) getEventByID(eventID);
+            t.addSpeaker(sp.getID());
+            sp.addSpeakingEvent(eventID);
+        }
+    }
 }

@@ -12,7 +12,7 @@ public class Seminar extends Event {
     // single speaker event
     public Seminar(String name, int capacity, LocalDateTime startTime, LocalDateTime endTime, boolean vip){
         super(name,capacity,startTime,endTime, vip);
-        type = new SimpleStringProperty("seminar");
+        type = new SimpleStringProperty("SEMINAR");
     }
 
     public void setSpeaker(UUID speaker){

@@ -14,7 +14,9 @@ public class TED extends Event{
 
     public TED(String name, int capacity, LocalDateTime startTime, LocalDateTime endTime, boolean isVIP){
         super(name, capacity, startTime, endTime, isVIP);
+        type = new SimpleStringProperty("TED");
     }
+
     public void addSpeaker(UUID speakerID){
         speakers.add(speakerID);
     }

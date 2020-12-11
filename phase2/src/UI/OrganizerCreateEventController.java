@@ -4,7 +4,12 @@ import entities.Event;
 import entities.Room;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,6 +43,8 @@ public class OrganizerCreateEventController extends MenuController{
     Label hasTypeLabel;
     @FXML
     CheckBox vipStatus;
+
+    EventHolder eh = EventHolder.getInstance();
 
     public void initialize(){
         selectTypeEventComboBox.getItems().removeAll(selectTypeEventComboBox.getItems());
@@ -75,8 +82,13 @@ public class OrganizerCreateEventController extends MenuController{
 
         if (checkValidInput(room, tempE)){
             String type = selectTypeEventComboBox.getValue();
-            mainModel.getEm().createAndAddEvent(name, capacity, stime, etime, room.getRoomName(), type,descriptionTextArea.getText(), vip);
+            UUID eventID = mainModel.getEm().createAndAddEvent(name, capacity, stime, etime, room.getRoomName(), type,descriptionTextArea.getText(), vip);
             createEventSuccessLabel.setText("Event created success!");
+            eh.setEvent(eventID, name);
+
+            if(type.equals("TED") | type.equals("SEMINAR")){
+                showEvent("SelectSpeaker.fxml");
+            }
         }
     }
 
@@ -115,5 +127,17 @@ public class OrganizerCreateEventController extends MenuController{
         }
     }
 
+    public void showEvent(String filePath) throws IOException{
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(filePath));
+        Stage stage = new Stage(); //sets stage.
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initOwner(createEventButton.getScene().getWindow());
+        stage.setScene(new Scene((Parent) loader.load()));
+        GeneralController controller = loader.getController();
+        controller.initData(mainModel);
+        stage.showAndWait();
+        Stage thisStage = (Stage) createEventButton.getScene().getWindow();
+        thisStage.show();
+    }
 
 }
