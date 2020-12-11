@@ -11,17 +11,9 @@ import java.util.UUID;
 
 public class TED extends Event{
     private ArrayList<UUID> speakers = new ArrayList<>();
-    private final boolean isVIP;
-    private StringProperty type;
 
     public TED(String name, int capacity, LocalDateTime startTime, LocalDateTime endTime, boolean isVIP){
-        super(name, capacity, startTime, endTime);
-        this.isVIP = isVIP;
-        if (isVIP){
-            type = new SimpleStringProperty( "vipted");
-        } else {
-            type = new SimpleStringProperty("ted");
-        }
+        super(name, capacity, startTime, endTime, isVIP);
     }
     public void addSpeaker(UUID speakerID){
         speakers.add(speakerID);
