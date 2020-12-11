@@ -175,6 +175,7 @@ public class Database {
 
         ps.setObject(1, unreadFor);
         ps.setString(2, conID.toString());
+        ps.execute();
     }
 
     protected void updateConversationArchivedFor(UUID conID, ArrayList<UUID> archivedFor) throws SQLException {

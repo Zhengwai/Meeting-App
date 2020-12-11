@@ -70,10 +70,9 @@ public class MessageDataMapper implements MessageDataGateway  {
                 c.setConID(conID);
                 String rawMembers = (String) rs.getObject("members");
 
-                //TODO: Not sure where to store? Either the user should know which messages are unread
-                //      or the message should know the IDs of the users who read it.
-                String rawUnreadMsgs = (String) rs.getObject("unreadMessages");
 
+                String rawUnreadMsgs = (String) rs.getObject("unreadMessages");
+                String rawArchivedFor = (String) rs.getObject("unreadFor");
                 String convName = rs.getString("convName");
                 String strOwnerID = rs.getString("owner");
 
@@ -84,6 +83,22 @@ public class MessageDataMapper implements MessageDataGateway  {
                     String[] membersList = rawMembers.split(", ");
                     for (String s: membersList) {
                         c.addMember(UUID.fromString(s));
+                    }
+                }
+
+                if (rawArchivedFor != null) {
+                    rawArchivedFor = rawArchivedFor.substring(1, rawArchivedFor.length() - 1);
+                    String[] archivedForList = rawArchivedFor.split(", ");
+                    for (String s: archivedForList) {
+                        c.setArchivedFor(UUID.fromString(s));
+                    }
+                }
+
+                if (rawUnreadMsgs != null) {
+                    rawUnreadMsgs = rawUnreadMsgs.substring(1, rawUnreadMsgs.length() - 1);
+                    String[] unreadMsgsList = rawUnreadMsgs.split(", ");
+                    for (String s: unreadMsgsList) {
+                        c.setUnreadFor(UUID.fromString(s));
                     }
                 }
 
