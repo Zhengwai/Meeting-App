@@ -71,8 +71,8 @@ public class MessageDataMapper implements MessageDataGateway  {
                 String rawMembers = (String) rs.getObject("members");
 
 
-                String rawUnreadMsgs = (String) rs.getObject("unreadMessages");
-                String rawArchivedFor = (String) rs.getObject("unreadFor");
+                String rawUnreadMsgs = (String) rs.getObject("unreadFor");
+                String rawArchivedFor = (String) rs.getObject("archivedFor");
                 String convName = rs.getString("convName");
                 String strOwnerID = rs.getString("owner");
 
