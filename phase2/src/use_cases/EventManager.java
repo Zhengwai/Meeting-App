@@ -25,16 +25,17 @@ public class EventManager implements Serializable{
     private ArrayList<Event> events = new ArrayList<>();
     private ArrayList<Room> rooms = new ArrayList<>();
     private EventDataGateway edg;
+    private EventFactory ef = new EventFactory();
 
     public EventManager() {
          edg = new EventDataMapper();
-        //events = edg.getAllEventsFromDB();
+        events = edg.getAllEventsFromDB();
         LocalDateTime t1 = LocalDateTime.now();
         LocalDateTime t2 = LocalDateTime.of(2020, Month.DECEMBER, 30, 10, 00);
         LocalDateTime t3 = LocalDateTime.of(2020, Month.DECEMBER, 30, 11, 00);
         Event e1 = new TED("test1",10,t1,t1,true);
         e1.setDescription("The first test event");
-        Event e2 = new Seminar("test2",20,t1,t1);
+        Event e2 = new Seminar("test2",20,t1,t1, true);
         Event e3 = new TED("test3", 30,t2,t3,false);
         events.add(e1);
         events.add(e2);
@@ -54,7 +55,7 @@ public class EventManager implements Serializable{
             return false;
         } else {
             this.events.add(event);
-            //edg.insertEvent(event);
+            edg.insertEvent(event);
             return true;
         }
     }
@@ -298,7 +299,6 @@ public class EventManager implements Serializable{
     public void assignRoom(Room room, Event event) throws IOException {
         room.addEvent(event.getId());
         event.setRoom(room.getID());
-        event.setCapacity(room.getCapacity());
     }
     /**
      * Checks if a user is available for a certain event, aka no time conflict.
@@ -319,12 +319,13 @@ public class EventManager implements Serializable{
     }
 
     public Event createTempEvent(String name, int capacity, LocalDateTime start, LocalDateTime end){
-        Event e = new Event(name, capacity, start, end);
+        Event e = new Event(name, capacity, start, end, false);
         return e;
     }
 
-    public void createAndAddEvent(String name, int capacity, LocalDateTime start, LocalDateTime end, String room, String type, String description) throws IOException{
-        Event e;
+    public void createAndAddEvent(String name, int capacity, LocalDateTime start, LocalDateTime end, String room, String type, String description, boolean vip) throws IOException{
+        Event e = ef.getEvent(type.toUpperCase(), name, capacity, start, end, vip);
+        /*
         if(type.equals("TED")) {
             e = new TED(name, capacity, start, end,false);
         }
@@ -332,17 +333,18 @@ public class EventManager implements Serializable{
             e = new TED(name,capacity,start,end,true);
         }
         else if(type.equals("SEMINAR")){
-            e = new Seminar(name,capacity,start,end);
+            e = new Seminar(name,capacity,start,end, true);
         }
         else{
-            e = new Event(name,capacity,start,end);
+            e = new Event(name,capacity,start,end, true);
         }
+         */
         if(!description.equals("")) {
             e.setDescription(description);
         }
         events.add(e);
         assignRoom(getRoomByName(room),e);
-        //edg.insertEvent(e);
+        edg.insertEvent(e);
     }
 
     public void cancelEvent(String name){

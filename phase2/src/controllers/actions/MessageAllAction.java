@@ -16,6 +16,8 @@ public abstract class MessageAllAction extends MessageAction {
 
     public MessageAllAction(UUID userID, UserManager um, ConversationManager cm) {super(userID, um, cm);}
 
+    private UUID conversationID;
+
     public abstract void run() throws Exception;
     public abstract String getName();
 
@@ -37,7 +39,11 @@ public abstract class MessageAllAction extends MessageAction {
         cm.setConversationName(conID, title);
         cm.sendMessageInConversation(conID, userID, bdy);
         cm.setConversationReadOnly(conID, true);
+        this.conversationID = conID;
+    }
 
+    public UUID getConversationID() {
+        return this.conversationID;
     }
 
     /*

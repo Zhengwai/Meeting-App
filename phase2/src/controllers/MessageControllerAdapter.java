@@ -185,9 +185,10 @@ public class MessageControllerAdapter {
      * @param body Body of the Message.
      * @param title Title of the Message.
      */
-    public void MessageAllAttendees(String body, String title) {
+    public UUID MessageAllAttendees(String body, String title) {
         MessageAllAttendeesAction messageAll = new MessageAllAttendeesAction(userID, um, cm, body, title);
         messageAll.run();
+        return messageAll.getConversationID();
 
     }
 
@@ -197,9 +198,10 @@ public class MessageControllerAdapter {
      * @param body Body of the Message.
      * @param title Title of the Message.
      */
-    public void MessageAllSpeakers(String body, String title) {
+    public UUID MessageAllSpeakers(String body, String title) {
         MessageAllSpeakersAction messageAll = new MessageAllSpeakersAction(userID, um, cm, body, title);
         messageAll.run();
+        return messageAll.getConversationID();
     }
 
     /**
@@ -209,9 +211,10 @@ public class MessageControllerAdapter {
      * @param title title of the message
      * @param eventID UUID of the event to message attendees of
      */
-    public void MessageAllEventAttendees(String body, String title, UUID eventID) {
+    public UUID MessageAllEventAttendees(String body, String title, UUID eventID) {
         MessageAllEventAttendeesAction messageAll = new MessageAllEventAttendeesAction(userID, um, cm, em, body, title, eventID);
         messageAll.run();
+        return messageAll.getConversationID();
     }
 
     /**

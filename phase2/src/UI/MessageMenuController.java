@@ -99,8 +99,7 @@ public class MessageMenuController extends GeneralController implements Initiali
     public void handleSelectChat(MouseEvent mouseEvent) {
         if(!(myMessageList.getSelectionModel().getSelectedItem() == null)) {
             String[] recipient = (String[]) myMessageList.getSelectionModel().getSelectedItem();
-            ch.setConversation(UUID.fromString(recipient[1]));
-            ch.setConversationName(recipient[0]);
+            ch.setConversation(UUID.fromString(recipient[1]), recipient[0]);
             messageMain.setCenter(mb.chatBuilder());
         }
     }
@@ -108,29 +107,33 @@ public class MessageMenuController extends GeneralController implements Initiali
     public void handleSendNewAction(ActionEvent actionEvent) {
         String choice = (String) newMessageType.getValue();
         String myMessage = message.getText();
-        String title;
+        String title = new String();
+        UUID conID;
 
         if (choice.equals("Speaking Event")) {
             String newFriend = (String) chooseNewFriend.getValue();
-            mca.MessageAllEventAttendees(myMessage, newFriend,
+            conID = mca.MessageAllEventAttendees(myMessage, newFriend,
                     mainModel.getEm().getEventByName((String) chooseNewFriend.getValue()).getId());
         } else if (choice.equals("All Speakers")) {
             title = "Notice from Organizer";
-            mca.MessageAllSpeakers(myMessage, title);
+            conID = mca.MessageAllSpeakers(myMessage, title);
         } else if (choice.equals("All Users")) {
             title = "Notice from Organizer";
-            mca.MessageAllAttendees(myMessage, title);
+            conID = mca.MessageAllAttendees(myMessage, title);
         } else {
-            String newFriend = (String) chooseNewFriend.getValue();
-            mca.AddFriend(mainModel.getUm().getUserByName(newFriend).getID(), myMessage);
+            title = (String) chooseNewFriend.getValue();
+            conID = mca.AddFriend(mainModel.getUm().getUserByName(title).getID(), myMessage);
         }
-
-        messageMain.setCenter(mb.chatBuilder());
 
         this.message.setText("");
         sendButton.setDisable(true);
 
         updateFilterMessages();
+
+        ch.setConversation(conID, title);
+        messageMain.setCenter(mb.chatBuilder());
+        //messageMain.setCenter(mb.chatBuilder());
+
     }
 
 

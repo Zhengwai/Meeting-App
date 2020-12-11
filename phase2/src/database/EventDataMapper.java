@@ -26,7 +26,7 @@ public class EventDataMapper implements EventDataGateway {
     public void insertEvent(Event evt) {
         try {
 
-            db.insertNewEvent(evt.getId(), evt.getName().toString(), evt.getDescription(), evt.getStartTime().toString(),
+            db.insertNewEvent(evt.getId(), evt.getName().getValue(), evt.getDescription(), evt.getStartTime().toString(),
                     evt.getEndTime().toString(), evt.getCapacity(), evt.getRoom());
         } catch (SQLException e) {
             System.out.println("Something went wrong trying to insert that event");
