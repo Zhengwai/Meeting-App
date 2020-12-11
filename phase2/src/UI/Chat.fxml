@@ -11,7 +11,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.ChatController">
    <children>
       <BorderPane fx:id="chatPane" prefHeight="400.0" prefWidth="400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -26,7 +25,7 @@
             </Label>
          </top>
          <center>
-            <ListView fx:id="messageHistory" prefHeight="271.0" prefWidth="386.0" BorderPane.alignment="CENTER" />
+            <ListView fx:id="messageHistory" prefHeight="271.0" onMouseClicked="#handleSelect" prefWidth="386.0" BorderPane.alignment="CENTER" />
          </center>
          <bottom>
             <VBox prefHeight="79.0" prefWidth="400.0" BorderPane.alignment="CENTER">
@@ -46,17 +45,16 @@
                   </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Button fx:id="archiveButton" mnemonicParsing="false" onAction="#handleArchive" prefHeight="27.0" prefWidth="137.0" text="Archive Conversation">
+                        <Button fx:id="archiveButton" mnemonicParsing="false" onAction="#handleArchive" prefHeight="27.0" prefWidth="95.0" text="Archive">
                            <HBox.margin>
                               <Insets left="15.0" right="5.0" />
                            </HBox.margin>
                         </Button>
-                        <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#handleDelete" text="Delete Conversation">
+                        <Button fx:id="unreadButton" mnemonicParsing="false" onAction="#markUnread" prefHeight="27.0" prefWidth="103.0" text="Mark  Unread">
                            <HBox.margin>
                               <Insets right="5.0" />
-                           </HBox.margin>
-                        </Button>
-                        <Button fx:id="unreadButton" mnemonicParsing="false" onAction="#markUnread" prefHeight="27.0" prefWidth="94.0" text="Mark  Unread" />
+                           </HBox.margin></Button>
+                        <Button fx:id="deleteMessages" mnemonicParsing="false" onAction="#handleDelete" text="Delete Selected Messages" />
                      </children>
                      <VBox.margin>
                         <Insets top="5.0" />

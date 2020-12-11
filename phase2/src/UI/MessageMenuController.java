@@ -63,8 +63,6 @@ public class MessageMenuController extends GeneralController implements Initiali
 
     private ObservableList<String> conversations;
 
-    ArrayList<String[]> filteredMessages;
-
     public MessageMenuController() throws ClassNotFoundException {
         mainModel.getCm().addObserver(this);
     }
@@ -103,25 +101,6 @@ public class MessageMenuController extends GeneralController implements Initiali
         }
 
         updateFilterMessages();
-
-        //UUID user = mainModel.getCurrentUser().getID();
-
-        /*
-        String choice = (String) filterMessages.getValue();
-        List<String> messageNames = new ArrayList<>();
-
-        filteredMessages = mca.getConversations();
-
-        for (String[] s : filteredMessages) {
-            messageNames.add(s[0]);
-        }
-
-        if (messageNames.size() > 0) {
-            myMessageList.getItems().setAll(messageNames);
-        } else {
-            myMessageList.setPlaceholder(new Label("No Messages"));
-        }
-    */
 
         subPane.setVisible(false);
     }
@@ -194,19 +173,19 @@ public class MessageMenuController extends GeneralController implements Initiali
     }
 
     public void updateFilterMessages() {
+        ArrayList<String[]> filteredMessages = new ArrayList<>();
         String choice = (String) filterMessages.getValue();
         List<String> messageNames = new ArrayList<>();
 
         if (choice.equals("All Messages")) {
             filteredMessages = mca.getConversations();
         }
-        if (choice.equals("Unread Messages")) {
+        else if (choice.equals("Unread Messages")) {
             filteredMessages = mca.getUnreadConversations();
         }
-        if (choice.equals("Archived Messages")) {
+        else if (choice.equals("Archived Messages")) {
             filteredMessages = mca.getArchivedConversations();
         }
-
 
         if (filteredMessages.size() > 0) {
             myMessageList.getItems().setAll(filteredMessages);
@@ -221,7 +200,7 @@ public class MessageMenuController extends GeneralController implements Initiali
                     }
                 }
             });
-        } else {
+        } else if(filteredMessages.size() == 0){
             myMessageList.setPlaceholder(new Label("No Messages"));
         }
     }
