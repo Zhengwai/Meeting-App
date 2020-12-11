@@ -15,7 +15,7 @@
    <center>
       <AnchorPane BorderPane.alignment="CENTER">
          <children>
-            <VBox layoutX="66.0" layoutY="125.0" prefHeight="139.0" prefWidth="393.0">
+            <VBox layoutX="65.0" layoutY="125.0" prefHeight="139.0" prefWidth="393.0">
                <children>
                   <Label text="Username">
                      <font>
@@ -47,6 +47,14 @@
                         <Button fx:id="registerButton" mnemonicParsing="false" onAction="#registerButtonAction" prefHeight="27.0" prefWidth="320.0" text="Register" />
                      </children>
                   </HBox>
+                  <Label fx:id="promptLabel" text="Username or password was incorrect." textFill="RED" visible="false">
+                     <VBox.margin>
+                        <Insets left="60.0" top="5.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
                </children>
             </VBox>
          </children>
