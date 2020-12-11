@@ -6,7 +6,7 @@ import javafx.scene.layout.*;
 import javafx.scene.control.*;
 import javafx.geometry.*;
 
-public class OrganizerCancelEventAlertBox {
+public class OrganizerNoRoomAlertBox {
     public static void display(){
         Stage window = new Stage();
 
@@ -16,7 +16,7 @@ public class OrganizerCancelEventAlertBox {
         window.setHeight(300);
 
         Label label = new Label();
-        label.setText("There's no event to cancel!");
+        label.setText("There's no rooms yet! Please create a new room first.");
         label.setLayoutY(150);
 
 

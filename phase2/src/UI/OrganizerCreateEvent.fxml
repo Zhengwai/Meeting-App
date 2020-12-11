@@ -10,9 +10,9 @@
             <children>
                 <TextField fx:id="eventNameTextField" layoutX="196.0" layoutY="100.0" promptText="Event Name" />
                 <TextField fx:id="eventCapacityTextField" layoutX="196.0" layoutY="135" promptText="Event Capacity" />
-                <TextField fx:id="eventStartTimeTextField" layoutX="196.0" layoutY="170.0" promptText="Event Start Time" />
-                <TextField fx:id="eventEndTimeTextField" layoutX="196.0" layoutY="205.0" promptText="Event End Time" />
-                <TextField fx:id="eventRoomTextField" layoutX="196.0" layoutY="240.0" promptText="Event Room" />
+                <TextField fx:id="eventStartTimeTextField" layoutX="196.0" layoutY="170.0" promptText="yyyy-mm-dd hh:mm" />
+                <TextField fx:id="eventEndTimeTextField" layoutX="196.0" layoutY="205.0" promptText="yyyy-mm-dd hh:mm" />
+                <ComboBox fx:id="selectRoomComboBox" layoutX="196.0" layoutY="240.0" promptText="Select a room" />
                 <TextArea fx:id="descriptionTextArea" layoutX="64.0" layoutY="300.0" prefHeight="180.0" prefWidth="400.0" promptText="Event Description"/>
                 <Label layoutX="90.0" layoutY="100.0" text="Event Name">
                     <font>
@@ -40,7 +40,7 @@
                     </font>
                 </Label>
                 <Button fx:id="createEventButton" layoutX="232.0" layoutY="540.0" mnemonicParsing="false" onAction="#createEventButtonOnAction" text="Create" />
-                <Label fx:id="eventRoomErrorLabel" layoutX="196.0" layoutY="141.0" />
+                <Label fx:id="hasRoomLabel" layoutX="196.0" layoutY="141.0" />
                 <Button fx:id="goBackButton" layoutX="6.0" layoutY="2.0" mnemonicParsing="false" onAction="#goBackButtonOnAction" text="Go Back" />
                 <Label fx:id="createEventSuccessLabel" layoutX="206.0" layoutY="575.0" />
                 <ComboBox fx:id="selectTypeEventComboBox" layoutX="196.0" layoutY="65.0" prefWidth="150.0" promptText="Select Type of Event" AnchorPane.bottomAnchor="550.0" AnchorPane.leftAnchor="196.0" AnchorPane.rightAnchor="178.0" AnchorPane.topAnchor="65.0" />

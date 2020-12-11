@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane prefHeight="250.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.OrganizerCreateRoomController">
+    <center>
+        <AnchorPane BorderPane.alignment="CENTER">
+            <children>
+                <TextField fx:id="roomNameTextField" layoutX="196.0" layoutY="77.0" promptText="Event Name" />
+                <TextField fx:id="roomCapacityTextField" layoutX="196.0" layoutY="110" promptText="Event Capacity" />
+                <Label layoutX="90.0" layoutY="77.0" text="Room Name">
+                    <font>
+                        <Font size="19.0" />
+                    </font>
+                </Label>
+                <Label layoutX="70.0" layoutY="110.0" text="Event Capacity">
+                    <font>
+                        <Font size="19.0" />
+                    </font>
+                </Label>
+                <Button fx:id="createRoomButton" layoutX="232.0" layoutY="150.0" mnemonicParsing="false" onAction="#createRoomButtonOnAction" text="Create" />
+                <Label fx:id="RoomNameErrorLabel" layoutX="196.0" layoutY="180" />
+                <Label fx:id="RoomCapacityErrorLabel" layoutX="196.0" layoutY="180" />
+                <Button fx:id="goBackButton" layoutX="6.0" layoutY="2.0" mnemonicParsing="false" onAction="#goBackButtonOnAction" text="Go Back" />
+                <Label fx:id="createRoomSuccessLabel" layoutX="196.0" layoutY="180.0" />
+            </children>
+        </AnchorPane>
+    </center>
+</BorderPane>

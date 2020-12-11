@@ -19,6 +19,8 @@ import java.util.ResourceBundle;
 public class OrganizerScheduleMenuController extends ScheduleMenuController {
 
     @FXML
+    Button createRoomButton;
+    @FXML
     Button createEventButton;
 
     @FXML
@@ -31,16 +33,28 @@ public class OrganizerScheduleMenuController extends ScheduleMenuController {
 
     public OrganizerScheduleMenuController() throws ClassNotFoundException {
     }
-
-    public void createEventButtonOnAction(ActionEvent event) throws IOException {
-        showEvent("OrganizerCreateEvent.fxml");
+    public void createRoomButtonOnAction() throws IOException{
+        showEvent("OrganizerCreateRoom.fxml");
         initialize();
+    }
+    public void createEventButtonOnAction(ActionEvent event) throws IOException {
+        if(mainModel.getEm().getRooms().isEmpty()){
+            OrganizerNoRoomAlertBox.display();
+        }
+        else {
+            showEvent("OrganizerCreateEvent.fxml");
+            initialize();
+        }
     }
 
     public void cancelEventButtonOnAction(ActionEvent event) throws IOException {
-        showEvent("OrganizerCancelEvent.fxml");
-        //OrganizerCancelEventAlertBox.display();
-        initialize();
+        if(mainModel.getEm().getEvents().isEmpty()){
+            OrganizerCancelEventAlertBox.display();
+        }
+        else{
+            showEvent("OrganizerCancelEvent.fxml");
+            initialize();
+        }
     }
     public void showEvent(String filePath) throws IOException{
         FXMLLoader loader = new FXMLLoader(getClass().getResource(filePath));

@@ -39,6 +39,12 @@ public class EventManager implements Serializable{
         events.add(e1);
         events.add(e2);
         events.add(e3);
+        Room r1 = new Room(10,"testRoom1");
+        Room r2 = new Room(20,"testRoom2");
+        Room r3 = new Room(30,"testRoom3");
+        rooms.add(r1);
+        rooms.add(r2);
+        rooms.add(r3);
     }
     /**
      *Initializes the EventManager.
@@ -119,6 +125,25 @@ public class EventManager implements Serializable{
         }
         return eventNames;
     }
+    public ArrayList<String> getAllRoomNames(){
+        ArrayList<String> roomNames = new ArrayList<>();
+        for(Room r: getRooms()){
+            roomNames.add(r.getRoomName());
+        }
+        return roomNames;
+    }
+    /**
+    public ArrayList<String> getAllAvailableRoomNames(Event evt){
+        ArrayList<String> names = new ArrayList<>();
+        ArrayList<String> allNames = getAllRoomNames();
+        for(String r: allNames){
+            if(roomAvailableForEvent(getRoomByName(r),evt)){
+                names.add(r);
+            }
+        }
+        return names;
+    }
+     */
 
     /**
      * Returns all the rooms in the system.
@@ -203,6 +228,14 @@ public class EventManager implements Serializable{
             return true;
         }
     }
+    public boolean hasRoom(String name){
+        for(Room r: rooms){
+            if(r.getRoomName().equals(name)){
+                return true;
+            }
+        }
+        return false;
+    }
     /**
      * Returns if the event given by the id exists.
      * @param id id to search for.
@@ -240,6 +273,9 @@ public class EventManager implements Serializable{
      * @return true iff the room is available for event.
      */
     public boolean roomAvailableForEvent(Room room, Event event){
+        if(event.getCapacity()>room.getCapacity()){
+            return false;
+        }
         for (UUID eventID : room.getEvents()) {
             if (eventsOverlap(getEventByID(eventID),event)) {
                 return false;
@@ -287,7 +323,7 @@ public class EventManager implements Serializable{
         return e;
     }
 
-    public void createAndAddEvent(String name, int capacity, LocalDateTime start, LocalDateTime end, UUID room, String type, String description){
+    public void createAndAddEvent(String name, int capacity, LocalDateTime start, LocalDateTime end, String room, String type, String description) throws IOException{
         Event e;
         if(type.equals("TED")) {
             e = new TED(name, capacity, start, end,false);
@@ -304,8 +340,8 @@ public class EventManager implements Serializable{
         if(!description.equals("")) {
             e.setDescription(description);
         }
-        e.setRoom(room);
         events.add(e);
+        assignRoom(getRoomByName(room),e);
         //edg.insertEvent(e);
     }
 
@@ -318,5 +354,9 @@ public class EventManager implements Serializable{
         }
     }
 
+    public void createAndAddRoom(String name, int capacity){
+        Room r = new Room(capacity,name);
+        rooms.add(r);
+    }
 
 }

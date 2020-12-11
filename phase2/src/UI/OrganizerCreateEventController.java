@@ -9,6 +9,9 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextArea;
+
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import java.time.LocalDateTime;
@@ -26,21 +29,24 @@ public class OrganizerCreateEventController extends MenuController{
     @FXML
     TextField eventCapacityTextField;
     @FXML
-    TextField eventRoomTextField;
-    @FXML
     TextArea descriptionTextArea;
     @FXML
-    Label eventRoomErrorLabel;
+    Label hasRoomLabel;
     @FXML
     Label createEventSuccessLabel;
     @FXML
     ComboBox<String> selectTypeEventComboBox;
+    @FXML
+    ComboBox<String> selectRoomComboBox;
     @FXML
     Label hasTypeLabel;
     @FXML
     public void initialize(){
         selectTypeEventComboBox.getItems().removeAll(selectTypeEventComboBox.getItems());
         selectTypeEventComboBox.getItems().addAll("","TED","VIP","SEMINAR");
+        ArrayList<String> roomNames = mainModel.getEm().getAllRoomNames();
+        selectRoomComboBox.getItems().removeAll();
+        selectRoomComboBox.getItems().addAll(roomNames);
     }
 
     //private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyy-MM-dd HH:mm");
@@ -55,7 +61,7 @@ public class OrganizerCreateEventController extends MenuController{
     public OrganizerCreateEventController() throws ClassNotFoundException {
     }
 
-   public void createEventButtonOnAction(ActionEvent actionEvent) {
+   public void createEventButtonOnAction(ActionEvent actionEvent) throws IOException {
        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
        String name = eventNameTextField.getText();
        int capacity = Integer.parseInt(eventCapacityTextField.getText());
@@ -63,37 +69,47 @@ public class OrganizerCreateEventController extends MenuController{
        LocalDateTime etime = LocalDateTime.parse(eventEndTimeTextField.getText(),formatter);
        //UUID roomid = UUID.fromString(eventRoomTextField.getText());
        //Room room = mainModel.getEm().getRoomByID(roomid);
-       String roomName = eventRoomTextField.getText();
-       Room room = new Room(capacity, roomName);
+       String roomName = selectRoomComboBox.getValue();
+       Room room = mainModel.getEm().getRoomByName(roomName);
+
        Event tempE = mainModel.getEm().createTempEvent(name, capacity,stime,etime);
 
-        if (checkValidInput(room, tempE) && hasChosenType()){
-            mainModel.getEm().createAndAddEvent(name, capacity, stime, etime, room.getID(), selectTypeEventComboBox.getValue(),descriptionTextArea.getText());
-            mainModel.getEm().addRoom(room);
+        if (checkValidInput(room, tempE)){
+            String type = selectTypeEventComboBox.getValue();
+            mainModel.getEm().createAndAddEvent(name, capacity, stime, etime, room.getRoomName(), type,descriptionTextArea.getText());
             createEventSuccessLabel.setText("Event created success!");
         }
     }
 
     protected boolean checkValidInput(Room room, Event tempE){
         createEventSuccessLabel.setText("");
-        eventRoomErrorLabel.setText("");
-        return checkValidRoom(room, tempE);
+        hasRoomLabel.setText("");
+        return hasChosenRoom()&&hasChosenType()&&roomAvailable(room,tempE);
 
     }
-
-    protected boolean checkValidRoom(Room room, Event tempE){
-        if (!mainModel.getEm().roomAvailableForEvent(room, tempE)){
-            eventRoomErrorLabel.setText("The room selected is taken at this time period!");
+    protected boolean roomAvailable(Room room, Event tempE){
+        if(!roomAvailable(room,tempE)){
+            hasRoomLabel.setText("Selected room isn't available for this event.");
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+    protected boolean hasChosenType(){
+        hasTypeLabel.setText("");
+        if (selectTypeEventComboBox.getSelectionModel().isEmpty()){
+            hasTypeLabel.setText("Please select an event type!");
             return false;
         }else{
             return true;
         }
     }
 
-    protected boolean hasChosenType(){
-        hasTypeLabel.setText("");
-        if (selectTypeEventComboBox.getSelectionModel().isEmpty()){
-            hasTypeLabel.setText("Please select an event type!");
+    protected boolean hasChosenRoom(){
+        hasRoomLabel.setText("");
+        if (selectRoomComboBox.getSelectionModel().isEmpty()){
+            hasRoomLabel.setText("Please select a room!");
             return false;
         }else{
             return true;
