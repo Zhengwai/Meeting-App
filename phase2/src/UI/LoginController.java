@@ -99,6 +99,8 @@ public class LoginController {
 
     public void registerButtonAction(ActionEvent event) throws IOException {
         showMenu("register.fxml");
+        usernameTextField.setText("");
+        passwordField.setText("");
     }
 
 
