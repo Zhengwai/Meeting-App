@@ -63,8 +63,6 @@ public class OrganizerCreateEventController extends MenuController{
        int capacity = Integer.parseInt(eventCapacityTextField.getText());
        LocalDateTime stime = LocalDateTime.parse(eventStartTimeTextField.getText(),formatter);
        LocalDateTime etime = LocalDateTime.parse(eventEndTimeTextField.getText(),formatter);
-       //UUID roomid = UUID.fromString(eventRoomTextField.getText());
-       //Room room = mainModel.getEm().getRoomByID(roomid);
        String roomName = selectRoomComboBox.getValue();
        Room room = mainModel.getEm().getRoomByName(roomName);
        Boolean vip = vipStatus.isSelected();
