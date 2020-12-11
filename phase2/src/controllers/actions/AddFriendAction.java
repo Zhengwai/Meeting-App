@@ -8,6 +8,7 @@ import java.util.*;
 public class AddFriendAction extends MessageAction {
     private UUID friendID;
     private String bdy;
+    private UUID conversationID;
 
     public AddFriendAction(UUID userID, UserManager um, ConversationManager cm, UUID friendID, String bdy) {
         super(userID, um, cm);
@@ -40,6 +41,11 @@ public class AddFriendAction extends MessageAction {
         um.addFriends(userID, friendID);
 
         cm.sendMessageInConversation(conID, userID, bdy);
+        this.conversationID = conID;
+    }
+
+    public UUID getConversationID() {
+        return this.conversationID;
     }
 
     /*

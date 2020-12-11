@@ -200,6 +200,14 @@ public class Conversation implements Serializable {
     public void removeArchivedFor() {this.archivedFor.clear();}
 
     /**
+     * Removes userId from ArchivedFor list
+     * @param id UUID of user
+     */
+    public void removeArchivedForUser(UUID id) {
+        this.archivedFor.remove(id);
+    }
+
+    /**
      * Returns whether the conversation is archived for user or not
      * @param id UUID of user
      * @return True if id is in archivedFor, False if not.

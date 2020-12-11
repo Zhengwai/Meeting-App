@@ -300,6 +300,11 @@ public class ConversationManager implements Serializable {
 
     }
 
+    public void removeArchivedMessageForUser(UUID conID, UUID userID) {
+        this.allConversations.get(conID).removeArchivedForUser(userID);
+        updateMessages();
+    }
+
     /**
      * Clears all unread messages a given user has in a given conversation
      * @param conID UUID of conversation in quesiton
@@ -354,7 +359,7 @@ public class ConversationManager implements Serializable {
             term[0] = String.valueOf(this.allMessages.get(msgID).getSenderID());
             term[1] = String.valueOf(this.allMessages.get(msgID).getTimeSent());
             term[2] = this.allMessages.get(msgID).getBody();
-            term[4] = msgID.toString();
+            term[3] = msgID.toString();
             out.add(term);
         }
 
