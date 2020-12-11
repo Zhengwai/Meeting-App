@@ -79,7 +79,7 @@ public class ConversationManager implements Serializable {
         this.allConversations.get(conID).removeArchivedFor();
         for (UUID id : this.allConversations.get(conID).getMembers()) {
             if (!id.equals(senderID)) {
-                this.allConversations.get(conID).addUnreadMessage(msg.getMessageID(), id);
+                this.allConversations.get(conID).setUnreadFor(id);
             }
         }
     }
@@ -280,16 +280,6 @@ public class ConversationManager implements Serializable {
     }
 
     /**
-     * Return a list of UUIDs of messages which are unread for a given user in a given conversation
-     * @param conID UUID of conversation in question
-     * @param userID UUID of user in question
-     * @return list of UUIDs of messages which are unread for a given user in a given conversation
-     */
-    public ArrayList<UUID> getUserUnreadMessages(UUID conID, UUID userID) {
-        return this.allConversations.get(conID).getUnreadMessages(userID);
-    }
-
-    /**
      * Set a given conversation as archived for a given user
      * @param conID UUID of conversation that is being archived
      * @param userID UUID of user who is archiving the conversation for themself
@@ -310,16 +300,18 @@ public class ConversationManager implements Serializable {
      * @param conID UUID of conversation in quesiton
      * @param userID UUID of user whose unread messages are being cleared
      */
-    public void setReadMessage(UUID conID, UUID userID) {this.allConversations.get(conID).removeUnreadMessage(userID);}
+    public void setReadMessage(UUID conID, UUID userID) {
+        this.allConversations.get(conID).removeUnreadForUser(userID);
+        updateMessages();
+    }
 
     /**
      * Adds a given UUID of a message to the list of unread messages a given user has in a given conversation
      * @param conID UUID of conversation in question
      * @param userID UUID of user in question
-     * @param msgID UUID of message to be added to list of unread messages
      */
-    public void setUnreadMessage(UUID conID, UUID userID, UUID msgID) {
-        this.allConversations.get(conID).addUnreadMessage(msgID, userID);
+    public void setUnreadMessage(UUID conID, UUID userID) {
+        this.allConversations.get(conID).setUnreadFor(userID);
         updateMessages();
     }
 

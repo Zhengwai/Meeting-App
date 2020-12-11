@@ -51,14 +51,18 @@ public class MessageControllerAdapter {
             term[3] = String.valueOf(c[3]);
             newMsgs.add(term);
         }
-        ArrayList<UUID> unread = new ArrayList<>(cm.getUserUnreadMessages(conID, userID));
+
+
+        //ArrayList<UUID> unread = new ArrayList<>(cm.getUserUnreadMessages(conID, userID));
         cm.setReadMessage(conID, userID);
 
+        /*
         if (!this.justReadMessages.containsKey(conID)) {
             this.justReadMessages.put(conID, unread);
         } else {
             this.justReadMessages.replace(conID, unread);
         }
+        */
 
         return newMsgs;
     }
@@ -252,11 +256,10 @@ public class MessageControllerAdapter {
 
     /**
      * Marks message with id msgID as unread for user with id userID in conversation with id conID
-     * @param msgID UUID of message
      * @param conID UUID of conversation
      */
-    public void MarkUnread(UUID msgID, UUID conID) {
-        cm.setUnreadMessage(conID, userID, msgID);
+    public void MarkUnread(UUID conID) {
+        cm.setUnreadMessage(conID, userID);
     }
 
     /**

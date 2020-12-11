@@ -56,6 +56,11 @@ public class ChatController extends GeneralController implements Initializable {
     public ChatController() throws ClassNotFoundException {
     }
 
+    /**
+     * Initializes the chat automatically when the chat is opened.
+     * @param location
+     * @param resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         if(mainModel.getCm().conversationArchived(ch.getConversation(), mainModel.getUserID())){
@@ -78,6 +83,10 @@ public class ChatController extends GeneralController implements Initializable {
 
     }
 
+    /**
+     * Handles the sending of the message upon pressing the send button.
+     * @param actionEvent
+     */
     public void handleSend(ActionEvent actionEvent) {
         String messageBody = messageBox.getText();
         mca.MessageConversation(ch.getConversation(), messageBody);
@@ -87,6 +96,10 @@ public class ChatController extends GeneralController implements Initializable {
 
     }
 
+    /**
+     * Handles the archiving/unarchiving of a conversation depending on whether it is already archived or not.
+     * @param actionEvent pressing the archiveButton button.
+     */
     public void handleArchive(ActionEvent actionEvent) {
         if(archiveButton.getText().equals("Unarchive")){
             mca.UnarchiveConversation(ch.getConversation());
@@ -103,14 +116,19 @@ public class ChatController extends GeneralController implements Initializable {
         }
     }
 
+    /**
+     * Handles marking the conversation as unread.
+     * @param actionEvent
+     */
     public void markUnread(ActionEvent actionEvent) {
-        String[] temp = (String[]) messageHistory.getItems().get(0);
-        UUID message = UUID.fromString(temp[3]);
-
-        mca.MarkUnread(message, ch.getConversation());
+        mca.MarkUnread(ch.getConversation());
         chatPane.setVisible(false);
     }
 
+    /**
+     * Handles deleting the selected messages.
+     * @param actionEvent
+     */
     public void handleDelete(ActionEvent actionEvent) {
         String[] thisOne = (String[]) messageHistory.getSelectionModel().getSelectedItem();
         UUID message = UUID.fromString(thisOne[3]);
@@ -119,6 +137,10 @@ public class ChatController extends GeneralController implements Initializable {
         deleteMessages.setDisable(true);
     }
 
+    /**
+     * Enables the delete messages button once a message that the user sent from the message history is selected.
+     * @param mouseEvent
+     */
     public void handleSelect(MouseEvent mouseEvent) {
         String[] thisOne = (String[]) messageHistory.getSelectionModel().getSelectedItem();
         if(thisOne[0].equals(mainModel.getCurrentUser().getID().toString()))
@@ -126,6 +148,9 @@ public class ChatController extends GeneralController implements Initializable {
 
     }
 
+    /**
+     * Updates the message history with new messages.
+     */
     public void updateMessageHistory(){
         messageHistory.getItems().setAll(mca.getMessagesInConversation(ch.getConversation()));
         messageHistory.setCellFactory(param -> new ListCell<String[]>() {

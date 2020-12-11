@@ -16,7 +16,7 @@ public class Conversation implements Serializable {
     private String convName = null;
     private boolean readOnly = false;
     private UUID owner;
-    private HashMap<UUID, ArrayList<UUID>> unreadMessages = new HashMap<>();
+    private ArrayList<UUID> unreadFor = new ArrayList<>();
     private ArrayList<UUID> archivedFor = new ArrayList<>();
 
     /**
@@ -58,7 +58,7 @@ public class Conversation implements Serializable {
         this.members.add(userID);
 
         ArrayList<UUID> rey = new ArrayList<>();
-        this.unreadMessages.put(userID, rey);
+        this.unreadFor.add(userID);
     }
 
     /**
@@ -68,7 +68,7 @@ public class Conversation implements Serializable {
     public void removeMember(UUID userID) {
         members.remove(userID);
 
-        this.unreadMessages.remove(userID);
+        this.unreadFor.remove(userID);
     }
 
     /**
@@ -149,27 +149,6 @@ public class Conversation implements Serializable {
      */
     public void deleteMessage(UUID id) {
         this.messages.remove(id);
-
-        for (ArrayList<UUID> unreadMsgs : unreadMessages.values()) {
-            unreadMsgs.remove(id);
-        }
-    }
-
-    /**
-     * Adds the UUID of the message to a user's unreadMessages list
-     * @param id UUID of the message
-     * @param userID UUID of the user who has not read the message
-     */
-    public void addUnreadMessage(UUID id, UUID userID) {
-        this.unreadMessages.get(userID).add(id);
-    }
-
-    /**
-     * Clears the unreadMessages list for given user
-     * @param userID UUID of user
-     */
-    public void removeUnreadMessage(UUID userID) {
-        this.unreadMessages.get(userID).clear();
     }
 
     /**
@@ -177,16 +156,7 @@ public class Conversation implements Serializable {
      * @param userID UUID of user
      * @return True if user has unread messages. False if user does not.
      */
-    public boolean hasUnreadMessages(UUID userID) {return !(this.unreadMessages.get(userID).isEmpty());}
-
-    /**
-     * Getter for a user's unread messages
-     * @param userID UUID of user
-     * @return ArrayList of UUIDs of the unread messages that user has
-     */
-    public ArrayList<UUID> getUnreadMessages(UUID userID) {
-        return this.unreadMessages.get(userID);
-    }
+    public boolean hasUnreadMessages(UUID userID) {return this.unreadFor.contains(userID);}
 
     /**
      * Setter for a user to archive conversation
@@ -213,6 +183,12 @@ public class Conversation implements Serializable {
      * @return True if id is in archivedFor, False if not.
      */
     public boolean isArchivedFor(UUID id) {return this.archivedFor.contains(id);}
+
+    public void setUnreadFor(UUID id) {this.unreadFor.add(id);}
+
+    public void removeUnreadFor(UUID id){this.unreadFor.clear();}
+
+    public void removeUnreadForUser(UUID id) {this.unreadFor.remove(id);}
 
     public void setConID(UUID id) {
         this.conID = id;
