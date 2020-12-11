@@ -2,10 +2,14 @@ package UI;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
-public class SpeakerAssignedScheduleMenuController extends ScheduleMenuController{
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class SpeakerAssignedScheduleMenuController extends ScheduleMenuController implements Initializable {
     @FXML
     Button requestCancellationButton;
     @FXML
@@ -15,5 +19,10 @@ public class SpeakerAssignedScheduleMenuController extends ScheduleMenuControlle
 
 
     public void requestCancellationButtonOnAction(ActionEvent event) {
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+
     }
 }

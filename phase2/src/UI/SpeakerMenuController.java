@@ -22,21 +22,9 @@ public class SpeakerMenuController extends MenuController implements Initializab
     public SpeakerMenuController() throws ClassNotFoundException {
     }
 
-    /**
-     * Opens up a new scene/stage for speaker to see events they 've been assigned.
-     * Returns back to this scene when done.
-     * @param event an event denoting the user's clicking action.
-     */
-    public void seeAssignedButtonOnAction(ActionEvent event){
-        //TODO:
-    }
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         welcomeLabel.setText("Welcome " + mainModel.getCurrentUser().getUsername() + "!");
     }
 
-    //public void handleMessageButton(ActionEvent actionEvent) throws IOException {
-    //    showEvent("MainMessage.fxml");
-    //}
 }

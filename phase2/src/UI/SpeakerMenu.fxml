@@ -15,7 +15,7 @@
                   <Font size="24.0" />
                </font>
             </Label>
-            <Button fx:id="seeSignedUpButton" mnemonicParsing="false" prefHeight="27.0" prefWidth="280.0" text="See Signed Up Events">
+            <Button fx:id="seeSignedUpButton" mnemonicParsing="false" prefHeight="27.0" prefWidth="280.0" onAction="#seeSignedUpButtonOnAction" text="See My Events">
                <VBox.margin>
                   <Insets bottom="5.0" />
                </VBox.margin>

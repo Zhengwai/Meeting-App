@@ -40,6 +40,8 @@ abstract class MenuController extends GeneralController{
             showEvent("AttendeeSignedUpScheduleMenu.fxml");
         }else if (type.equals("o")){
             showEvent("OrganizerSignedUpScheduleMenu.fxml");
+        }else if (type.equals("s")){
+            showEvent("SpeakerAssignedScheduleMenu.fxml");
         }
     }
 
