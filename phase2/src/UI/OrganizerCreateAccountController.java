@@ -30,9 +30,7 @@ OrganizerCreateAccountController extends RegisterController {
             String un = usernameTextField.getText();
             String pw = passwordTextField.getText();
             createBasedOnType(un, pw);
-            passwordErrorLabel.setText("");
-            usernameErrorLabel.setText("");
-            registrationSuccessLabel.setText("Registration success!\n" +
+            statusLabel.setText("Registration success!\n" +
                     "Your username is: " + un + "\n" +
                     "Your password is: " + pw);
 
