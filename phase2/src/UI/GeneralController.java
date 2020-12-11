@@ -46,7 +46,7 @@ public abstract class GeneralController {
         Stage stage = new Stage(); //sets stage.
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.initOwner(button.getScene().getWindow());//this scene with the login button will be the owner of the stage.(Kinda like the root of a tree)
-        stage.setScene(new Scene((Parent) loader.load())); //adds the menu scene to the stage.
+        stage.setScene(new Scene(loader.load())); //adds the menu scene to the stage.
 
         button.getScene().getWindow().hide();//temporarily close this window
         stage.showAndWait();//showAndWait will block execution until the window closes.

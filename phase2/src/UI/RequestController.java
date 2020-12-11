@@ -23,7 +23,7 @@ public class RequestController extends GeneralController {
     }
 
     public void newRequestButtonOnAction(javafx.event.ActionEvent actionEvent) throws IOException {
-        newButtonStage("EditRequest.fxml", newRequestButton);
+        newButtonStage("newRequest.fxml", newRequestButton);
     }
 
     public void viewRequestButtonOnAction(ActionEvent actionEvent) {

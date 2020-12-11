@@ -21,6 +21,7 @@ public class AttendeeMenuController extends MenuController implements Initializa
     @FXML
     Button requestsButton;
 
+
     private String fxmlName = "AttendeeMenu.fxml";
 
     public AttendeeMenuController() throws ClassNotFoundException {
@@ -32,6 +33,6 @@ public class AttendeeMenuController extends MenuController implements Initializa
     }
 
     public void RequestButtonOnAction(ActionEvent actionEvent) throws IOException {
-        showEvent("Requests.fxml");
+        newButtonStage("Requests.fxml", requestsButton);
     }
 }

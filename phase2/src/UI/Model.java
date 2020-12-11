@@ -62,4 +62,7 @@ public final class Model {
         return cm;
     }
 
+    public RequestManager getRm() {
+        return rm;
+    }
 }

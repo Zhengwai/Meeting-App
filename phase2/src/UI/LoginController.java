@@ -57,7 +57,8 @@ public class LoginController extends GeneralController{
         User user = mainModel.getUm().verifyLogin(usernameTextField.getText(), passwordField.getText());
         if (user != null) { //correct credentials.
             mainModel.setCurrentUser(user); //Sets this user as current user in main model.
-            promptLabel.setText(""); //Clears the error message label.
+            //promptLabel.setText(""); //Clears the error message label.
+
             String type = (user.getType()); //gets the user's type, launches different menus depending on type.
             System.out.println("test print");
             if (type.equals("a") | type.equals("v")){
