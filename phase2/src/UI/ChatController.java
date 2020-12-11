@@ -116,10 +116,21 @@ public class ChatController extends GeneralController implements Initializable {
                 if (empty || item == null || item[0] == null || item[1] == null || item[2] == null) {
                     setText(null);
                 } else {
+
+                    // set the width's
+                    setMinWidth(386.0);
+                    setMaxWidth(386.0);
+                    setPrefWidth(386.0);
+
+                    // allow wrapping
+                    setWrapText(true);
+
                     if(item[0].equals(mainModel.getUserID().toString()))
                         setText("Me: " + item[2]);
                     else
                         setText(item[0] + ": " + item[2]);
+
+
                 }
             }
         });

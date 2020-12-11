@@ -4,10 +4,30 @@ import javafx.beans.property.SimpleStringProperty;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class Seminar extends Event {
-    public Seminar(String name, int capacity, LocalDateTime startTime, LocalDateTime endTime){
-        super(name,capacity,startTime,endTime);
+    private UUID speaker;
+
+    // single speaker event
+    public Seminar(String name, int capacity, LocalDateTime startTime, LocalDateTime endTime, boolean vip){
+        super(name,capacity,startTime,endTime, vip);
         type = new SimpleStringProperty("seminar");
+    }
+
+    public void setSpeaker(UUID speaker){
+        this.speaker = speaker;
+    }
+
+    @Override
+    public boolean hasSpace(){
+        if (1 + attendees.size() < capacity){
+            return true;
+        }
+        return false;
+    }
+    @Override
+    public int getTotalPeople(){
+        return 1 + attendees.size();
     }
 }

@@ -4,11 +4,7 @@ import entities.Event;
 import entities.Room;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -41,9 +37,11 @@ public class OrganizerCreateEventController extends MenuController{
     @FXML
     Label hasTypeLabel;
     @FXML
+    CheckBox vipStatus;
+
     public void initialize(){
         selectTypeEventComboBox.getItems().removeAll(selectTypeEventComboBox.getItems());
-        selectTypeEventComboBox.getItems().addAll("","TED","VIP","SEMINAR");
+        selectTypeEventComboBox.getItems().addAll("","TED","SEMINAR", "PARTY");
         ArrayList<String> roomNames = mainModel.getEm().getAllRoomNames();
         selectRoomComboBox.getItems().removeAll();
         selectRoomComboBox.getItems().addAll(roomNames);
@@ -71,12 +69,13 @@ public class OrganizerCreateEventController extends MenuController{
        //Room room = mainModel.getEm().getRoomByID(roomid);
        String roomName = selectRoomComboBox.getValue();
        Room room = mainModel.getEm().getRoomByName(roomName);
+       Boolean vip = vipStatus.isSelected();
 
        Event tempE = mainModel.getEm().createTempEvent(name, capacity,stime,etime);
 
         if (checkValidInput(room, tempE)){
             String type = selectTypeEventComboBox.getValue();
-            mainModel.getEm().createAndAddEvent(name, capacity, stime, etime, room.getRoomName(), type,descriptionTextArea.getText());
+            mainModel.getEm().createAndAddEvent(name, capacity, stime, etime, room.getRoomName(), type,descriptionTextArea.getText(), vip);
             createEventSuccessLabel.setText("Event created success!");
         }
     }

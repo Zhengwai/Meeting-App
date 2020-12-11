@@ -26,6 +26,7 @@ public class Event implements Serializable {
     protected String description = "No information on this event has been disclosed yet.";
     protected DateTimeFormatter dateFormatter = DateTimeFormatter.ISO_LOCAL_DATE;
     protected DateTimeFormatter timeFormatter = DateTimeFormatter.ISO_LOCAL_TIME;
+    protected boolean isVIP;
 
     protected StringProperty dateString;
     protected StringProperty type = new SimpleStringProperty();
@@ -57,13 +58,14 @@ public class Event implements Serializable {
      * @param name the name of the event
      * @param capacity the maximum attendee capacity of the event
      */
-    public Event(String name, int capacity,LocalDateTime startTime, LocalDateTime endTime){
+    public Event(String name, int capacity,LocalDateTime startTime, LocalDateTime endTime, boolean vip){
         this.name = new SimpleStringProperty(name.toUpperCase());
         this.startTime = startTime;
         this.endTime = endTime;
         this.capacity = capacity;
         this.attendees = new ArrayList<>();
         this.id = UUID.randomUUID();
+        this.isVIP = vip;
 
         dateString = new SimpleStringProperty(dateFormatter.format(startTime));
         startTimeString = new SimpleStringProperty(timeFormatter.format(startTime));
@@ -237,6 +239,14 @@ public class Event implements Serializable {
 
     public void setType(StringProperty type){
         this.type = type;
+    }
+
+    public void setVIP(boolean vip){
+        this.isVIP = vip;
+    }
+
+    public boolean getVIP(){
+        return isVIP;
     }
 
     @Override

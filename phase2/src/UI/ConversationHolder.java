@@ -13,16 +13,13 @@ public final class ConversationHolder {
         return INSTANCE;
     }
 
-    public void setConversation(UUID convo){
+    public void setConversation(UUID convo, String name){
         this.conversation = convo;
+        this.name = name;
     }
 
     public UUID getConversation(){
         return conversation;
-    }
-
-    public void setConversationName(String name){
-        this.name = name;
     }
 
     public String getConversationName(){
