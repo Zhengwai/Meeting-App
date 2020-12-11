@@ -1,25 +1,17 @@
 package UI;
 
+import UI.ConversationHolder;
+import UI.GeneralController;
+import UI.MessageBuilder;
 import controllers.MessageControllerAdapter;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -179,12 +171,15 @@ public class MessageMenuController extends GeneralController implements Initiali
 
         if (choice.equals("All Messages")) {
             filteredMessages = mca.getConversations();
+            System.out.println("All");
         }
         else if (choice.equals("Unread Messages")) {
             filteredMessages = mca.getUnreadConversations();
+            System.out.println("Unread");
         }
         else if (choice.equals("Archived Messages")) {
             filteredMessages = mca.getArchivedConversations();
+            System.out.println("Archived");
         }
 
         if (filteredMessages.size() > 0) {
@@ -201,6 +196,8 @@ public class MessageMenuController extends GeneralController implements Initiali
                 }
             });
         } else if(filteredMessages.size() == 0){
+            System.out.println("Am Empty:)");
+            myMessageList.getItems().clear();
             myMessageList.setPlaceholder(new Label("No Messages"));
         }
     }

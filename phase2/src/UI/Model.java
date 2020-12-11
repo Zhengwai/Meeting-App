@@ -9,6 +9,8 @@ import use_cases.EventManager;
 import use_cases.RequestManager;
 import use_cases.UserManager;
 
+import java.util.UUID;
+
 public final class Model {
     private static UserManager um;
 
@@ -30,6 +32,10 @@ public final class Model {
 
     public void setCurrentUser(User currentUser) {
         this.currentUser = currentUser;
+    }
+
+    public UUID getUserID(){
+        return currentUser.getID();
     }
 
     public Model() throws ClassNotFoundException {
