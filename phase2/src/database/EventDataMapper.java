@@ -109,9 +109,6 @@ public class EventDataMapper implements EventDataGateway {
             System.out.println("Something went wrong with getting all events.");
             e.printStackTrace();
         }
-        // Need table for requests (or column in users table)
-        // Refactor DB code (organize by subsystem with Facade)
-        // Storing Archived and Unread messages
 
         return new ArrayList<>();
     }

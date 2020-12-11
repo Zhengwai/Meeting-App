@@ -196,4 +196,5 @@ public class Conversation implements Serializable {
 
     public ArrayList<UUID> getArchivedForList() { return this.archivedFor; }
 
+    public ArrayList<UUID> getUnreadForList() {return this.unreadFor; }
 }
