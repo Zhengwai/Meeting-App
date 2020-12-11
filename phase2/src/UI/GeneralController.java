@@ -3,6 +3,7 @@ import entities.User;
 import gateways.LoginGateway;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.Parent;
@@ -15,6 +16,7 @@ import use_cases.UserManager;
 import javafx.event.ActionEvent;
 
 import java.io.IOException;
+import java.util.ResourceBundle;
 
 public abstract class GeneralController {
     @FXML
@@ -48,10 +50,11 @@ public abstract class GeneralController {
         stage.initOwner(button.getScene().getWindow());//this scene with the login button will be the owner of the stage.(Kinda like the root of a tree)
         stage.setScene(new Scene(loader.load())); //adds the menu scene to the stage.
 
-        button.getScene().getWindow().hide();//temporarily close this window
+        //button.getScene().getWindow().hide();//temporarily close this window
         stage.showAndWait();//showAndWait will block execution until the window closes.
         Stage thisStage = (Stage) button.getScene().getWindow(); //get a reference to this stage.
         thisStage.show();// show the login screen again.
     }
+
 
 }

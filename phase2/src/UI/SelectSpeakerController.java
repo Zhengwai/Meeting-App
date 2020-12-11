@@ -20,6 +20,8 @@ public class SelectSpeakerController extends GeneralController implements Initia
     @FXML
     Button addAnotherSpeakerButton;
     @FXML
+    Button doneButton;
+    @FXML
     Label successLabel;
     @FXML
     ListView addedSpeakers;
@@ -39,7 +41,7 @@ public class SelectSpeakerController extends GeneralController implements Initia
         successLabel.setVisible(true);
         confirmSpeakerButton.setDisable(true);
         chooseSpeakerBox.setDisable(true);
-
+        doneButton.setDisable(false);
         if(type.equals("TED")){
             addAnotherSpeakerButton.setDisable(false);
         }
@@ -49,6 +51,7 @@ public class SelectSpeakerController extends GeneralController implements Initia
         updateSpeakers();
         successLabel.setVisible(false);
         chooseSpeakerBox.setDisable(false);
+        doneButton.setDisable(true);
     }
 
     @Override
