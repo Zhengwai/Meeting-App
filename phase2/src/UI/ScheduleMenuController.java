@@ -18,6 +18,7 @@ import java.net.URL;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.UUID;
 
 public class ScheduleMenuController extends GeneralController{
     @FXML
@@ -87,7 +88,9 @@ public class ScheduleMenuController extends GeneralController{
         eventTable.setOnMousePressed(e ->{
             if (e.getClickCount() == 1 && e.isPrimaryButtonDown() ){
                 String des = eventTable.getSelectionModel().getSelectedItem().getDescription();
-                descriptionBox.setText(des);
+                UUID roomID = eventTable.getSelectionModel().getSelectedItem().getRoom();
+                String roomName = mainModel.getEm().getRoomByID(roomID).getRoomName();
+                descriptionBox.setText("Room: "+ roomName+"\nDescription of this event: "+des);
             }
         });
 

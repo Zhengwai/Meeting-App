@@ -29,7 +29,7 @@
         </TableView>
         <ComboBox fx:id="statusFilterComboBox" editable="true" layoutX="501.0" layoutY="40.0" prefWidth="150.0" promptText="Status" />
         <TextField fx:id="eventNameTextBox" layoutX="676.0" layoutY="40.0" promptText="Event name" />
-        <TextArea fx:id="descriptionBox" editable="false" layoutX="28.0" layoutY="463.0" prefHeight="122.0" prefWidth="947.0" />
+        <TextArea fx:id="descriptionBox" editable="false" layoutX="28.0" layoutY="463.0" prefHeight="122.0" prefWidth="947.0" promptText="Click the event to see its description"/>
         <Button fx:id="createRoomButton" layoutX="229" layoutY="630.0" mnemonicParsing="false" onAction="#createRoomButtonOnAction" prefHeight="27.0" prefWidth="150.0" text="Create Room" />
         <Button fx:id="createEventButton" layoutX="429.0" layoutY="630.0" mnemonicParsing="false" onAction="#createEventButtonOnAction" prefHeight="27.0" prefWidth="150.0" text="Create Event" />
         <Button fx:id="cancelEventButton" layoutX="629.0" layoutY="630.0" mnemonicParsing="false" onAction="#cancelEventButtonOnAction" prefHeight="27.0" prefWidth="150.0" text="Cancel Event" />

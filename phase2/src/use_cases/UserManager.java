@@ -25,7 +25,6 @@ public class UserManager implements Serializable {
     public UserManager() {
         udg = new UserDataMapper();
         allUsers = udg.fetchAllUsers();
-       // udg.insertNewUser(new Organizer("o","o"));
     }
 
     /**
