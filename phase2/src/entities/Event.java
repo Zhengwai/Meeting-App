@@ -35,7 +35,7 @@ public class Event implements Serializable {
     protected StringProperty status = new SimpleStringProperty();
 
     public StringProperty getDateString() {
-        return dateString;
+        return new SimpleStringProperty(dateFormatter.format(startTime));
     }
 
     public StringProperty getType() {
@@ -43,11 +43,11 @@ public class Event implements Serializable {
     }
 
     public StringProperty getStartTimeString() {
-        return startTimeString;
+        return new SimpleStringProperty(timeFormatter.format(startTime));
     }
 
     public StringProperty getEndTimeString() {
-        return endTimeString;
+        return new SimpleStringProperty(timeFormatter.format(endTime));
     }
 
     public StringProperty getCapacityString() {

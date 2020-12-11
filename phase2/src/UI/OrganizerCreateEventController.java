@@ -87,7 +87,7 @@ public class OrganizerCreateEventController extends MenuController{
 
     }
     protected boolean roomAvailable(Room room, Event tempE){
-        if(!roomAvailable(room,tempE)){
+        if(!mainModel.getEm().roomAvailableForEvent(room,tempE)){
             hasRoomLabel.setText("Selected room isn't available for this event.");
             return false;
         }
