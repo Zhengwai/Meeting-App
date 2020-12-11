@@ -16,6 +16,7 @@ import java.util.UUID;
 public class UserManager implements Serializable {
     private ArrayList<User> allUsers = new ArrayList<>();
     public User NotFoundUser = new User("NotFound", "NotFound");
+    public Speaker NotFoundSpeaker = new Speaker("NotFound","NotFound");
     private UserDataGateway udg;
     //private UserData userData = new UserGateway();
 
@@ -123,7 +124,14 @@ public class UserManager implements Serializable {
         }
         return NotFoundUser;
     }
-
+    public Speaker getSpeakerByName(String name){
+        for(Speaker s: getAllSpeakers()){
+            if (s.getUsername().equals(name)){
+                return s;
+            }
+        }
+        return NotFoundSpeaker;
+    }
     /**
      * Search the user with specific <code>UUID</code>
      * @param id the <code>UUID</code> in search.

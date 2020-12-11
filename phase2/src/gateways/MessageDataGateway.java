@@ -57,4 +57,16 @@ public interface MessageDataGateway {
      * @param c The conversation being updated.
      */
     void updateConversationReadOnly(Conversation c);
+
+    /**
+     * Updates the ArchivedFor field of a conversation in the database.
+     * @param c The conversation being updated.
+     */
+    void updateConversationArchivedFor(Conversation c);
+
+    /**
+     * Updates the UnreadFor field of a conversation in the database.
+     * @param c The conversation being updated.
+     */
+    void updateConversationUnreadFor(Conversation c);
 }

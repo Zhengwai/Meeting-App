@@ -9,12 +9,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
 import java.io.IOException;
+import java.sql.SQLOutput;
 
 public class RequestController extends GeneralController {
-    LoginGateway lg = new LoginGateway();
 
     @FXML
-    private Button newRequestButton;
+    protected Button newRequestButton;
 
     private String fxmlName = "Requests.fxml";
 
@@ -23,11 +23,8 @@ public class RequestController extends GeneralController {
     }
 
     public void newRequestButtonOnAction(javafx.event.ActionEvent actionEvent) throws IOException {
+        System.out.println("NewButtonTest");
         newButtonStage("newRequest.fxml", newRequestButton);
     }
 
-    public void viewRequestButtonOnAction(ActionEvent actionEvent) {
-
-
-    }
 }

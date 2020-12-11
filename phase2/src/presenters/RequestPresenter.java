@@ -14,7 +14,7 @@ public class RequestPresenter {
     }
 
     public void requestingUser(Request request){
-        System.out.println(request.getRequestingUser().getUsername() + " requested the event");
+        //System.out.println(request.getRequestingUser().getUsername() + " requested the event");
     }
 
     public void requestText(Request request){

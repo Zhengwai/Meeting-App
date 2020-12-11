@@ -13,7 +13,7 @@ import java.util.ResourceBundle;
 /**
  * A controller for the menu layout of an Organizer user.
  */
-public class OrganizerMenuController extends MenuController implements Initializable {
+public class OrganizerMenuController extends MenuController implements Initializable{
     @FXML
     Button createButton;
 
@@ -37,10 +37,18 @@ public class OrganizerMenuController extends MenuController implements Initializ
         showEvent("OrganizerCreateAccount.fxml");
     }
 
+    public void OrganizerRequestButtonOnAction(ActionEvent actionEvent) throws IOException {
+        System.out.println("test request menu");
+        showEvent("OrganizerRequests.fxml");
+    }
+
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         welcomeLabel.setText("Welcome " + mainModel.getCurrentUser().getUsername() + "!");
     }
+
+
 
 
     //public void handleMessageAction(ActionEvent actionEvent) throws IOException {

@@ -70,6 +70,7 @@ abstract class MenuController extends GeneralController{
         showEvent("MainMessage.fxml");
     }
 
+
     public void showEvent(String filePath) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(filePath));
         Stage stage = new Stage(); //sets stage.

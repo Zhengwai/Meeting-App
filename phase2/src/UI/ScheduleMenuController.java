@@ -26,6 +26,8 @@ public class ScheduleMenuController extends GeneralController{
     @FXML
     protected ComboBox<String> statusFilterComboBox;
     @FXML
+    protected ComboBox<String> roomFilterComboBox;
+    @FXML
     protected DatePicker datePicker;
     @FXML
     protected TextField eventNameTextBox;
@@ -54,8 +56,6 @@ public class ScheduleMenuController extends GeneralController{
     @FXML
     protected Label signUpPrompt;
 
-    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
     private ObservableList<Event> allEvents = FXCollections.observableArrayList();
 
 
@@ -83,6 +83,7 @@ public class ScheduleMenuController extends GeneralController{
         statusColumn.setCellValueFactory(cellData -> cellData.getValue().getStatus());
         typeColumn.setCellValueFactory(cellData -> cellData.getValue().getType());
         vipColumn.setCellValueFactory(cellData -> cellData.getValue().getVipString());
+
         FilteredList<Event> filteredEvents = new FilteredList<>(allEvents, p -> true);
 
         eventTable.setOnMousePressed(e ->{

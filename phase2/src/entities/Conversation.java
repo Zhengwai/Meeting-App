@@ -193,4 +193,7 @@ public class Conversation implements Serializable {
     public void setConID(UUID id) {
         this.conID = id;
     }
+
+    public ArrayList<UUID> getArchivedForList() { return this.archivedFor; }
+
 }

@@ -1,6 +1,8 @@
 package use_cases;
 
+import database.RequestDataMapper;
 import entities.Request;
+import gateways.RequestDataGateway;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -12,12 +14,12 @@ import java.util.Iterator;
  */
 public class RequestManager implements Serializable {
     private ArrayList<Request> requestArrayList;
-
+    private RequestDataGateway rdg = new RequestDataMapper();
     /**
      * Creates new RequestManager
      */
     public RequestManager(){
-        this.requestArrayList = new ArrayList<>();
+        this.requestArrayList = rdg.fetchRequests();
     }
 
     /**

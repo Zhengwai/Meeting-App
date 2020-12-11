@@ -9,11 +9,13 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
+import java.util.ArrayList;
+
 public class OrganizerCancelEventController extends MenuController{
     @FXML
     Button cancelEventButton;
     @FXML
-    TextField eventNameTextField;
+    ComboBox<String> eventNameComboBox;
     @FXML
     Label eventNameErrorLabel;
     @FXML
@@ -22,23 +24,27 @@ public class OrganizerCancelEventController extends MenuController{
 
 
     public OrganizerCancelEventController() throws ClassNotFoundException {
+
+    }
+    public void initialize(){
+        ArrayList<String> eventNames = mainModel.getEm().getAllEventNames();
+        System.out.println(eventNames);
+        eventNameComboBox.getItems().removeAll();
+        eventNameComboBox.getItems().addAll(eventNames);
     }
     public void cancelEventButtonOnAction(ActionEvent actionEvent){
-        String name = eventNameTextField.getText();
-        if (checkValidName()){
+        if (hasChosenEvent()){
+            String name = eventNameComboBox.getValue();
             mainModel.getEm().cancelEvent(name);
-            //OrganizerCancelEventAlertBox.display();
             cancelEventSuccessLabel.setText("Event successfully cancelled!");
         }
     }
-    public boolean checkValidName() {
+    public boolean hasChosenEvent() {
         eventNameErrorLabel.setText("");
-        cancelEventSuccessLabel.setText("");
-        if (!mainModel.getEm().hasEvent(eventNameTextField.getText())) {
-            eventNameErrorLabel.setText("There's no event with name " + eventNameTextField.getText());
+        if (eventNameComboBox.getSelectionModel().isEmpty()) {
+            eventNameErrorLabel.setText("Please select an event!");
             return false;
-        }
-        else{
+        } else {
             return true;
         }
     }

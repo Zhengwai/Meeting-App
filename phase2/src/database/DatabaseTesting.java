@@ -1,27 +1,21 @@
 package database;
 
-import Repository.EventData;
 import entities.*;
-import gateways.EventDataGateway;
-import gateways.MessageDataGateway;
-import gateways.RoomDataGateway;
+import gateways.RequestDataGateway;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class DatabaseTesting {
     public static void main(String[] args) {
-        RoomDataGateway rdg = new RoomDataMapper();
-        Room room = new Room(10, "test");
+        RequestDataGateway rdg = new RequestDataMapper();
         UUID dummyID = UUID.fromString("3691bcd0-b86b-4c04-ba94-816aa6f7b822");
-
-        rdg.insertRoom(room);
-
-        room.addEvent(dummyID);
-        rdg.updateRoomEvents(room);
-
-        for (Room r: rdg.fetchRooms()) {
-            System.out.println(r.getID() + " " + r.getCapacity() + " " + r.getRoomName() + " " + r.getEvents());
+        Request req = new Request(dummyID, "The request text.");
+        req.addTag("Tag 1");
+        rdg.insertRequest(req);
+        req.addTag("Tag 2");
+        rdg.updateRequestTags(req);
+        for (Request r : rdg.fetchRequests()) {
+            System.out.println(r.getRequestingUser() + " " + r.getTags().toString() + " " + r.getRequestText());
         }
     }
 }
