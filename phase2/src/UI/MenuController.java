@@ -74,8 +74,8 @@ abstract class MenuController extends GeneralController{
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.initOwner(browseButton.getScene().getWindow());//this scene with the login button will be the owner of the stage.(Kinda like the root of a tree)
         stage.setScene(new Scene((Parent) loader.load())); //adds the menu scene to the stage.
-        GeneralController controller = loader.getController(); //stores the controller of the menu scene
-        controller.initData(mainModel); //Pass the mainModel, storing information, to the menu's controller.
+        //GeneralController controller = loader.getController(); //stores the controller of the menu scene
+        //controller.initData(mainModel); //Pass the mainModel, storing information, to the menu's controller.
 
 
 

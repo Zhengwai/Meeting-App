@@ -363,15 +363,11 @@ public class ConversationManager implements Serializable {
 
     public void addObserver(PropertyChangeListener observer) {
         observable.addPropertyChangeListener("location", observer);
-        System.out.println("Number: " + observable.getPropertyChangeListeners().length);
     }
 
     public void notifyObservers (PropertyChangeEvent newEvent)
     {
-        System.out.println("not in for");
-        System.out.println("Number in Notify: " + observable.getPropertyChangeListeners().length);
         for ( PropertyChangeListener observer : observable.getPropertyChangeListeners()){
-            System.out.println("in for");
             observer.propertyChange(newEvent);
             System.out.println(observer);
         }
@@ -380,12 +376,15 @@ public class ConversationManager implements Serializable {
     public void updateMessages() {
         PropertyChangeEvent newEvent = new PropertyChangeEvent (this, "location", "a", "b");
         notifyObservers (newEvent);
-        System.out.println("updateMessages");
 
     }
 
     public void removePropertyChangeListener (String propertyName, PropertyChangeListener listener) {
         observable.removePropertyChangeListener (propertyName, listener);
+    }
+
+    public Boolean conversationArchived(UUID conID, UUID userID){
+        return getUserConversationsArchived(userID).contains(conID);
     }
 }
 
