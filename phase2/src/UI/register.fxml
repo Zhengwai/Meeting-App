@@ -50,7 +50,7 @@
                         <Insets left="110.0" top="10.0" />
                      </VBox.margin>
                   </Button>
-                  <Label fx:id="statusLabel" prefHeight="17.0" prefWidth="489.0" text="Label" textFill="RED" visible="false">
+                  <Label fx:id="statusLabel" prefHeight="17.0" prefWidth="489.0" text="Label" textFill="#000000" visible="false">
                      <VBox.margin>
                         <Insets top="10.0" />
                      </VBox.margin>

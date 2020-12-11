@@ -30,6 +30,7 @@ OrganizerCreateAccountController extends RegisterController {
             String un = usernameTextField.getText();
             String pw = passwordTextField.getText();
             createBasedOnType(un, pw);
+            statusLabel.setVisible(true);
             statusLabel.setText("Registration success!\n" +
                     "Your username is: " + un + "\n" +
                     "Your password is: " + pw);
@@ -54,9 +55,9 @@ OrganizerCreateAccountController extends RegisterController {
     }
 
     private boolean hasChosenType(){
-        hasTypeLabel.setText("");
+        statusLabel.setVisible(true);
         if (selectTypeAccountComboBox.getSelectionModel().isEmpty()){
-            hasTypeLabel.setText("Please select a user type!");
+            statusLabel.setText("Please select a user type!");
             return false;
         }
         return true;

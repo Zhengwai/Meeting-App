@@ -67,10 +67,12 @@ public class MessageControllerAdapter {
     /**
      * Adds friend with UUID friendID as friend if that person exists and is not already a friend
      * @param friendID UUID of new friend.
+     * returns UUID of the created conversation.
      */
-    public void AddFriend(UUID friendID, String body) {
+    public UUID AddFriend(UUID friendID, String body) {
         AddFriendAction addFriend = new AddFriendAction(userID, um, cm, friendID, body);
         addFriend.run();
+        return addFriend.getConversationID();
     }
 
     /**
@@ -80,6 +82,14 @@ public class MessageControllerAdapter {
     public void ArchiveConversation(UUID conID) {
         ArchiveConversationAction archiveConversation = new ArchiveConversationAction(userID, um, cm, conID);
         archiveConversation.run();
+    }
+
+    /**
+     * Given UUID of conversation which has been archived, this unarchives teh c onversation for user.
+     * @param conID UUID of conversation
+     */
+    public void UnarchiveConversation(UUID conID) {
+        cm.removeArchivedMessageForUser(conID, userID);
     }
 
     /**

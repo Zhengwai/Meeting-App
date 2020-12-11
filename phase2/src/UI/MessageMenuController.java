@@ -53,7 +53,6 @@ public class MessageMenuController extends GeneralController implements Initiali
     MessageControllerAdapter mca = new MessageControllerAdapter(mainModel.getCurrentUser().getID(), mainModel.getCm(),
             mainModel.getUm(), mainModel.getEm());
 
-    private ObservableList<String> conversations;
 
     public MessageMenuController() throws ClassNotFoundException {
         mainModel.getCm().addObserver(this);
@@ -72,7 +71,6 @@ public class MessageMenuController extends GeneralController implements Initiali
         subPane.setVisible(true);
     }
 
-    //Put in builder DP
     public void buildNewMessage() {
         notFriends = FXCollections.observableList(
                 mainModel.getUm().getAllNonFriendNames(mainModel.getCurrentUser().getID()));

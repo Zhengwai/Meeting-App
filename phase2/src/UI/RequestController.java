@@ -1,4 +1,4 @@
-package UI.Request;
+package UI;
 
 import UI.GeneralController;
 import UI.Model;
@@ -22,12 +22,8 @@ public class RequestController extends GeneralController {
 
     }
 
-    public void newRequestButtonOnAction(javafx.event.ActionEvent actionEvent) {
-        User user =  mainModel.getCurrentUser();
-        if (user.getType() == "a") {
-
-        }
-        // TODO: 12/10/2020 implement
+    public void newRequestButtonOnAction(javafx.event.ActionEvent actionEvent) throws IOException {
+        newButtonStage("newRequest.fxml", newRequestButton);
     }
 
     public void viewRequestButtonOnAction(ActionEvent actionEvent) {
