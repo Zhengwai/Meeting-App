@@ -50,15 +50,6 @@ public class ChatController extends GeneralController implements Initializable {
     public ChatController() throws ClassNotFoundException {
     }
 
-    public void handleSend(ActionEvent actionEvent) {
-        String messageBody = messageBox.getText();
-        mca.MessageConversation(ch.getConversation(), messageBody);
-
-        updateMessageHistory();
-        messageBox.setText("");
-
-    }
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         if(mainModel.getCm().conversationArchived(ch.getConversation(), mainModel.getUserID())){
@@ -78,22 +69,13 @@ public class ChatController extends GeneralController implements Initializable {
 
     }
 
-    public void updateMessageHistory(){
-        messageHistory.getItems().setAll(mca.getMessagesInConversation(ch.getConversation()));
-        messageHistory.setCellFactory(param -> new ListCell<String[]>() {
-            protected void updateItem(String[] item, boolean empty) {
-                super.updateItem(item, empty);
+    public void handleSend(ActionEvent actionEvent) {
+        String messageBody = messageBox.getText();
+        mca.MessageConversation(ch.getConversation(), messageBody);
 
-                if (empty || item == null || item[0] == null || item[1] == null || item[2] == null) {
-                    setText(null);
-                } else {
-                    if(item[0].equals(mainModel.getUserID().toString()))
-                        setText("Me: " + item[2]);
-                    else
-                        setText(item[0] + ": " + item[2]);
-                }
-            }
-        });
+        updateMessageHistory();
+        messageBox.setText("");
+
     }
 
     public void handleArchive(ActionEvent actionEvent) {
@@ -123,5 +105,23 @@ public class ChatController extends GeneralController implements Initializable {
         if(thisOne[0].equals(mainModel.getCurrentUser().getID().toString()))
             deleteMessages.setDisable(false);
 
+    }
+
+    public void updateMessageHistory(){
+        messageHistory.getItems().setAll(mca.getMessagesInConversation(ch.getConversation()));
+        messageHistory.setCellFactory(param -> new ListCell<String[]>() {
+            protected void updateItem(String[] item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty || item == null || item[0] == null || item[1] == null || item[2] == null) {
+                    setText(null);
+                } else {
+                    if(item[0].equals(mainModel.getUserID().toString()))
+                        setText("Me: " + item[2]);
+                    else
+                        setText(item[0] + ": " + item[2]);
+                }
+            }
+        });
     }
 }

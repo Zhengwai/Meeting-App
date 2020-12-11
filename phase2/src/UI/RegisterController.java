@@ -50,19 +50,19 @@ public class RegisterController extends GeneralController {
 
     protected boolean checkValidUsername() {
         if (usernameTextField.getText().equals("")){
-            statusLabel.setVisible(true);
             statusLabel.setText("Username cannot be empty!");
+            statusLabel.setVisible(true);
             return false;
         }
         if (usernameTextField.getText().contains(" ")){
-            statusLabel.setVisible(true);
             statusLabel.setText("Username cannot contain any space!");
+            statusLabel.setVisible(true);
             return false;
         }
         String un = usernameTextField.getText();
         if (!mainModel.getUm().isValidUserName(un)){
-            statusLabel.setVisible(true);
             statusLabel.setText("Username is taken, please choose another one!");
+            statusLabel.setVisible(true);
             return false;
         }
         return true;
@@ -70,19 +70,19 @@ public class RegisterController extends GeneralController {
 
     protected boolean checkValidPassword() {
         if (!passwordTextField.getText().equals(confirmPasswordTextField.getText())){
-            statusLabel.setVisible(true);
             statusLabel.setText("Inconsistent password, make sure you confirm your password.");
+            statusLabel.setVisible(true);
             return false;
         }
 
         if (passwordTextField.getText().equals("")){
-            statusLabel.setVisible(true);
             statusLabel.setText("Password cannot be empty!");
+            statusLabel.setVisible(true);
             return false;
         }
         if (passwordTextField.getText().contains(" ")){
-            statusLabel.setVisible(true);
             statusLabel.setText("Password cannot contain any space!");
+            statusLabel.setVisible(true);
             return false;
         }
         return true;
