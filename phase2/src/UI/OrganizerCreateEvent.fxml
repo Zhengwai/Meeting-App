@@ -4,45 +4,46 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane prefHeight="396.0" prefWidth="524.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.OrganizerCreateEventController">
+<BorderPane prefHeight="596.0" prefWidth="524.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.OrganizerCreateEventController">
     <center>
         <AnchorPane BorderPane.alignment="CENTER">
             <children>
-                <TextField fx:id="eventNameTextField" layoutX="196.0" layoutY="77.0" promptText="Event Name" />
-                <TextField fx:id="eventCapacityTextField" layoutX="196.0" layoutY="110" promptText="Event Capacity" />
-                <TextField fx:id="eventStartTimeTextField" layoutX="196.0" layoutY="141.0" promptText="Event Start Time" />
-                <TextField fx:id="eventEndTimeTextField" layoutX="196.0" layoutY="173.0" promptText="Event End Time" />
-                <TextField fx:id="eventRoomTextField" layoutX="196.0" layoutY="205.0" promptText="Event Room" />
-                <Label layoutX="90.0" layoutY="77.0" text="Event Name">
+                <TextField fx:id="eventNameTextField" layoutX="196.0" layoutY="100.0" promptText="Event Name" />
+                <TextField fx:id="eventCapacityTextField" layoutX="196.0" layoutY="135" promptText="Event Capacity" />
+                <TextField fx:id="eventStartTimeTextField" layoutX="196.0" layoutY="170.0" promptText="Event Start Time" />
+                <TextField fx:id="eventEndTimeTextField" layoutX="196.0" layoutY="205.0" promptText="Event End Time" />
+                <TextField fx:id="eventRoomTextField" layoutX="196.0" layoutY="240.0" promptText="Event Room" />
+                <TextArea fx:id="descriptionTextArea" layoutX="64.0" layoutY="300.0" prefHeight="180.0" prefWidth="400.0" promptText="Event Description"/>
+                <Label layoutX="90.0" layoutY="100.0" text="Event Name">
                     <font>
                         <Font size="19.0" />
                     </font>
                 </Label>
-                <Label layoutX="70.0" layoutY="110.0" text="Event Capacity">
+                <Label layoutX="70.0" layoutY="135.0" text="Event Capacity">
                     <font>
                         <Font size="19.0" />
                     </font>
                 </Label>
-                <Label layoutX="58.0" layoutY="141.0" text="Event Start Time">
+                <Label layoutX="58.0" layoutY="170.0" text="Event Start Time">
                     <font>
                         <Font size="19.0" />
                     </font>
                 </Label>
-                <Label layoutX="67.0" layoutY="173.0" text="Event End Time">
+                <Label layoutX="67.0" layoutY="205.0" text="Event End Time">
                     <font>
                         <Font size="19.0" />
                     </font>
                 </Label>
-                <Label layoutX="93.0" layoutY="205.0" text="Event Room">
+                <Label layoutX="93.0" layoutY="240.0" text="Event Room">
                     <font>
                         <Font size="19.0" />
                     </font>
                 </Label>
-                <Button fx:id="createEventButton" layoutX="232.0" layoutY="263.0" mnemonicParsing="false" onAction="#createEventButtonOnAction" text="Create" />
+                <Button fx:id="createEventButton" layoutX="232.0" layoutY="540.0" mnemonicParsing="false" onAction="#createEventButtonOnAction" text="Create" />
                 <Label fx:id="eventRoomErrorLabel" layoutX="196.0" layoutY="141.0" />
                 <Button fx:id="goBackButton" layoutX="6.0" layoutY="2.0" mnemonicParsing="false" onAction="#goBackButtonOnAction" text="Go Back" />
-                <Label fx:id="createEventSuccessLabel" layoutX="206.0" layoutY="298.0" />
-                <ComboBox fx:id="selectTypeEventComboBox" layoutX="196.0" layoutY="27.0" prefWidth="150.0" promptText="Select Type of Event" AnchorPane.bottomAnchor="344.0" AnchorPane.leftAnchor="196.0" AnchorPane.rightAnchor="178.0" AnchorPane.topAnchor="27.0" />
+                <Label fx:id="createEventSuccessLabel" layoutX="206.0" layoutY="575.0" />
+                <ComboBox fx:id="selectTypeEventComboBox" layoutX="196.0" layoutY="65.0" prefWidth="150.0" promptText="Select Type of Event" AnchorPane.bottomAnchor="550.0" AnchorPane.leftAnchor="196.0" AnchorPane.rightAnchor="178.0" AnchorPane.topAnchor="65.0" />
                 <Label fx:id="hasTypeLabel" layoutX="196.0" layoutY="52.0" />
             </children>
         </AnchorPane>

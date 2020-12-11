@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextArea;
 import java.util.UUID;
 
 import java.time.LocalDateTime;
@@ -26,6 +27,8 @@ public class OrganizerCreateEventController extends MenuController{
     TextField eventCapacityTextField;
     @FXML
     TextField eventRoomTextField;
+    @FXML
+    TextArea descriptionTextArea;
     @FXML
     Label eventRoomErrorLabel;
     @FXML
@@ -65,7 +68,7 @@ public class OrganizerCreateEventController extends MenuController{
        Event tempE = mainModel.getEm().createTempEvent(name, capacity,stime,etime);
 
         if (checkValidInput(room, tempE) && hasChosenType()){
-            mainModel.getEm().createAndAddEvent(name, capacity, stime, etime, room.getID(), selectTypeEventComboBox.getValue());
+            mainModel.getEm().createAndAddEvent(name, capacity, stime, etime, room.getID(), selectTypeEventComboBox.getValue(),descriptionTextArea.getText());
             mainModel.getEm().addRoom(room);
             createEventSuccessLabel.setText("Event created success!");
         }

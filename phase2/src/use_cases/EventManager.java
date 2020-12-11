@@ -33,6 +33,7 @@ public class EventManager implements Serializable{
         LocalDateTime t2 = LocalDateTime.of(2020, Month.DECEMBER, 30, 10, 00);
         LocalDateTime t3 = LocalDateTime.of(2020, Month.DECEMBER, 30, 11, 00);
         Event e1 = new TED("test1",10,t1,t1,true);
+        e1.setDescription("The first test event");
         Event e2 = new Seminar("test2",20,t1,t1);
         Event e3 = new TED("test3", 30,t2,t3,false);
         events.add(e1);
@@ -286,7 +287,7 @@ public class EventManager implements Serializable{
         return e;
     }
 
-    public void createAndAddEvent(String name, int capacity, LocalDateTime start, LocalDateTime end, UUID room, String type){
+    public void createAndAddEvent(String name, int capacity, LocalDateTime start, LocalDateTime end, UUID room, String type, String description){
         Event e;
         if(type.equals("TED")) {
             e = new TED(name, capacity, start, end,false);
@@ -299,6 +300,9 @@ public class EventManager implements Serializable{
         }
         else{
             e = new Event(name,capacity,start,end);
+        }
+        if(!description.equals("")) {
+            e.setDescription(description);
         }
         e.setRoom(room);
         events.add(e);

@@ -2,17 +2,19 @@ package UI;
 
 import entities.Event;
 import entities.Room;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -80,6 +82,12 @@ public class ScheduleMenuController extends GeneralController{
         typeColumn.setCellValueFactory(cellData -> cellData.getValue().getType());
         FilteredList<Event> filteredEvents = new FilteredList<>(allEvents, p -> true);
 
+        eventTable.setOnMousePressed(e ->{
+            if (e.getClickCount() == 1 && e.isPrimaryButtonDown() ){
+                String des = eventTable.getSelectionModel().getSelectedItem().getDescription();
+                descriptionBox.setText(des);
+            }
+        });
 
         eventTypeFilterComboBox.selectionModelProperty().addListener((observable, oldValue, newValue) -> {
             filteredEvents.setPredicate(event -> {
