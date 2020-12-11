@@ -32,6 +32,7 @@
                   <Insets bottom="5.0" />
                </VBox.margin>
             </Button>
+            <Button fx:id="doneButton" disable="true" mnemonicParsing="false" onAction= "#goBackButtonOnAction" text="Finish"/>
             <Label fx:id="successLabel" prefHeight="17.0" prefWidth="149.0" text="Label" visible="false" />
          </children>
       </VBox>

@@ -364,7 +364,7 @@ public class EventManager implements Serializable{
     }
 
     public void assignSpeaker(UUID eventID, String speaker){
-        Speaker sp = (Speaker) um.getUserByName(speaker);
+        Speaker sp = um.getSpeakerByName(speaker);
         if(getEventByID(eventID).getType().toString().equals("SEMINAR")){
             Seminar s = (Seminar) getEventByID(eventID);
             s.setSpeaker(sp.getID());
