@@ -39,6 +39,12 @@ public class ChatController extends GeneralController implements Initializable {
     @FXML
     HBox sendBox;
 
+    @FXML
+    Button archiveButton;
+
+    @FXML
+    Button unreadButton;
+
     ConversationHolder ch = ConversationHolder.getInstance();
 
     ObservableList<String> conversation;
@@ -53,16 +59,19 @@ public class ChatController extends GeneralController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         if(mainModel.getCm().conversationArchived(ch.getConversation(), mainModel.getUserID())){
-            actionButtons.setVisible(false);
+            deleteMessages.setDisable(true);
+            archiveButton.setText("Unarchive");
             sendBox.setVisible(false);
+            unreadButton.setDisable(true);
+
         }
 
         chatPane.setVisible(true);
         deleteMessages.setDisable(true);
 
-        //if(mainModel.getCm().getReadOnly(ch.getConversation())){
-        //    messageBox.setDisable(true);
-        //}
+        if(mainModel.getCm().getReadOnly(ch.getConversation())){
+            messageBox.setDisable(true);
+        }
 
         sendeeLabel.setText(ch.getConversationName());
         updateMessageHistory();
@@ -79,9 +88,19 @@ public class ChatController extends GeneralController implements Initializable {
     }
 
     public void handleArchive(ActionEvent actionEvent) {
-        mca.ArchiveConversation(ch.getConversation());
-        System.out.println("handleArchive");
-        chatPane.setVisible(false);
+        if(archiveButton.getText().equals("Unarchive")){
+            mca.UnarchiveConversation(ch.getConversation());
+            deleteMessages.setDisable(false);
+            sendBox.setVisible(true);
+            unreadButton.setDisable(false);
+            archiveButton.setText("Archive");
+        }else if(archiveButton.getText().equals("Archive")){
+            mca.ArchiveConversation(ch.getConversation());
+            deleteMessages.setDisable(true);
+            unreadButton.setDisable(true);
+            archiveButton.setText("Unarchive");
+            sendBox.setVisible(false);
+        }
     }
 
     public void markUnread(ActionEvent actionEvent) {
