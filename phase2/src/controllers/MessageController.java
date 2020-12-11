@@ -19,7 +19,6 @@ public class MessageController {
     private EventManager em;
 
     public MessageController(UUID userID) throws ClassNotFoundException {
-        //TODO: Need to fetch appropriate data from database (when it's ready of course).
         this.cm = new ConversationManager();
         this.um = new UserManager();
         this.userID = userID;
@@ -28,14 +27,13 @@ public class MessageController {
 
     public void run() {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        MessageActionClient mac = new MessageActionClient(userID, um, cm, em); // mac wit da scope haha brrr
+        MessageActionClient mac = new MessageActionClient(userID, um, cm, em);
         try {
             String input;
 
             do {
                 List<MessageAction> actions = mac.getUserActions();
 
-                //TODO: Handle in message presenter?
                 System.out.println("Please Enter Corresponding Choice: \n");
                 for (int i = 0; i < actions.size(); i++) {
                     System.out.println((i + 1) + ". " + actions.get(i).getName());

@@ -140,4 +140,23 @@ public class MessageDataMapper implements MessageDataGateway  {
             e.printStackTrace();
         }
     }
+
+    public void updateConversationArchivedFor(Conversation c) {
+        try {
+            db.updateConversationArchivedFor(c.getID(), c.getArchivedForList());
+        } catch (SQLException e) {
+            System.out.println("Something went wrong trying to update that conversation.");
+            e.printStackTrace();
+        }
+    }
+
+    public void updateConversationUnreadFor(Conversation c) {
+        try {
+            // TODO: fix when karen changes conversation field
+            db.updateConversationUnreadFor(c.getID(), new ArrayList<>());
+        } catch (SQLException e) {
+            System.out.println("Something went wrong trying to update that conversation.");
+            e.printStackTrace();
+        }
+    }
 }

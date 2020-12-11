@@ -169,8 +169,25 @@ public class Database {
         ps.execute();
     }
 
+    protected void updateConversationUnreadFor(UUID conID, ArrayList<UUID> unreadFor) throws SQLException {
+        String sql = " UPDATE conversations SET unreadFor = ? WHERE uuid = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+
+        ps.setObject(1, unreadFor);
+        ps.setString(2, conID.toString());
+    }
+
+    protected void updateConversationArchivedFor(UUID conID, ArrayList<UUID> archivedFor) throws SQLException {
+        String sql = " UPDATE conversations SET archivedFor = ? WHERE uuid = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+
+        ps.setObject(1, archivedFor);
+        ps.setString(2, conID.toString());
+        ps.execute();
+    }
+
     protected void insertNewEvent(UUID eventID, String name, String desc, String startTime, String endTime, int capacity, UUID roomID) throws SQLException {
-        String sql = " INSERT INTO events (uuid, name, description, startTime, endTime, capacity, room)"
+        String sql = " INSERT INTO events (uuid, name, description, startTime, endTime, capacity, room, ?)"
                 + "VALUES (?, ?, ?, ?, ?, ?, ?);";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setString(1, eventID.toString());
@@ -344,7 +361,8 @@ public class Database {
                 + " convName text,"
                 + " readonly TINYINT NOT NULL,"
                 + " owner text,"
-                + " unreadMessages object"
+                + " archivedFor object,"
+                + " unreadFor object"
                 + ");";
 
         String sqlEvts = "CREATE TABLE IF NOT EXISTS events ("
@@ -356,7 +374,9 @@ public class Database {
                 + " endTime text,"
                 + "	capacity INTEGER NOT NULL,"
                 + " attendees object,"
-                + " room text NOT NULL"
+                + " room text NOT NULL,"
+                + " type text NOT NULL,"
+                + " speakers object"
                 + ");";
 
         String sqlRooms = " CREATE TABLE IF NOT EXISTS rooms ("
