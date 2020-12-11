@@ -107,13 +107,22 @@ public class EventDataMapper implements EventDataGateway {
             return out;
         } catch (SQLException e) {
             System.out.println("Something went wrong with getting all events.");
+            e.printStackTrace();
         }
-        // TODO: Needs to be implemented
-        // Event Data mapper needs testing when all done
         // Need table for requests (or column in users table)
         // Refactor DB code (organize by subsystem with Facade)
         // Storing Archived and Unread messages
 
         return new ArrayList<>();
+    }
+
+    @Override
+    public void deleteEventInDB(Event evt) {
+        try {
+            db.deleteAnEvent(evt.getId());
+        } catch (SQLException e) {
+            System.out.println("Something went wrong with trying to delete that event.");
+            e.printStackTrace();
+        }
     }
 }

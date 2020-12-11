@@ -1,5 +1,7 @@
 package database;
 
+import entities.Room;
+
 import java.io.File;
 import java.sql.*;
 import java.util.ArrayList;
@@ -228,6 +230,37 @@ public class Database {
         ResultSet rs = stmt.executeQuery(sql);
         return rs;
     }
+
+    protected void deleteAnEvent(UUID eventID) throws SQLException {
+        String sql = "DELETE FROM events WHERE uuid = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1, eventID.toString());
+        ps.execute();
+    }
+
+    protected ResultSet getAllRooms() throws SQLException {
+        String sql = "SELECT * FROM rooms;";
+        return stmt.executeQuery(sql);
+    }
+
+    protected void insertRoom(UUID roomID, String name, int capacity) throws SQLException {
+        String sql = "INSERT INTO rooms (uuid, name, capacity)" +
+                "VALUES(?, ?, ?)";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1, roomID.toString());
+        ps.setString(2, name);
+        ps.setInt(3, capacity);
+        ps.execute();
+    }
+
+    protected void updateRoomEvents(UUID roomID, ArrayList<UUID> eventIDs) throws SQLException {
+        String sql = "UPDATE rooms SET events = ? WHERE uuid = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setObject(1, eventIDs);
+        ps.setString(2, roomID.toString());
+        ps.execute();
+    }
+
     /**
      * Attempts to create a connection to the MySQLite database.
      * Creates a database if there already isn't one.
@@ -248,7 +281,8 @@ public class Database {
     }
 
     /**
-     * Creates a users table, an events table and a messages table.
+     * Creates tables for:
+     * users,   messages,   conversations,   events,   rooms
      * These tables are only created if they don't already exist.
      * NOTE: Schema not final!
      */
@@ -293,9 +327,18 @@ public class Database {
                 + " room text NOT NULL"
                 + ");";
 
+        String sqlRooms = " CREATE TABLE IF NOT EXISTS rooms ("
+                + " id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + " uuid text NOT NULL,"
+                + " name text NOT NULL,"
+                + " capacity INTEGER NOT NULL,"
+                + " events object"
+                + ");";
+
         stmt.execute(sqlUsers);
         stmt.execute(sqlMsgs);
         stmt.execute(sqlConvos);
         stmt.execute(sqlEvts);
+        stmt.execute(sqlRooms);
     }
 }

@@ -72,7 +72,12 @@ public class Room implements Serializable {
         return roomName + " capacity: " + capacity;
     }
 
-    public UUID getRoomId() {
-        return roomId;
+
+    /**
+     * Sets the ID of this room (used for mapping room data to instance of Room)
+     * @param id The id to set for this room.
+     */
+    public void setID(UUID id) {
+        this.roomId = id;
     }
 }

@@ -40,4 +40,10 @@ public interface EventDataGateway {
      * @return ArrayList of all events.
      */
     ArrayList<Event> getAllEventsFromDB();
+
+    /**
+     * Deletes an event from the database.
+     * @param evt The event to be removed.
+     */
+    void deleteEventInDB(Event evt);
 }
