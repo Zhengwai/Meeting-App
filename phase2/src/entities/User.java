@@ -2,6 +2,10 @@ package entities;
 
 
 
+import database.UserDataMapper;
+import gateways.EventDataGateway;
+import gateways.UserDataGateway;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.UUID;
@@ -159,7 +163,10 @@ public class User implements Serializable{
     public boolean removeEvent(UUID id){
         if (enrolledEvents.contains(id)){
             enrolledEvents.remove(id);
+            UserDataGateway edg = new UserDataMapper();
+            edg.updateUserEvents(this);
             return true;
+
         }
         return false;
 

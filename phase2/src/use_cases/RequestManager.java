@@ -19,6 +19,7 @@ public class RequestManager implements Serializable {
      * Creates new RequestManager
      */
     public RequestManager(){
+        requestArrayList = rdg.fetchRequests();
         this.requestArrayList = rdg.fetchRequests();
     }
 
@@ -27,7 +28,9 @@ public class RequestManager implements Serializable {
      * @param request the request we are adding to the manager
      */
     public void addRequest(Request request){
+
         this.requestArrayList.add(request);
+        rdg.insertRequest(request);
     }
 
     /**

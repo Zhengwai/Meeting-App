@@ -9,10 +9,10 @@
       <children>
             <Button fx:id="goBackButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#goBackButtonOnAction" text="Go Back" />
             <Button fx:id="newRequestButton" layoutX="387.0" layoutY="355.0" mnemonicParsing="false" onAction="#newRequestButtonOnAction" prefHeight="25.0" prefWidth="160.0" text="Create New Request" />
-            <TableView layoutX="58.0" layoutY="48.0" prefHeight="302.0" prefWidth="485.0">
+            <TableView fx:id="requestTable" layoutX="58.0" layoutY="48.0" prefHeight="302.0" prefWidth="485.0">
               <columns>
-                <TableColumn prefWidth="425.0" text="Your Request" />
-                  <TableColumn prefWidth="75.0" text="Status" />
+                <TableColumn fx:id="requestColumn" prefWidth="425.0" text="Your Request" />
+                  <TableColumn fx:id="statusColumn" prefWidth="75.0" text="Status" />
               </columns>
             </TableView>
       </children>

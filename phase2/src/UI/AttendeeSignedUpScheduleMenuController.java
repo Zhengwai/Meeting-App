@@ -31,6 +31,7 @@ public class AttendeeSignedUpScheduleMenuController extends ScheduleMenuControll
             mainModel.setCurrentUser(user);
             cancelEventLabel.setText("Cancellation Successful");
             initialize();
+
         }
 
     }

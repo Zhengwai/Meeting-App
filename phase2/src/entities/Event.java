@@ -1,5 +1,7 @@
 package entities;
 
+import database.EventDataMapper;
+import gateways.EventDataGateway;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -194,6 +196,8 @@ public class Event implements Serializable {
     public boolean removeAttendee(UUID userID){
         if (attendees.contains(userID)){
             attendees.remove(userID);
+            EventDataGateway edg = new EventDataMapper();
+            edg.updateEventAttendees(this);
             return true;
         }
         return false;

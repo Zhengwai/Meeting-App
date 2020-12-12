@@ -1,5 +1,8 @@
 package entities;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -14,11 +17,24 @@ public class Request implements Serializable{
     private HashSet<String> tags;
     private boolean resolved;
 
+    public StringProperty textString(){
+        return new SimpleStringProperty(requestText);
+    }
+    public StringProperty statusString(){
+        if(isResolved()){
+            return new SimpleStringProperty("Resolved");
+        }
+        else{
+            return new SimpleStringProperty("Unresolved");
+        }
+    }
+
     /**
      * Creates a new request with a User and text. A new request has no tags initially.
      * @param requestingUser user whom is requesting the request
      * @param requestText a text description of the request
      */
+
     public Request(UUID requestingUser, String requestText){
         this.requestingUser = requestingUser;
         this.requestText = requestText;
