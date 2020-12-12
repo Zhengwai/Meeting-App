@@ -1,37 +1,22 @@
 package UI;
 
 import entities.Event;
-import entities.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 
-import java.util.ArrayList;
+import java.io.IOException;
+import java.util.UUID;
 
-public class AttendeeSignedUpScheduleMenuController extends ScheduleMenuController{
+public class AttendeeSignedUpScheduleMenuController extends ScheduleMenuControllerA{
+    @FXML
+    private Button cancelButton;
+    private String fxmlName = "AttendeeScheduleMenu.fxml";
 
-    @FXML
-    Button cancelButton;
-    @FXML
-    Label cancelPrompt;
-    @FXML
-    Button refreshButton;
-    
-    private String fxmlName = "AttendeeSignedUpScheduleMenu.fxml";
     public AttendeeSignedUpScheduleMenuController() throws ClassNotFoundException {
-        super();
-        cancelPrompt.setDisable(true);
     }
 
+    public void cancelButtonOnAction(ActionEvent event) {
 
-    public void cancelButtonOnAction() {
-
-    }
-    public void refreshButtonOnAction(){
-        User user = mainModel.getCurrentUser();
-        ArrayList<Event> evts = mainModel.getEm().getEventsByUser(user);
-        setAllEvents(evts);
-        initialize();
     }
 }
