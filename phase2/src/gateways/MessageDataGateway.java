@@ -69,4 +69,10 @@ public interface MessageDataGateway {
      * @param c The conversation being updated.
      */
     void updateConversationUnreadFor(Conversation c);
+
+    /**
+     * Updates the messages field of a conversation in the database.
+     * @param c The conversation being updated.
+     */
+    void updateConversationMsgIDs(Conversation c);
 }

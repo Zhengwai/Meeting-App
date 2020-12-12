@@ -142,6 +142,15 @@ public class Database {
         ps.execute();
     }
 
+    protected void updateConversationMessages(UUID conID, ArrayList<UUID> newMessages) throws SQLException {
+        String sql = " UPDATE conversations SET messages = ? WHERE uuid = ?;";
+        PreparedStatement ps = conn.prepareStatement(sql);
+
+        ps.setObject(1, newMessages);
+        ps.setString(2, conID.toString());
+        ps.execute();
+    }
+
     protected void updateConversationName(UUID conID, String newName) throws SQLException {
         String sql = " UPDATE conversations SET convName = ? WHERE uuid = ?;";
         PreparedStatement ps = conn.prepareStatement(sql);
@@ -370,6 +379,7 @@ public class Database {
                 + " id INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + " uuid text NOT NULL,"
                 + " members object NOT NULL,"
+                + " messages object,"
                 + " convName text,"
                 + " readonly TINYINT NOT NULL,"
                 + " owner text,"

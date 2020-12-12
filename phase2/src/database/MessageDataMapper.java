@@ -59,6 +59,16 @@ public class MessageDataMapper implements MessageDataGateway  {
     }
 
     @Override
+    public void updateConversationMsgIDs(Conversation c) {
+        try {
+            db.updateConversationMessages(c.getID(), c.getMessageIDs());
+        } catch (SQLException e) {
+            System.out.println("Something went wrong updating this conversation's messages.");
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public ArrayList<Conversation> fetchConversations() {
         try {
             ResultSet rs = db.getAllConversations();
@@ -73,6 +83,7 @@ public class MessageDataMapper implements MessageDataGateway  {
 
                 String rawUnreadMsgs = (String) rs.getObject("unreadFor");
                 String rawArchivedFor = (String) rs.getObject("archivedFor");
+                String rawMessages = (String) rs.getObject("messages");
                 String convName = rs.getString("convName");
                 String strOwnerID = rs.getString("owner");
 
@@ -101,6 +112,15 @@ public class MessageDataMapper implements MessageDataGateway  {
                         c.setUnreadFor(UUID.fromString(s));
                     }
                 }
+
+                if (rawMessages != null && !rawMessages.equals("[]")) {
+                    rawMessages= rawMessages.substring(1, rawMessages.length() - 1);
+                    String[] messagesList = rawMessages.split(", ");
+                    for (String s: messagesList) {
+                        c.addMessageID(UUID.fromString(s));
+                    }
+                }
+
 
                 c.setName(convName);
 
