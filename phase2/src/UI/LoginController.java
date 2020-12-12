@@ -22,7 +22,6 @@ import java.io.IOException;
  * A controller for a scene that handles login procedure.
  */
 public class LoginController extends GeneralController{
-
     @FXML
     private Button loginButton;
     @FXML
