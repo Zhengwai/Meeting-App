@@ -7,6 +7,8 @@ import gateways.LoginGateway;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLOutput;
@@ -26,5 +28,6 @@ public class RequestController extends GeneralController {
         System.out.println("NewButtonTest");
         newButtonStage("newRequest.fxml", newRequestButton);
     }
+
 
 }
