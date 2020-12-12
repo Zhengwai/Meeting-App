@@ -380,4 +380,7 @@ public class EventManager implements Serializable{
             sp.addSpeakingEvent(eventID);
         }
     }
+    public void setEvents(ArrayList<Event> evts){
+        events = evts;
+    }
 }

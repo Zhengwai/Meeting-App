@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.UUID;
 
-public class ScheduleMenuController extends GeneralController{
+public class ScheduleMenuControllerA extends GeneralController{
     @FXML
     protected ComboBox<String> eventTypeFilterComboBox;
     @FXML
@@ -63,11 +63,11 @@ public class ScheduleMenuController extends GeneralController{
 
     private String fxmlName = "ScheduleMenu";
 
-    public ScheduleMenuController() throws ClassNotFoundException {
+    public ScheduleMenuControllerA() throws ClassNotFoundException {
         super();
         allEvents.removeAll();
-        ArrayList<Event> emEvents = mainModel.getEm().getEvents();
-        allEvents.addAll(emEvents);
+        ArrayList<Event> evts = mainModel.getEm().getEventsByUser(mainModel.getCurrentUser());
+        allEvents.addAll(evts);
     }
 
     @FXML
