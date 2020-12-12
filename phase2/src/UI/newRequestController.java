@@ -16,6 +16,8 @@ public class newRequestController extends GeneralController {
     protected Button createRequestButton;
     @FXML
     protected TextField requestTextField;
+    @FXML
+    protected Label statusLabel;
 
     public newRequestController() throws ClassNotFoundException {
     }
@@ -23,6 +25,8 @@ public class newRequestController extends GeneralController {
     public void createRequestButtonOnAction(ActionEvent actionEvent) {
         if(requestTextField.getText().trim().equals("")){
             // TODO: 12/11/2020 implement when request is invalid
+            statusLabel.setText("Request text cannot be empty");
+            statusLabel.setVisible(true);
 
         }
         else{

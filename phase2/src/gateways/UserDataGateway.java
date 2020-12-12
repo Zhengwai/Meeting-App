@@ -21,30 +21,26 @@ public interface UserDataGateway {
 
     /**
      * Updates a given user's type in the database.
-     * @param userID The ID of the user who's type will change.
-     * @param newType The new type of user ("a", "o", "v", "User").
+     * The user being updated.
      */
-    void updateUserType(UUID userID, String newType);
+    void updateUserType(User u);
 
     /**
      * Updates a given user's password in the database.
-     * @param userID The ID of the user who's password will change.
-     * @param newPassword The new password for this user.
+     * @param u The user being updated.
      */
-    void updateUserPassword(UUID userID, String newPassword);
+    void updateUserPassword(User u);
 
 
     /**
      * Updates a given user's list of event ID's in the database.
-     * @param userID The ID of the user who's events are being updated.
-     * @param newEventsList The new list of event IDs to be replaced.
+     * @param u The user being updated.
      */
-    void updateUserEvents(UUID userID, ArrayList<UUID> newEventsList);
+    void updateUserEvents(User u);
 
     /**
      * Update a given user's list of friends in the database.
-     * @param userID  The ID of the user who's events are being updated.
-     * @param newFriendsList The new list of friend IDs to be replaced.
+     * @param u The user being updated.
      */
-    void updateUserFriends(UUID userID, ArrayList<UUID> newFriendsList);
+    void updateUserFriends(User u);
 }

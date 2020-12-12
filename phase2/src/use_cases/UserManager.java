@@ -1,6 +1,5 @@
 package use_cases;
 
-import com.sun.tools.corba.se.idl.constExpr.Or;
 import database.UserDataMapper;
 import entities.*;
 import gateways.UserDataGateway;
@@ -15,7 +14,7 @@ import java.util.UUID;
  * A use case class for user that manages user related activities.
  */
 public class UserManager implements Serializable {
-    private ArrayList<User> allUsers = new ArrayList<>();
+    private ArrayList<User> allUsers;
     public User NotFoundUser = new User("NotFound", "NotFound");
     public Speaker NotFoundSpeaker = new Speaker("NotFound","NotFound");
     private UserDataGateway udg;
@@ -88,8 +87,8 @@ public class UserManager implements Serializable {
             if(!user2.isFriendWithID(user1.getID())){
                 user1.addFriend(user2.getID());
                 user2.addFriend(user1.getID());
-                udg.updateUserFriends(userID1, user1.getFriends());
-                udg.updateUserFriends(userID2, user2.getFriends());
+                udg.updateUserFriends(user1);
+                udg.updateUserFriends(user2);
                 return true;
             }
         }
@@ -107,6 +106,8 @@ public class UserManager implements Serializable {
             if(user2.isFriendWithID(user1.getID())){
                 user1.deleteFriend(user2.getID());
                 user2.deleteFriend(user1.getID());
+                udg.updateUserFriends(user1);
+                udg.updateUserFriends(user2);
                 return true;
             }
         }

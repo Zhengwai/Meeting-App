@@ -14,7 +14,7 @@ public class RoomDataMapper implements RoomDataGateway {
     @Override
     public ArrayList<Room> fetchRooms() {
         try {
-            ResultSet rs = db.getAllRooms();
+            ResultSet rs = db.getAllFromTable("rooms");
             ArrayList<Room> out = new ArrayList<>();
 
             while (rs.next()) {
@@ -56,7 +56,7 @@ public class RoomDataMapper implements RoomDataGateway {
     @Override
     public void updateRoomEvents(Room room) {
         try {
-            db.updateRoomEvents(room.getID(), room.getEvents());
+            db.updateTableRowValue("rooms", "events", room.getID(), room.getEvents());
         } catch (SQLException e) {
             System.out.println("Something went wrong trying to update that room.");
             e.printStackTrace();

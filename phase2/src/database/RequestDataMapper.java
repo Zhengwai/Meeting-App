@@ -14,10 +14,10 @@ public class RequestDataMapper implements RequestDataGateway {
     @Override
     public ArrayList<Request> fetchRequests() {
         try {
-            ResultSet rs = db.getAllRequests();
+            ResultSet rs = db.getAllFromTable("requests");
             ArrayList<Request> out = new ArrayList<>();
             while (rs.next()) {
-                UUID requestingUser = UUID.fromString(rs.getString("requestingUser"));
+                UUID requestingUser = UUID.fromString(rs.getString("uuid"));
                 Request req = new Request(requestingUser, rs.getString("requestText"));
                 String rawTags = (String) rs.getObject("tags");
 
@@ -58,7 +58,7 @@ public class RequestDataMapper implements RequestDataGateway {
     @Override
     public void updateRequestTags(Request req) {
         try {
-            db.updateRequestTags(req.getRequestingUser(), new ArrayList<>(req.getTags()));
+            db.updateTableRowValueStrings("requests", "tags", req.getRequestingUser(), new ArrayList<>(req.getTags()));
         } catch (SQLException e) {
             System.out.println("Something went wrong trying to update that request's tags.");
             e.printStackTrace();
@@ -68,7 +68,10 @@ public class RequestDataMapper implements RequestDataGateway {
     @Override
     public void updateRequestResolved(Request req) {
         try {
-            db.updateRequestResolved(req.getRequestingUser(), req.isResolved());
+            int val = 0;
+            if (req.isResolved()) val = 1;
+
+            db.updateTableRowValue("requests", "resolved", req.getRequestingUser(), val);
         } catch (SQLException e) {
             System.out.println("Something went wrong trying to update that's request's resolved bool.");
             e.printStackTrace();

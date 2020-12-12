@@ -29,6 +29,7 @@
                             </VBox.margin>
                         </Button>
                 </VBox>
+         <Label fx:id="statusLabel" layoutX="129.0" layoutY="273.0" prefHeight="17.0" prefWidth="268.0" textFill="RED" />
         </AnchorPane>
     </center>
     <top>
