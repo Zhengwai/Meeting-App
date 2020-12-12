@@ -19,7 +19,7 @@ public class UserDataMapper implements UserDataGateway {
     public ArrayList<User> fetchAllUsers() {
         try {
             ArrayList<User> out = new ArrayList<>();
-            ResultSet rs = db.getAllUsers();
+            ResultSet rs = db.getAllFromTable("users");
 
             // Another design pattern: Iterator
             while(rs.next()) {
@@ -90,36 +90,36 @@ public class UserDataMapper implements UserDataGateway {
     }
 
     @Override
-    public void updateUserType(UUID userID, String newType) {
+    public void updateUserType(User u) {
         try {
-            db.updateUserType(userID, newType);
+            db.updateTableRowValue("users", "type", u.getID(), u.getType());
         } catch (SQLException e) {
             System.out.println("Something went wrong trying to update this user's type.");
         }
     }
 
     @Override
-    public void updateUserPassword(UUID userID, String newPassword) {
+    public void updateUserPassword(User u) {
         try {
-            db.updateUserPassword(userID, newPassword);
+            db.updateTableRowValue("users", "password", u.getID(), u.getPassword());
         } catch (SQLException e) {
             System.out.println("Something went wrong trying to update this user's password.");
         }
     }
 
     @Override
-    public void updateUserEvents(UUID userID, ArrayList<UUID> newEventsList) {
+    public void updateUserEvents(User u) {
         try {
-            db.updateUserEvents(userID, newEventsList);
+            db.updateTableRowValue("users", "events", u.getID(), u.getEnrolledEvents());
         } catch (SQLException e) {
             System.out.println("Something went wrong trying to update this user's events.");
         }
     }
 
     @Override
-    public void updateUserFriends(UUID userID, ArrayList<UUID> newFriendsList) {
+    public void updateUserFriends(User u) {
         try {
-            db.updateUserFriends(userID, newFriendsList);
+            db.updateTableRowValue("users", "events", u.getID(), u.getEnrolledEvents());
         } catch (SQLException e) {
             System.out.println("Something went wrong trying to update this user's friends.");
         }
