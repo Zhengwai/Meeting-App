@@ -12,7 +12,7 @@ public class AttendeeScheduleMenuController extends ScheduleMenuController{
 
     public AttendeeScheduleMenuController() throws ClassNotFoundException {
     }
-    //Iff confirmation == true, signup the user for selected event
+
     public void signUpButtonOnAction(ActionEvent event) {
         Boolean confirmation = AttendeeSignUpEventAlertBox.display();
         if (confirmation) {
@@ -21,7 +21,6 @@ public class AttendeeScheduleMenuController extends ScheduleMenuController{
             Event e = mainModel.getEm().getEventByName(ename);
 
             e.addAttendee(mainModel.getUserID());
-
         }
     }
 }
