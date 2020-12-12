@@ -9,6 +9,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
+<?import javafx.scene.control.Label?>
 <AnchorPane prefHeight="773.0" prefWidth="1022.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.OrganizerScheduleMenuController">
     <children>
         <Button fx:id="goBackButton" layoutY="1.0" mnemonicParsing="false" onAction="#goBackButtonOnAction" text="Go Back" />

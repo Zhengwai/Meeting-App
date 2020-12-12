@@ -54,9 +54,7 @@ public class ScheduleMenuControllerA extends GeneralController{
     @FXML
     protected Button signUpButton;
     @FXML
-    protected Label signUpPrompt;
-    @FXML
-    protected Button switchButton;
+    protected Label cancelEvent;
 
     private ObservableList<Event> allEvents = FXCollections.observableArrayList();
 
