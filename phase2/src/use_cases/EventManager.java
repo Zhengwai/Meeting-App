@@ -9,14 +9,10 @@ import entities.TED;
 import entities.Seminar;
 import entities.User;
 import entities.Speaker;
-import gateways.EventGateway;
 import gateways.RoomDataGateway;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 
 import java.io.*;
 import java.time.LocalDateTime;
-import java.time.Month;
 import java.util.*;
 /**
  * A use case class that manages the events.
@@ -49,7 +45,7 @@ public class EventManager implements Serializable{
             return false;
         } else {
             this.events.add(event);
-            //edg.insertEvent(event);
+            edg.insertEvent(event);
             return true;
         }
     }
@@ -244,12 +240,7 @@ public class EventManager implements Serializable{
      * @return true when the event exists and false otherwise.
      */
     public boolean hasEvent(String name){
-        if (getEventByName(name) == notFoundEvent){
-            return false;
-        }
-        else{
-            return true;
-        }
+        return getEventByName(name) != notFoundEvent;
     }
     public boolean hasRoom(String name){
         for(Room r: rooms){

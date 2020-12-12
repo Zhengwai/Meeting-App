@@ -12,6 +12,10 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.UUID;
 
+/**
+ * Database interactor class.
+ * Responsible for mapping instances of events to the database and vice versa.
+ */
 public class EventDataMapper implements EventDataGateway {
     private Database db;
 

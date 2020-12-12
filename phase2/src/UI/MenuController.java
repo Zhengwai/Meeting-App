@@ -1,6 +1,5 @@
 package UI;
 import entities.User;
-import gateways.LoginGateway;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;

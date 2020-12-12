@@ -5,6 +5,10 @@ import entities.Message;
 
 import java.util.ArrayList;
 
+/**
+ * Gateway class.
+ * Allows for communication between the ConversationManager and the database while still adhering to clean architecture.
+ */
 public interface MessageDataGateway {
 
     /**

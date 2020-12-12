@@ -2,7 +2,6 @@ package UI;
 
 import UI.GeneralController;
 import entities.User;
-import gateways.LoginGateway;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.Parent;

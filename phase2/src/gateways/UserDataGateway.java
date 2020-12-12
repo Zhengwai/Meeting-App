@@ -2,8 +2,11 @@ package gateways;
 
 import entities.User;
 import java.util.ArrayList;
-import java.util.UUID;
 
+/**
+ * Gateway class.
+ * Allows for communication between the UserManager and the database while still adhering to clean architecture.
+ */
 public interface UserDataGateway {
 
     /**
@@ -30,7 +33,6 @@ public interface UserDataGateway {
      * @param u The user being updated.
      */
     void updateUserPassword(User u);
-
 
     /**
      * Updates a given user's list of event ID's in the database.

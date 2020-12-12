@@ -3,7 +3,6 @@ package UI;
 import UI.GeneralController;
 import UI.Model;
 import entities.User;
-import gateways.LoginGateway;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

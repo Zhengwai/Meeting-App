@@ -8,6 +8,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.UUID;
 
+/**
+ * Database interactor class.
+ * Responsible for mapping instances of users to the database and vice versa.
+ */
 public class UserDataMapper implements UserDataGateway {
     private Database db;
 
