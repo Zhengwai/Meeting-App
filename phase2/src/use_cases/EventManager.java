@@ -207,7 +207,7 @@ public class EventManager implements Serializable{
      */
     public Event getEventByName(String name){
         for (Event e:events){
-            if (e.getName().getValue().equals(name.toUpperCase())){
+            if (e.getName().getValue().toUpperCase().equals(name.toUpperCase())){
                 return e;
             }
         }

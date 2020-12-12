@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.UUID;
 
-public class ScheduleMenuController extends GeneralController{
+public class ScheduleMenuController extends GeneralController {
     @FXML
     protected ComboBox<String> eventTypeFilterComboBox;
     @FXML
@@ -55,11 +55,10 @@ public class ScheduleMenuController extends GeneralController{
     protected Button signUpButton;
     @FXML
     protected Label signUpPrompt;
-    @FXML
-    protected Button switchButton;
 
     private ObservableList<Event> allEvents = FXCollections.observableArrayList();
 
+    private String evtSelected = "";
 
     private String fxmlName = "ScheduleMenu";
 
@@ -71,7 +70,8 @@ public class ScheduleMenuController extends GeneralController{
     }
 
     @FXML
-    public void initialize(){
+    public void initialize() {
+        signUpButton.setDisable(true);
         eventTypeFilterComboBox.getItems().setAll("", "ted", "vipted", "seminar");
         statusFilterComboBox.getItems().setAll("", "full", "available", "past");
         //Initialize the columns
@@ -88,12 +88,14 @@ public class ScheduleMenuController extends GeneralController{
 
         FilteredList<Event> filteredEvents = new FilteredList<>(allEvents, p -> true);
 
-        eventTable.setOnMousePressed(e ->{
-            if (e.getClickCount() == 1 && e.isPrimaryButtonDown() ){
+        eventTable.setOnMousePressed(e -> {
+            if (e.getClickCount() == 1 && e.isPrimaryButtonDown()) {
                 String des = eventTable.getSelectionModel().getSelectedItem().getDescription();
                 UUID roomID = eventTable.getSelectionModel().getSelectedItem().getRoom();
                 String roomName = mainModel.getEm().getRoomByID(roomID).getRoomName();
-                descriptionBox.setText("Room: "+ roomName+"\nDescription of this event: "+des);
+                descriptionBox.setText("Room: " + roomName + "\nDescription of this event: " + des);
+                signUpButton.setDisable(false);
+                evtSelected = eventTable.getSelectionModel().getSelectedItem().getName().getValue();
             }
         });
 
@@ -129,4 +131,9 @@ public class ScheduleMenuController extends GeneralController{
         });
 
     }
+
+    public String getEvtSelected() {
+        return evtSelected;
+    }
+
 }
