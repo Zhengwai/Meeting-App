@@ -1,6 +1,6 @@
 package UI;
 import entities.User;
-import gateways.LoginGateway;
+//import gateways.LoginGateway;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -24,7 +24,7 @@ import java.io.IOException;
  */
 public class LoginController extends GeneralController{
 
-    LoginGateway lg = new LoginGateway();
+    //LoginGateway lg = new LoginGateway();
 
     @FXML
     private Button loginButton;
