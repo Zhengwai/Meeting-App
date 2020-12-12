@@ -19,6 +19,10 @@ public class Seminar extends Event {
         this.speaker = speaker;
     }
 
+    public UUID getSpeaker(){
+        return speaker;
+    }
+
     @Override
     public boolean hasSpace(){
         if (1 + attendees.size() < capacity){

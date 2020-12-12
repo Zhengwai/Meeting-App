@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-public class AttendeeSignUpEventAlertBox {
+public class AttendeeCancelEventAlertBox {
 
     public static Boolean display(){
         AtomicReference<Boolean> temp = new AtomicReference<>(true);
@@ -19,17 +19,17 @@ public class AttendeeSignUpEventAlertBox {
         window.setHeight(300);
 
         Label label = new Label();
-        label.setText("Are you sure you want to sign up?");
+        label.setText("Are you sure you want to quit the event?");
 
         Button confirmButton = new Button();
-        confirmButton.setText("Confirm!");
+        confirmButton.setText("Confirm -_-");
         confirmButton.setOnAction(e -> {temp.set(true);
-                                        window.close();});
+            window.close();});
 
         Button denyButton = new Button();
         denyButton.setText("Not Now~");
         denyButton.setOnAction(e -> {temp.set(false);
-                                     window.close();});
+            window.close();});
 
         VBox layout = new VBox(10);
         layout.getChildren().addAll(label, confirmButton, denyButton);
@@ -40,7 +40,6 @@ public class AttendeeSignUpEventAlertBox {
 
         window.showAndWait();
         return temp.get();
-
 
     }
 }

@@ -74,7 +74,7 @@ public class OrganizerCreateEventController extends MenuController{
             UUID eventID = mainModel.getEm().createAndAddEvent(name, capacity, stime, etime, room.getRoomName(), type,descriptionTextArea.getText(), vip);
             createEventSuccessLabel.setText("Event created success!");
             eh.setEvent(eventID, name);
-
+            System.out.println(mainModel.getEm().getEventByID(eventID).getName());
             if(type.equals("TED") | type.equals("SEMINAR")){
                 showEvent("SelectSpeaker.fxml");
             }

@@ -33,7 +33,8 @@ public class SelectSpeakerController extends GeneralController implements Initia
 
     public void confirmSpeakerButton(ActionEvent actionEvent) {
         String speaker = (String) chooseSpeakerBox.getSelectionModel().getSelectedItem();
-        mainModel.getEm().assignSpeaker(eh.getEvent(), speaker);
+        mainModel.getEm().assignSpeaker(eh.getEvent(), speaker, mainModel.getUm());
+        System.out.println(speaker);
         String type = mainModel.getEm().getEventByID(eh.getEvent()).getType().getValue();
         System.out.println(type);
         successLabel.setText(speaker + "was successfully \n assigned to " + eh.getEventName());
@@ -68,6 +69,6 @@ public class SelectSpeakerController extends GeneralController implements Initia
     }
 
     public void updateSpeakers(){
-        chooseSpeakerBox.getItems().setAll(mainModel.getEm().getAvailableSpeakers(eh.getEvent()));
+        chooseSpeakerBox.getItems().setAll(mainModel.getEm().getAvailableSpeakers(eh.getEvent(), mainModel.getUm()));
     }
 }

@@ -56,6 +56,7 @@ public class ConversationManager implements Serializable {
         Conversation c = new Conversation();
         this.allConversations.put(c.getID(), c);
         mdg.insertConversation(c);
+        System.out.println("In new conversation");
         return c.getID();
     }
 

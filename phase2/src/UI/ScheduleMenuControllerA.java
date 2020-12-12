@@ -54,7 +54,7 @@ public class ScheduleMenuControllerA extends GeneralController{
     @FXML
     protected Button signUpButton;
     @FXML
-    protected Label signUpPrompt;
+    protected Label cancelEvent;
     @FXML
     protected Button switchButton;
 
