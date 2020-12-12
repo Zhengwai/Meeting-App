@@ -29,7 +29,6 @@ public class EventManager implements Serializable{
     private EventDataGateway edg;
     private RoomDataGateway rdg;
     private EventFactory ef = new EventFactory();
-    private UserManager um = new UserManager();
 
     public EventManager() {
         edg = new EventDataMapper();
@@ -37,6 +36,10 @@ public class EventManager implements Serializable{
         rdg = new RoomDataMapper();
         rooms = rdg.fetchRooms();
 
+    }
+
+    public ArrayList<Event> getAllEvents(){
+        return events;
     }
     /**
      *Initializes the EventManager.
@@ -46,7 +49,7 @@ public class EventManager implements Serializable{
             return false;
         } else {
             this.events.add(event);
-            edg.insertEvent(event);
+            //edg.insertEvent(event);
             return true;
         }
     }
@@ -176,13 +179,35 @@ public class EventManager implements Serializable{
      * @param user the speaker.
      * @return an ArrayList of the events the speaker has been assigned to.
      */
-    public ArrayList<Event> getEventsBySpeaker(Speaker user) {
+    public ArrayList<Event> getEventsBySpeaker(Speaker user){
         ArrayList<Event> speakerEvents = new ArrayList<>();
-        for (UUID id : user.getSpeakerEvents()) {
+        for(UUID id: user.getSpeakerEvents()){
             speakerEvents.add(getEventByID(id));
         }
         return speakerEvents;
     }
+
+    public ArrayList<String[]> getSpeakerString(Speaker user) {
+        ArrayList<String[]> speakerEvents = new ArrayList<>();
+        System.out.println(user.getSpeakerEvents().size());
+        for (UUID id : user.getSpeakerEvents()) {
+            Event e = getEventByID(id);
+            String[] s = new String[10];
+            s[0] = e.getDateString().getValue();
+            s[1] = e.getStartTime().toString();
+            s[3] = e.getEndTime().toString();
+            s[4] = e.getName().getValue();
+            s[5] = e.getCapacityString().getValue();
+            s[6] = e.getStatus().getValue();
+            s[7] = e.getType().getValue();
+            s[8] = Boolean.toString(e.getVIP());
+            s[10] = e.getId().toString();
+            speakerEvents.add(s);
+        }
+        return speakerEvents;
+    }
+
+
 
     /**
      * Returns the names of all the events a speaker has been assigned to.
@@ -194,7 +219,7 @@ public class EventManager implements Serializable{
         ArrayList<Event> speakerEvent = getEventsBySpeaker(user);
 
         for(Event e: speakerEvent){
-            speakerString.add(e.getName().toString());
+            speakerString.add(e.getName().getValue());
         }
 
         return speakerString;
@@ -320,7 +345,7 @@ public class EventManager implements Serializable{
         return e;
     }
 
-    public ArrayList<String> getAvailableSpeakers(UUID eventID){
+    public ArrayList<String> getAvailableSpeakers(UUID eventID, UserManager um){
         Event event1 = getEventByID(eventID);
         ArrayList<Speaker> speakers = um.getAllSpeakers();
         boolean overlap = false;
@@ -368,16 +393,26 @@ public class EventManager implements Serializable{
         rdg.insertRoom(r);
     }
 
-    public void assignSpeaker(UUID eventID, String speaker){
+    public void assignSpeaker(UUID eventID, String speaker, UserManager um){
         Speaker sp = um.getSpeakerByName(speaker);
-        if(getEventByID(eventID).getType().toString().equals("SEMINAR")){
+        System.out.println("Inside here");
+        if(getEventByID(eventID).getType().getValue().equals("SEMINAR")){
             Seminar s = (Seminar) getEventByID(eventID);
             s.setSpeaker(sp.getID());
+            System.out.println(um.getUserByID(s.getSpeaker()).getUsername());
             sp.addSpeakingEvent(eventID);
-        }else if(getEventByID(eventID).getType().equals("TED")){
+            for(UUID e: sp.getSpeakerEvents()){
+                System.out.println("In for loop");
+                System.out.println(getEventByID(e).getName().getValue());
+            }
+            System.out.println(sp.getUsername());
+            System.out.println("In assigned speaker");
+        }else if(getEventByID(eventID).getType().getValue().equals("TED")){
             TED t = (TED) getEventByID(eventID);
             t.addSpeaker(sp.getID());
             sp.addSpeakingEvent(eventID);
+            System.out.println(sp.getUsername());
+            System.out.println("In assigned speaker");
         }
     }
     public void setEvents(ArrayList<Event> evts){

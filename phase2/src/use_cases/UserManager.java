@@ -18,6 +18,7 @@ public class UserManager implements Serializable {
     public User NotFoundUser = new User("NotFound", "NotFound");
     public Speaker NotFoundSpeaker = new Speaker("NotFound","NotFound");
     private UserDataGateway udg;
+    private EventManager em = new EventManager();
     //private UserData userData = new UserGateway();
 
     /**
@@ -26,7 +27,32 @@ public class UserManager implements Serializable {
     public UserManager() {
         udg = new UserDataMapper();
         allUsers = udg.fetchAllUsers();
-        allUsers.add(new Organizer("o","o"));
+        assignEvents();
+        //allUsers.add(new Organizer("o","o"));
+    }
+
+    private void assignEvents(){
+        for(Event e: em.getAllEvents()){
+            for(UUID u: e.getAttendees()){
+                getUserByID(u).addEvent(e.getId());
+            }
+            if(e.getType().getValue().equals("TED")){
+                TED t = (TED) e;
+                if(t.getSpeakers().size() > 0) {
+                    for (UUID sp : t.getSpeakers()) {
+                        Speaker s = (Speaker) getUserByID(sp);
+                        s.addSpeakingEvent(sp);
+                    }
+                }
+            }
+            if(e.getType().getValue().equals("SEMINAR")){
+                Seminar s = (Seminar) e;
+                if(s.getSpeaker() != null) {
+                    Speaker sp = (Speaker) getUserByID(s.getSpeaker());
+                    sp.addSpeakingEvent(s.getId());
+                }
+            }
+        }
     }
 
     /**
@@ -173,7 +199,7 @@ public class UserManager implements Serializable {
      */
     public ArrayList<Speaker> getAllSpeakers(){
         ArrayList<Speaker> speakers = new ArrayList<>();
-        for (User u: udg.fetchAllUsers()){
+        for (User u: allUsers){
             if (u.getType().equals("s")){
                 speakers.add((Speaker)u);
             }

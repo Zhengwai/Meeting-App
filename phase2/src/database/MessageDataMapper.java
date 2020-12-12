@@ -32,6 +32,7 @@ public class MessageDataMapper implements MessageDataGateway  {
     public void insertConversation(Conversation c) {
         try {
             db.insertNewConversation(c.getID(), c.getMembers(), c.getName(), c.getReadOnly() ? 1 : 0, c.getOwner());
+            System.out.println("Inserted stuff in Database");
         } catch (SQLException e) {
             System.out.println("Something went wrong trying to insert a new conversation.");
             e.printStackTrace();

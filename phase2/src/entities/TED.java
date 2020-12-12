@@ -21,6 +21,10 @@ public class TED extends Event{
         speakers.add(speakerID);
     }
 
+    public ArrayList<UUID> getSpeakers(){
+        return speakers;
+    }
+
     @Override
     public boolean hasSpace(){
         if (speakers.size() + attendees.size() < capacity){
