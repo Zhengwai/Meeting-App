@@ -52,7 +52,7 @@ public class ScheduleMenuControllerA extends GeneralController{
     @FXML
     protected TextArea descriptionBox;
     @FXML
-    protected Button signUpButton;
+    protected Button cancelButton;
     @FXML
     protected Label cancelEvent;
     @FXML
@@ -62,7 +62,7 @@ public class ScheduleMenuControllerA extends GeneralController{
 
 
     private String fxmlName = "ScheduleMenu";
-
+    private String evtSelected="";
     public ScheduleMenuControllerA() throws ClassNotFoundException {
         super();
         allEvents.removeAll();
@@ -72,6 +72,7 @@ public class ScheduleMenuControllerA extends GeneralController{
 
     @FXML
     public void initialize(){
+        cancelButton.setDisable(true);
         eventTypeFilterComboBox.getItems().setAll("", "ted", "vipted", "seminar");
         statusFilterComboBox.getItems().setAll("", "full", "available", "past");
         //Initialize the columns
@@ -94,6 +95,8 @@ public class ScheduleMenuControllerA extends GeneralController{
                 UUID roomID = eventTable.getSelectionModel().getSelectedItem().getRoom();
                 String roomName = mainModel.getEm().getRoomByID(roomID).getRoomName();
                 descriptionBox.setText("Room: "+ roomName+"\nDescription of this event: "+des);
+                cancelButton.setDisable(false);
+                evtSelected = eventTable.getSelectionModel().getSelectedItem().getName().getValue();
             }
         });
 
@@ -128,5 +131,8 @@ public class ScheduleMenuControllerA extends GeneralController{
             });
         });
 
+    }
+    public String getEvtSelected(){
+        return evtSelected;
     }
 }

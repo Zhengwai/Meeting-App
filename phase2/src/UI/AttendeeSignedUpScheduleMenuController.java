@@ -1,13 +1,17 @@
 package UI;
 
 import entities.Event;
+import entities.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 
 public class AttendeeSignedUpScheduleMenuController extends ScheduleMenuControllerA{
     @FXML
-    private Button cancelButton;
+    protected Button cancelButton;
+    @FXML
+    protected Label cancelEventLabel = new Label();
     private String fxmlName = "AttendeeScheduleMenu.fxml";
 
     public AttendeeSignedUpScheduleMenuController() throws ClassNotFoundException {
@@ -16,13 +20,17 @@ public class AttendeeSignedUpScheduleMenuController extends ScheduleMenuControll
     public void cancelButtonOnAction(ActionEvent event) {
         Boolean confirmation = AttendeeCancelEventAlertBox.display();
         if (confirmation){
-            String ename = eventTable.getSelectionModel().getSelectedItem().getName().getValue();
 
-            Event e = mainModel.getEm().getEventByName(ename);
+            mainModel.getEm().getEventByName(getEvtSelected()).removeAttendee(mainModel.getCurrentUser().getID());
+
+            Event e = mainModel.getEm().getEventByName(getEvtSelected());
 
             e.removeAttendee(mainModel.getUserID());
-            mainModel.getCurrentUser().removeEvent(e.getId());
-           // cancelEventLabel.setText("Cancellation Successful");
+            User user = mainModel.getCurrentUser();
+            user.removeEvent(e.getId());
+            mainModel.setCurrentUser(user);
+            cancelEventLabel.setText("Cancellation Successful");
+            initialize();
         }
 
     }
