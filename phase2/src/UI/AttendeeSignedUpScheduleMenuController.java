@@ -17,6 +17,13 @@ public class AttendeeSignedUpScheduleMenuController extends ScheduleMenuControll
     }
 
     public void cancelButtonOnAction(ActionEvent event) {
+        Boolean confirmation = AttendeeCancelEventAlertBox.display();
+        if (confirmation){
+            String ename = eventTable.getSelectionModel().getSelectedItem().getName().toString();
+            Event e = mainModel.getEm().getEventByName(ename);
+            e.removeAttendee(mainModel.getUserID());
+            mainModel.getCurrentUser().removeEvent(e.getId());
+        }
 
     }
 }
