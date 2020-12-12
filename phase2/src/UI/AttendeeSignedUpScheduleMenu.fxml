@@ -24,8 +24,7 @@
         <ComboBox fx:id="statusFilterComboBox" editable="true" layoutX="501.0" layoutY="40.0" prefWidth="150.0" promptText="Status" />
         <TextField fx:id="eventNameTextBox" layoutX="676.0" layoutY="40.0" promptText="Event name" />
         <TextArea fx:id="descriptionBox" editable="false" layoutX="28.0" layoutY="463.0" prefHeight="122.0" prefWidth="947.0" />
-        <Button fx:id="cancelButton" layoutX="327.0" layoutY="615.0" mnemonicParsing="false" onAction="#cancelButtonOnAction" prefHeight="25.0" prefWidth="150.0" text="Quit the event" />
-        <Button fx:id="refreshButton" layoutX="600.0" layoutY="615.0" mnemonicParsing="false" onAction="#refreshButtonOnAction" prefHeight="25.0" prefWidth="150.0" text="Refresh the page"/>
-        <Label fx:id="cancelPrompt" layoutX="450.0" layoutY="646.0" text="Cancel Successful!" />
+        <Button fx:id="cancelButton" layoutX="427.0" layoutY="615.0" mnemonicParsing="false" onAction="#cancelButtonOnAction" prefHeight="25.0" prefWidth="150.0" text="Quit Events" />
+        <Label fx:id="signUpPrompt" layoutX="450.0" layoutY="646.0" text="Sign-up Successful!" />
     </children>
 </AnchorPane>

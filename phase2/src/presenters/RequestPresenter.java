@@ -1,9 +1,13 @@
 package presenters;
 
 import entities.Request;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableArray;
+import javafx.collections.ObservableList;
 import use_cases.RequestManager;
 
 public class RequestPresenter {
+    /*
 
     public void newRequestPrompt1(){
         System.out.println("Please type the description for your new request");
@@ -53,5 +57,5 @@ public class RequestPresenter {
     public void requestTagPrompt4(){
         System.out.println("The tag you entered is either does not exist for the request, or is invalid.");
     }
-    // TODO: 12/2/2020 add finalize adding prompts. Maybe should integrate to UI first so no wasted work is done
+    */
 }

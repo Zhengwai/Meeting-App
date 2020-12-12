@@ -1,6 +1,5 @@
 package database;
 
-import Repository.EventData;
 import entities.Event;
 import entities.Party;
 import entities.Seminar;
@@ -8,14 +7,9 @@ import entities.TED;
 import gateways.EventDataGateway;
 
 import java.sql.ResultSet;
-import java.sql.SQLDataException;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.UUID;
 
 public class EventDataMapper implements EventDataGateway {
@@ -39,7 +33,7 @@ public class EventDataMapper implements EventDataGateway {
     @Override
     public void updateEventName(Event evt) {
         try {
-            db.updateEventName(evt.getId(), evt.getName().toString());
+          db.updateTableRowValue("events", "name", evt.getId(), evt.getName().getValue());
         } catch (SQLException e) {
             System.out.println("Something went wrong trying to update that event's name");
             e.printStackTrace();
@@ -49,7 +43,8 @@ public class EventDataMapper implements EventDataGateway {
     @Override
     public void updateEventTime(Event evt) {
         try {
-            db.updateEventTime(evt.getId(), evt.getStartTime().toString(), evt.getEndTime().toString());
+            db.updateTableRowValue("events", "startTime", evt.getId(), evt.getStartTimeString().getValue());
+            db.updateTableRowValue("events", "endTime", evt.getId(), evt.getEndTimeString().getValue());
         } catch (SQLException e) {
             System.out.println("Something went wrong trying to update the time of this event");
             e.printStackTrace();
@@ -59,7 +54,7 @@ public class EventDataMapper implements EventDataGateway {
     @Override
     public void updateEventCapacity(Event evt) {
         try {
-            db.updateEventCapacity(evt.getId(), evt.getCapacity());
+            db.updateTableRowValue("events", "capacity", evt.getId(), evt.getCapacity());
         } catch (SQLException e) {
             System.out.println("Something went wrong trying to update the capacity of this event");
             e.printStackTrace();
@@ -69,7 +64,7 @@ public class EventDataMapper implements EventDataGateway {
     @Override
     public void updateEventAttendees(Event evt) {
         try {
-            db.updateEventAttendees(evt.getId(), evt.getAttendees());
+            db.updateTableRowValue("events", "attendees", evt.getId(), evt.getAttendees());
         } catch (SQLException e) {
             System.out.println("Something went wrong trying to update the attendees in this event.");
             e.printStackTrace();
@@ -79,7 +74,10 @@ public class EventDataMapper implements EventDataGateway {
     @Override
     public void updateEventIsVIP(Event evt) {
         try {
-            db.updateEventIsVIP(evt.getId(), evt.getVIP());
+            int val = 0;
+            if (evt.getVIP()) val = 1;
+
+            db.updateTableRowValue("events", "isVIP", evt.getId(), val);
         } catch (SQLException e) {
             System.out.println("Something went wrong trying to update the VIP status in this event.");
             e.printStackTrace();
@@ -89,7 +87,7 @@ public class EventDataMapper implements EventDataGateway {
     @Override
     public ArrayList<Event> getAllEventsFromDB() {
         try {
-            ResultSet rs = db.getAllEvents();
+            ResultSet rs = db.getAllFromTable("events");
             ArrayList<Event> out = new ArrayList<>();
 
             while (rs.next()) {
@@ -100,10 +98,7 @@ public class EventDataMapper implements EventDataGateway {
                 LocalDateTime endTime = LocalDateTime.parse(rs.getString("endTime"));
 
                 int isVIPVal = rs.getInt("isVIP");
-                Boolean isVIP;
-
-                if (isVIPVal == 0) isVIP = false;
-                else isVIP = true;
+                boolean isVIP = isVIPVal != 0;
 
                 switch (rs.getString("type")) {
                     case "PARTY":
@@ -120,10 +115,8 @@ public class EventDataMapper implements EventDataGateway {
                 UUID eventID = UUID.fromString(rs.getString("uuid"));
                 e.setId(eventID);
 
-                String rawAttendees = (String) rs.getObject("attendees");
-                if (rawAttendees != null && !rawAttendees.equals("[]")) {
-                    rawAttendees = rawAttendees.substring(1, rawAttendees.length() - 1); // Remove the "[" and "]" from string
-                    String[] attendeesList = rawAttendees.split(", ");
+                String[] attendeesList = db.parseArrayList((String) rs.getObject("attendees"));
+                if (attendeesList != null) {
                     for (String s: attendeesList) {
                         e.addAttendee(UUID.fromString(s));
                     }

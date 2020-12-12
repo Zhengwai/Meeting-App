@@ -79,6 +79,7 @@ public class OrganizerCreateEventController extends MenuController{
                 showEvent("SelectSpeaker.fxml");
             }
         }
+        initialize();
     }
 
     protected boolean checkValidInput(Room room, Event tempE){

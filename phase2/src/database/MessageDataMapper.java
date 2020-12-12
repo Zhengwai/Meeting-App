@@ -41,7 +41,7 @@ public class MessageDataMapper implements MessageDataGateway  {
     @Override
     public ArrayList<Message> fetchMessages() {
         try {
-            ResultSet rs = db.getAllMessages();
+            ResultSet rs = db.getAllFromTable("messages");
             ArrayList<Message> out = new ArrayList<>();
             while(rs.next()) {
                 Message msg = new Message(UUID.fromString(rs.getString("senderID")), rs.getString("body"));
@@ -61,7 +61,7 @@ public class MessageDataMapper implements MessageDataGateway  {
     @Override
     public void updateConversationMsgIDs(Conversation c) {
         try {
-            db.updateConversationMessages(c.getID(), c.getMessageIDs());
+            db.updateTableRowValue("conversations", "messages", c.getID(), c.getMessageIDs());
         } catch (SQLException e) {
             System.out.println("Something went wrong updating this conversation's messages.");
             e.printStackTrace();
@@ -71,56 +71,44 @@ public class MessageDataMapper implements MessageDataGateway  {
     @Override
     public ArrayList<Conversation> fetchConversations() {
         try {
-            ResultSet rs = db.getAllConversations();
+            ResultSet rs = db.getAllFromTable("conversations");
             ArrayList<Conversation> out = new ArrayList<>();
             while (rs.next()) {
-                // Data retrieval
                 Conversation c = new Conversation();
                 UUID conID = UUID.fromString(rs.getString("uuid"));
                 c.setConID(conID);
-                String rawMembers = (String) rs.getObject("members");
 
 
-                String rawUnreadMsgs = (String) rs.getObject("unreadFor");
-                String rawArchivedFor = (String) rs.getObject("archivedFor");
-                String rawMessages = (String) rs.getObject("messages");
-                String convName = rs.getString("convName");
-                String strOwnerID = rs.getString("owner");
-
-
-                // Putting the stored data into an instance of conversation
-                if (rawMembers != null && !rawMembers.equals("[]")) {
-                    rawMembers = rawMembers.substring(1, rawMembers.length() - 1); // Remove the "[" and "]" from string
-                    String[] membersList = rawMembers.split(", ");
+                String[] membersList = db.parseArrayList((String) rs.getObject("members"));
+                if (membersList != null) {
                     for (String s: membersList) {
                         c.addMember(UUID.fromString(s));
                     }
                 }
 
-                if (rawArchivedFor != null && !rawArchivedFor.equals("[]")) {
-                    rawArchivedFor = rawArchivedFor.substring(1, rawArchivedFor.length() - 1);
-                    String[] archivedForList = rawArchivedFor.split(", ");
-                    for (String s: archivedForList) {
-                        c.setArchivedFor(UUID.fromString(s));
-                    }
-                }
-
-                if (rawUnreadMsgs != null && !rawUnreadMsgs.equals("[]")) {
-                    rawUnreadMsgs = rawUnreadMsgs.substring(1, rawUnreadMsgs.length() - 1);
-                    String[] unreadMsgsList = rawUnreadMsgs.split(", ");
+                String[] unreadMsgsList = db.parseArrayList((String) rs.getObject("unreadFor"));
+                if (unreadMsgsList != null) {
                     for (String s: unreadMsgsList) {
                         c.setUnreadFor(UUID.fromString(s));
                     }
                 }
 
-                if (rawMessages != null && !rawMessages.equals("[]")) {
-                    rawMessages= rawMessages.substring(1, rawMessages.length() - 1);
-                    String[] messagesList = rawMessages.split(", ");
+                String[] archivedForList = db.parseArrayList((String) rs.getObject("archivedFor"));
+                if (archivedForList != null) {
+                    for (String s: archivedForList) {
+                        c.setArchivedFor(UUID.fromString(s));
+                    }
+                }
+
+                String[] messagesList = db.parseArrayList((String) rs.getObject("messages"));
+                if (messagesList != null) {
                     for (String s: messagesList) {
                         c.addMessageID(UUID.fromString(s));
                     }
                 }
 
+                String convName = rs.getString("convName");
+                String strOwnerID = rs.getString("owner");
 
                 c.setName(convName);
 
@@ -128,7 +116,6 @@ public class MessageDataMapper implements MessageDataGateway  {
                     c.setOwner(UUID.fromString(strOwnerID));
                 }
 
-                // Instance of conversation with all fields retrieved from DB
                 out.add(c);
             }
 
@@ -142,54 +129,57 @@ public class MessageDataMapper implements MessageDataGateway  {
 
     public void updateConversationOwner(Conversation c) {
         try {
-            db.updateConversationOwner(c.getID(), c.getOwner());
+            db.updateTableRowValue("conversations", "owner", c.getID(), c.getOwner().toString());
         } catch(SQLException e) {
-            System.out.println("Something went wrong try to update that conversation.");
+            System.out.println("Something went wrong try to update this conversation's owner.");
             e.printStackTrace();
         }
     }
 
     public void updateConversationName(Conversation c) {
         try {
-            db.updateConversationName(c.getID(), c.getName());
+            db.updateTableRowValue("conversations", "convName", c.getID(), c.getName());
         } catch(SQLException e) {
-            System.out.println("Something went wrong try to update that conversation.");
+            System.out.println("Something went wrong try to update this conversation's name.");
             e.printStackTrace();
         }
     }
 
     public void updateConversationMembers(Conversation c) {
         try {
-            db.updateConversationMembers(c.getID(), c.getMembers());
+            db.updateTableRowValue("conversations", "members", c.getID(), c.getMembers());
         } catch(SQLException e) {
-            System.out.println("Something went wrong try to update that conversation.");
+            System.out.println("Something went wrong try to update this conversation's members.");
             e.printStackTrace();
         }
     }
 
     public void updateConversationReadOnly(Conversation c) {
         try {
-            db.updateConversationReadOnly(c.getID(), c.getReadOnly());
+            int val = 0;
+            if (c.getReadOnly()) val = 1;
+
+            db.updateTableRowValue("conversations", "readOnly", c.getID(), val);
         } catch(SQLException e) {
-            System.out.println("Something went wrong try to update that conversation.");
+            System.out.println("Something went wrong try to update this conversation's readOnly state.");
             e.printStackTrace();
         }
     }
 
     public void updateConversationArchivedFor(Conversation c) {
         try {
-            db.updateConversationArchivedFor(c.getID(), c.getArchivedForList());
+            db.updateTableRowValue("conversations", "messages", c.getID(), c.getArchivedForList());
         } catch (SQLException e) {
-            System.out.println("Something went wrong trying to update that conversation.");
+            System.out.println("Something went wrong trying to update this conversation's archivedFor list.");
             e.printStackTrace();
         }
     }
 
     public void updateConversationUnreadFor(Conversation c) {
         try {
-            db.updateConversationUnreadFor(c.getID(), c.getUnreadForList());
+            db.updateTableRowValue("conversations", "messages", c.getID(), c.getUnreadForList());
         } catch (SQLException e) {
-            System.out.println("Something went wrong trying to update that conversation.");
+            System.out.println("Something went wrong trying to update this conversation's unreadFor list.");
             e.printStackTrace();
         }
     }

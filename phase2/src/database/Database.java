@@ -1,6 +1,5 @@
 package database;
 
-import entities.Room;
 
 import java.io.File;
 import java.sql.*;
@@ -51,51 +50,6 @@ public class Database {
         ps.execute();
     }
 
-    /**
-     * Returns all user data within the database (for now, the method simply prints this data).
-     * @throws SQLException Thrown when executing the SQL statement goes wrong.
-     */
-    protected ResultSet getAllUsers() throws SQLException {
-        String sql = "SELECT * FROM users;";
-        ResultSet rs = stmt.executeQuery(sql);
-        return rs;
-    }
-
-    protected void updateUserType(UUID userID, String newType) throws SQLException {
-        String sql = " UPDATE users SET type = ? WHERE uuid = ?";
-        PreparedStatement ps = conn.prepareStatement(sql);
-        ps.setString(1, newType);
-        ps.setString(2, userID.toString());
-        ps.execute();
-    }
-
-    protected void updateUserPassword(UUID userID, String newPassword) throws SQLException {
-        String sql = " UPDATE users SET password = ? WHERE uuid = ?";
-        PreparedStatement ps = conn.prepareStatement(sql);
-
-        ps.setString(1, newPassword);
-        ps.setString(2, userID.toString());
-        ps.execute();
-    }
-
-    protected void updateUserEvents(UUID userID, ArrayList<UUID> newEvents) throws SQLException {
-        String sql = " UPDATE users SET events = ? WHERE uuid = ?";
-        PreparedStatement ps = conn.prepareStatement(sql);
-
-        ps.setObject(1, newEvents); // Not preferable for a relational database but for now it works.
-        ps.setString(2, userID.toString());
-        ps.execute();
-    }
-
-    protected void updateUserFriends(UUID userID, ArrayList<UUID> newFriends) throws SQLException {
-        String sql = " UPDATE users SET friends = ? WHERE uuid = ?";
-        PreparedStatement ps = conn.prepareStatement(sql);
-
-        ps.setObject(1, newFriends);
-        ps.setString(2, userID.toString());
-        ps.execute();
-    }
-
     protected void insertNewMessage(UUID messageID, String body, UUID senderID,  String timeSent) throws SQLException {
         String sql = " INSERT INTO messages (uuid, body, senderID, timeSent)"
                 + " VALUES (?, ?, ?, ?);";
@@ -108,12 +62,6 @@ public class Database {
         ps.execute();
     }
 
-    protected ResultSet getAllMessages() throws SQLException {
-        String sql = "SELECT * FROM messages;";
-        ResultSet rs = stmt.executeQuery(sql);
-        return rs;
-    }
-
     protected void insertNewConversation(UUID conID, ArrayList<UUID> members, String name, int readOnly, UUID owner) throws SQLException {
         String sql = " INSERT INTO conversations (uuid, members, convName, readonly, owner)"
                 + " VALUES (?, ?, ?, ?, ?)";
@@ -124,75 +72,6 @@ public class Database {
         ps.setString(3, name);
         ps.setInt(4, readOnly);
         if (owner != null) ps.setString(5, owner.toString());
-        ps.execute();
-    }
-
-    protected ResultSet getAllConversations() throws SQLException {
-        String sql = "SELECT * FROM conversations;";
-        ResultSet rs = stmt.executeQuery(sql);
-        return rs;
-    }
-
-    protected void updateConversationMembers(UUID conID, ArrayList<UUID> newMembers) throws SQLException {
-        String sql = " UPDATE conversations SET members = ? WHERE uuid = ?;";
-        PreparedStatement ps = conn.prepareStatement(sql);
-
-        ps.setObject(1, newMembers);
-        ps.setString(2, conID.toString());
-        ps.execute();
-    }
-
-    protected void updateConversationMessages(UUID conID, ArrayList<UUID> newMessages) throws SQLException {
-        String sql = " UPDATE conversations SET messages = ? WHERE uuid = ?;";
-        PreparedStatement ps = conn.prepareStatement(sql);
-
-        ps.setObject(1, newMessages);
-        ps.setString(2, conID.toString());
-        ps.execute();
-    }
-
-    protected void updateConversationName(UUID conID, String newName) throws SQLException {
-        String sql = " UPDATE conversations SET convName = ? WHERE uuid = ?;";
-        PreparedStatement ps = conn.prepareStatement(sql);
-
-        ps.setString(1, newName);
-        ps.setString(2, conID.toString());
-        ps.execute();
-    }
-
-    protected void updateConversationReadOnly(UUID conID, boolean readOnly) throws SQLException {
-        String sql = " UPDATE conversations SET readOnly  = ? WHERE uuid = ?;";
-        PreparedStatement ps = conn.prepareStatement(sql);
-
-        ps.setInt(1, readOnly ? 1 : 0);
-        ps.setString(2, conID.toString());
-        ps.execute();
-    }
-
-    protected void updateConversationOwner(UUID conID, UUID newOwnerID) throws SQLException {
-        String sql = " UPDATE conversations SET members = ? WHERE uuid = ?;";
-        PreparedStatement ps = conn.prepareStatement(sql);
-
-        ps.setString(1, newOwnerID.toString());
-        ps.setString(2, conID.toString());
-        ps.execute();
-    }
-
-    protected void updateConversationUnreadFor(UUID conID, ArrayList<UUID> unreadFor) throws SQLException {
-        String sql = " UPDATE conversations SET unreadFor = ? WHERE uuid = ?";
-        PreparedStatement ps = conn.prepareStatement(sql);
-
-        ps.setObject(1, unreadFor);
-        ps.setString(2, conID.toString());
-        ps.execute();
-    }
-
-    protected void updateConversationArchivedFor(UUID conID, ArrayList<UUID> archivedFor) throws SQLException {
-        String sql = " UPDATE conversations SET archivedFor = ? WHERE uuid = ?";
-        PreparedStatement ps = conn.prepareStatement(sql);
-
-        ps.setObject(1, archivedFor);
-        ps.setString(2, conID.toString());
         ps.execute();
     }
 
@@ -212,75 +91,6 @@ public class Database {
         ps.execute();
     }
 
-    protected void updateEventName(UUID eventID, String newName) throws SQLException {
-        String sql = " UPDATE events SET name  = ? WHERE uuid = ?";
-        PreparedStatement ps = conn.prepareStatement(sql);
-
-        ps.setString(1, newName);
-        ps.setString(2, eventID.toString());
-        ps.execute();
-    }
-
-    protected void updateEventCapacity(UUID eventID, int newCapacity) throws SQLException {
-        String sql = " UPDATE events SET capacity  = ? WHERE uuid = ?";
-        PreparedStatement ps = conn.prepareStatement(sql);
-
-        ps.setInt(1, newCapacity);
-        ps.setString(2, eventID.toString());
-        ps.execute();
-    }
-
-    protected void updateEventAttendees(UUID eventID, List<UUID> newAttendees) throws SQLException {
-        String sql = " UPDATE events SET attendees  = ? WHERE uuid = ?";
-        PreparedStatement ps = conn.prepareStatement(sql);
-
-        ps.setObject(1, newAttendees);
-        ps.setString(2, eventID.toString());
-        ps.execute();
-    }
-
-    protected void updateEventTime(UUID eventID, String newStartTime, String newEndTime) throws SQLException {
-        String sql = " UPDATE events SET startTime = ? WHERE uuid = ?";
-        PreparedStatement ps = conn.prepareStatement(sql);
-
-        ps.setString(1, newStartTime);
-        ps.setString(2, eventID.toString());
-        ps.execute();
-
-        sql = "UPDATE events SET endTime = ? WHERE uuid = ?";
-        ps = conn.prepareStatement(sql);
-        ps.setString(1, newEndTime);
-        ps.setString(2, newEndTime);
-        ps.execute();
-    }
-
-    protected void updateEventIsVIP(UUID eventID, Boolean isVIP) throws SQLException {
-        String sql = " UPDATE events SET isVIP = ? WHERE uuid = ?";
-        PreparedStatement ps = conn.prepareStatement(sql);
-
-        ps.setInt(1, isVIP ? 1 : 0);
-        ps.setString(2, eventID.toString());
-        ps.execute();
-    }
-
-    protected ResultSet getAllEvents() throws SQLException {
-        String sql = "SELECT * FROM events;";
-        ResultSet rs = stmt.executeQuery(sql);
-        return rs;
-    }
-
-    protected void deleteAnEvent(UUID eventID) throws SQLException {
-        String sql = "DELETE FROM events WHERE uuid = ?";
-        PreparedStatement ps = conn.prepareStatement(sql);
-        ps.setString(1, eventID.toString());
-        ps.execute();
-    }
-
-    protected ResultSet getAllRooms() throws SQLException {
-        String sql = "SELECT * FROM rooms;";
-        return stmt.executeQuery(sql);
-    }
-
     protected void insertRoom(UUID roomID, String name, int capacity) throws SQLException {
         String sql = "INSERT INTO rooms (uuid, name, capacity)" +
                 "VALUES(?, ?, ?)";
@@ -291,16 +101,8 @@ public class Database {
         ps.execute();
     }
 
-    protected void updateRoomEvents(UUID roomID, ArrayList<UUID> eventIDs) throws SQLException {
-        String sql = "UPDATE rooms SET events = ? WHERE uuid = ?";
-        PreparedStatement ps = conn.prepareStatement(sql);
-        ps.setObject(1, eventIDs);
-        ps.setString(2, roomID.toString());
-        ps.execute();
-    }
-
     protected void insertRequest(UUID requestingUser, String text, ArrayList<String> tags, Boolean resolved) throws SQLException {
-        String sql = " INSERT INTO requests (requestingUser, requestText, tags, resolved)" +
+        String sql = " INSERT INTO requests (uuid, requestText, tags, resolved)" +
                 "VALUES (?, ?, ?, ?)";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setString(1, requestingUser.toString());
@@ -310,27 +112,58 @@ public class Database {
         ps.execute();
     }
 
-    protected ResultSet getAllRequests() throws SQLException {
-        String sql = "SELECT * FROM requests";
+
+    protected ResultSet getAllFromTable(String tableName) throws SQLException{
+        String sql = "SELECT * FROM " + tableName + ";";
         return stmt.executeQuery(sql);
     }
 
-    protected void updateRequestTags(UUID requestingUser, ArrayList<String> tags) throws SQLException {
-        String sql = " UPDATE requests SET tags = ? WHERE requestingUser = ?";
+    protected void updateTableRowValue(String table, String columnName, UUID idFilter, String newValue) throws SQLException {
+        String sql = " UPDATE " + table + " SET " + columnName + " = ? WHERE uuid = ?;";
         PreparedStatement ps = conn.prepareStatement(sql);
-        ps.setObject(1, tags);
-        ps.setString(2, requestingUser.toString());
+        ps.setString(1, newValue);
+        ps.setString(2, idFilter.toString());
         ps.execute();
     }
 
-    protected void updateRequestResolved(UUID requestingUser, Boolean resolved) throws SQLException {
-        String sql = " UPDATE requests SET resolved = ? WHERE requestingUser = ?";
+    protected void updateTableRowValue(String table, String columnName, UUID idFilter, ArrayList<UUID> newValue) throws SQLException {
+        String sql = " UPDATE " + table + " SET " + columnName + " = ? WHERE uuid = ?;";
         PreparedStatement ps = conn.prepareStatement(sql);
-        ps.setInt(1, resolved ? 1 : 0);
-        ps.setString(2, requestingUser.toString());
+        ps.setObject(1, newValue);
+        ps.setString(2, idFilter.toString());
         ps.execute();
     }
 
+    protected void updateTableRowValueStrings(String table, String columnName, UUID idFilter, ArrayList<String> newValue) throws SQLException {
+        String sql = " UPDATE " + table + " SET " + columnName + " = ? WHERE uuid = ?;";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setObject(1, newValue);
+        ps.setString(2, idFilter.toString());
+        ps.execute();
+    }
+
+    protected void updateTableRowValue(String table, String columnName, UUID idFilter, int newValue) throws SQLException {
+        String sql = " UPDATE " + table + " SET " + columnName + " = ? WHERE uuid = ?;";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setInt(1, newValue);
+        ps.setString(2, idFilter.toString());
+        ps.execute();
+    }
+
+    protected void deleteAnEvent(UUID eventID) throws SQLException {
+        String sql = "DELETE FROM events WHERE uuid = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1, eventID.toString());
+        ps.execute();
+    }
+
+    protected String[] parseArrayList(String rawData) {
+        if (rawData != null && !rawData.equals("[]")) {
+            rawData = rawData.substring(1, rawData.length() - 1);
+            return rawData.split(", ");
+        }
+        return null;
+    }
     /**
      * Attempts to create a connection to the MySQLite database.
      * Creates a database if there already isn't one.
@@ -412,7 +245,7 @@ public class Database {
 
         String sqlRequests = " CREATE TABLE IF NOT EXISTS requests ("
                 + " id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + " requestingUser text NOT NULL,"
+                + " uuid text NOT NULL,"
                 + " requestText text NOT NULL,"
                 + " tags object,"
                 + " resolved TINYINT NOT NULL"

@@ -19,9 +19,8 @@ public class UserDataMapper implements UserDataGateway {
     public ArrayList<User> fetchAllUsers() {
         try {
             ArrayList<User> out = new ArrayList<>();
-            ResultSet rs = db.getAllUsers();
+            ResultSet rs = db.getAllFromTable("users");
 
-            // Another design pattern: Iterator
             while(rs.next()) {
                 User u = null;
 
@@ -45,25 +44,18 @@ public class UserDataMapper implements UserDataGateway {
                 }
                 assert u != null;
 
-                // Final data mapping
                 u.setId(UUID.fromString(rs.getString("uuid")));
 
-                String rawEvents = (String) rs.getObject("events");
-                if (rawEvents != null && !rawEvents.equals("[]")) {
-                    rawEvents = rawEvents.substring(1, rawEvents.length() - 1); // Remove the "[" and "]" from string
-                    String[] eventList = rawEvents.split(", ");
-
-                    for (String s : eventList) {
+                String[] eventsList = db.parseArrayList((String) rs.getObject("events"));
+                if (eventsList != null) {
+                    for (String s : eventsList) {
                         u.addEvent(UUID.fromString(s));
                     }
                 }
 
-                String rawFriends = (String) rs.getObject("friends");
-                if (rawFriends != null && !rawFriends.equals("[]")) {
-                    rawFriends = rawFriends.substring(1, rawFriends.length() - 1); // Remove the "[" and "]" from string
-                    String[] friendList = rawFriends.split(", ");
-
-                    for (String s: friendList) {
+                String[] friendsList = db.parseArrayList((String) rs.getObject("friends"));
+                if (friendsList != null) {
+                    for (String s: friendsList) {
                         u.addFriend(UUID.fromString(s));
                     }
                 }
@@ -90,36 +82,36 @@ public class UserDataMapper implements UserDataGateway {
     }
 
     @Override
-    public void updateUserType(UUID userID, String newType) {
+    public void updateUserType(User u) {
         try {
-            db.updateUserType(userID, newType);
+            db.updateTableRowValue("users", "type", u.getID(), u.getType());
         } catch (SQLException e) {
             System.out.println("Something went wrong trying to update this user's type.");
         }
     }
 
     @Override
-    public void updateUserPassword(UUID userID, String newPassword) {
+    public void updateUserPassword(User u) {
         try {
-            db.updateUserPassword(userID, newPassword);
+            db.updateTableRowValue("users", "password", u.getID(), u.getPassword());
         } catch (SQLException e) {
             System.out.println("Something went wrong trying to update this user's password.");
         }
     }
 
     @Override
-    public void updateUserEvents(UUID userID, ArrayList<UUID> newEventsList) {
+    public void updateUserEvents(User u) {
         try {
-            db.updateUserEvents(userID, newEventsList);
+            db.updateTableRowValue("users", "events", u.getID(), u.getEnrolledEvents());
         } catch (SQLException e) {
             System.out.println("Something went wrong trying to update this user's events.");
         }
     }
 
     @Override
-    public void updateUserFriends(UUID userID, ArrayList<UUID> newFriendsList) {
+    public void updateUserFriends(User u) {
         try {
-            db.updateUserFriends(userID, newFriendsList);
+            db.updateTableRowValue("users", "events", u.getID(), u.getEnrolledEvents());
         } catch (SQLException e) {
             System.out.println("Something went wrong trying to update this user's friends.");
         }
