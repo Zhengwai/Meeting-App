@@ -121,7 +121,7 @@ public class EventDataMapper implements EventDataGateway {
                 e.setId(eventID);
 
                 String rawAttendees = (String) rs.getObject("attendees");
-                if (rawAttendees != null) {
+                if (rawAttendees != null && !rawAttendees.equals("[]")) {
                     rawAttendees = rawAttendees.substring(1, rawAttendees.length() - 1); // Remove the "[" and "]" from string
                     String[] attendeesList = rawAttendees.split(", ");
                     for (String s: attendeesList) {

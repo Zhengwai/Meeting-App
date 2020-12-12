@@ -23,7 +23,7 @@ public class RoomDataMapper implements RoomDataGateway {
 
                 String rawEvents = (String) rs.getObject("events");
 
-                if (rawEvents != null) {
+                if (rawEvents != null && !rawEvents.equals("[]")) {
                     rawEvents = rawEvents.substring(1, rawEvents.length() - 1); // Remove the "[" and "]" from string
                     String[] membersList = rawEvents.split(", ");
                     for (String s: membersList) {

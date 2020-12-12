@@ -21,7 +21,7 @@ public class RequestDataMapper implements RequestDataGateway {
                 Request req = new Request(requestingUser, rs.getString("requestText"));
                 String rawTags = (String) rs.getObject("tags");
 
-                if (rawTags != null) {
+                if (rawTags != null && !rawTags.equals("[]")) {
                     rawTags = rawTags.substring(1, rawTags.length() - 1);
                     String[] tagsList = rawTags.split(", ");
 
