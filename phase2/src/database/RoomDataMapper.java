@@ -8,6 +8,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.UUID;
 
+/**
+ * Database interactor class.
+ * Responsible for mapping instances of rooms to the database and vice versa.
+ */
 public class RoomDataMapper implements RoomDataGateway {
     private Database db = new Database();
 

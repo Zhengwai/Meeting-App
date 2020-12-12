@@ -9,14 +9,10 @@ import entities.TED;
 import entities.Seminar;
 import entities.User;
 import entities.Speaker;
-import gateways.EventGateway;
 import gateways.RoomDataGateway;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 
 import java.io.*;
 import java.time.LocalDateTime;
-import java.time.Month;
 import java.util.*;
 /**
  * A use case class that manages the events.

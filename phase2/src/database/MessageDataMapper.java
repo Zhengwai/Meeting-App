@@ -11,6 +11,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.UUID;
 
+/**
+ * Database interactor class.
+ * Responsible for mapping instances of messages and conversations to the database and vice versa.
+ */
 public class MessageDataMapper implements MessageDataGateway  {
     private Database db;
 

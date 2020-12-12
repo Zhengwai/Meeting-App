@@ -4,6 +4,10 @@ import entities.Event;
 
 import java.util.ArrayList;
 
+/**
+ * Gateway class.
+ * Allows for communication between the EventManager and the database while still adhering to clean architecture.
+ */
 public interface EventDataGateway {
     /**
      * Inserts a new event into the database. Assumes the ID, name, room and capacity are all not null.

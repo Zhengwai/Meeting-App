@@ -4,6 +4,10 @@ import entities.Request;
 
 import java.util.ArrayList;
 
+/**
+ * Gateway class.
+ * Allows for communication between the RequestManager and the database while still adhering to clean architecture.
+ */
 public interface RequestDataGateway {
     /**
      * Gets all requests stored in the database.

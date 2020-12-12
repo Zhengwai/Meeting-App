@@ -1,10 +1,6 @@
 package UI;
 
-import entities.Request;
 import entities.User;
-import gateways.EventGateway;
-import gateways.RequestGateway;
-import gateways.UserGateway;
 import use_cases.ConversationManager;
 import use_cases.EventManager;
 import use_cases.RequestManager;
@@ -20,10 +16,6 @@ public final class Model {
     private static ConversationManager cm;
 
     private static RequestManager rm;
-
-    private UserGateway ug = new UserGateway();
-    private EventGateway eg = new EventGateway();
-    private RequestGateway rg = new RequestGateway();
 
     private static User currentUser;
 
