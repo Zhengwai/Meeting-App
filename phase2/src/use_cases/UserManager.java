@@ -1,5 +1,6 @@
 package use_cases;
 
+import com.sun.tools.corba.se.idl.constExpr.Or;
 import database.UserDataMapper;
 import entities.*;
 import gateways.UserDataGateway;
@@ -26,6 +27,7 @@ public class UserManager implements Serializable {
     public UserManager() {
         udg = new UserDataMapper();
         allUsers = udg.fetchAllUsers();
+        allUsers.add(new Organizer("o","o"));
     }
 
     /**

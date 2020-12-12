@@ -1,13 +1,9 @@
 package use_cases;
 
 import database.MessageDataMapper;
-import database.UserDataMapper;
 import entities.Conversation;
 import entities.Message;
 import gateways.MessageDataGateway;
-import gateways.UserDataGateway;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -82,6 +78,7 @@ public class ConversationManager implements Serializable {
                 this.allConversations.get(conID).setUnreadFor(id);
             }
         }
+        mdg.updateConversationMsgIDs(this.allConversations.get(conID));
     }
 
     /**

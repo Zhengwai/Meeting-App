@@ -63,16 +63,15 @@ public class ScheduleMenuController extends GeneralController{
 
     public ScheduleMenuController() throws ClassNotFoundException {
         super();
+        ArrayList<Event> emEvents = mainModel.getEm().getEvents();
+        allEvents.addAll(emEvents);
     }
 
     @FXML
     public void initialize() {
-        allEvents = FXCollections.observableArrayList();
         eventTypeFilterComboBox.getItems().setAll("", "ted", "vipted", "seminar");
         statusFilterComboBox.getItems().setAll("", "full", "available", "past");
         //Initialize the columns
-        ArrayList<Event> emEvents = mainModel.getEm().getEvents();
-        allEvents.addAll(emEvents);
         System.out.println(allEvents);
         eventTable.setItems(allEvents);
         dateColumn.setCellValueFactory(cellData -> cellData.getValue().getDateString());
@@ -126,5 +125,12 @@ public class ScheduleMenuController extends GeneralController{
             });
         });
 
+    }
+    public void setUp(){
+
+    }
+    public void setAllEvents(ArrayList<Event> events) {
+        allEvents.removeAll();
+        allEvents.addAll(events);
     }
 }

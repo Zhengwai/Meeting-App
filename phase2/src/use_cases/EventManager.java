@@ -162,8 +162,13 @@ public class EventManager implements Serializable{
      * @return an ArrayList of the events <code>user</code> has signed up for.
      */
     public ArrayList<Event> getEventsByUser(User user) {
-        //TODO:
-        return null;
+        ArrayList<Event> evts = new ArrayList<>();
+        for(Event e: events){
+            if(e.getAttendees().contains(user)){
+                evts.add(e);
+            }
+        }
+        return evts;
     }
 
     /**
