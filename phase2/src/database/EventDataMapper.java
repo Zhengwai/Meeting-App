@@ -1,6 +1,5 @@
 package database;
 
-import Repository.EventData;
 import entities.Event;
 import entities.Party;
 import entities.Seminar;
@@ -8,14 +7,9 @@ import entities.TED;
 import gateways.EventDataGateway;
 
 import java.sql.ResultSet;
-import java.sql.SQLDataException;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.UUID;
 
 public class EventDataMapper implements EventDataGateway {
@@ -104,10 +98,7 @@ public class EventDataMapper implements EventDataGateway {
                 LocalDateTime endTime = LocalDateTime.parse(rs.getString("endTime"));
 
                 int isVIPVal = rs.getInt("isVIP");
-                Boolean isVIP;
-
-                if (isVIPVal == 0) isVIP = false;
-                else isVIP = true;
+                boolean isVIP = isVIPVal != 0;
 
                 switch (rs.getString("type")) {
                     case "PARTY":
@@ -124,10 +115,8 @@ public class EventDataMapper implements EventDataGateway {
                 UUID eventID = UUID.fromString(rs.getString("uuid"));
                 e.setId(eventID);
 
-                String rawAttendees = (String) rs.getObject("attendees");
-                if (rawAttendees != null && !rawAttendees.equals("[]")) {
-                    rawAttendees = rawAttendees.substring(1, rawAttendees.length() - 1); // Remove the "[" and "]" from string
-                    String[] attendeesList = rawAttendees.split(", ");
+                String[] attendeesList = db.parseArrayList((String) rs.getObject("attendees"));
+                if (attendeesList != null) {
                     for (String s: attendeesList) {
                         e.addAttendee(UUID.fromString(s));
                     }

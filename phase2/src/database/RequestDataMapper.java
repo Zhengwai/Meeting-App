@@ -19,12 +19,9 @@ public class RequestDataMapper implements RequestDataGateway {
             while (rs.next()) {
                 UUID requestingUser = UUID.fromString(rs.getString("uuid"));
                 Request req = new Request(requestingUser, rs.getString("requestText"));
-                String rawTags = (String) rs.getObject("tags");
+                String[] tagsList = db.parseArrayList((String) rs.getObject("tags"));
 
-                if (rawTags != null && !rawTags.equals("[]")) {
-                    rawTags = rawTags.substring(1, rawTags.length() - 1);
-                    String[] tagsList = rawTags.split(", ");
-
+                if (tagsList != null) {
                     for (String tag : tagsList) {
                         req.addTag(tag);
                     }

@@ -157,6 +157,13 @@ public class Database {
         ps.execute();
     }
 
+    protected String[] parseArrayList(String rawData) {
+        if (rawData != null && !rawData.equals("[]")) {
+            rawData = rawData.substring(1, rawData.length() - 1);
+            return rawData.split(", ");
+        }
+        return null;
+    }
     /**
      * Attempts to create a connection to the MySQLite database.
      * Creates a database if there already isn't one.

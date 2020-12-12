@@ -21,7 +21,6 @@ public class UserDataMapper implements UserDataGateway {
             ArrayList<User> out = new ArrayList<>();
             ResultSet rs = db.getAllFromTable("users");
 
-            // Another design pattern: Iterator
             while(rs.next()) {
                 User u = null;
 
@@ -45,25 +44,18 @@ public class UserDataMapper implements UserDataGateway {
                 }
                 assert u != null;
 
-                // Final data mapping
                 u.setId(UUID.fromString(rs.getString("uuid")));
 
-                String rawEvents = (String) rs.getObject("events");
-                if (rawEvents != null && !rawEvents.equals("[]")) {
-                    rawEvents = rawEvents.substring(1, rawEvents.length() - 1); // Remove the "[" and "]" from string
-                    String[] eventList = rawEvents.split(", ");
-
-                    for (String s : eventList) {
+                String[] eventsList = db.parseArrayList((String) rs.getObject("events"));
+                if (eventsList != null) {
+                    for (String s : eventsList) {
                         u.addEvent(UUID.fromString(s));
                     }
                 }
 
-                String rawFriends = (String) rs.getObject("friends");
-                if (rawFriends != null && !rawFriends.equals("[]")) {
-                    rawFriends = rawFriends.substring(1, rawFriends.length() - 1); // Remove the "[" and "]" from string
-                    String[] friendList = rawFriends.split(", ");
-
-                    for (String s: friendList) {
+                String[] friendsList = db.parseArrayList((String) rs.getObject("friends"));
+                if (friendsList != null) {
+                    for (String s: friendsList) {
                         u.addFriend(UUID.fromString(s));
                     }
                 }

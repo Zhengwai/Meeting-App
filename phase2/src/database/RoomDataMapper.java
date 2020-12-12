@@ -21,12 +21,9 @@ public class RoomDataMapper implements RoomDataGateway {
                 Room room = new Room(rs.getInt("capacity"), rs.getString("name"));
                 room.setID(UUID.fromString(rs.getString("uuid")));
 
-                String rawEvents = (String) rs.getObject("events");
-
-                if (rawEvents != null && !rawEvents.equals("[]")) {
-                    rawEvents = rawEvents.substring(1, rawEvents.length() - 1); // Remove the "[" and "]" from string
-                    String[] membersList = rawEvents.split(", ");
-                    for (String s: membersList) {
+                String[] eventsList = db.parseArrayList((String) rs.getObject("events"));
+                if (eventsList != null) {
+                    for (String s: eventsList) {
                         room.addEvent(UUID.fromString(s));
                     }
                 }
