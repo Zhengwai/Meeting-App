@@ -123,6 +123,7 @@ public class Database {
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setString(1, newValue);
         ps.setString(2, idFilter.toString());
+        ps.execute();
     }
 
     protected void updateTableRowValue(String table, String columnName, UUID idFilter, ArrayList<UUID> newValue) throws SQLException {
@@ -130,6 +131,7 @@ public class Database {
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setObject(1, newValue);
         ps.setString(2, idFilter.toString());
+        ps.execute();
     }
 
     protected void updateTableRowValueStrings(String table, String columnName, UUID idFilter, ArrayList<String> newValue) throws SQLException {
@@ -137,6 +139,7 @@ public class Database {
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setObject(1, newValue);
         ps.setString(2, idFilter.toString());
+        ps.execute();
     }
 
     protected void updateTableRowValue(String table, String columnName, UUID idFilter, int newValue) throws SQLException {
@@ -144,6 +147,7 @@ public class Database {
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setInt(1, newValue);
         ps.setString(2, idFilter.toString());
+        ps.execute();
     }
 
     protected void deleteAnEvent(UUID eventID) throws SQLException {
