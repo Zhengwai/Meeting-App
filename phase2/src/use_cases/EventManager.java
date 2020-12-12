@@ -45,7 +45,7 @@ public class EventManager implements Serializable{
             return false;
         } else {
             this.events.add(event);
-            //edg.insertEvent(event);
+            edg.insertEvent(event);
             return true;
         }
     }
@@ -240,12 +240,7 @@ public class EventManager implements Serializable{
      * @return true when the event exists and false otherwise.
      */
     public boolean hasEvent(String name){
-        if (getEventByName(name) == notFoundEvent){
-            return false;
-        }
-        else{
-            return true;
-        }
+        return getEventByName(name) != notFoundEvent;
     }
     public boolean hasRoom(String name){
         for(Room r: rooms){
