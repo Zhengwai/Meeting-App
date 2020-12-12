@@ -22,7 +22,7 @@ public class AttendeeCancelEventAlertBox {
         label.setText("Are you sure you want to quit the event?");
 
         Button confirmButton = new Button();
-        confirmButton.setText("Confirm!");
+        confirmButton.setText("Confirm -_-");
         confirmButton.setOnAction(e -> {temp.set(true);
             window.close();});
 
