@@ -167,7 +167,7 @@ public class EventManager implements Serializable{
     public ArrayList<Event> getEventsByUser(User user) {
         ArrayList<Event> evts = new ArrayList<>();
         for(Event e: events){
-            if(e.getAttendees().contains(user)){
+            if(user.getEnrolledEvents().contains(e.getId())){
                 evts.add(e);
             }
         }

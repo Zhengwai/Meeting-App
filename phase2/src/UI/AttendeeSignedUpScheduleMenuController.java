@@ -22,7 +22,7 @@ public class AttendeeSignedUpScheduleMenuController extends ScheduleMenuControll
 
             e.removeAttendee(mainModel.getUserID());
             mainModel.getCurrentUser().removeEvent(e.getId());
-            cancelEventLabel.setText("Cancellation Successful");
+           // cancelEventLabel.setText("Cancellation Successful");
         }
 
     }
