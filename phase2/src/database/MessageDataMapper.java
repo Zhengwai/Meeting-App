@@ -78,7 +78,7 @@ public class MessageDataMapper implements MessageDataGateway  {
 
 
                 // Putting the stored data into an instance of conversation
-                if (rawMembers != null) {
+                if (rawMembers != null && !rawMembers.equals("[]")) {
                     rawMembers = rawMembers.substring(1, rawMembers.length() - 1); // Remove the "[" and "]" from string
                     String[] membersList = rawMembers.split(", ");
                     for (String s: membersList) {
@@ -86,7 +86,7 @@ public class MessageDataMapper implements MessageDataGateway  {
                     }
                 }
 
-                if (rawArchivedFor != null) {
+                if (rawArchivedFor != null && !rawArchivedFor.equals("[]")) {
                     rawArchivedFor = rawArchivedFor.substring(1, rawArchivedFor.length() - 1);
                     String[] archivedForList = rawArchivedFor.split(", ");
                     for (String s: archivedForList) {
@@ -94,7 +94,7 @@ public class MessageDataMapper implements MessageDataGateway  {
                     }
                 }
 
-                if (rawUnreadMsgs != null) {
+                if (rawUnreadMsgs != null && !rawUnreadMsgs.equals("[]")) {
                     rawUnreadMsgs = rawUnreadMsgs.substring(1, rawUnreadMsgs.length() - 1);
                     String[] unreadMsgsList = rawUnreadMsgs.split(", ");
                     for (String s: unreadMsgsList) {

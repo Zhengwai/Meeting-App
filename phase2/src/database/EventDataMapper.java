@@ -2,6 +2,9 @@ package database;
 
 import Repository.EventData;
 import entities.Event;
+import entities.Party;
+import entities.Seminar;
+import entities.TED;
 import gateways.EventDataGateway;
 
 import java.sql.ResultSet;
@@ -25,9 +28,8 @@ public class EventDataMapper implements EventDataGateway {
     @Override
     public void insertEvent(Event evt) {
         try {
-
             db.insertNewEvent(evt.getId(), evt.getName().getValue(), evt.getDescription(), evt.getStartTime().toString(),
-                    evt.getEndTime().toString(), evt.getCapacity(), evt.getRoom());
+                    evt.getEndTime().toString(), evt.getCapacity(), evt.getRoom(), evt.getType().getValue(), evt.getVIP());
         } catch (SQLException e) {
             System.out.println("Something went wrong trying to insert that event");
             e.printStackTrace();
@@ -75,6 +77,16 @@ public class EventDataMapper implements EventDataGateway {
     }
 
     @Override
+    public void updateEventIsVIP(Event evt) {
+        try {
+            db.updateEventIsVIP(evt.getId(), evt.getVIP());
+        } catch (SQLException e) {
+            System.out.println("Something went wrong trying to update the VIP status in this event.");
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public ArrayList<Event> getAllEventsFromDB() {
         try {
             ResultSet rs = db.getAllEvents();
@@ -82,11 +94,31 @@ public class EventDataMapper implements EventDataGateway {
 
             while (rs.next()) {
                 Event e = new Event();
+                String name = rs.getString("name");
+                int capacity = rs.getInt("capacity");
+                LocalDateTime startTime = LocalDateTime.parse(rs.getString("startTime"));
+                LocalDateTime endTime = LocalDateTime.parse(rs.getString("endTime"));
+
+                int isVIPVal = rs.getInt("isVIP");
+                Boolean isVIP;
+
+                if (isVIPVal == 0) isVIP = false;
+                else isVIP = true;
+
+                switch (rs.getString("type")) {
+                    case "PARTY":
+                        e = new Party(name, capacity, startTime, endTime, isVIP);
+                        break;
+                    case "SEMINAR":
+                        e = new Seminar(name, capacity, startTime, endTime, isVIP);
+                        break;
+                    case "TED":
+                        e = new TED(name, capacity, startTime, endTime, isVIP);
+                        break;
+                }
+
                 UUID eventID = UUID.fromString(rs.getString("uuid"));
                 e.setId(eventID);
-                e.setName(rs.getString("name"));
-                e.setStartTime(LocalDateTime.parse(rs.getString("startTime")));
-                e.setEndTime(LocalDateTime.parse(rs.getString("endTime")));
 
                 String rawAttendees = (String) rs.getObject("attendees");
                 if (rawAttendees != null) {
@@ -99,7 +131,6 @@ public class EventDataMapper implements EventDataGateway {
 
                 UUID roomID = UUID.fromString(rs.getString("room"));
                 e.setRoom(roomID);
-                e.setCapacity(rs.getInt("capacity"));
                 e.setDescription(rs.getString("description"));
                 out.add(e);
             }

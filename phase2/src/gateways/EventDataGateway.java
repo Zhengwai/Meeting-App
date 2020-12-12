@@ -37,6 +37,12 @@ public interface EventDataGateway {
     void updateEventAttendees(Event evt);
 
     /**
+     * Updates the isVIP field of a given event already in the database.
+     * @param evt The event being updated.
+     */
+    void updateEventIsVIP(Event evt);
+
+    /**
      * @return ArrayList of all events.
      */
     ArrayList<Event> getAllEventsFromDB();

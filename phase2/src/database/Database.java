@@ -115,8 +115,8 @@ public class Database {
     }
 
     protected void insertNewConversation(UUID conID, ArrayList<UUID> members, String name, int readOnly, UUID owner) throws SQLException {
-        String sql = " INSERT INTO conversations (uuid, members, convName, readonly, owner, unreadMessages)"
-                + " VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = " INSERT INTO conversations (uuid, members, convName, readonly, owner)"
+                + " VALUES (?, ?, ?, ?, ?)";
         PreparedStatement ps = conn.prepareStatement(sql);
 
         ps.setString(1, conID.toString());
@@ -187,9 +187,9 @@ public class Database {
         ps.execute();
     }
 
-    protected void insertNewEvent(UUID eventID, String name, String desc, String startTime, String endTime, int capacity, UUID roomID) throws SQLException {
-        String sql = " INSERT INTO events (uuid, name, description, startTime, endTime, capacity, room, ?)"
-                + "VALUES (?, ?, ?, ?, ?, ?, ?);";
+    protected void insertNewEvent(UUID eventID, String name, String desc, String startTime, String endTime, int capacity, UUID roomID, String type, Boolean isVIP) throws SQLException {
+        String sql = " INSERT INTO events (uuid, name, description, startTime, endTime, capacity, room, type, isVIP)"
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setString(1, eventID.toString());
         ps.setString(2, name);
@@ -198,6 +198,8 @@ public class Database {
         ps.setString(5, endTime);
         ps.setInt(6, capacity);
         ps.setString(7, roomID.toString());
+        ps.setString(8, type);
+        ps.setInt(9, isVIP ? 1 : 0);
         ps.execute();
     }
 
@@ -240,6 +242,15 @@ public class Database {
         ps = conn.prepareStatement(sql);
         ps.setString(1, newEndTime);
         ps.setString(2, newEndTime);
+        ps.execute();
+    }
+
+    protected void updateEventIsVIP(UUID eventID, Boolean isVIP) throws SQLException {
+        String sql = " UPDATE events SET isVIP = ? WHERE uuid = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+
+        ps.setInt(1, isVIP ? 1 : 0);
+        ps.setString(2, eventID.toString());
         ps.execute();
     }
 
@@ -377,7 +388,8 @@ public class Database {
                 + " attendees object,"
                 + " room text NOT NULL,"
                 + " type text NOT NULL,"
-                + " speakers object"
+                + " speakers object,"
+                + " isVIP TINYINT NOT NULL"
                 + ");";
 
         String sqlRooms = " CREATE TABLE IF NOT EXISTS rooms ("
