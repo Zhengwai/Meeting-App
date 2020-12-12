@@ -21,6 +21,8 @@ public class AttendeeScheduleMenuController extends ScheduleMenuController{
             Event e = mainModel.getEm().getEventByName(ename);
 
             e.addAttendee(mainModel.getUserID());
+
+            signUpPrompt.setText("Signed Up Successfully!");
         }
     }
 }
