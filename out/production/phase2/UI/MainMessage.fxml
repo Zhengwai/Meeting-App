@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="448.0" prefWidth="657.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.MessageMenuController">
+    <children>
+        <BorderPane fx:id="messageMain" prefHeight="448.0" prefWidth="657.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <left>
+                <VBox prefHeight="400.0" prefWidth="149.0" BorderPane.alignment="CENTER">
+                    <children>
+                  <ChoiceBox fx:id="filterMessages" onAction="#handleFilterMessages" prefWidth="150.0" value="All Messages">
+                     <VBox.margin>
+                        <Insets bottom="5.0" />
+                     </VBox.margin></ChoiceBox>
+                        <ListView fx:id="myMessageList" onMouseClicked="#handleSelectChat" prefHeight="344.0" prefWidth="149.0" />
+                        <Button fx:id="newMessageButton" mnemonicParsing="false" onAction="#handleNewMessage" prefHeight="27.0" prefWidth="159.0" text="New Message">
+                            <VBox.margin>
+                                <Insets top="10.0" />
+                            </VBox.margin>
+                        </Button>
+                    </children>
+                </VBox>
+            </left>
+            <padding>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </padding>
+         <center>
+            <BorderPane fx:id="subPane" prefHeight="360.0" prefWidth="396.0" BorderPane.alignment="CENTER">
+               <center>
+                  <ListView fx:id="messageHistory" prefHeight="264.0" prefWidth="366.0" BorderPane.alignment="CENTER">
+                     <BorderPane.margin>
+                        <Insets bottom="5.0" left="10.0" />
+                     </BorderPane.margin>
+                  </ListView>
+               </center>
+               <bottom>
+                  <HBox prefHeight="27.0" prefWidth="411.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <TextField fx:id="message" prefHeight="27.0" prefWidth="401.0">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Button fx:id="sendButton" mnemonicParsing="false" onAction="#handleSendNewAction" text="Send">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+               </bottom>
+               <top>
+                  <VBox prefHeight="36.0" prefWidth="411.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <HBox prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <Label text="Type: ">
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <ChoiceBox fx:id="newMessageType" disable="true" onAction="#folderByCategory" prefHeight="27.0" prefWidth="412.0" value="Users">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" />
+                                 </HBox.margin>
+                              </ChoiceBox>
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="0.0" prefWidth="411.0">
+                           <children>
+                              <Label alignment="CENTER" text="To:">
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font size="17.0" />
+                                 </font>
+                              </Label>
+                              <ChoiceBox fx:id="chooseNewFriend" onAction="#isChosen" prefHeight="27.0" prefWidth="420.0">
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                              </ChoiceBox>
+                           </children>
+                           <VBox.margin>
+                              <Insets bottom="5.0" />
+                           </VBox.margin>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </top></BorderPane>
+         </center>
+         <top>
+            <Button fx:id="goBackButton" mnemonicParsing="false" onAction="#goBackButtonOnAction" text="Go Back" BorderPane.alignment="TOP_LEFT">
+               <BorderPane.margin>
+                  <Insets bottom="5.0" />
+               </BorderPane.margin>
+            </Button>
+         </top>
+        </BorderPane>
+    </children>
+</AnchorPane>

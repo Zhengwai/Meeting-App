@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.ChatController">
+   <children>
+      <BorderPane fx:id="chatPane" prefHeight="400.0" prefWidth="400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <top>
+            <Label fx:id="sendeeLabel" prefHeight="50.0" prefWidth="332.0" text="Name" BorderPane.alignment="BOTTOM_LEFT">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <BorderPane.margin>
+                  <Insets left="15.0" />
+               </BorderPane.margin>
+            </Label>
+         </top>
+         <center>
+            <ListView fx:id="messageHistory" onMouseClicked="#handleSelect" prefHeight="271.0" prefWidth="386.0" BorderPane.alignment="CENTER" />
+         </center>
+         <bottom>
+            <VBox prefHeight="79.0" prefWidth="400.0" BorderPane.alignment="CENTER">
+               <children>
+                  <HBox fx:id="sendBox" prefHeight="67.0" prefWidth="400.0">
+                     <children>
+                        <TextField fx:id="messageBox" prefHeight="27.0" prefWidth="307.0">
+                           <HBox.margin>
+                              <Insets left="15.0" right="10.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Button fx:id="sendButton" mnemonicParsing="false" onAction="#handleSend" prefHeight="27.0" prefWidth="52.0" text="Send" />
+                     </children>
+                     <VBox.margin>
+                        <Insets top="5.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox fx:id="actionButtons" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Button fx:id="archiveButton" mnemonicParsing="false" onAction="#handleArchive" prefHeight="27.0" prefWidth="95.0" text="Archive">
+                           <HBox.margin>
+                              <Insets left="15.0" right="5.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button fx:id="unreadButton" mnemonicParsing="false" onAction="#markUnread" prefHeight="27.0" prefWidth="103.0" text="Mark  Unread">
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin></Button>
+                        <Button fx:id="deleteMessages" mnemonicParsing="false" onAction="#handleDelete" text="Delete Selected Messages" />
+                     </children>
+                     <VBox.margin>
+                        <Insets top="5.0" />
+                     </VBox.margin>
+                  </HBox>
+               </children>
+            </VBox>
+         </bottom>
+      </BorderPane>
+   </children>
+</AnchorPane>

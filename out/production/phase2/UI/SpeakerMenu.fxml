@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.SpeakerMenuController">
+   <children>
+      <Button fx:id="goBackButton" layoutY="2.0" mnemonicParsing="false" onAction="#goBackButtonOnAction" text="Log Out" />
+      <VBox layoutX="167.0" layoutY="140.0" prefHeight="98.0" prefWidth="267.0">
+         <children>
+            <Label fx:id="welcomeLabel" text="Welcome">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <Button fx:id="seeSignedUpButton" mnemonicParsing="false" prefHeight="27.0" prefWidth="280.0" onAction="#seeSignedUpButtonOnAction" text="See My Events">
+               <VBox.margin>
+                  <Insets bottom="5.0" />
+               </VBox.margin>
+            </Button>
+            <Button fx:id="browseButton" mnemonicParsing="false" prefHeight="27.0" prefWidth="303.0" text="Browse Events">
+               <VBox.margin>
+                  <Insets bottom="5.0" />
+               </VBox.margin>
+            </Button>
+            <Button fx:id="messageButton" mnemonicParsing="false" onAction="#seeMessageAction" prefHeight="27.0" prefWidth="281.0" text="Message" />
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

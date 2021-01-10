@@ -71,7 +71,6 @@ public class ScheduleMenuController extends GeneralController {
 
     @FXML
     public void initialize() {
-        signUpButton.setDisable(true);
         eventTypeFilterComboBox.getItems().setAll("", "ted", "vipted", "seminar");
         statusFilterComboBox.getItems().setAll("", "full", "available", "past");
         //Initialize the columns
